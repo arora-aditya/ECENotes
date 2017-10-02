@@ -44,7 +44,7 @@ int main(const int argc, const char* const argv[])
     return -1;
   }
   else if (root%2 == 0 && S < 0){
-    cerr<<"Error: Unable to compute Nth root becuase even root of negative number doesn't exist"<<endl;
+    cerr<<"Error: Unable to compute Nth root because number is negative and N is even."<<endl;
     return -1;
   }
   else if (S == 0){
@@ -52,7 +52,7 @@ int main(const int argc, const char* const argv[])
     cout<<"(with precision "<<0<<")"<<endl;
     return 0;
   }
-  
+
   float actual_precision = 93479823749923;
   while(actual_precision > precision){
     float xn = 1, xn_1 = 1;
@@ -70,7 +70,6 @@ int main(const int argc, const char* const argv[])
     }
 
   }
-
 
   //Root(...,...) = ...
   //(with precision ...)

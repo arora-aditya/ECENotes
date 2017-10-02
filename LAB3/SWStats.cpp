@@ -13,12 +13,18 @@
 using namespace std;
 
 int main(const int argc, const char* const argv[])
-{
+{ //Error: Unable to compute statistics over data set because ..
   if(argc < 3){
-    cerr<<"Error: Unable to compute statistics over data set because of insufficient arguements; expecting atleast one"<<endl;
+    cerr<<"Error: Unable to compute statistics over data set because of insufficient arguments; expecting atleast one number"<<endl;
     return -1;
   }
+
   int windowSize = atoi(argv[1]);
+  int count = argc - 2;
+  float values[count + windowSize - 1];
+  int sizeofarray = count + windowSize - 1;
+  int i = 0;
+
   if(windowSize <= 0){
     cerr<<"Error: Unable to compute statistics over data set because window size is insufficient"<<endl;
     return -1;
@@ -27,22 +33,19 @@ int main(const int argc, const char* const argv[])
     cerr<<"Warning: No compuatation occuring since window size is one"<<endl;
   }
 
-  int count = argc - 2;
-  float values[count+ windowSize - 1];
-  int sizeofarray = sizeof(values)/sizeof(float);
-  int i = 0;
-
-  if(windowSize < sizeofarray){
+  if(windowSize > count){
     cerr<<"Warning: Window size is bigger than number of inputted values"<<endl;
   }
 
   while(i < windowSize){
     values[i] = atof(argv[2]);
+
     i++;
   }
 
   while(i < sizeofarray){
-    values[i] = atof(argv[i]);
+    values[i] = atof(argv[i - windowSize + 3]);
+
     i++;
   }
 
@@ -51,8 +54,8 @@ int main(const int argc, const char* const argv[])
   // Sample   Value  SWMinimum SWAverage SWMaximum
 
   cout<<"Window Size: "<<windowSize<<endl;
-  cout<<"Sample\t"<<"Value\t"<<"SWMinimum\t"<<"SWAverage\t"<<"SWMaximum\n";
-  while(i < sizeofarray - windowSize + 1){
+  cout<<"Sample\t\tValue\t\tSWMinimum\tSWAverage\tSWMaximum\n";
+  while(i < count){
 
     int sample = i + 1, j = i;
     float value = values[i+2], sum = 0;
@@ -63,18 +66,16 @@ int main(const int argc, const char* const argv[])
       {
         min = values[j];
       }
-
       if(max <  values[j])
       {
         max = values[j];
       }
-
       sum +=  values[j];
 
       j++;
 
     }
-    cout<<sample<<"\t"<<value<<"\t"<<min<<"\t        "<<(float)(sum/windowSize)<<"\t        "<<max<<"\n";
+    cout<<sample<<"\t\t"<<value<<"\t\t"<<min<<"\t\t"<<(sum/windowSize)<<"\t\t"<<max<<"\n";
     i++;
 
   }

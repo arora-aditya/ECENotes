@@ -58,7 +58,7 @@ int main(const int argc, const char* const argv[])
   while(i < count){
 
     int sample = i + 1, j = i;
-    float value = values[i+2], sum = 0;
+    float value = values[i+windowSize-1], sum = 0;
     float min = 3.402823e+38, max = -1 * 3.402823e+38;
 
     while(j < i + windowSize){

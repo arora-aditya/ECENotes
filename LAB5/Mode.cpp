@@ -66,6 +66,7 @@ int mode(const int dataset[], const int size, int mode[]){
     sort(copy, size);
     int j = 0;
     uniqueDataset[j] = copy[0];
+    count[j] = 0;
     int maxCount = -2147483648;
     for(int i = 0; i < size; i++){
         if(uniqueDataset[j] != copy[i]){
@@ -79,9 +80,9 @@ int mode(const int dataset[], const int size, int mode[]){
         }
     }
     int k = 0;
-    for(int i = 0; i < j+1; i++){
-        cout<<count[i]<<"  "<<uniqueDataset[i]<<endl;
-    }
+    // for(int i = 0; i < j+1; i++){
+    //     cout<<count[i]<<"  "<<uniqueDataset[i]<<endl;
+    // }
     for(int i = 0; i < j + 1; i++){
         if(maxCount == count[i]){
             mode[k] = uniqueDataset[i];
@@ -96,7 +97,7 @@ int mode(const int dataset[], const int size, int mode[]){
 int main(const int argc, const char* const argv[]) {
 
   // Some test driver code here ....
-  int data[] = {10000 , 9999 , 9996 , 9996 , 9999 , 9997 , 9997 , 9997 , 9998 , 9995 , 10000 , 9996 , 9999 , 9997 , 9996 , 9996 , 9997};
+  int data[] = {9998 , 9998 , 9996 , 9998 , 10000 , 9996 , 9996 , 9997 , 9996 , 9996 , 9999 , 9999 , 9996 , 9997 , 10000};
   int size = sizeof(data)/sizeof(data[0]);
   //change this to however many modes you expect to find
   int modeArray[100]={0};

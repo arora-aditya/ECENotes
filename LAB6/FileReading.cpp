@@ -6,10 +6,14 @@
 //
 //
 
-#include <iostream>
 #include <fstream>
 
+#ifndef MARMOSET_TESTING
+#include <iostream>
+int maxNumErrors = 10;
 using namespace std;
+#endif
+
 
 void stringToInt(const char input[], float* value){
 	int result = 0;
@@ -25,8 +29,7 @@ void stringToInt(const char input[], float* value){
 	*value = sign * result;
 }
 
-void doHistogramStuff(char * id, char * marks, const int minAcceptableID, const int maxAcceptableID, int histogram[10], int * rejects, int LineNumber){
-    static int i = 0;
+void doHistogramStuff(char * id, char * marks, const int minAcceptableID, const int maxAcceptableID, int histogram[10], int * rejects, int LineNumber, int &retCode){
     float idNum = minAcceptableID - 1;
     stringToInt(id, &idNum);
     float marksNum =  -1;
@@ -35,7 +38,7 @@ void doHistogramStuff(char * id, char * marks, const int minAcceptableID, const 
         histogram[(int) marksNum/10] += 1;
     }
     else{
-        rejects[i++] = LineNumber;
+        rejects[retCode++] = LineNumber;
     }
 }
 
@@ -52,7 +55,9 @@ void parseLine(const char *line, char * id, char * mark){
     }
 }
 
-int histogram(const char fileName[], int histogram[10], const int minAcceptableID, const int maxAcceptableID, int *rejects){
+int histogram(const char fileName[], int histogram[10], const int minAcceptableID, const int maxAcceptableID, int *& rejects){
+	rejects = new int [10]
+	int i = 0;
     const int maxLineLength = 100;
     char line[maxLineLength];
     ifstream infile;            // declare the file object
@@ -74,19 +79,50 @@ int histogram(const char fileName[], int histogram[10], const int minAcceptableI
         char id[] = "                        ";
         char mark[] = "                        ";
         parseLine(line, id, mark);          // Parse the line// (can use state machine)
-        doHistogramStuff(id, mark, minAcceptableID, maxAcceptableID, histogram, rejects, fileLineNumber);
+        doHistogramStuff(id, mark, minAcceptableID, maxAcceptableID, histogram, rejects, fileLineNumber, i);
     }
-    return -2;
+    if(i >= 0 && i <= maxNumErrors){
+		return i;
+	}
+	else{
+		return -1;
+	}
 }
 
-int main()
-{   int histogra[10] = {0,0,0,0,0,0,0,0,0,0};
-    int *rejects = new int[10];
-    histogram("test.csv", histogra, 10000, 30000, rejects);
-    for(int i = 0; i < 10; i++){
-        cout<<histogra[i]<<"\t";
-        cout<<*(rejects + i)<<endl;
+#ifndef MARMOSET_TESTING
+
+#define isNaN(X) (X != X)  // NaN is the only float that is not equal to itself
+
+int main(const int argc, const char* const argv[]) {
+
+  // Some test driver code here ....
+  if (argc < 2) {
+
+  }
+  const int numBuckets = 10;
+  const int bucketRange = 100/numBuckets;
+  int  buckets[numBuckets];
+  int* rejectedRecords;
+  int retCode = histogram(argv[1], buckets, 22200000, 22299999, rejectedRecords);
+  if (retCode < 0) {
+      cout << "Unable to compute histogram." << endl;
+  }
+  else {
+    for (int i = 0; i < numBuckets; ++i)
+      if (i != numBuckets-1)
+	cout << "Number [" << i*bucketRange << "," << (((i+1)*bucketRange)-1) << "]: " << buckets[i] << endl;
+      else
+	cout << "Number [" << i*bucketRange << "," << (((i+1)*bucketRange)) << "]: " << buckets[i] << endl;
+    if (retCode > 0) {
+      cout << "Number of rejected records: " << retCode << endl;
+      cout << "Rejected records are:";
+      for (int i = 0; i < retCode; ++i)
+	cout << " " << rejectedRecords[i];
+      cout << endl;
+      delete[] rejectedRecords;
     }
-	// cout<<"Hello World"<< endl;
-	return 0;
+  }
+  return 0;
 }
+
+#endif

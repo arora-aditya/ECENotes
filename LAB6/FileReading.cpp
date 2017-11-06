@@ -7,6 +7,7 @@
 //
 
 #include <fstream>
+#include <limits>
 
 #ifndef MARMOSET_TESTING
 #include <iostream>
@@ -14,40 +15,53 @@ int maxNumErrors = 10;
 using namespace std;
 #endif
 
-
+using namespace std;
+int maxNumErrors = 10;
 void stringToInt(const char input[], float* value){
 	int result = 0;
     int sign = 1;
 	int i = 0;
+	while(input[i] == ' ' || input[i] == '\t'){
+		i++;
+	}
 	if(input[i] == '-' || input[i] == '+') sign = (input[i++] == '-')? -1 : 1;
 	while('0' <= input[i] && input[i] <= '9'){
 		result = result*10 + (input[i++]-'0');
 	}
-	if(input[i] != '\0'){
-        *value = 0;
+	if(input[i] != '\0' && input[i] != ' ' && input[i] != '\t'){
+        *value = std::numeric_limits<float>::quiet_NaN();
 	}
-	*value = sign * result;
+	else{
+		*value = sign * result;
+	}
 }
 
-void doHistogramStuff(char * id, char * marks, const int minAcceptableID, const int maxAcceptableID, int histogram[10], int * rejects, int LineNumber, int &retCode){
+int doHistogramStuff(char * id, char * marks, const int minAcceptableID, const int maxAcceptableID, int histogram[10], int * rejects, int LineNumber, int &retCode){
+	if(minAcceptableID >= maxAcceptableID){
+		return -1;
+	}
     float idNum = minAcceptableID - 1;
     stringToInt(id, &idNum);
     float marksNum =  -1;
     stringToInt(marks, &marksNum);
-    if(idNum >= minAcceptableID && idNum <= maxAcceptableID && marksNum <= 100 && marksNum >= 0){
+	if(marksNum != marksNum || idNum != idNum){
+		return -1;
+	}
+    else if(idNum >= minAcceptableID && idNum <= maxAcceptableID && marksNum <= 100 && marksNum >= 0){
         histogram[(int) marksNum/10] += 1;
     }
     else{
         rejects[retCode++] = LineNumber;
     }
+	return 0;
 }
 
 void parseLine(const char *line, char * id, char * mark){
     int i = 0;
     while(line[i] != ','){
-        id[i++] = line[i];
+        id[i] = line[i];
+		i++;
     }
-    cout<<endl;
     int lenId = i;
     id[i++] = '\0';
     for(;line[i] != '\0'; i++){
@@ -56,7 +70,13 @@ void parseLine(const char *line, char * id, char * mark){
 }
 
 int histogram(const char fileName[], int histogram[10], const int minAcceptableID, const int maxAcceptableID, int *& rejects){
-	rejects = new int [10]
+	if(histogram == NULL){
+		return -1;
+	}
+	for(int i = 0; i < 10; i++){
+		histogram[i] = 0;
+	}
+	rejects = new int [10];
 	int i = 0;
     const int maxLineLength = 100;
     char line[maxLineLength];
@@ -79,7 +99,9 @@ int histogram(const char fileName[], int histogram[10], const int minAcceptableI
         char id[] = "                        ";
         char mark[] = "                        ";
         parseLine(line, id, mark);          // Parse the line// (can use state machine)
-        doHistogramStuff(id, mark, minAcceptableID, maxAcceptableID, histogram, rejects, fileLineNumber, i);
+        if (doHistogramStuff(id, mark, minAcceptableID, maxAcceptableID, histogram, rejects, fileLineNumber, i) == -1){
+			return -1;
+		};
     }
     if(i >= 0 && i <= maxNumErrors){
 		return i;

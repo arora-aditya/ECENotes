@@ -30,7 +30,7 @@ shortform p;
 ### where
 Print backtrace of all stack frames
 
-###watch
+### watch
 A watchpoint stops execution of your program whenever the value of
 an expression changes.
 If -l or -location is given, this evaluates EXPRESSION and watches

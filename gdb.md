@@ -1,4 +1,4 @@
-#gdb:
+# gdb:
 
 ### list:
 List specified function or line.

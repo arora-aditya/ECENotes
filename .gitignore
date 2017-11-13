@@ -6,6 +6,7 @@
 *.exe
 *.o
 *.so
+*.dSYM
 
 # Packages #
 ############
@@ -25,6 +26,8 @@
 *.log
 *.sql
 *.sqlite
+*.csv
+*.stat
 
 # OS generated files #
 ######################

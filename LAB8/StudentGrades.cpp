@@ -217,7 +217,7 @@ public:
   // Constructor and Destructor
   StudentGrades();
   ~StudentGrades();
-private:
+:
   Dataset completeDataset;
   Dataset data;
   Mode modes;

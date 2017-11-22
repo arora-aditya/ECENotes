@@ -1,3 +1,11 @@
+//
+//  StudentGrades.cpp
+//  ECE150
+//
+//  Created by Aditya Arora on 2017-11-17.
+//
+//
+
 #include <fstream>
 #include <math.h>
 #include <string.h>

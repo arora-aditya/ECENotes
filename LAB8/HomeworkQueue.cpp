@@ -1,3 +1,11 @@
+//
+//  HomeworkQueue.cpp
+//  ECE150
+//
+//  Created by Aditya Arora on 2017-11-19.
+//
+//
+
 //////////////////////////////////////////////////////////////
 //
 // Your #includes here; make sure you are allowed them ...
@@ -51,6 +59,19 @@ struct HomeworkQueue {
 
 #endif
 
+
+bool AssignmentAppend(Assignment * A, Assignment*& R, int& size){
+	Assignment* k = new Assignment [size + 1];
+	int i;
+	for(i = 0; i < size; i++){
+		k[i] = *(R + i);
+	}
+	k[i] = *A;
+	delete R;
+	R = k;
+	size++;
+	return true;
+}
 //////////////////////////////////////////////////////////////
 //
 // Function declarations; do not remove
@@ -78,7 +99,7 @@ int daysBetween(int date, int month) {
   AssignmentDate.tm_hour = 0; AssignmentDate.tm_min = 0; AssignmentDate.tm_sec = 0;
   AssignmentDate.tm_mon = month-1;  AssignmentDate.tm_mday = date;
 
-  seconds = difftime(now,mktime(&AssignmentDate));
+  seconds = difftime(mktime(&AssignmentDate), now);
   return (int) seconds/86400;
 }
 
@@ -179,10 +200,11 @@ bool enqueue(HomeworkQueue*& queue, const Assignment& assignment) {
 		assignmentCopy->dueMonth = assignment.dueMonth;
 		assignmentCopy->dueDay = assignment.dueDay;
 		assignmentCopy->description = assignment.description;
-
+	if(daysBetween(assignment.dueDay,assignment.dueMonth) < 0){
+		return false;
+	}
 	HomeworkQueue* queueCopy = queue;
 	HomeworkQueue* toInsert= new HomeworkQueue;
-	toInsert = new HomeworkQueue;
 	toInsert->nextInQueue = NULL;
 	toInsert->assn = assignmentCopy;
 
@@ -215,7 +237,7 @@ bool enqueue(HomeworkQueue*& queue, const Assignment& assignment) {
 			isNotInserted = false;
 		}
 	}
-	delete toInsert;
+	// delete toInsert;
 	// queue = queueCopy;
   return !isNotInserted;
 }
@@ -242,6 +264,7 @@ int daysTillDue(const HomeworkQueue* q, const COURSE course) {
 		return daysBetween(date, month);
 	}
 	while(qCopy->nextInQueue->nextInQueue != NULL){
+		// cout<<qCopy->assn->course<<endl;
 		if(qCopy->assn->course == course){
 			int date = qCopy->assn->dueDay, month = qCopy->assn->dueMonth;
 			// delete qCopy;
@@ -257,9 +280,36 @@ int daysTillDue(const HomeworkQueue* q, const COURSE course) {
 	delete qCopy;
 	return INT_MAX;
 }
-const Assignment* dueIn(const HomeworkQueue* q, const int numDays)
-{
-	return NULL;
+
+const Assignment* dueIn(const HomeworkQueue* q, const int numDays){
+	if(q == NULL){
+		return NULL;
+	}
+	HomeworkQueue * qCopy = new HomeworkQueue;
+	qCopy->assn = q->assn;
+	qCopy->nextInQueue = q->nextInQueue;
+	Assignment * A;
+	int size = 0;
+	int date, month;
+
+	while(qCopy->nextInQueue->nextInQueue != NULL){
+		// cout<<qCopy->assn->course<<endl;
+		int date = qCopy->assn->dueDay, month = qCopy->assn->dueMonth;
+		// delete qCopy;
+		if(daysBetween(date, month) < numDays){
+			AssignmentAppend(qCopy->assn, A, size);
+		}
+		qCopy = qCopy->nextInQueue;
+	}
+
+	date = qCopy->assn->dueDay;
+	month = qCopy->assn->dueMonth;
+	// delete qCopy;
+	if(daysBetween(date, month) < numDays){
+		AssignmentAppend(qCopy->assn, A, size);
+	}
+
+	return A;
 }
 
 //////////////////////////////////////////////////////////////
@@ -280,12 +330,13 @@ int main(const int argc, const char* const argv[]) {
 	p_queue->assn = NULL;
 	// cout<<daysBetween(20,12);
 	char sampleDescription[] = "Sequential Execution";
+	const Assignment * A = NULL;
 	Assignment assn1 =
 	{
 		.course = ECE150,
 		.assnNum = 0,
-		.dueMonth = 9,
-		.dueDay = 15,
+		.dueMonth = 11,
+		.dueDay = 22,
 		.description = "ECE150"
 	};
 
@@ -293,8 +344,8 @@ int main(const int argc, const char* const argv[]) {
 	{
 		.course = ECE105,
 		.assnNum = 0,
-		.dueMonth = 10,
-		.dueDay = 15,
+		.dueMonth = 11,
+		.dueDay = 23,
 		.description = "ECE105"
 	};
 
@@ -302,8 +353,8 @@ int main(const int argc, const char* const argv[]) {
 	{
 		.course = MATH115,
 		.assnNum = 0,
-		.dueMonth = 10,
-		.dueDay = 10,
+		.dueMonth = 11,
+		.dueDay = 24,
 		.description = "MATH115"
 	};
 
@@ -311,8 +362,8 @@ int main(const int argc, const char* const argv[]) {
 	{
 		.course = MATH117,
 		.assnNum = 0,
-		.dueMonth = 9,
-		.dueDay = 15,
+		.dueMonth = 11,
+		.dueDay = 24,
 		.description = "MATH117"
 	};
 
@@ -321,7 +372,7 @@ int main(const int argc, const char* const argv[]) {
 		.course = ECE190,
 		.assnNum = 0,
 		.dueMonth = 11,
-		.dueDay = 15,
+		.dueDay = 29,
 		.description = "ECE190"
 	};
 
@@ -342,23 +393,25 @@ int main(const int argc, const char* const argv[]) {
 		std::cout << "enqueue() failed" << std::endl << std::endl;
 	}
 	cout<<daysTillDue(p_queue, ECE190);
-	// const Assignment* p_firstAssignmentInQueue = dequeue(p_queue);
-  //
-	// if (p_firstAssignmentInQueue)
-	// {
-	// 	std::cout << "Dequeue successful..." << std::endl;
-	// 	std::cout << "Course: " << p_firstAssignmentInQueue->course << std::endl;
-	// 	std::cout << "Assignment #: " << p_firstAssignmentInQueue->assnNum << std::endl;
-	// 	std::cout << "Day due: " << p_firstAssignmentInQueue->dueDay << std::endl;
-	// 	std::cout << "Month due: " << p_firstAssignmentInQueue->dueMonth << std::endl;
-	// 	std::cout << "Description: " << p_firstAssignmentInQueue->description << std::endl;
-	// }
-	// else
-	// {
-	// 	std::cout << "dequeue() failed" << std::endl;
-	// }
-  //
-  //
+	A = dueIn(p_queue,5);
+	const Assignment* p_firstAssignmentInQueue = dequeue(p_queue);
+
+	if (p_firstAssignmentInQueue)
+	{
+		std::cout << "Dequeue successful..." << std::endl;
+		std::cout << "Course: " << p_firstAssignmentInQueue->course << std::endl;
+		std::cout << "Assignment #: " << p_firstAssignmentInQueue->assnNum << std::endl;
+		std::cout << "Day due: " << p_firstAssignmentInQueue->dueDay << std::endl;
+		std::cout << "Month due: " << p_firstAssignmentInQueue->dueMonth << std::endl;
+		std::cout << "Description: " << p_firstAssignmentInQueue->description << std::endl;
+	}
+	else
+	{
+		std::cout << "dequeue() failed" << std::endl;
+	}
+	delete A;
+	cout<<daysTillDue(p_queue, ECE150);
+
 
 	delete p_queue;
 

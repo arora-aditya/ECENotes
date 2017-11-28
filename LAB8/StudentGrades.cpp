@@ -8,12 +8,20 @@
 
 #include <fstream>
 #include <math.h>
-#include <string.h>
+// #include <string.h>
 #ifndef MARMOSET_TESTING
 #include <iostream>
 #endif
 
 using namespace std;
+
+void strcpy(char A[], char B[]){
+  int i;
+  for(i = 0; B[i] != '\0';i++){
+    A[i] = B[i];
+  }
+  A[i] = '\0';
+}
 void BubbleSort(int num[], int size) {
       int i, j, flag = 1;    // set flag to 1 to start first pass
       int temp;             // holding variable
@@ -65,7 +73,6 @@ void DataAppend(Student S, Dataset& data){
 	data.students = k;
 	data.numStudents++;
 }
-
 struct Rejects {
 	int numRejects;
 	int* rejects;
@@ -73,13 +80,6 @@ struct Rejects {
 	Rejects(){
 		numRejects = 0;
 		rejects = NULL;
-	}
-
-	void print() {
-		for(int i = 0; i< numRejects; i++){
-			cout<<*(rejects+i)<<'\t';
-		}
-		cout<<endl;
 	}
 };
 bool RejectsAppend(int s, Rejects& R){
@@ -98,7 +98,6 @@ bool RejectsAppend(int s, Rejects& R){
 	}
 	return true;
 }
-
 struct Mode{
 	int numModes;
 	int* modes;
@@ -114,7 +113,6 @@ void ModeAppend(int s, Mode& M){
 	M.modes = k;
 	M.numModes++;
 }
-
 int strle(const char str[]){
 	int i;
 	for(i = 0; str[i] != '\0'; i++);
@@ -197,7 +195,26 @@ int parseLine(const char * line, Student& s) {
 		}
 		// cout<<(!stringToInt(_id, &s.studentID) || !stringToInt(_mark, &s.grade))<<endl;
 }
-
+void renameFile(const char filename[], char fileNameFinal[], bool flag){
+  //true if read csv
+  int i;
+  for(i = 0; filename[i] != '.' && i != strle(filename); i++){
+    fileNameFinal[i] = filename[i];
+  }
+  if(flag){
+    fileNameFinal[i] = '.';
+    fileNameFinal[i+1] = 'c';
+    fileNameFinal[i+2] = 's';
+    fileNameFinal[i+3] = 'v';
+  }
+  else{
+    fileNameFinal[i] = '.';
+    fileNameFinal[i+1] = 's';
+    fileNameFinal[i+2] = 't';
+    fileNameFinal[i+3] = 'a';
+    fileNameFinal[i+4] = 't';
+  }
+}
 
 class StudentGrades {
 public:
@@ -225,7 +242,7 @@ public:
   // Constructor and Destructor
   StudentGrades();
   ~StudentGrades();
-:
+private:
   Dataset completeDataset;
   Dataset data;
   Mode modes;
@@ -249,30 +266,12 @@ StudentGrades::~StudentGrades() {
 	dataRead = false;
 }
 int StudentGrades::readCSV(const char fileName[]) {
-  int lenFileName = strle(fileName);
 	char fileNameFinal[1000] = "";
-	for(int i = 0; i < lenFileName; i++){
-		fileNameFinal[i] = fileName[i];
-	}
-
-	if((fileName[lenFileName-1] != 'v' && fileName[lenFileName-2] != 's' && fileName[lenFileName-3] != 'c') && fileName[lenFileName-4] == '.') {
-		return -20;
-	}
-
-	if(fileName[lenFileName-1] != 'v' || fileName[lenFileName-2] != 's' || fileName[lenFileName-3] != 'c' || fileName[lenFileName-4] != '.') {
-		for(int i = 0; i < lenFileName; i++){
-			fileNameFinal[i] = fileName[i];
-		}
-		fileNameFinal[lenFileName + 4] = '\0';
-		fileNameFinal[lenFileName + 3] = 'v';
-		fileNameFinal[lenFileName + 2] = 's';
-		fileNameFinal[lenFileName + 1] = 'c';
-		fileNameFinal[lenFileName + 0] = '.';
-	}
+  renameFile(fileName, fileNameFinal, true);
   const int maxLineLength = 100;
 	char line[maxLineLength];
 	ifstream infile;
-	strcpy(FileNameFinal, fileNameFinal);
+	// strcpy(FileNameFinal, fileNameFinal);
   infile.open(fileNameFinal);      // open the file
 	if (!infile.is_open()) return -15;                // Unable to open file
 	bool done = false;
@@ -298,11 +297,18 @@ int StudentGrades::readCSV(const char fileName[]) {
 		}
 		else{
       S.lineNumber = fileLineNumber;
-      DataAppend(S, completeDataset);
+      if(S.grade <= 100 && S.grade >= 0){
+				DataAppend(S, completeDataset);
+			}
+      else{
+        if(!RejectsAppend(fileLineNumber, illegalRejects)){
+  				return -35;
+  			}
+      }
 		}
 	}
 	dataRead = true;
-	return 0;
+	return illegalRejects.numRejects;
 }
 
 bool StudentGrades::validStudentIDs(const int MinAcceptableID, const int MaxAcceptableID) {
@@ -312,14 +318,11 @@ bool StudentGrades::validStudentIDs(const int MinAcceptableID, const int MaxAcce
   else{
     data.numStudents = 0;
 		data.students = NULL;
-    rejects.numRejects = illegalRejects.numRejects;
-		rejects.rejects = illegalRejects.rejects;
-		true;
     minAcceptableID = MinAcceptableID;
     maxAcceptableID = MaxAcceptableID;
     for(int i = 0; i < completeDataset.numStudents; i++) {
       Student S = *(completeDataset.students + i);
-      if(S.studentID >= minAcceptableID && S.studentID <= maxAcceptableID && S.grade <= 100 && S.grade >= 0){
+      if(S.studentID >= minAcceptableID && S.studentID <= maxAcceptableID){
 				DataAppend(S, data);
 			}
     }
@@ -336,7 +339,7 @@ int StudentGrades::minimum(){
   for(int i = 0; i < data.numStudents; i++){
 		dataset[i] = (data.students + i)->grade;
 	}
-  int mini = 2147483647;
+  int mini = 101;
   int n = data.numStudents;
   int i = 0;
   while(i < n){
@@ -376,7 +379,7 @@ int StudentGrades::maximum() {
   for(int i = 0; i < data.numStudents; i++){
 		dataset[i] = (data.students + i)->grade;
 	}
-  int max = -2147483648;
+  int max = -1;
   int n = data.numStudents;
   int i = 0;
   while(i < n){
@@ -528,35 +531,22 @@ int StudentGrades::histogram(const int bucketNumber) {
 }
 
 int StudentGrades::numRejects() {
-  return rejects.numRejects;
+  return illegalRejects.numRejects;
 }
 
 int StudentGrades::reject(const int rejectNumber) {
-  if(rejectNumber > rejects.numRejects){
+  if(rejectNumber > illegalRejects.numRejects){
     return -100;
   }
   else{
-    return *(rejects.rejects + rejectNumber - 1);
+    return *(illegalRejects.rejects + rejectNumber - 1);
   }
 }
 
 int StudentGrades::writeStats(const char filename[]) {
   int lenFileName = strle(filename);
   char fileNameFinal[100] = "";
-	if(filename[lenFileName-1] != 'v' || filename[lenFileName-1] != 's' || filename[lenFileName-1] != 'c' || filename[lenFileName-1] != '.') {
-		if(filename[lenFileName-1] == 'v' && filename[lenFileName-2] == 's' && filename[lenFileName-3] == 'c' && filename[lenFileName-4] == '.'){
-			lenFileName -= 4;
-		}
-		for(int i = 0; i < lenFileName; i++){
-			fileNameFinal[i] = filename[i];
-		}
-		fileNameFinal[lenFileName + 5] = '\0';
-		fileNameFinal[lenFileName + 4] = 't';
-		fileNameFinal[lenFileName + 3] = 'a';
-		fileNameFinal[lenFileName + 2] = 't';
-		fileNameFinal[lenFileName + 1] = 's';
-		fileNameFinal[lenFileName + 0] = '.';
-	}
+	renameFile(filename, fileNameFinal, false);
   ofstream outfile;            // declare the file object
   outfile.open(fileNameFinal);      // open the file
 	if (!outfile.is_open()) return -1;
@@ -576,21 +566,22 @@ int StudentGrades::writeStats(const char filename[]) {
 			outfile << std::endl;
 		}
 	}
-	outfile << "Histogram:"<<endl;
+
 	for (unsigned int i = 0; i < 10; i++)
-	{
-		outfile <<"["<< (i*10) << "-" << ((((i+1)*10) - 1) + i/9) << "]: " << histogram(i+1) << std::endl;
+	{  outfile << "Histogram bin ";
+		outfile <<"["<< (i*10) << ", " << ((((i+1)*10) - 1) + i/9) << "]: " << histogram(i+1) << std::endl;
 	}
 	outfile.close();
 	return 0;
 }
+#ifndef MARMOSET_TESTING
 
 int main(const int argc, const char* const argv[]) {
   for(int i = 1; i < argc; i++) {
     int minAcceptableID = 1000;
     int maxAcceptableID = 22229999;
   	StudentGrades S;
-    S.readCSV(argv[i]);
+    cout<<S.readCSV(argv[i])<<endl;
     S.validStudentIDs(minAcceptableID, maxAcceptableID);
     S.writeStats(argv[i]);
 		int r = S.numRejects();
@@ -600,3 +591,5 @@ int main(const int argc, const char* const argv[]) {
 		cout<<endl;
   }
 }
+
+#endif

@@ -11,7 +11,6 @@
 // Your #includes here; make sure you are allowed them ...
 //
 #include <stdio.h>
-#include <string.h>
 #include <time.h>
 //////////////////////////////////////////////////////////////
 //
@@ -63,11 +62,14 @@ struct HomeworkQueue {
 bool AssignmentAppend(Assignment * A, Assignment*& R, int& size){
 	Assignment* k = new Assignment [size + 1];
 	int i;
-	for(i = 0; i < size; i++){
+	for(i = 0; i < size - 1; i++){
 		k[i] = *(R + i);
 	}
 	k[i] = *A;
-	delete R;
+	k[i+1] = *(R + i);
+	if(R != NULL){
+		delete R;
+	}
 	R = k;
 	size++;
 	return true;
@@ -103,19 +105,26 @@ int daysBetween(int date, int month) {
   return (int) seconds/86400;
 }
 
-bool isEarlier(Assignment assn1, Assignment assn2){
+int isEarlier(Assignment assn1, Assignment assn2){
 	/*
 	Is assignment1 due before assignment2?
 	*/
   if(assn1.dueMonth < assn2.dueMonth){
-    return true;
+    return 1;
   }
   else if(assn1.dueMonth == assn2.dueMonth && assn1.dueDay < assn2.dueDay){
-		return true;
+		return 1;
+  }
+	else if(assn1.dueMonth == assn2.dueMonth && assn1.dueDay == assn2.dueDay){
+		return 2;
   }
 	else{
-		return false;
+		return 0;
 	}
+}
+
+bool isEqual(Assignment assn1, Assignment assn2){
+	return (assn1.course == assn2.course && assn2.dueMonth == assn1.dueMonth && assn2.dueDay == assn1.dueDay && assn1.assnNum == assn2.assnNum);
 }
 
 bool legalAssn(const Assignment assignment){
@@ -183,77 +192,91 @@ bool legalAssn(const Assignment assignment){
     default: return true;
 		break;
   }
-  if(assignment.description == NULL){
+  if(assignment.description == NULL || *assignment.description == '\0'){
     return true;
   }
+	if(assignment.course == Null){
+		return true;
+	}
   return false;
 }
 
 bool enqueue(HomeworkQueue*& queue, const Assignment& assignment) {
-  if(legalAssn(assignment)){
-    return false;
-  }
-	int len = 0;
-	Assignment *assignmentCopy = new Assignment;
-		assignmentCopy->course = assignment.course;
-		assignmentCopy->assnNum = assignment.assnNum;
-		assignmentCopy->dueMonth = assignment.dueMonth;
-		assignmentCopy->dueDay = assignment.dueDay;
-		assignmentCopy->description = assignment.description;
+	if(legalAssn(assignment)){
+		return false;
+	}
 	if(daysBetween(assignment.dueDay,assignment.dueMonth) < 0){
 		return false;
 	}
-	HomeworkQueue* queueCopy = queue;
-	HomeworkQueue* toInsert= new HomeworkQueue;
+	Assignment * assignmentCopy = new Assignment;
+	assignmentCopy->course = assignment.course;
+	assignmentCopy->assnNum = assignment.assnNum;
+	assignmentCopy->dueDay = assignment.dueDay;
+	assignmentCopy->dueMonth = assignment.dueMonth;
+	assignmentCopy->description = assignment.description;
+
+	HomeworkQueue * transverse = queue;
+	HomeworkQueue * previous = queue;
+		if(transverse->assn != NULL){
+			while(transverse != NULL){
+				if(isEqual(*assignmentCopy, *transverse->assn)){
+					return false;
+				}
+				transverse = transverse->nextInQueue;
+			}
+		}
+
+	transverse = queue;
+	HomeworkQueue* toInsert = new HomeworkQueue;
 	toInsert->nextInQueue = NULL;
 	toInsert->assn = assignmentCopy;
 
-  bool isNotInserted = true;
+	bool isNotInserted = true;
 	if(queue->nextInQueue == NULL && queue->assn == NULL){
 		queue->assn = assignmentCopy;
-		queue->nextInQueue = new HomeworkQueue;
-		queue->nextInQueue->assn = NULL;
-		queue->nextInQueue->nextInQueue = NULL;
+		queue->nextInQueue = NULL;
+		isNotInserted = false;
 	}
 	else{
-		while(queueCopy->nextInQueue->nextInQueue != NULL && isNotInserted){
-			len++;
-			if(isEarlier(assignment,*queueCopy->nextInQueue->assn)){
-				toInsert->nextInQueue = queueCopy->nextInQueue;
-			 	queueCopy->nextInQueue = toInsert;
-			 	isNotInserted = false;
+		while(transverse != NULL){
+			if(isEarlier(*assignmentCopy, *transverse->assn)){
+				while(transverse != NULL && isEarlier(*assignmentCopy, *transverse->assn) == 2){
+					previous = transverse;
+					transverse = transverse->nextInQueue;
+				}
 				break;
 			}
-			queueCopy = queueCopy->nextInQueue;
+			previous = transverse;
+			transverse = transverse->nextInQueue;
 		}
-		if(isEarlier(*queueCopy->assn, assignment) && isNotInserted){
-			toInsert->nextInQueue = queueCopy->nextInQueue;
-			queueCopy->nextInQueue = toInsert;
-		 	isNotInserted = false;
-		}
-		if(isNotInserted){
+		if(transverse == queue){
 			toInsert->nextInQueue = queue;
 			queue = toInsert;
 			isNotInserted = false;
 		}
+		else{
+			toInsert->nextInQueue = previous->nextInQueue;
+			previous->nextInQueue = toInsert;
+			isNotInserted = false;
+		}
 	}
-	// delete toInsert;
-	// queue = queueCopy;
-  return !isNotInserted;
+	return !isNotInserted;
 }
 
 const Assignment* dequeue(HomeworkQueue*& queue) {
-	if(queue == NULL || (queue->nextInQueue) == NULL){
+	if(queue == NULL){
 	return NULL;
 	}
 	Assignment * assignment = queue->assn;
+	HomeworkQueue * head = queue;
 	queue = queue->nextInQueue;
+	delete head;
 	return assignment;
 }
 
 int daysTillDue(const HomeworkQueue* q, const COURSE course) {
-	if(q == NULL){
-		return INT_MAX;
+	if(q == NULL || q->assn == NULL){
+		return 2147483647;
 	}
 	HomeworkQueue * qCopy = new HomeworkQueue;
 	qCopy->assn = q->assn;
@@ -261,38 +284,40 @@ int daysTillDue(const HomeworkQueue* q, const COURSE course) {
 	if(qCopy->assn->course == course){
 		int date = qCopy->assn->dueDay, month = qCopy->assn->dueMonth;
 		// delete qCopy;
-		return daysBetween(date, month);
+		return daysBetween(date, month) + 1;
 	}
-	while(qCopy->nextInQueue->nextInQueue != NULL){
+	while(qCopy->nextInQueue != NULL){
 		// cout<<qCopy->assn->course<<endl;
 		if(qCopy->assn->course == course){
 			int date = qCopy->assn->dueDay, month = qCopy->assn->dueMonth;
 			// delete qCopy;
-			return daysBetween(date, month);
+			return daysBetween(date, month) + 1;
 		}
 		qCopy = qCopy->nextInQueue;
 	}
 	if(qCopy->assn->course == course) {
 		int date = qCopy->assn->dueDay, month = qCopy->assn->dueMonth;
 		// delete qCopy;
-		return daysBetween(date, month);
+		return daysBetween(date, month) + 1;
 	}
 	delete qCopy;
-	return INT_MAX;
+	return 2147483647;
 }
 
 const Assignment* dueIn(const HomeworkQueue* q, const int numDays){
-	if(q == NULL){
+	if(q == NULL || numDays < 0 || q->assn == NULL){
 		return NULL;
 	}
 	HomeworkQueue * qCopy = new HomeworkQueue;
 	qCopy->assn = q->assn;
 	qCopy->nextInQueue = q->nextInQueue;
-	Assignment * A;
-	int size = 0;
+	Assignment * A = new Assignment;
+	A->course = Null;
+	A->dueDay = -25;
+	int size = 1;
 	int date, month;
 
-	while(qCopy->nextInQueue->nextInQueue != NULL){
+	while(qCopy != NULL && qCopy->assn != NULL){
 		// cout<<qCopy->assn->course<<endl;
 		int date = qCopy->assn->dueDay, month = qCopy->assn->dueMonth;
 		// delete qCopy;
@@ -301,14 +326,6 @@ const Assignment* dueIn(const HomeworkQueue* q, const int numDays){
 		}
 		qCopy = qCopy->nextInQueue;
 	}
-
-	date = qCopy->assn->dueDay;
-	month = qCopy->assn->dueMonth;
-	// delete qCopy;
-	if(daysBetween(date, month) < numDays){
-		AssignmentAppend(qCopy->assn, A, size);
-	}
-
 	return A;
 }
 
@@ -322,100 +339,106 @@ const Assignment* dueIn(const HomeworkQueue* q, const int numDays){
 #ifndef MARMOSET_TESTING
 
 int main(const int argc, const char* const argv[]) {
+	// cout<<"here";
   		// Some test driver code here ....
 	//std::cout << std::endl << "Implement some more appropriate tests in main()" << std::endl << std::endl;
 
 	HomeworkQueue* p_queue = new HomeworkQueue;
-	p_queue->nextInQueue = NULL;
 	p_queue->assn = NULL;
-	// cout<<daysBetween(20,12);
+	p_queue->nextInQueue = NULL;
+  //
+	// // cout<<daysBetween(20,12);
 	char sampleDescription[] = "Sequential Execution";
 	const Assignment * A = NULL;
 	Assignment assn1 =
 	{
 		.course = ECE150,
-		.assnNum = 0,
+		.assnNum = 8,
 		.dueMonth = 11,
-		.dueDay = 22,
-		.description = "ECE150"
+		.dueDay = 27,
+		.description = "LMOA"
 	};
-
 	Assignment assn2 =
 	{
 		.course = ECE105,
-		.assnNum = 0,
+		.assnNum = 8,
 		.dueMonth = 11,
-		.dueDay = 23,
+		.dueDay = 28,
 		.description = "ECE105"
 	};
-
 	Assignment assn3 =
 	{
 		.course = MATH115,
 		.assnNum = 0,
 		.dueMonth = 11,
-		.dueDay = 24,
+		.dueDay = 29,
 		.description = "MATH115"
 	};
-
 	Assignment assn4 =
 	{
 		.course = MATH117,
 		.assnNum = 0,
 		.dueMonth = 11,
-		.dueDay = 24,
+		.dueDay = 30,
 		.description = "MATH117"
 	};
-
 	Assignment assn5 =
 	{
 		.course = ECE190,
 		.assnNum = 0,
-		.dueMonth = 11,
+		.dueMonth = 12,
 		.dueDay = 29,
 		.description = "ECE190"
 	};
-
+	Assignment assn6 =
+	{
+		.course = CHE102,
+		.assnNum = 0,
+		.dueMonth = 12,
+		.dueDay = 30,
+		.description = "ECE190"
+	};
 	bool enqueueSuccess = enqueue(p_queue, assn1);
+	cout<<enqueueSuccess<<'\n';
 	enqueueSuccess = enqueue(p_queue, assn2);
+	cout<<enqueueSuccess<<endl;
 	enqueueSuccess = enqueue(p_queue, assn3);
+	cout<<enqueueSuccess<<endl;
+	enqueueSuccess = enqueue(p_queue, assn1);
+	cout<<enqueueSuccess<<endl;
 	enqueueSuccess = enqueue(p_queue, assn4);
+	cout<<enqueueSuccess<<endl;
 	enqueueSuccess = enqueue(p_queue, assn5);
-	// p_queue->print();
-
-	if(enqueueSuccess)
-	{
-		std::cout << "assn1 enqueued successfully" << std::endl << std::endl;
-
-	}
-	else
-	{
-		std::cout << "enqueue() failed" << std::endl << std::endl;
-	}
-	cout<<daysTillDue(p_queue, ECE190);
-	A = dueIn(p_queue,5);
-	const Assignment* p_firstAssignmentInQueue = dequeue(p_queue);
-
-	if (p_firstAssignmentInQueue)
-	{
-		std::cout << "Dequeue successful..." << std::endl;
-		std::cout << "Course: " << p_firstAssignmentInQueue->course << std::endl;
-		std::cout << "Assignment #: " << p_firstAssignmentInQueue->assnNum << std::endl;
-		std::cout << "Day due: " << p_firstAssignmentInQueue->dueDay << std::endl;
-		std::cout << "Month due: " << p_firstAssignmentInQueue->dueMonth << std::endl;
-		std::cout << "Description: " << p_firstAssignmentInQueue->description << std::endl;
-	}
-	else
-	{
-		std::cout << "dequeue() failed" << std::endl;
-	}
+	cout<<enqueueSuccess<<endl;
+	enqueueSuccess = enqueue(p_queue, assn6);
+	cout<<enqueueSuccess<<'\n';
+	// // enqueueSuccess = enqueue(p_queue, assn5);
+	// // cout<<enqueueSuccess<<'\n';
+	// // enqueueSuccess = enqueue(p_queue, assn3);
+	// // cout<<enqueueSuccess<<'\n';
+  //
+	// if(enqueueSuccess)
+	// {
+	// 	std::cout << "assn1 enqueued successfully" << std::endl << std::endl;
+  //
+	// }
+	// else
+	// {
+	// 	std::cout << "enqueue() failed" << std::endl << std::endl;
+	// }
+	// cout<<daysTillDue(p_queue, ECE190);
+  //
+  //
+	A = dueIn(p_queue,3);
+	cout<<endl;
+	cout<<(*(A)).dueDay<<'\t'<<(*(A+1)).dueDay<<'\t'<<(*(A+2)).dueDay<<'\t'<<(*(A+3)).dueDay<<'\t'<<(*(A+4)).dueDay<<'\t'<<(*(A+5)).dueDay<<'\t'<<(*(A+6)).dueDay<<'\n';
 	delete A;
-	cout<<daysTillDue(p_queue, ECE150);
-
-
-	delete p_queue;
-
-	return 0;
+	// cout<<daysTillDue(p_queue, ECE150);
+  //
+  //
+	// delete p_queue;
+  //
+	// return 0;
 }
 
 #endif

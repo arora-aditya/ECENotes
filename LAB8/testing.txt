@@ -1,0 +1,24 @@
+p *p_queue->assn
+p *p_queue->nextInQueue->assn
+p *p_queue->nextInQueue->nextInQueue->assn
+p *p_queue->nextInQueue->nextInQueue->nextInQueue->assn
+p *p_queue->nextInQueue->nextInQueue->nextInQueue->nextInQueue->assn
+p *p_queue->nextInQueue->nextInQueue->nextInQueue->nextInQueue->nextInQueue->assn
+p *p_queue->nextInQueue->nextInQueue->nextInQueue->nextInQueue->nextInQueue->nextInQueue->assn
+
+p *qCopy->assn
+p *qCopy->nextInQueue->assn
+p *qCopy->nextInQueue->nextInQueue->assn
+p *qCopy->nextInQueue->nextInQueue->nextInQueue->assn
+p *qCopy->nextInQueue->nextInQueue->nextInQueue->nextInQueue->assn
+p *qCopy->nextInQueue->nextInQueue->nextInQueue->nextInQueue->nextInQueue->assn
+
+p *queueCopy->assn
+p *queueCopy->nextInQueue->assn
+p *queueCopy->nextInQueue->nextInQueue->assn
+p *queueCopy->nextInQueue->nextInQueue->nextInQueue->assn
+
+p *queue->assn
+p *queue->nextInQueue->assn
+p *queue->nextInQueue->nextInQueue->assn
+p *queue->nextInQueue->nextInQueue->nextInQueue->assn}

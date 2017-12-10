@@ -1,7 +1,7 @@
 import mosspy
 import sys
 
-userid = 680980157
+userid = "removed for privacy"
 
 m = mosspy.Moss(userid, "cc")
 

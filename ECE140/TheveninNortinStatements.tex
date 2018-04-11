@@ -1,0 +1,90 @@
+\documentclass[12pt]{article}
+
+\usepackage{answers}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\setlength{\hoffset}{0pt}
+\setlength{\headsep}{5pt}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{definition}[2][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{solution}[2][Solution]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\pagenumbering{gobble}
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+\title{Thevenin and Norton's Theorems}%replace with the appropriate homework number
+\author{Aditya Arora\\ %replace with your name
+Winter 2018} %if necessary, replace with your course title
+ 
+\maketitle
+%Below is an example of the problem environment
+
+\begin{center}
+   STATEMENTS
+\end{center}
+\vskip 0.1in
+\textbf{A Statement of Thévenin’s Theorem}
+\begin{trivlist}
+\item1. Given any linear circuit, rearrange it in the form of two networks, A and B, connected by two wires. Network A is the network to be simplified; B will be left untouched.
+\item2. Disconnect network B. Define a voltage $v_{oc}$ as the voltage now appearing across the terminals of network A.
+\item3. Turn off or “zero out” every independent source in network A to form an inactive network. Leave dependent sources unchanged.
+\item4. Connect an independent voltage source with value $v_{oc}$ in series with the inactive network. Do not complete the circuit; leave the two terminals disconnected.
+\item5. Connect network B to the terminals of the new network A. All currents and voltages in B will remain unchanged.
+\end{trivlist}
+\vskip 0.1in
+\begin{trivlist}
+    \item \textbf{CASE 1:} If the network has no dependent sources, we turn off all the independent sources. 
+    \item \textbf{CASE 2:} If the network has dependent sources we turn off all independent sources. We can either then choose to apply a 1V source or a 1A source across the terminals and find $R_{th}$ accordingly using the help of other circuit theorems
+\end{trivlist}
+
+\newpage
+\textbf{A Statement of Norton’s Theorem}
+\begin{trivlist}
+\item1. Given any linear circuit, rearrange it in the form of two networks, A and B, connected by two wires. Network A is the network to be simplified; B will be left untouched. As before, if either network contains a dependent source, its controlling variable must be in the same network.
+\item2. Disconnect network B, and short the terminals of A. Define a current $i_{sc}$ as the current now flowing through the shorted terminals of network A.
+\item3. Turn off or “zero out” every independent source in network A to form an inactive network. Leave dependent sources unchanged.
+\item4. Connect an independent current source with value $i_{sc}$ in parallel with the inactive network. Do not complete the circuit; leave the two terminals disconnected.
+\item5. Connect network B to the terminals of the new network A. All currents and voltages in B will remain unchanged.
+\end{trivlist}
+\vskip 0.1in
+We can find any two of the following three to determine the Norton equivalent of a circuit:
+\begin{enumerate}
+    \item The open-circuit voltage $v_{oc}$ across terminals $a$ and $b$ (no current flows out from this open circuit)
+    \item The short-circuit current $i_{sc}$ at terminals $a$ and $b$
+    \item The equivalent or input resistance at terminals $a$ and $b$ when all the independent sources are turned off
+\end{enumerate}
+Using these we can find the Norton's equivalent since: 
+$$I_{N} = i_{sc}, V_{Th} = v_{oc}, R_{Th} = \frac{v_{oc}}{i_{sc}} = R_{N}$$
+
+\end{document}

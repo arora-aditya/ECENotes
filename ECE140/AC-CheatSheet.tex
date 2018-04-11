@@ -1,0 +1,85 @@
+\documentclass[10pt]{article}
+
+\usepackage{answers}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{adjustbox}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{svg}
+\usepackage[margin=0.5in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand*{\Co}[2]{{}^{#1}C_{#2}}%
+
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{definition}[2][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{solution}[2][Solution]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\pagenumbering{gobble}
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% -------------------------------------------------------------
+\title{Points to Remember}%replace with the appropriate homework number
+\author{Aditya Arora} %if necessary, replace with your course title
+\maketitle
+%Below is an example of the problem environment
+
+
+\begin{enumerate}
+\item Power: If current coming out of $+^{ve}$ terminal, then power \textbf{Supplied} else \textbf{Absorbed}
+\item $\frac{dv}{dt} \Leftrightarrow j\omega V$\\
+$\int v dt \Leftrightarrow  \frac{V}{j\omega}$
+
+\item AC instantaneous power: $p(t) = v(t)\cdot i(t)$
+\item AC average power: \\Voltage: $v(t) = V_m cos({\omega} t + {\theta}_v)$\\Current: $i(t) = I_m cos({\omega} t + {\theta}_i)$\\Average Power: $P = \frac{1}{2}V_m I_m cos({\theta}_v - {\theta}_i)$\\
+A resistive load (R) absorbs power at all times, while a reactive load (L or C ) absorbs zero average power (since $cos({\theta}_v - {\theta}_i) = 0$)
+\item Maximum Average Power Transfer Theorem: $Z_L = R_L + jX_L = R_{Th} + jX_{Th} = Z^*_{Th}$ \\(* means conjugate) 
+$$P_{max} = \frac{|V_{Th}|^2}{8R_{Th}}$$ In a situation which the load is purely real, the condition for maximum power transfer is obtained by setting $X_L = 0$ and $R_L = \sqrt{R_{Th}^2 + X_{Th}^2} = |Z_{Th}|$
+\item RMS value: $V_{rms} = \frac{V_{m}}{\sqrt{2}}$, $I_{rms} = \frac{I_{m}}{\sqrt{2}}$, $P_{avg/rms} = I_{rms}^2R = \frac{V_{rms}^2}{R}$
+\item Complex Power \textbf{S}: $P+jQ = V_{rms} (I_{rms})^* = |V_{rms}| |I_{rms}| cos({\theta}_v - {\theta}_i)$\\
+If ${\theta}_v - {\theta}_i < 0,$ then leading else lagging\\
+$S_{NET} = S_1 + S_2 + S_3 + S_4 ...$
+\item Apparent Power: $S = |\textbf{S}| = |V_{rms}| |I_{rms}| = \sqrt{P^2 + Q^2} = \frac{|V|^2}{|Z|}$
+\item Real Power $P = \textbf{Re(S)} = S\ cos({\theta}_v - {\theta}_i)$
+\item Reactive Power $Q = \textbf{Im(S)} = S\ sin({\theta}_v - {\theta}_i)$ \\(if $Q == 0$, then unity power factor, if $Q < 0$ (for capacitive loads) then leading pf )
+\item Power Factor: $\frac{P}{S} = cos({\theta}_v - {\theta}_i)$ [It is also the cosine of the angle of the load impedance]
+\item If (voltage phase - current phase) $>$ 0, its lagging and vice-versa
+\item The DC value of a source is equal to its average value over one period (so when you need DC voltage in an AC circuit, find the DC values of the source, treat the circuit elements as totally charged DC elements and solve)
+\item $P_{net}$ from superposition is $P_{1(RMS)} + P_{2(RMS)}$ independently
+\item The unit for all forms of power is the watt (W), but this unit is generally reserved for active power. Apparent power is conventionally expressed in volt-amperes (VA) since it is the product of rms voltage and rms current. The unit for reactive power is volt-ampere reactive (VAR) .
+
+\end{enumerate}
+
+
+
+\pagebreak
+\setlength{\voffset}{0.15in}
+
+\end{document}

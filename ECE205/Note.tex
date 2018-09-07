@@ -1,0 +1,103 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\setlist[itemize]{noitemsep, topsep=0pt}
+\setlength{\OuterFrameSep}{0pt}
+\graphicspath{ {./images/} }
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand*{\Co}[2]{{}^{#1}C_{#2}}%
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+\NewDocumentCommand{\codeword}{v}{%
+\texttt{\textbf{#1}}%
+}
+\begin{document}
+\title{Review}
+\thispagestyle{empty}
+
+\begin{center}
+{\vspace{5mm} \LARGE ECE 205 - Fall 2018 \\ \vspace{5mm}Aditya Arora\\ \vspace{5mm} 6th September 2018}\\
+{\vspace{5mm} \LARGE \bf Week 1 - Review \& Introduction}
+
+\end{center}
+
+\section{Complex Numbers}
+Mathematics: $"i" = \sqrt{-1}$\\
+Engineering: $"j" = \sqrt{-1}$
+\subsection{Euler Formula}
+$$e^{j\theta} = cos\theta + jsin\theta$$
+We will have expression of the form $e^mt$ where m satisfies $am^2 + bm + c = 0$
+\subsubsection{Real Roots}
+If $am^2 + bm + c = 0$ has real roots $r_1, r_2$ then that leads to solutions $e^{r_1t}, e^{r_2t}$\\
+We often take linear combinations of those solutions: $a_1e^{r_1t} + a_2e^{r_2t}$
+
+\subsubsection{Complex Roots}
+If $am^2 + bm + c = 0$ has complex roots $\alpha + j\beta, \alpha - j\beta, \;(\alpha,\: \beta\: \epsilon\: \R)$ then that leads to functions $e^{(\alpha + j\beta)t}, e^{(\alpha - j\beta)t}$\\
+We also take linear combinations of those solutions: $$\frac{1}{2}[e^{(\alpha + j\beta)t} + e^{(\alpha - j\beta)t}] = e^{\alpha t}cos\beta t$$ because the complex component cancels out from Euler's formula. \\
+Similarly taking a complex linear combination, $$\frac{1}{2j}[e^{(\alpha + j\beta)t} - e^{(\alpha - j\beta)t}] = e^{\alpha t}sin\beta t$$
+Taking a real linear combination, we will have a solution of the form
+$$Ae^{\alpha t}cos\beta t + Be^{\alpha t}sin\beta t \; (A,\:B\: \epsilon\: \R)$$
+
+\section{Linear Algebra}
+Everything is set up to manage and use Vector Spaces as $\R^n, M_{m+n} \; P_3$
+\subsection{Linear Equation}
+$$A\vec{x} = \vec{b}$$
+$A\:  \epsilon\:  M_{m+n}\: [known],\: b\: \epsilon\: \R^n\:  [unknown],\: b\: \epsilon\:  \R^m\:  [known]$
+\subsubsection{Special Cases}
+Homogeneous Equation:$A\vec{x} = \vec{0}_{\R^m}$\\
+$\vec{0}_{\R^n}$ is a solution\\
+A solution set \textbf{$S$} is a vector subspace of $\R^n$\\
+If $\vec{x}_1, \vec{x}_2 \epsilon S$ then $\vec{x}_1 + \vec{x}_2 \epsilon S$ and if $\vec{x}_1 \epsilon S $ then $ c\vec{x}_1 \epsilon S$
+\subsubsection{Some other points}
+Consider In-homogeneous equation $$A\vec{x} = \vec{b}$$
+$\vec{b} \neq \vec{0}$ with  solution set $\tilde{S}$
+\begin{enumerate}
+    \item Lemma 1: Let $\vec{y_1}\; \epsilon\; \tilde{S}$ and $\vec{y_2}\; \epsilon\; \tilde{S}$\\
+    Then $\vec{y_1}\; -\; \vec{y_2}\; \epsilon\; S$\\
+    Moreover $\vec{y_1}\; -\; \vec{y_2}\; =\; \vec{x_1}$ where $\vec{x_1}\; \epsilon\; S$ then $\vec{y_1}\; =\; \vec{x_1}\; +\; \vec{y_2}$
+    \item Lemma 2: We can obtain $\tilde{S}$ by finding one solution $\vec{y_2}\; \epsilon\; \tilde{S}$ [a particular solution] and then add it to each and every solution in set $S$ one by one\\
+    If there are no solutions i.e. you cannot obtain $\vec{y_2}$, then $\tilde{S}$ is empty
+\end{enumerate}
+\newpage
+
+\end{document}

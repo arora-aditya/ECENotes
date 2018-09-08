@@ -99,5 +99,71 @@ $\vec{b} \neq \vec{0}$ with  solution set $\tilde{S}$
     If there are no solutions i.e. you cannot obtain $\vec{y_2}$, then $\tilde{S}$ is empty
 \end{enumerate}
 \newpage
+\begin{center}
+    {\LARGE 7th September 2018 \\ Lecture 1}
+\end{center}
+\setcounter{section}{0}
+\section{Differential Equations}
+\subsection{Introduction}
+In calculus we deal with functions sometimes the functions are provided explicitly, however often we only have information about derivatives(s) of the function. \textit{Eg:} Newtown's law in 1 dimension, with constant mass: $$F = \frac{d\vec{p}}{dt}$$
+Using momentum as $\vec{p} = m \vec{v} = m\frac{dx}{dt}$
+$$F = m\frac{d^2x}{dt^2}$$
+\textit{Eg:} one dimensional Motion under gravity, $g = \frac{d^2x}{dt^2} = 9.81ms^{-2}$
+$$F = m\vec{a} = m\vec{g}$$
+
+\subsubsection{Definitions and Vocabulary}
+There are many types and we need some vocabulary to distinguish between them\\
+\textbf{Def \#1:} A differential equation [DE] is an equation which involves the derivative(s) of some unknown function(s).\\
+\textbf{Def \#2:} When we have a DE we will have one (or more) function(s) which we are trying to determine. This function(s) is(are) called the dependent variable(s). The other variables are called independent variables.\\
+\textit{Eg:} $\frac{d^2x}{dt^2} = g$, $g$ is constant, $x$ is the dependent variable, $t$ is the independent variable\\
+\textit{Eg:} $c\frac{\partial^2z}{\partial x^2} = \frac{\partial^2z}{\partial t^2}$, $c$ is constant, $z$ is the dependent variable, $t, x$ is the independent variable.
+
+These are usually obvious:
+\textit{Eg:} $\frac{dx}{dy} = 2$ or $\frac{dy}{dx} = \frac{1}{2}$ (which is usually dependent)
+
+\textbf{Def \#3:} A DE is called an ordinary differential equation (ODE) to mean that it only contains ordinary derivatives.\\
+A DE is called a partial differential equation (PDE) to mean that it contains partial derivatives.
+\textit{Eg: ODE} $$\frac{d^2x}{dt^2} + sin(x)\frac{dx}{dt} + x^2 - sin(t^2) = 0$$\\
+\textit{Eg: PDE} $$\frac{\partial z}{\partial x} + \frac{\partial^2 z}{\partial x \partial y} + \frac{\partial^3 z}{\partial t^3} + t^2 = 1$$
+\textit{Note: ECE 205 has at least 10 weeks of ODE}\\
+\newpage
+\textbf{Def \#4:} The order of a DE is the highest derivative that appears. In general: higher order, means more difficult\\
+\textit{Eg:} $$\frac{d^3x}{dt^3} + (\frac{d^2x}{dt^2})^2 + (\frac{dx}{dt})^{29} + sin(t) = 0$$
+
+\textbf{Def \#5:} We say that a DE is linear to mean that all the terms in the dependent variable(s) are linear expressions\\
+\textit{Eg:} Let $x = x(t)$, x is the dependent variable\\
+Not linear
+$$\frac{dx}{dt} + x^2 = 0$$
+Linear
+$$\frac{d^2x}{dt^2} + xt^2 = 0$$
+Not linear (product of terms in x)
+$$\frac{d^2x}{dt^2}\frac{dx}{dt} + sin(t) = 0$$
+Linear
+$$\frac{d^2x}{dt^2}+ sin(t)\frac{dx}{dt} + cos(t)x = t^2$$
+Not linear
+$$\frac{d^2x}{dt^2}+ sin(t)\frac{dx}{dt} + cos(tx) = t^2$$
+
+In this course we will examine, 1st order ODE (4 types, one of them is linear), 2nd order linear
+\newpage
+\begin{center}
+    {\LARGE 7th September 2018 \\ Lecture 2}
+\end{center}'
+
+\textbf{Def \#6:} The most general $n^{th}$ order ODE is of the form
+$$a_n(t)\frac{d^nx}{dt^n} + a_{n-1}(t)\frac{d^{n-1}x}{dt^{n-1}} + a_{n-2}(t)\frac{d^{n-2}x}{dt^{n-2}} + ... + a_0(t)\frac{dx}{dt} + f(t) = 0$$
+
+The coefficient function $a_n(t) \neq 0$, meaning it cannot be the $0^{th}$ function all the time, but it can have occasional zeros, \textit{Eg:} It can be $sin(t)$. If it is always zero then it will not be $n^{th}$ order anymore
+
+\textbf{Def \#7:} We say that $n^th$ order ODE is homogeneous to mean that $f(t) \equiv 0$, \textit{Eg:} $a_1(t) \frac{dx}{dt} + a_0(t)x$
+
+\textbf{Def \#8:} If the ODE is not homogeneous then we call it in-homogeneous or non-homogeneous
+
+\textbf{Def \#9:} Given a linear in-homogeneous ODE, $$a_n(t)\frac{d^nx}{dt^n} + a_{n-1}(t)\frac{d^{n-1}x}{dt^{n-1}} + a_{n-2}(t)\frac{d^{n-2}x}{dt^{n-2}} + ... + a_0(t)\frac{dx}{dt} + f(t) = 0, \; f(t) \not\equiv 0$$
+Then we call the ODE, $$a_n(t)\frac{d^nx}{dt^n} + a_{n-1}(t)\frac{d^{n-1}x}{dt^{n-1}} + a_{n-2}(t)\frac{d^{n-2}x}{dt^{n-2}} + ... + a_0(t)\frac{dx}{dt} + 0 = 0,$$ the associated homogeneous equation
+
+\textbf{Def \#10:}\\
+- A \textit{solution} of an ODE is a function that satisfies the ODE \\
+- A \textit{solution set} of a DE is the set of all solutions of the DE \\
+- The \textit{general solution} of a DE is the form of typical solutions
 
 \end{document}

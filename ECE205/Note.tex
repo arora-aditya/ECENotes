@@ -175,4 +175,53 @@ $$\int_a^bf(x)dx = N\;\; a,\;b\; \epsilon\; \R \implies \frac{d}{dt}(\int_a^bf(x
 \\
 $$\int^\tau sin(x)dx = g(\tau) \implies g(\tau) = -cos(\tau) + c \implies \frac{d}{d\tau} \int^\tau sin(x)dx = sin(\tau)$$
 
+
+\newpage
+\begin{center}
+{\LARGE ECE 205 - Fall 2018 \\ Aditya Arora\\ \vspace{5mm} 10th September 2018}\\
+{\vspace{5mm} \LARGE \bf Week 2}
+
+\end{center}
+
+\section{First Order Ordinary Differential Equations}
+\begin{itemize}
+    \item Seperable
+    \item Linear
+    \item Exact
+    \item Integration factor method
+\end{itemize}
+
+\subsection{Seperate ODE's}
+We say that $\frac{dy}{dx} = F(x, y)$ is a seperable ODE to mean that $F(x, y) = A(x).B(y)$ i.e. $F(x,y)$ is the product of a function of $"x"$ only and $"y"$ only\\
+
+\textbf{Method of Solution}
+\begin{enumerate}
+    \item Is $B(y)$ ever zero? \\
+    If $B(y_1) = 0$, then $y = y_1$ is a solution of this ODE\\
+    Find all such functions $y = y_1$, $y = y_2, \dots$
+    \item Otherwise when $y \neq y_1$, $y \neq y_2, \dots$, $B(y) \neq 0$, which means we can divide by it
+    $$\frac{dy}{dx} = A(x).B(y)$$
+    $$\implies \frac{1}{B(y)}\frac{dy}{dx} = A(x)$$
+    $$\implies \int \frac{1}{B(y)}\frac{dy}{dx} dx = \int A(x) dx$$
+    $$\implies \int \frac{1}{B(y)}dy = \int A(x) dx$$
+    On integrating if you can,
+    $$H(y) = K(x)$$
+    \textit{Only need constant on one side of these integrations}
+
+\end{enumerate}
+\textit{Eg:} $$\frac{dy}{dx} = -xy$$
+    $$\implies \frac{1}{y}\frac{dy}{dx} = -x$$
+    $$\implies \int \frac{1}{y}\frac{dy}{dx} dx = \int -x dx$$\\\\
+    $$\implies ln|y| = \frac{-x^2}{2} + c$$
+    $$\implies |y| = e^{\frac{-x^2}{2} + c}$$
+    $$\implies |y| = e^{\frac{-x^2}{2}}.e^c,\;\; e^c = A \epsilon \R^+$$
+    $$\implies y = \pm Ae^{\frac{-x^2}{2}},\;\; A\; \epsilon\; \R^+$$
+    $$\implies y = Ae^{\frac{-x^2}{2}},\;\; A\; \epsilon\; \R\; -\; \{0\}$$
+
+    But solution set,
+    $$\{y = \pm Ae^{\frac{-x^2}{2}},\;\; A\; \epsilon\; \R\}$$
+
+
+\newpage
+
 \end{document}

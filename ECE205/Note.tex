@@ -224,4 +224,79 @@ We say that $\frac{dy}{dx} = F(x, y)$ is a seperable ODE to mean that $F(x, y) =
 
 \newpage
 
+\begin{center}
+{\LARGE 11th September}\\
+\end{center}
+
+\subsection{Linear}
+The differential equation $\frac{dy}{dx} = F(x,y)$ is said to be linear to meant that $F(x,y) = p(x)y + q(x)$, for some function $p(x)$ and $q(x)$ of x along
+
+\begin{equation} \label{eq:1}
+\frac{dy}{dx} = p(x)y + q(x) \implies \frac{dy}{dx} - p(x)y = q(x)
+\end{equation}
+
+Homogeneous means $q(x) \equiv 0$ when not homogeneous.
+\begin{equation} \label{eq:2}
+\frac{dy}{dx} - p(x)y = 0
+\end{equation}
+This \ref{eq:2} is called the associated homogeneous DE to \ref{eq:1}
+
+\textbf{Important Idea:} Given any $H(x)$
+$$\int (\frac{d}{dx}H(x)) dx = H(x)$$
+i.e. the easiest thing to integrate is a derivative CFT(I)\\
+
+\textbf{Method of Solution}
+\begin{enumerate}
+    \item Collect the $y$ terms
+    $$\frac{dy}{dx} - p(x)y = q(x)$$
+    \item It would be nice if the LHS was $\frac{d}{dx}(H(x))$, however it is not.\\
+    We multiply the differential equation \textit{both sides} by a function $I(x)$ called an Integration Factor (IF)
+        $$I(x)\frac{dy}{dx} - p(x)I(x)y = q(x)I(x)$$
+    \item We now insist that the LHS is a pure derivative, i.e. $\frac{d}{dx}H(x)$\\
+    We insist that the LHS is $\frac{d}{dx}[I(x)y(x)]$
+    \item What we got, and what we want:
+    $$I\frac{dy}{dx} - pIy = I(x)\frac{dy}{dx} + y(x)\frac{dI}{dx} \implies -p(x)I(x)y(x) = y(x)\frac{dI}{dx}$$
+    for $y(x)\; \neq\; 0$
+    $$\implies -p(x)I(x) = \frac{dI}{dx} \implies -\int^x p(a) da = \int \frac{1}{I(x)} \frac{dI}{dx}dx \mbox{ [Solving 1st order separable ODE]}$$
+    But don't forget to find the solutions of $I(x) \equiv 0 \implies I = 0$, but that solution is not useful
+    $$\implies -\int^x p(a) da = ln(|I(x)|) \implies |I(x)| = e^{-\int^x p(a) da} \implies I(x) = \pm e^{-\int^x p(a) da}$$
+    \item Choosing the positive integration factor, and moreover we will choose the constant of the integration on the right to be zero so that we get exactly one Integration factor.
+    \item We now know that the LHS of the DE is $\frac{d}{dx}(I(x)y(x))$. Thus our DE is:
+    $$\frac{d}{dx}(Iy) = q(x)I(x) \implies \int \frac{d}{dx}(I(x)y(x))dx = \int(q(x)I(x))dx$$ $$\implies I(x)y(x) = \int(q(x)I(x))dx$$
+\end{enumerate}
+
+\textit{Eg:} $$\frac{dy}{dx} = 2x + 3y \implies \frac{dy}{dx} - 3y = 2x$$
+
+Integrating factor $I(x) = e^{-\int^x p(a)da} \implies I(x) = e^{-\int^x 3da} \implies I(x) = e^{-3x}$
+$$\implies e^{-3x}\frac{dy}{dx} - e^{-3x}3y = 2xe^{-3x} \implies e^{-3x}(y) = \int2xe^{-3x}dx$$
+$$\implies e^{-3x}y = 2x\int e^{-3x} - \int \frac{d(2x)}{dx}[\int e^{-3x} dx] dx$$
+$$\implies e^{-3x}y = 2x\frac{e^{-3x}}{-3} - \int 2[\frac{e^{-3x}}{-3}] dx$$
+$$\implies e^{-3x}y = 2x\frac{e^{-3x}}{-3} - 2\frac{e^{-3x}}{9} + c \;\;\;\;\;\;\; c\; \epsilon\; \R$$
+$$\implies y = -\frac{2x}{3} - \frac{2}{9} + ce^{3x} \;\;\;\;\;\;\; c\; \epsilon\; \R$$
+
+
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{c0.png}
+        \caption{c = 0}
+    \end{center}
+\end{figure}
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{c1.png}
+        \caption{c = 1}
+    \end{center}
+\end{figure}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{c-1.png}
+        \caption{c = -1}
+    \end{center}
+\end{figure}
+\vspace{5000mm}
+\clearpage
+\newpage
+
 \end{document}

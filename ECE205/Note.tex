@@ -299,4 +299,93 @@ $$\implies y = -\frac{2x}{3} - \frac{2}{9} + ce^{3x} \;\;\;\;\;\;\; c\; \epsilon
 \clearpage
 \newpage
 
+\begin{center}
+    {\LARGE 14th September Part 1}\\
+\end{center}
+\setcounter{subsection}{1}
+\subsection{Linear ODE Revisited}
+Consider $$\frac{dy}{dx} = p(x)y + q(x)$$
+$$\frac{dy}{dx} - p(x)y = q(x) \;\;\;\;\;\;\;\;\;\;\;\text{Solution Set } S$$
+$$\frac{dy}{dx} - p(x)y = 0 \;\;\;\;\;\;\;\;\;\;\;\text{Solution Set } \widetilde{S}$$
+
+\textbf{Lemma 1:} If $y_1, y_2\; \epsilon\; \widetilde{S}$ then $c_1y_1 + c_2y_2\; \epsilon\; \widetilde{S}$, $c_1,\; c_2 \epsilon \R$ \\
+\textit{Proof:} We know $\frac{dy}{dx} - p(x)y_1 = 0$ and $\frac{dy}{dx} - p(x)y_2 = 0$, what about $\frac{d}{dx}(c_1y_1 + c_2y_2) -p(x)(c_1y_1 + c_2y_2)$ On simplifying the last equation we get it's equal to zero \\\\
+\textbf{Lemma 2:} Let $z_1,\;z_2\;\epsilon S$ then  $z_1,\;z_2\;\epsilon \widetilde{S}$\\
+\textit{Proof:} We know $\frac{dz_1}{dy} - p(x)z_1 = q(x)$ and $\frac{dz_2}{dy} - p(x)z_2 = q(x)$, what about $\frac{d}{dx}(z_1-z_2) -p(x)(z_1-z_2) = 0$ On simplifying the last equation we get it's equal to zero \\\\
+\textbf{Lemma 3:} Let $y_p\; \epsilon\; S$ (a particular solution), then $S\; =\; \{y+y_p:\; y\; \epsilon\; \widetilde{S}\}$
+\textit{Eg: } $\frac{dy}{dx} -3y = 3x$
+Consider  $\frac{dy}{dx} -3y = 0$, One solution is $y\equiv 0$ otherwise $\int\frac{dy}{y} = \int3dx$
+$$\implies ln|y| = 3x + c \implies y = De^{3x}\;\;\;\;\;\;\;\; D \epsilon \R$$ Solution set of the associated homogeneous ODE is $\{De^3x: D\; \epsilon\; \R\}$
+We need a $y_p$ - a special solution of the DE. We will guess this one. Let $$y_p = ax+b$$, $a$ and $b$ to be found.
+$$\frac{dy_p}{dx} - 3y_p \equiv 2x \implies a -3(ax + b) \equiv 2x \implies a-3b - 3ax \equiv 2x$$
+Comparing coefficients:
+$$-3a = 2 \implies a = \frac{-2}{3}$$
+$$a = 3b \implies b = \frac{-2}{9}$$
+Thus $y_p = -\frac{2}{3}x - \frac{2}{9}$ and the complete solution set is $\{-\frac{2}{3}x - \frac{2}{9} + De^3x: D\; \epsilon\; \R\}$
+\pagebreak
+\subsection{Initial Value Problems}
+When we solve a first order ODE we do not get a single function. We actually obtain a one parameter ($c$ - int constant) family of functions.\\
+Often in practice we are provided with some extra information which allows us to choose one and only one of this family $i.e.$ the unique solution.\\
+Often we have $x = x(t)$ and conditions at $t = 0$ and so the condition(s) of are referred to as initial condition.
+The differential equation along with the initial condition together form an initial value problem
+
+\begin{center}
+    {\LARGE 14th September Part 2}\\
+\end{center}
+
+\paragraph{Aside Differentials}
+$dx$ change in $x$, $dy$ change in $y$, leads to $dz$ change in $z$
+$$z = H(x,y)$$
+$$dz = \frac{\partial H}{\partial x}dx + \frac{\partial H}{\partial y} dy$$
+But if we're on $z =\;\;\; constant \implies dz = 0 \implies z = c = H(x,\;y)$
+$$0 = \frac{\partial H}{\partial x}dx + \frac{\partial H}{\partial y} dy \text{ [         implicit equation for } y]$$ and we can do something called implicit differentiation
+$$\frac{\partial H}{\partial x} + \frac{\partial H}{\partial y} \frac{dy}{dx} = 0$$
+
+
+\subsection{Exact $1^{st}$ order ODEs}
+Suppose we have our $1^{st}$ order ODE $$\frac{dy}{dx} = F(x,y)$$. When we have to solve the ODE, we can always express the answer in the form $$G(x,y) = k$$ where k is a constant.
+
+Our solution from earlier becomes: $$G(x,y) = \frac{y + \frac{2}{3}x + \frac{2}{9}}{e^{3x}}$$
+
+If we differentiate this expression:
+$$\frac{\partial G}{\partial x} + \frac{\partial G}{\partial y}\frac{dy}{dx} = 0$$
+$$\implies \frac{dy}{dx} = -\frac{\frac{\partial G}{\partial x}}{ \frac{\partial G}{\partial y}}$$
+
+Comparing the two $$\frac{dy}{dx} = F(x,y)$$ and $$\implies \frac{dy}{dx} = -\frac{\frac{\partial G}{\partial x}}{ \frac{\partial G}{\partial y}}$$
+
+We must have, $$-\frac{\frac{\partial G}{\partial x}}{ \frac{\partial G}{\partial y}} = F(x,y)$$
+
+There is some choice here:
+$$\frac{\partial G}{\partial x} = m(x,y)F(x,y)$$
+$$\frac{\partial G}{\partial y} = -m(x,y)$$
+If we can find a $G(x,y)$ with $\frac{\partial G}{\partial x} = m(x,y)F(x,y)$ and
+$\frac{\partial G}{\partial y} = -m(x,y)$. Then the solution is $G(x,y) = A$.
+
+In practice we consider $\frac{dy}{dx} = F(x,y)$ is when teh function $F(x,y) = \frac{-M(x,y)}{N(x,y)}$, which we re-write as: $$M(x,y)dx + N(x,y)dy = 0$$
+We want a solution of the following form $G(x,y) = c$
+$$\frac{\partial G}{\partial x}dx + \frac{\partial G}{\partial y} dy = 0$$
+We need         $$\frac{\partial G}{\partial x} = M(x,y)$$ and $$\frac{\partial G}{\partial y} = N(x,y)$$
+\textit{How do we know whether these partial differential equations can be solved?}
+If
+$$\frac{\partial^2G}{\partial x \partial y} = \frac{\partial^2G}{\partial y \partial x}$$
+Extending the earlier equations:
+$$\frac{\partial }{\partial y}\frac{\partial G}{\partial x} = \frac{\partial M(x,y)}{\partial y} \equiv \frac{\partial }{\partial x}\frac{\partial G}{\partial y} = \frac{N(x,y)}{\partial x}$$
+
+Given the ODE $mdx + Ndy = 0$ we say that the equation is exact to mean that the condition above is satisfied $\frac{N(x,y)}{\partial x} = \frac{\partial M(x,y)}{\partial y}$
+
+\textit{Eg:}
+$$
+\frac{dy}{dx} = \frac{-1}{\frac{-(6y^2-x^2+3}{3x^2-3xy+2}}
+$$
+We re-write that as: $(3x^2-3xy+2)dx + (6y^2-x^2+3)dy = 0$\\
+Is it possible that $\frac{\partial G}{\partial x} = 3x^2-2xy + 2 = M$ and $\frac{\partial G}{\partial y} = 6y^2 -x^2 + 3 = N$\\
+We can solve this if $\frac{\partial^2G}{\partial x \partial y} = \frac{\partial^2G}{\partial y \partial x}$\\
+$\frac{\partial M}{\partial y} = -2x$ and $\frac{\partial N}{\partial x} = -2x$
+There is a solution, since this DE is exact\\\\
+We want a function $G$ which $\frac{\partial G}{\partial x} = 3x^2 + 2xy + 2$
+A solution is $G(x,y) = x^3 -x^2y + 2x$\\The most general solution is $G(x,y) = x^3 -x^2y + 2x + A(y)$ where $A(y)$ is a function of y\\\\
+We also need $G$ to satisfy $\frac{\partial G}{\partial y} = 6y^2 -x^2 + 3$\\
+A solution is $G = 2y^3 -x^2y + 3y$.\\ The most general solution is $G = 2y^3 -x^2y + 3y + B(x)$ where $B(x)$ for some function $B(x)$\\\\
+Thus, the general solution of the DE is: $G(x,y) = x^3 + 2y^3 - x^2y + 2x + 3y + c$
+
 \end{document}

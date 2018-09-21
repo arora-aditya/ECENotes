@@ -388,4 +388,67 @@ We also need $G$ to satisfy $\frac{\partial G}{\partial y} = 6y^2 -x^2 + 3$\\
 A solution is $G = 2y^3 -x^2y + 3y$.\\ The most general solution is $G = 2y^3 -x^2y + 3y + B(x)$ where $B(x)$ for some function $B(x)$\\\\
 Thus, the general solution of the DE is: $G(x,y) = x^3 + 2y^3 - x^2y + 2x + 3y + c$
 
+\newpage
+
+\begin{center}
+    {\LARGE 18th September}\\
+\end{center}
+Last time we had the solution $G(x,y) = x^3 + 2y^3 - x^2y + 2x + 3y + k$\\
+Solution is $G=c$, but we don't want two constants so we have to choose either of these:
+
+$x^3 + 2y^3 - x^2y + 2x + 3y + k = 0$ or $x^3 + 2y^3 - x^2y + 2x + 3y = c$
+
+Instead of remembering formulas remember:
+
+$Mdx + Ndy = 0$ and that our solution for that is $\frac{\partial G}{\partial x}dx + \frac{\partial G}{\partial y}dy = 0$ and thus, $M=\frac{\partial G}{\partial x}$ and $N = \frac{\partial G}{\partial y}$.
+
+And for a nice function $f$
+$$\frac{\partial^2G}{\partial x \partial y} = \frac{\partial^2G}{\partial y \partial x} \implies \frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}\;\;\;\;\;\;\;\;\;\;\;\; \text{Clairaut's theorem on equality of mixed partials}$$
+
+\subsubsection{Why could the Clairaut's theorem on equality of mixed partials fail for a G}
+$$xe^{xy} = c$$
+Differentiating,
+$$(e^{xy}+xye^{xy})dx + x^2e^{xy}dy = 0 \implies \frac{dy}{dx} = -\frac{e^{xy} + xye^{xy}}{x^2e^{xy}} \;\;\;\;\;\;\; xy \neq 0$$
+And since $e^{xy} \neq 0$ then can we not factor it out of the equation
+$$(1+xy)dx + x^2dy = 0$$
+Now the question being whether this is exact?
+Let $$M = 1+xy\;\;\;\;\;\;\;\;\;\;\; N = x^2$$
+$$\;\;\frac{\partial M}{\partial y} = x\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; \frac{\partial N}{\partial x} = 2x$$
+This means that the equation earlier is not exact since there are not exactly the same functions.
+
+Now we are in a situation that we need to find the missing function, and need to find what it is. It's called the Integration factor method
+\subsection{Integration Factors}
+Suppose we have to find a first order ODE that is not exact.\\
+How de we proceed?\\
+Solution: We multiply the ODE by an unknown function $I(x,y)$, called an integration factor. We try to make the new ODE exact
+$$\text{i.e.} \;\;\; Mdx + Ndy = 0$$
+And $M_y \not\equiv N_x \;\;\;\; \text{which is not exact, and we remedy by multiplying with I} \implies MIdx + NIdy = 0$\\
+We want this to be exact  $(MI)_y \equiv (NI)_x$, which now imposes a restriction on $I$\\\\
+Sadly we started from an ODE, but we moved to a PDE i.e. we are in a bigger mess now. Differentiating:
+$$I\frac{\partial M}{\partial y} + M\frac{\partial I}{\partial y} \equiv I\frac{\partial N}{\partial x} + N\frac{\partial I}{\partial x} \;\;\;\;\;\;\;\;\;\;\;\; (**)$$
+This is very hard to solve in general, however there are two special cases:\\
+\textbf{Case 1:}
+$I(x,y) = I(x)$ The PDE $(**)$ becomes
+$$I\frac{\partial M}{\partial y} \equiv I\frac{\partial N}{\partial x} + N\frac{dI}{dx}$$
+
+Collect all the terms in $I$ together,
+$$\frac{1}{I}\frac{dI}{dx} = \frac{1}{N}(\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x})$$
+Since the LHS in the left, is just a function of $x$ only, then the RIHS must also be a function of $x$ only.\\
+The RHS involves terms from the ODE, and we now have a test for an integration factor of the form $I = I(x)$
+
+\textit{Eg:} = $\frac{dy}{dx} = -\frac{1+xy}{x^2}$, given $x^2 \neq 0$
+$$(1+xy)dx + (x^2)dy$$
+$$\implies M = 1+xy \implies M_y = x$$
+$$\implies N = x^2 \implies N_x = 2x$$
+Thus, $x \not\equiv 2x$, i.e. they are not identical, but they can be equal at $x = 0$
+We examine $\frac{M_y - N_x}{N} = \frac{x-2x}{x^2} = -\frac{1}{x}$\\
+Since is this a function of $x$ only,
+\begin{itemize}
+    \item There will be an integration factor for the DE of the form $I(x,y) = I(x)$
+    \item $\frac{dlnI}{dx} = -\frac{1}{x}$, integration $ln(I) = ln|\frac{1}{x}|$ and one solution is $I(x) = x^{-1}$
+\end{itemize}
+Solution: $(1+xy)dx + x^2dy = 0$, multiplying by $I(x)$ we get $$(x^{-1} +y)dx + xdy = 0$$
+Find $G(x,y)$ such that $G_x = x^{-1} + y \implies ln|x| + xy + H(y) = G$
+and $G_y = x \implies xy + H(x) = G$\\
+Therefore $G(x,y) = xy + ln|x|$ and the solution becomes: $G(x,y) = xy + ln|x| = c$\\
 \end{document}

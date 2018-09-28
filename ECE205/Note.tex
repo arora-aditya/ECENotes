@@ -551,4 +551,80 @@ then $R = \sqrt{A^2 + B^2}$ and $tan(\phi) = \frac{B}{A}$\\
 \end{itemize}
 \newpage
 
+\begin{center}
+    {\LARGE 24th September}\\
+\end{center}
+Today we consider a particular solution of the inhomogeneous differential equation.
+$$y'' + py' + qy = f(x)$$
+We want $y_p$
+\subsection{The method of undetermined coefficients}
+The guiding principle is to choose something "like" $f(x)$
+
+
+\begin{table}[h!]
+\begin{tabular}{|l|l|}
+\hline
+\textbf{$f(x)$}                           & \textbf{Try for $y_p$}                   \\ \hline
+Polynomial of order n            & Polynomial of order n           \\ \hline
+Exponential $e^{\alpha x}$       & $ae^{\alpha x}$                 \\ \hline
+$sin(\beta t)$ or $cos(\beta t)$ & $asin(\beta t) + bcos(\beta t)$ \\ \hline
+Sums and/or products of above    & Sums and/or products of above   \\ \hline
+\end{tabular}
+\end{table}
+
+\textit{Eg:} $y'' + 2y' - 8y = x^2 + 2x + 3$\\
+When we solved the homogeneous equation $y'' + 2y' - 8y = 0$ the solution was $y = Ae^{2x} - Be^{-4x}$
+
+Let $y_p = ax^2 + bx + x \implies$ $y_p' = 2ax + b$ and $y_p'' = 2a$
+Putting this into the LHS of the equation:
+$$2a + 4ax + 2b - 8ax^2 -8bx - 8c$$ while the RHS is $x^2 + 2x + 3$\\
+For $x^2 \implies 8a = 1 \implies a = -\frac{1}{8}$\\
+For $x \implies 4a - 8b = 2 \implies b = \frac{4a - 2}{8} \implies b = -\frac{5}{16}$\\
+For constants$ \implies 2a + 2b - 8c = 3 \implies c = \frac{2a + 2b - 3}{8} \implies c = -\frac{31}{64}$\\
+$\implies y_p = -\frac{1}{8}x^2 -\frac{5}{16}x -\frac{31}{64}$, with the general solution being $y = y_p + Ae^{2x} + Be^{-4x}$\\
+
+Going to be on the test?\\
+\textit{Eg:} $y'' + 2y' - 8y = xe^{3x}$\\
+Try $y_p = (A+Bx)e^{3x}$, write down the most general polynomial of the RHS\\
+$y_p' = [3A + 3Bx + + B]e^{3x}$ and $y_p'' = [9A + 9Bx + + 3B + 3B]e^{3x}$\\
+Put these terms into the LHS of the equation to get:\\
+$(9A + 6B + 9Bx + 6A + 2B + 6Bx -8a -8Bx)e^{3x} = ((7A + 8B) + (7B)x)e^{3x}$\\
+We want to get $xe^{3x}$
+Comparing coefficients:\\
+For $xe^{3x} \implies 7B = 1 \implies B = \frac{1}{7}$\\
+For $e^{3x} \implies 7A + 8B = 0 \implies A = -\frac{8}{49}$\\
+$y_p = (-\frac{8}{49} + \frac{x}{7})e^{3x}$ with the general solution being $y = y_p + Ce^{2x} + De^{-4x}$, $C,\;D\;\epsilon \R$
+
+\textit{Eg:} $y'' + 2y' - 8y = sin(2x)$\\
+Try $y_p = asin2x + bcos2x$, $y_p' = 2acos2x -2bsin2x$ and $y_p'' = -4asin2x - 4bcos2x$\\
+
+We put $y_p$ into the LHS of the DE:\\
+$-4y_p + 2(acos2x - 2bsin2x) -8y_p = 4acos2x - 4bsin2x -12asin2x - 12bcos2x$\\
+We get $(-4b-12a)sin2x + (4a-12b)cos2x$ which we want to equal $sin(2x)$
+Comparing coefficients:\\
+For $cos2x \implies 4a-12b = 0 \implies a = 3b$\\
+For $sin2x \implies -4b-12a = 1 \implies a(-12 - \frac{4}{3}) = 1 \implies a = -\frac{3}{40}$ and $b = -\frac{1}{40}$\\
+
+$y_p = -\frac{3}{40}sin2x + -\frac{1}{40}cos(2x)$ with the general solution being $y = y_p + Ce^{2x} + De^{-4x}$, $C,\;D\;\epsilon \R$
+
+\textit{Eg:} $y'' + 2y' - 8y = e^{2x}$\\
+Try $y_p = ae^{2x}$
+We put $y_p$ into the LHS of the DE:\\
+LHS becomes zero, because it is already of the homogeneous solution.
+We know that this will give zero, i.e. we have bad luck (i.e. Conrad Resonance of Type 2)\\
+Instead we try:
+$y_p = x(ae^{2x}) \implies y_p' = a(2x+1)e^{2x}$ and $y_p'' = a(4x+2+2)e^{2x}$\\
+Putting this in the LHS of the DE we get $a(4x + 4 + 4x + 2 - 8x)e^{2x} = 6ae^{2x}$\\
+We want this to be equal to RHS, we need $6a = 1 \implies a = \frac{1}{6}$
+
+
+
+\textit{Eg:} $y'' - 10y' +25y = x^2e^{5x}$\\
+When we solved the homogeneous equation $y'' - 10y' +25y = 0$ the solution was $y = Ae^{5x} - Bxe^{5x}$\\
+What do we try: $y_p = (ax^2+bx+c)e^{5x}$, this way the terms with $b$ and $c$ are part of the homogeneous and they will get cancelled i.e. we have bad luck (i.e. Conrad Resonance of Type 3)\\
+We use $x^2$ because it is over 2
+Thus we have to try: $y_p = x^2(ax^2+bx+c)e^{5x}$
+
+\newpage
+
 \end{document}

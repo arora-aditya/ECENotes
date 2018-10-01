@@ -627,4 +627,31 @@ Thus we have to try: $y_p = x^2(ax^2+bx+c)e^{5x}$
 
 \newpage
 
+\begin{center}
+    {\LARGE 25th September}\\
+\end{center}
+\subsection{Initial Conditions}
+Since the DE is $2^{nd}$ order we need 2 peices of information for a particular DE
+\begin{enumerate}
+    \item Initial Values/conditions\\
+    $x(0) = x_0$ and $\frac{dx}{dt}|_{t = 0} = V_0$
+    \item Boundary Value Problem\\
+    $x(0) = x_0$ and $x(T) = x_1$
+    \item Mixed conditions\\
+    Either $x(0) = x_0$ and $\frac{dx}{dt}|_{t = T} = V_t$ or $x(T) = x_1$ and $\frac{dx}{dt}|_{t = 0} = V_0$
+\end{enumerate}
+\textit{Eg:} $y'' +2y' -8y = sin(2x)$ when $y(0) = 0 , y'(0) = 0$\\
+We already solved this earlier, so using given information:
+$y(0) = a + b - \frac{1}{40}$ and $y'(0) = 2a - 4b -6/40 \implies a = \frac{1}{60}, b = \frac{1}{120}$
+\subsubsection{The Oscillator DE}
+$\ddot{x} + 2\lambda\dot(x) + \omega_0^2x = F(t)$ i.e. $\frac{d^2x}{dt^2} + 2\lambda \frac{dx}{dt} + \omega_0^2x = F(t)$
+\subsubsection{LCR Circuits}
+Using Kirchoff's Law's\\
+$IR + \frac{Q}{C} + L\frac{dI}{dt} = V(t)$\\
+Since we know $I = \frac{dQ}{dt} \implies \frac{d^2Q}{dt^2} + \frac{R}{L}\frac{dQ}{dt} + \frac{Q}{C\dot L} = \frac{V(t)}{L}$
+\subsubsection{Mass on Spring}
+Spring constant k \\ Hooke's Law $F = -kx$\\ Air resistance for low velocity $\approx \alpha \frac{dx}{dt}$\\
+$\frac{d}{dt}(mv) = mg -kx -\alpha \frac{dx}{dt}$
+\newpage
+
 \end{document}

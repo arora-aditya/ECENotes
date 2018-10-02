@@ -654,4 +654,38 @@ Spring constant k \\ Hooke's Law $F = -kx$\\ Air resistance for low velocity $\a
 $\frac{d}{dt}(mv) = mg -kx -\alpha \frac{dx}{dt}$
 \newpage
 
+
+\begin{center}
+    {\LARGE 27th September}\\
+\end{center}
+\textit{Eg:} C-R circuit\\
+\includegraphics[width=0.5\textwidth]{RC.png}\\
+Applying Kitchoff's Law: $IR + \frac{Q}{C} = V(t)$ but $I = \frac{dQ}{dt}$\\
+Linear for V = V(t), separable if $V(t) = K$\\
+Multiply by integration factor $J(t)$ \\
+$$J\frac{dQ}{dt} + \frac{JQ}{RC} = J\frac{V}{R}$$
+We insist that the LHS is $\frac{d}{dt}(J(t)Q(t)) \implies \frac{dJ}{dt}Q + J\frac{dQ}{dt}$\\
+We need: $\frac{dJ}{dt}Q = \frac{JQ}{RC}$, and for $Q \not\equiv 0$ we have $\frac{dJ}{dt} = J\frac{1}{RC}$.\\
+Solving for $J$ in the second equation we get $J = e^{\frac{t}{RC}}$\\
+At this point we can rewrite teh original equation as:
+$$\frac{d}{dt}(Qe^{\frac{t}{RC}}) = \frac{1}{R}e^{\frac{t}{RC}}V(t)$$
+\begin{enumerate}
+    \item Let $V(t) = V_0$ be a constant DC supply\\
+    The DE is now
+    $$\frac{d}{dt}(Qe^{\frac{t}{RC}}) = \frac{V_0}{R}e^{\frac{t}{RC}}$$
+    Integrating:
+    $$Qe^{\frac{t}{RC}} = \frac{V_0}{R}RCe^{\frac{t}{RC}} + K\;\;\;\;\;k \epsilon R$$
+    $$Q = V_0C + Ke^{-\frac{t}{RC}}$$
+    The steady state term is $V_0C$ with the transient term being $Ke^{-\frac{t}{RC}}$\\
+    \includegraphics[width=0.5\textwidth]{constant.png}\\
+    \includegraphics[width=0.5\textwidth]{etrc.png}\\
+    $t = RC$, $RC$ is a time in seconds which provides us with a measure of how long the transient term is significant
+    \item Let $V(t) = V_0sin(\omega t)$ a constant AC supply\\
+    $$\frac{d}{dt}e^{\frac{t}{RC}}Q = e^{\frac{t}{RC}}\frac{V_0}{R}sin(\omega t)$$
+    Integrating we get:
+    $$Q = \frac{V_0C}{1+\omega^2R^2C^2} [-\omega RC cos(\omega t) + sin(\omega t)] + ke^{\frac{-t}{RC}}$$\\
+    The first part is the steady state term, and other one dies away and is the transient part
+\end{enumerate}
+\newpage
+
 \end{document}

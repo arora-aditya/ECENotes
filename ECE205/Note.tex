@@ -702,4 +702,50 @@ $$\frac{d}{dt}(Qe^{\frac{t}{RC}}) = \frac{1}{R}e^{\frac{t}{RC}}V(t)$$
 \clearpage
 \newpage
 
+\textbf{Part 2: Driving term/ Forcing Term}
+$$\ddot{x} + 2\lambda \dot{x} + \omega_0^2x = F(t)$$
+$\omega_0$ is the natural frequency of the system.
+We will consider $$F(t) = cos(\Omega t)$$
+Comments:\begin{enumerate}[topsep=-10pt]
+    \item In many circumstances we do have a periodic driving term
+    \item Other functions can be decomposed into a linear combination of trig functions and we are looking at one piece of this decomposition.
+    \textit{(see Fourier series)}
+\subsubsection{Case A: No damping}
+$$\ddot{x} + \omega_0^2x = F(t) = cos(\Omega t)$$
+$x = x_H + x_P$ where $x_H$ solves $\ddot{x} + \omega_0^2x = 0$, $x_H = Rcos(\omega_0 t - \phi)$\\
+\textbf{Case 1: $\Omega \neq \omega_0$}\\
+$x_P = Asin(\Omega t) + Bcos(\Omega t)$\\
+$\dot{x}  = \Omega[A cos\Omega t - Bsin\Omega t]$\\
+$\ddot{x} = \Omega^2 [-x_p]$\\
+Put into the DE to get
+$$-\Omega^2x_p + \omega_0^2x_p = cos(\Omega t)$$
+Thus
+$$(\omega_0^2-\Omega^2)[Asin(\Omega t) + Bcos(\Omega t)] = 1\dot cos(\Omega t)$$\\
+$A = 0, B = \frac{1}{\omega_0^2-\Omega^2}$\\
+Thus the general solution is $x_p = \frac{1}{\omega_0^2-\Omega^2} cos(\Omega t)$\\
+Which means $x = x_H + x_p = Rcos(\omega_0t + \phi) + \frac{1}{\omega_0^2-\Omega^2} cos(\Omega t)$\\
+\textit{Special case, setting $\phi = 0$}\\
+At which point $x = x_H + x_p = Rcos(\omega_0t) + \frac{1}{\omega_0^2-\Omega^2} cos(\Omega t)$\\
+One special case arises when the two amplitudes are equal (or very close) $\implies R = \frac{1}{|\omega_0^2-\Omega^2|}$ or $R \approx \frac{1}{|\omega_0^2-\Omega^2|}$. The two contributions could cancel out for some time.\\
+Adding the two $cos$ terms we get $x = R2[cos(\frac{(\omega_0 + \Omega)t}{2})cos(\frac{(\omega_0 - \Omega)t}{2})]$\\
+This means that the second special case arises when the frequencies are almost the same, but not completely, which is why we get the following graph.\\
+\includegraphics[width=\textwidth]{coscos.png}\\
+This is called the phenomenon of \textbf{Beats}\\
+\textbf{Case 2: $\Omega = \omega_0$}\\
+$x_P = t(Asin(\Omega t) + Bcos(\Omega t))$
+$$\dot{x_p} = Asin(\Omega t) + Bcos(\Omega t) + t\Omega(Acos(\Omega t) - Bsin(\Omega t))$$
+$$\ddot{x_p} = 2\omega_o(Acos(\Omega t) - Bsin(\Omega t)) + t\omega_0^2(-Asin(\Omega t) - Bcos(\Omega t))$$
+Put into the DE to get:
+$$\ddot{x_p} + \omega_0^2x_p = 2\omega_o(Acos(\Omega t) - Bsin(\Omega t)) \equiv cos(\Omega t)$$
+$\implies 2A\omega_0 = -1 \implies A = \frac{1}{2\omega_0}$\\
+$\implies B = 0$\\
+Thus $x_p = \frac{1}{2\omega_0}tsin(\omega_0 t)$\\
+This has linear growth and it eventually breaks as visible from the graph on the next page
+\includegraphics[width=0.5\textwidth]{resonance.png}
+\end{enumerate}
+\newpage
+
+
+\textit{Lemma:} $L[t^nf(t)] = (-1)^n\frac{d^nF(s)}{ds^n}$, where $L[f(t)] = F(s)$
+
 \end{document}

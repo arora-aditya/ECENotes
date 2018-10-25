@@ -748,4 +748,64 @@ This has linear growth and it eventually breaks as visible from the graph on the
 
 \textit{Lemma:} $L[t^nf(t)] = (-1)^n\frac{d^nF(s)}{ds^n}$, where $L[f(t)] = F(s)$
 
+\newpage
+\section{Fourier Series}
+\subsection{Hyper applied linear algebra}
+We're going to be looking in $C^\infty [-\pi, \pi]$, i.e. infinitely differentiable in $[-\pi, \pi]$ [Which is also infinite dimensional]
+
+\textbf{Unique Representation Theorem:} Any vector in a given space can be represented in exactly one way using the given bases [There is only one way because the basis are all linearly independent]
+
+
+To get from one base to another, there are 2 ways.
+\begin{enumerate}[topsep=-10pt,itemsep=-5pt]
+    \item Solve the equation
+    \item Change of basis/co-ordinate matrix
+    \item Orthogonal / Orthonormal basis
+\end{enumerate}
+\subsubsection{Ortho-normal Basis}
+
+$B_1 = \{
+\begin{pmatrix}
+1\\
+2\\
+3\\
+\end{pmatrix}, \begin{pmatrix}
+4\\
+5\\
+6\\
+\end{pmatrix}, \begin{pmatrix}
+7\\
+8\\
+9\\
+\end{pmatrix}\}$\\
+$p$ and $q$ are orthogonal means $p . q = 0$\\
+An orthogonal basis for $\R^n$ is one in which the vectors in the basis are mutually orthogonal. [The basis $B_1$ above is not orthogonal, while $B_2$ below is]\
+$B_2 = \{
+\begin{pmatrix}
+1\\
+2\\
+3\\
+\end{pmatrix}, \begin{pmatrix}
+1\\
+1\\
+-1\\
+\end{pmatrix}, \begin{pmatrix}
+5\\
+-4\\
+1\\
+\end{pmatrix}\}$\\
+
+
+Let $z = [v_1, v_2, v_3$ is an orthogonal basis for $\R^3$. Let $v \epsilon \R^3$, $v = a_1v_1 + a_2v_2 + a_3v_3$\\
+$v \cdot v1 = (a_1v_1 + a_2v_2 + a_3v_3)\cdot v$
+$v\cdot v_1 = a_1v_1\cdot v_1$\\
+$v \cdot v_2 = a_2v_2\cdot v_2$\\
+$v \cdot v_3 = a_3v_3\cdot v_3$\\
+
+We say that a basis $B = \{v_1, \dots v_p\}$ is an orthonormal basis to mean that:
+\begin{enumerate}[topsep=-10pt,itemsep=-5pt]
+    \item B is an orthogonal basis
+    \item Each vector is a unit vector
+\end{enumerate}
+
 \end{document}

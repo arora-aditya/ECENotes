@@ -808,4 +808,58 @@ We say that a basis $B = \{v_1, \dots v_p\}$ is an orthonormal basis to mean tha
     \item Each vector is a unit vector
 \end{enumerate}
 
+\subsubsection{Function Space}
+Let $F(x)\; \epsilon\; C^\infty(-\pi,\; \pi)$\\
+Taylor Series/Theorem: Basis = $\{1,x,x^2,x^3\dots x^n\}$\\
+Fourier Basis: $\{1, cos(x), cos(2x), cos(3x) \dots cos(nx), sin(x), sin(2x), \dots sin(nx)\}$
+
+$F(x) "=" \frac{1}{2}a_0 + a_1cos(1x) + a_2cos(2x) \dots + a_ncos(nx)$
+
+Let $V$ be a vector space\\
+A function $<, >: V \times V \rightarrow \C$ which satisfies:
+$$<v,w> = \overline{<w,v>} \text{        Conjugate symmetry}$$
+$$<a_1v_1 + a_2v_2,w> = a_1<v_1,w> + a_2<v_2,w> \text{        Linearity in 1st "slot"}$$
+$$<v,v>\; \epsilon\; \R, <v,v>\; \geq 0\; \text{and}\; <v,v> = 0 \;\text{iff}\; v = 0  \text{        Non negativity}$$
+We call $(V, <,>)$ is called an inner product sapce with $<,>$ is the inner product\\
+The length of $v$ is $||v|| = \sqrt{<v,v>}$\\
+eg: $\R^n$ vector space $v\cdot w = v_1w_1 + .....v_nw_n$ i.e the "dot product" is an inner product
+
+Now considering $C^\infty [-\pi, \pi]$ and $f(x), g(x) \; \epsilon \; C^\infty (-\pi, \pi)$.\\ We define $<f(x), g(x)> = \int^\pi_{-\pi}f(x)g(x)dx$\\
+
+Consider the basis $B = \{1, cosx, cos2x,....sin(x), sin(2x)....sin(mx)\}$ and these "vectors" are orthogonal.
+
+$$<1,cosnx> = \int^\pi_{-\pi} 1cos(nx)dx = \frac{sin(nx)}{n}|^{\pi}_{-\pi} = 0$$
+
+$$<1,sinmx> = \int^\pi_{-\pi} 1sin(mx)dx =
+\frac{cos(mx)}{-m}|^{\pi}_{-\pi} = 0$$
+If $m \neq n$,
+$$<cos(mx),cos(nx)> = \int^\pi_{-\pi} cos(mx)cos(nx)dx = 0$$
+$$<sin(mx),sin(nx)> = \int^\pi_{-\pi} sin(mx)sin(nx)dx = 0$$
+$$<sin(mx),cos(nx)> = \int^\pi_{-\pi} sin(mx)sin(nx)dx = 0$$
+Thus,  all of the pairs above are orthogonal
+
+$$<1,1> = 2\pi$$
+$$<sin(nx), sin(nx)> = \int^\pi_{-\pi} sin^2(nx) dx = \pi$$ $$<cos(nx), cos(nx)> = \int^\pi_{-\pi} cos^2(nx) dx = \pi$$
+
+Thus we have an orthogonal basis, but not an orthonormal basis
+\section{Fourier}
+Let $h(x)\; \epsilon\; C^\infty (-\pi, \pi)$,
+$$h(x) "=" \frac{1}{2}a_0 + \sum ^\infty_{k=1}a_kcos(kx) + \sum ^\infty_{m=1}b_msin(mx)$$
+
+The constant term has half coefficient because of the 2 in $<1,1>$
+$$a_0 = \frac{1}{\pi}<h(x), 1> = \frac{1}{\pi}\int^\pi_{-\pi} h(x)dx$$
+$$a_k = \frac{1}{\pi}<h(x), cos(kx)> = \frac{1}{\pi}\int^\pi_{-\pi} h(x)cos(kx)dx$$
+$$b_m = \frac{1}{\pi}<h(x), sin(mx)> = \frac{1}{\pi}\int^\pi_{-\pi} h(x)sim(mx)dx$$
+The scalars $a_0, a_1, ....b_1, ...b_m$ are called the fourier coefficients of h(x)\\
+Consider $h(x) = x$ on $(-\pi, \pi)$, and $h(x)$ is an odd function\\
+$$a_0 = \frac{1}{\pi}\int^\pi_{-\pi}xdx = 0 \text{ since it is an odd function}$$\\
+$$a_k = \frac{1}{\pi}\int^\pi_{-\pi}xcos(kx)dx = 0 \text{ since it is an odd function}$$\\
+$$b_m = \frac{1}{\pi}\int^\pi_{-\pi}xsin(mx)dx = \frac{2}{\pi}\int^\pi_{0}xsin(mx)dx = \frac{2}{\pi}[\frac{xcos(mx)}{-m}|_0^\pi + \frac{1}{m}\int^\pi_0cos(mx)dx] = \frac{2}{\pi}\frac{\pi cos(m\pi)}{-m}$$
+$$= 2(-1)^m/-m = \frac{2(-1)^{m+1}}{m}$$
+Thus the fourier series for the function $x$ is
+$$2[1sin(1x) -\frac{1}{2}sin(2x) + \frac{1}{3}sin(3x) -\frac{1}{4}sin(4x)+\dots + \frac{(-1)^{m+1}sin(mx)}{m}]$$
+\subsection{Partial sums}
+$$S_1 = 2sin(1x)$$
+$$S_2 = 2[sinx - \frac{1}{2}sin(2x)]$$
+
 \end{document}

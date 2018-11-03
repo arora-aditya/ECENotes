@@ -862,4 +862,37 @@ $$2[1sin(1x) -\frac{1}{2}sin(2x) + \frac{1}{3}sin(3x) -\frac{1}{4}sin(4x)+\dots 
 $$S_1 = 2sin(1x)$$
 $$S_2 = 2[sinx - \frac{1}{2}sin(2x)]$$
 
+\newpage
+\textit{Notice:} The original function was defined on $(-\pi, \pi)$ but the Fourier series is defined on the whole of R and has period $2\pi$, so what does it converge to?\\
+Let $F(x)$ be defined on $(-\pi, \pi)$. We define the $2\pi$ periodic extension of $F,\; F_p(x)$ as follows:
+    $$F_p(x) = F(x)\;\;\;\; x \epsilon (-\pi, \pi)$$
+    $$F_p(\pm\pi) = \frac{1}{2} [\lim_{x \to -\pi}F(x) + \lim_{x \to \pi}F(x)]$$
+    $$F_p(x+2n\pi) = F_p(x)\; for\; all\; x\;\epsilon\; \R$$
+    \includegraphics[width=\textwidth]{fourier1.jpg}\\
+
+\textbf{Theorem:} Point-wise Convergence of Fourier Series\\
+Suppose $G(x)$ has a period of $2\pi$ and is a piecewise in $\C'$ then:
+\begin{enumerate}[topsep=-10pt]
+    \item The Fourier series of $G(x)$ converges pointwise for all $x_0 \epsilon \R$:
+    $$\frac{1}{2}a_0 + \sum ^\infty_{k=1}a_kcos(kx) + \sum ^\infty_{m=1}b_msin(mx) = N_{x_0}$$
+    \item If $G(x)$ is continuous at $x_0$ then $N_{x_0} = G(x_0)$
+    \item If $G(x)$ is not continuous at $x_0$ then $N_{x_0} = \frac{1}{2} [\lim_{x \to x_0^-}F(x) + \lim_{x \to x_0^+}F(x)]$
+\end{enumerate}
+In particular the Fourier Series of a function $F(x)$   $[C']$ defined on $(-\pi, \pi)$ will converge to $F_p(x_0)$ at points where $F_p(x)$ is continuous and to the midpoint at points where $F_p(x)$ is not continuous\\
+\textit{Note:} We have an infinite sum of continuous functions \textbf{\underline{BUT}} the sum is not continuous\\
+Suppose $F(x)$ is defined on $(-L, L)$ instead of $(-\pi, \pi)$\\
+Our Basis become: $$\{1, cos\frac{n\pi x}{L}, sin\frac{m\pi x}{L}\}$$\\
+$F(x)$ becomes: $$F(x) = \frac{1}{2}a_0 + \sum ^\infty_{k=1}a_kcos(\frac{k \pi x}{L}) + \sum ^\infty_{m=1}b_msin(\frac{m \pi x}{L})$$
+
+$$a_k = \frac{1}{L}\int^L_{-L}F(x)cos(\frac{k \pi x}{L})dx$$\\
+$$b_k = \frac{1}{L}\int^L_{-L}F(x)sin(\frac{k \pi x}{L})dx$$\\
+
+In a periodic is often have $F(x)$ on $[0,L)$ and we want a fourier series for this\\
+
+We will extend $F(x)$ there are 5 ways:\\
+\includegraphics[width=\textwidth]{MVIMG_20181109_102732.jpg}\\
+
+$$x = 2[sinx -\frac{sin2x}{2} + \frac{sin3x}{3} + \dots] \text{ on } [-\pi, \pi]$$
+$$\implies \frac{\pi}{2} = 2[1 - \frac{1}{3} + \frac{1}{5} \dots]\implies \frac{\pi}{4} = \sum^\infty_{n=0} \frac{(-1)^n}{2n + 1}$$
+
 \end{document}

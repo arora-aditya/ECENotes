@@ -895,4 +895,42 @@ We will extend $F(x)$ there are 5 ways:\\
 $$x = 2[sinx -\frac{sin2x}{2} + \frac{sin3x}{3} + \dots] \text{ on } [-\pi, \pi]$$
 $$\implies \frac{\pi}{2} = 2[1 - \frac{1}{3} + \frac{1}{5} \dots]\implies \frac{\pi}{4} = \sum^\infty_{n=0} \frac{(-1)^n}{2n + 1}$$
 
+
+
+If $F(x)$ is defined on $(0,\pi)$\\
+\includegraphics[width=\textwidth]{extensions.jpg}\\
+
+Even Extension: $y = |x| \text{ on } (-\pi,\pi)$, $b_n = 0 \forall n$\\
+$a_0 = \frac{1}{\pi}\int^\pi_{-\pi}|x|dx = \pi$\\
+$a_n = \frac{1}{\pi}\int^\pi_{-pi} |x|cos(n\pi x)dx$, $n = 1,2,3$\\
+$a_n = \frac{2}{\pi}\frac{cos(n\pi x)}{n^2}|^\pi_0 = \frac{2}{\pi n^2}[(-1)^n -1]$, $n = 1,2,3$\\
+$a_n = 0$, when n is even, and is $-\frac{4}{\pi n^2}$\\
+$F(x) = \frac{\pi}{2} - \frac{4}{\pi}[\frac{cosx}{1^2} + \frac{cos3x}{3^2} + \dots]$\\
+$$F(x) = \frac{\pi}{2} - \frac{4}{\pi}\sum_{n=0}^\infty\frac{cos(2n+1) x}{(2n+1)^2}$$\\
+$\pi$ Periodic Extension: There are two ways for this\\
+\[F(x) =  \begin{cases}
+      x & (0,\pi) \\
+      x+\pi & (-\pi, 0) \\
+      2.5 & x = 0
+   \end{cases}
+\]
+\textbf{OR WE CAN DO}
+\[F(x) =  \begin{cases}
+      x & (0,\pi/2) \\
+      x+\pi & (-\pi/2, 0) \\
+      0 & x = 0
+   \end{cases}
+\]\\
+
+$$F(x) = \frac{1}{2}a_0 + 2 a_n cos\frac{n\pi x}{\pi/2} + 2 b_n sin\frac{n\pi x}{\pi/2}$$
+$$F(x) = \frac{1}{2}a_0 + 2 a_n cos(2n x) + 2 b_n sin(2n x)$$
+
+$$a_0 = \frac{2}{\pi}\int^{\frac{\pi}{2}}_{\frac{-\pi}{2}}F(x)dx = \frac{2}{\pi}[\int^0_{-\pi/2}(x+\pi)dx + \int^{\pi/2}_0(x)dx] = \pi$$
+$$a_n =  \frac{2}{\pi}\int^{\frac{\pi}{2}}_{\frac{-\pi}{2}}F(x)cos(2nx)dx = \frac{2}{\pi}[\int^{0}_{\frac{-\pi}{2}}(x+\pi)cos(2nx)dx + \int^{\frac{\pi}{2}}_{0}xcos(2nx)dx]$$
+$$\implies \frac{2}{\pi}[\int^{\frac{\pi}{2}}_{\frac{-\pi}{2}} xcos(2nx)dx + \int^{0}_{\frac{-\pi}{2}}\pi cos(2nx)dx] = 0$$
+$$b_n =  \frac{2}{\pi}\int^{\frac{\pi}{2}}_{\frac{-\pi}{2}}F(x)sin(2nx)dx = \frac{2}{\pi}[\int^{0}_{\frac{-\pi}{2}}(x+\pi)sin(2nx)dx + \int^{\frac{\pi}{2}}_{0}xsin(2nx)dx]$$
+$$\implies \frac{2}{\pi}[\int^{\frac{\pi}{2}}_{\frac{-\pi}{2}} xsin(2nx)dx + \int^{0}_{\frac{-\pi}{2}}\pi sin(2nx)dx] = \frac{2}{\pi}[2(\frac{xcos(2nx)}{-2n})|_0^{\frac{\pi}{2}} + \frac{1}{2n}\int^{\frac{\pi}{2}}_0 cos(2nx)dx + \pi \frac{cos(2nx)}{-2n}|^0_{\frac{-\pi}{2}}] = \frac{-1}{n}$$
+
+$$\implies F(x) = \frac{\pi}{2} - \sum^\infty_1 \frac{sin(2nx)}{n}$$
+
 \end{document}

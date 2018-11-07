@@ -933,4 +933,56 @@ $$\implies \frac{2}{\pi}[\int^{\frac{\pi}{2}}_{\frac{-\pi}{2}} xsin(2nx)dx + \in
 
 $$\implies F(x) = \frac{\pi}{2} - \sum^\infty_1 \frac{sin(2nx)}{n}$$
 
+\newpage
+Consider a function with period $\tau$ defined on $[-\frac{\pi}{2}, \frac{\pi}{2}]$, $2\pi \rightarrow \tau$ i.e. $2L = \tau$
+$$F(t) = \frac{1}{2}a_0 + \sum^\infty_1 a_nsin(\frac{2n\pi t}{\tau}) + \sum^\infty_1 b_ncos(\frac{2n\pi t}{\tau})$$
+$$a_n = \frac{2}{\tau}\int^{\frac{\tau}{2}}_{\frac{-\tau}{2}}F(t) cos(\frac{2n\pi t}{\tau})dt$$
+$$\omega_0 = \frac{2\pi}{\tau} \text{ [It is called the fundamental angular frequency]}$$
+$$n\omega_0 \text{[These are called the harmonics]}$$
+$$a_n = \frac{\omega_0}{\pi} \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}}F(t) cos(n\omega_0t)dt$$
+$$b_n = \frac{\omega_0}{\pi} \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}}F(t) sin(n\omega_0t)dt$$
+\\
+We will complexify all this:\\
+Consider the space of complex valued differentiable function defined on $[-\frac{\tau}{2}, \frac{\tau}{2}]$ (this is a vector space).\\
+In this space we define the inner product as:
+$$<F,G> = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} F(t)\overline{G(t)}dt$$
+In this space a basis is $\{1, e^{\iu n\omega_0 t}\}_{n\; \epsilon\; \Z}$ which is orthogonal i.e.
+$$<e^{\iu n\omega_0 t}, e^{\iu m\omega_0 t}> = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} e^{\iu n\omega_0 t} e^{-\iu m\omega_0 t}dt = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} e^{\iu (n-m)\omega_0 t}dt = \frac{e^{\iu(n-m)\omega_0t}}{\iu (n-m)\omega_0}|^\frac{\tau}{2}_{-\frac{\tau}{2}} = 0 \text{ given }m \neq n$$
+$$<1,1> = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} 1dt = \tau$$
+$$||e^{\iu n\omega_0 t}|| =  <e^{\iu n\omega_0 t}, e^{-\iu n\omega_0 t}> = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} e^0dt = \tau$$\\
+Let function $F(t)$ be a function in the vector space. We define the complex Fourier Series of $F(t)$ as follows
+$$\sum^\infty_{n=-\infty}C_ne^{
+\iu n\omega_0t} \text{   = F(t) for most of the time}$$
+
+where $C_n = \frac{1}{\tau} \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} F(t)e^{-\iu n \omega_0t} dt$, $C_n = \frac{1}{\tau} <F(t), e^{\iu n \omega_0 t}>$\\
+If $F(t)$ is real valued: $\overline{C_n} = \frac{1}{\tau} \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} F(t)e^{-\iu (-n) \omega_0t} dt = -C_n$
+
+eg: $\omega_0 = 1$, $t \text{ on } (-\pi, \pi)$, $\tau = 2\pi$\\
+$C_0 = \frac{1}{2\pi} \int^\pi_{-\pi}tdt = \frac{1}{2\pi}\frac{1}{2}(\pi^2 - (-\pi)^2) = 0$\\
+$n \neq 0$\\
+$C_n = \frac{1}{2\pi} \int^\pi_{-\pi}t e^{-\iu n t}dt = \frac{1}{2n\pi \iu}[\pi e^{-\iu n \pi } - -\pi e^{-\iu n (-\pi) }] + \frac{1}{2n\pi \iu}\frac{1}{-\iu n}[e^{-\iu n \pi } - e^{-\iu n (-\pi) }] = \frac{(-1)^n}{- \iu j} + \frac{1}{2n^2\pi}[0]\\ \implies C_n =  \frac{(-1)^n}{- \iu j} = \frac{(-1)^n\iu}{n}$
+
+We can also show that $C_{-n} = C_n$\\
+Complex Fourier Series: $$\sum_{n = 1}^\infty (\frac{-1^n}{n}\iu)e^{n\iu t} + \sum_{n = -1}^{-\infty} (\frac{-1^n}{n}\iu)e^{n\iu t}$$
+If the second sum let $m = -n$
+$$\sum_{n = 1}^\infty (\frac{(-1)^n}{n}\iu)e^{n\iu t} - \sum_{m = 1}^{\infty} (\frac{(-1)^m}{m}\iu)e^{m\iu t}$$
+$$\sum_{n = 1}^\infty (\frac{(-1)^n}{n}\iu)\frac{e^{n\iu t} - e^{-n \iu t}}{2\iu}2\iu$$
+$$2\sum\frac{(-1)^{n+1}}{n}sin(nt)$$
+
+\newpage
+\textbf{Complex Fourier Series}\\
+$f(t)$ is $\tau$ periodic and $f(t)$ is defined on $[-\frac{\tau}{2}, \frac{\tau}{2}]$ with $\omega_0 = \frac{2\pi}{\tau}$
+Basis: $\{1, e^{jn\omega_0}t\}$
+$$\sum_{n=-\infty}^\infty C_n e^{jn\omega_0 t}$$
+$$C_n = \frac{1}{\tau}\int^\frac{\tau}{2}_{-\frac{\tau}{2}}f(t)e^{-jn\omega_0 t}dt$$
+If the function $f(t)$ is real $C_{-n} = \overline{C_n}$\\
+\textit{Eg:} $\omega_0 = 1$, $t \text{ on } (-\pi, \pi)$, $\tau = 2\pi \implies C_n = \frac{(-1)^nj}{n}$\\
+\textbf{Relationship between real and complex fourier series}
+\begin{enumerate}[topsep=-10pt]
+    \item $f(t) = \frac{1}{2}a_0 + \sum a_n cos(n\omega_0 t) + \sum b_n sin(n\omega_0 t)$
+    \item $f(t) = \sum_{n=-\infty}^\infty C_n e^{nj\omega_0 t}$
+\end{enumerate}
+Using these we can get the result: $C_n = \frac{1}{2}(a_n - jb_n)$ and the other way: $a_n = (C_n + \overline{C_n}) = (C_n + {C_{-n}})$ and $b_n = \frac{1}{j}(\overline{C_n} - C_n) = j(C_n - \overline{C_n})$\\
+\hfill\break
+
 \end{document}

@@ -985,4 +985,24 @@ If the function $f(t)$ is real $C_{-n} = \overline{C_n}$\\
 Using these we can get the result: $C_n = \frac{1}{2}(a_n - jb_n)$ and the other way: $a_n = (C_n + \overline{C_n}) = (C_n + {C_{-n}})$ and $b_n = \frac{1}{j}(\overline{C_n} - C_n) = j(C_n - \overline{C_n})$\\
 \hfill\break
 
+\textit{In a vector space with a basis $B$, if $\underline{v} \epsilon V$ and we know the components of $\underline{v}$ in B then we know everything about $\underline{v}$}\\
+Suppose we have the complex Fourier coefficients of $f(t)$ then we know everything about $f(t)$\\
+$C_n\; \epsilon\; \C$ and $C_n = |C_n|e^{i\phi}$ where $|C_n|$ is the magnitude and $\phi$ is the phase.\\
+The set $\{C_n\}$ is sometimes called the Fourier Spectrum of  $f(t)$\\
+The set $\{|C_n|\}$ is called the amplitude spectrum
+$\overline{C_n} = |C_n|e^{-i\phi} = C_{-n}$\\
+\includegraphics[width=0.8\textwidth]{MVIMG_20181113_085445.jpg}\\
+Also, the strength of the signal can be defined by $\sum_{n=-\infty}^\infty |C_n|^2 $\\
+This spectrum illustrates the relative importance of the contribution to $f(t)$ i.e. if $|C_p|$ then both $e^{j\omega_0 pt}$ and $e^{-j\omega_0 pt}$ play an important role in construction of $f(t)$ [equivalently $sin(p\omega_0 t) or cos(p\omega_0 t)$ have large co-efficients]\\
+\hfill\break
+\textbf{Parseval's Theorem:} Let $f(t)$ be a $\tau$ periodic function with $f(t) = \sum_{n=-\infty}^\infty C_n e^{nj\omega_0 t} $\\
+Then, $<f(t), f(t)> = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} f(t)\overline{f(t)}dt = \tau \sum_{n=-\infty}^\infty |C_n|^2$
+
+\begin{quote}
+If you take the inner product of the function then you get the sum of the squares of the components, with $\tau$ being added for not having the magnitudes not equal to 1
+\end{quote}
+Eg: $t$ on $(-\pi, \pi)$ with $C_n = \frac{(-1)^n}j{n}$ and $C_0 = 0$\\
+$$<t, t> = \int^\pi_{-\pi}t^2dt = 2\pi \sum_{-\infty}^\infty = 2\pi [\sum_{-\infty}^{-1}\frac{1}{n^2} + \sum_1^\infty\frac{1}{n^2}]$$
+$$\implies \int_{-\infty}^\infty t^2 dt = \frac{t^3}{3}|^\pi_{-\pi} = \frac{2\pi^3}{3} = 2\pi \times 2 \sum_{n =1}^\infty \frac{1}{n^2} \implies \sum_{n =1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}$$
+
 \end{document}

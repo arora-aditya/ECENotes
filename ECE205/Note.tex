@@ -1005,4 +1005,41 @@ Eg: $t$ on $(-\pi, \pi)$ with $C_n = \frac{(-1)^n}j{n}$ and $C_0 = 0$\\
 $$<t, t> = \int^\pi_{-\pi}t^2dt = 2\pi \sum_{-\infty}^\infty = 2\pi [\sum_{-\infty}^{-1}\frac{1}{n^2} + \sum_1^\infty\frac{1}{n^2}]$$
 $$\implies \int_{-\infty}^\infty t^2 dt = \frac{t^3}{3}|^\pi_{-\pi} = \frac{2\pi^3}{3} = 2\pi \times 2 \sum_{n =1}^\infty \frac{1}{n^2} \implies \sum_{n =1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}$$
 
+\clearpage
+\subsection{Fourier Transformation}
+\textbf{Fourier Transform $f(t)$}\\
+need a square integrable function $\int^{\infty}_{-\infty}|f(t)|^2dt$ is finite\\
+$$F(\omega) = \int^{\infty}_{-\infty} f(t)e^{-j\omega t}dt$$
+\textbf{Fourier Integral $F(\omega)$}\\
+$$f(t) = \frac{1}{2\pi}\int^{\infty}_{-\infty} F(\omega)e^{j\omega t}d\omega$$
+
+\textit{Example:}
+Window function i.e. rectangular pulse\\
+\includegraphics[width=0.8\textwidth]{windowfunction.png}\\
+$$f(t) = H(t+\frac{1}{2}) - H(t-\frac{1}{2})$$
+$$F(\omega) = \int^{\infty}_{-\infty} f(t) e^{-j\omega t}dt = \int_{-\frac{1}{2}}^{\frac{1}{2}}1e^{-j\omega t}dt = \frac{e^{-j\omega t}}{-j \omega}|^\frac{1}{2}_{-\frac{1}{2}} = \frac{2}{\omega}[\frac{e^{\frac{j\omega}{2}} - e^{-\frac{j\omega}{2}}}{2j}] = \frac{sin \frac{\omega}{2}}{\frac{\omega }{2}} = sinc(\frac{\omega}{2})$$
+$$[\frac{sinx}{x} = sinc(x), \text{Sinch of x}]$$\\
+\includegraphics[width=0.8\textwidth]{sincx.png}\\
+
+\subsubsection{Ad Hoc Derivation of the Fourier Integral}
+Suppose we have a function which is defined on $[-\frac{\tau}{2}, \frac{\tau}{2}]$
+\\
+\includegraphics[width=0.8\textwidth]{non-periodic.jpeg}\\
+
+We define
+$$F(\omega) =  \int^{\infty}_{-\infty} f(t) e^{-j\omega t}dt $$
+Consider the complex Fourier series $f_\tau (t)$
+$$\lim_{\tau\to\infty} f_\tau(t) = f(t)$$\\
+\includegraphics[width=0.8\textwidth]{periodic.jpg}\\
+
+We let $\tau$ to tend to $\infty$ because of that $\omega = \frac{2\pi}{\tau} = \Delta \omega$
+$$C_n = \frac{1}{\tau} \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}}f_\tau (t) e^{-jn\omega_0 t}dt$$
+$$f_\tau(t) = \sum_{n = -\infty}^\infty C_ne^{jn\omega_0t}$$
+$$C_n = \frac{1}{\tau}f_{\tau}f(t)e^{-jn\omega_0 t}dr = \frac{1}{\tau}F(n\omega_0) = \frac{1}{\tau}n\Delta\omega$$
+$$f_\tau(t) = \sum_{n = -\infty}^\infty \frac{1}{\tau}F(n\Delta\omega)e^{jn\omega_0t} = \frac{1}{2\pi}\sum_{n = -\infty}^\infty F(n\Delta\omega)e^{jn\omega_0t}\Delta\omega $$
+$$[\text{Riemann Sum: }\lim_{N\to\infty, \Delta t \to 0} \sum_{n = 1}^N g(a+n\Delta t) \Delta t = \int_a^b g(t)dt \text{ where } b = a + n\Delta t]$$
+$$\lim_{\tau \to \infty} f_\tau (t) = \frac{1}{2\pi}\lim_{\tau \to \infty, \Delta\omega \to 0}\sum_{n=-\infty}^\infty F(n\Delta\omega)e^{jtn\Delta \omega}\Delta \omega = \frac{1}{2\pi}\int^\infty_{-\infty}F(\omega)  e^{jt\omega}d\omega$$
+$$ = \int_{-\infty}^{\infty}F(\omega)e^{jt\omega}\;\; \text{ which is known as the Fourier Integral}$$
+
+
 \end{document}

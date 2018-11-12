@@ -1042,4 +1042,32 @@ $$\lim_{\tau \to \infty} f_\tau (t) = \frac{1}{2\pi}\lim_{\tau \to \infty, \Delt
 $$ = \int_{-\infty}^{\infty}F(\omega)e^{jt\omega}\;\; \text{ which is known as the Fourier Integral}$$
 
 
+
+\newpage
+For $\tau$-periodic function, square integrable function on $\R$ i.e.  $\int_{-\infty}^{\infty}|g(t)|^2dt$ exists
+then\\
+Fourier Coefficients: $C_n = \frac{1}{\tau} \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}}f(t)e^{-jn\omega_0 t}dt$\\
+Fourier Series: $\sum_{n=-\infty}^\infty C_n e^{jn\omega_0 t} = f(t)$\\
+Fourier Transform $\mathcal{F}(g(t)) = G(\omega) = \int_{-\infty}^{\infty}g(t)e^{-j\omega t}dt$\\
+Fourier Integral $g(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty}G(\omega)e^{j\omega t}d\omega$
+
+Continuing example from earlier:
+$$H(t+\frac{1}{2}) - H(t-\frac{1}{2}) = g(t)$$
+$$\mathcal{F}(g(t)) = G(\omega) = sinc(\frac{1}{2}\omega)$$
+
+Since $\tau = 2\pi, \omega_0 = 1$ and $C_n = \frac{1}{\tau}G(n\omega_0) \implies C_n = \frac{1}{2\pi}sinc(\frac{n}{2})$\\
+Now if  $\tau = 4\pi, \omega_0 = \frac{1}{2}$ and $C_n = \frac{1}{\tau}G(n\omega_0) \implies C_n = \frac{1}{4\pi}sinc(\frac{n}{4})$\\
+
+Another example:
+\[T(t) =  \begin{cases}
+      1-|t| & |t| < 1 \\
+      0 & |t| \geq 1
+   \end{cases}
+\]\\
+$\mathcal{F}(T(t)) = \int_{-\infty}^{\infty}T(t) e^{-j\omega t}dt = \int_{-1}^{1}(1-|t|) e^{-j\omega t}dt = \int_{-1}^{1}(1-|t|) cos(\omega t)dt - j\int_{-1}^{1}(1-|t|) sin(\omega t)dt$
+The first term is even and non-zero, while the second term is odd and zero
+$$\mathcal{F}(T(t)) = 2[\frac{sin(\omega t)}{\omega}|^1_0 -t\frac{sin(\omega t)}{\omega}|^1_0 + \int^1_0\frac{(sin\omega t)}{\omega}dt] = -2[\frac{cos\omega - 1 }{\omega^2}] = -2[\frac{-2sin^2(\frac{\omega}{2})}{\omega^2}]$$
+$$= sinc^2(\frac{\omega}{2})$$\\
+
+
 \end{document}

@@ -1070,4 +1070,39 @@ $$\mathcal{F}(T(t)) = 2[\frac{sin(\omega t)}{\omega}|^1_0 -t\frac{sin(\omega t)}
 $$= sinc^2(\frac{\omega}{2})$$\\
 
 
+\subsection{Properties of the Fourier Transformation}
+\begin{enumerate}
+    \item \textbf{Linearity:} $\mathcal{F}(af(t) + bg(t)) = a\F (f(t)) + b\F (g(t))$
+    \item \textbf{Shift in the time domain:} $\F (g(t-t_0)) = e^{-j\omega t_0}\F (g(t))$
+    \item \textbf{Shift in the frequency domain:} $\F(e^{j\omega_0 t}g(t)) = G(\omega - \omega_0)$ where $\F (g(t))= G(\omega)\; \forall\; \omega_0\; \epsilon\; \R$
+    \item \textbf{Scaling Property:} $\F (g(at)) = \frac{1}{|a|}G(\frac{\omega}{a})$
+    \item \textbf{Conjugation:} $\F (\overline{g(at)}) = \overline{G(-\omega)}$
+    \item \textbf{Composition:} $\F \circ \F(g(t)) = \F^2[g(t)] =  2\pi g(-\omega)$ where $\F (g(t))= G(\omega)$
+    \item \textbf{Derivative Property} $$\F(\frac{dg}{dt}) = j\omega G(\omega)$$ or extending this:
+    $$\F(\frac{d^ng}{dt^n}) = (j\omega)^n G(\omega)$$
+\end{enumerate}
+\newpage
+If
+\[T(t) =  \begin{cases}
+      1-|t| & |t| < 1 \\
+      0 & |t| \geq 1
+   \end{cases}
+\]\\ and $\F[T(t)] = (sinc\frac{\omega}{2})^2$
+then
+\begin{enumerate}
+    \item $\F[T(t-5)] = e^{-5\iu\omega}(sinc\frac{\omega}{2})^2$
+    \item $\F[T(t)e^{3\iu t}] = (sinc\frac{\omega-3}{2})^2$
+    \item $\F[T(\frac{t}{3})] = 3(sinc\frac{3\omega}{2})^2$\\
+    \includegraphics[width=0.5\textwidth]{3sinc.png}\\
+    3sinc above, and one sinc down\\
+    \includegraphics[width=0.5\textwidth]{sinc.png}\\
+    You can see that the function gets compressed
+    \item $\F^2(T(t)) = 2\pi T(-\omega) = 2\pi T(\omega) \text{ since $T$ is symmetric}$\\
+    $\F(F(T(t))) = \F((sinc\frac{\omega}{2})^2) = 2\pi T(\omega)$\\
+    \[\F((sinc\frac{\omega}{2})^2) =  \begin{cases}
+      2\pi(1-|\omega|) & |\omega| < 1 \\
+      0 & |\omega| \geq 1
+   \end{cases}
+\]\\
+
 \end{document}

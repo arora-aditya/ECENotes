@@ -1104,5 +1104,44 @@ then
       0 & |\omega| \geq 1
    \end{cases}
 \]\\
+\end{enumerate}
+\textit{Lemma:} Fourier Transformations of even functions are purely real i.e. $g(t)$ is even then $G(\omega)$ is real\\
+$$\F[g(t)] = \int^{\infty}_{-\infty} g(t) e^{-\iu \omega t}dt = \int^{\infty}_{-\infty} g(t)[cos(\omega t) - \iu sin(\omega t)]dt$$
+$$\int^{\infty}_{-\infty} g(t)cos(\omega t) - \iu \int^{\infty}_{-\infty} g(t) sin(\omega t) = 2\int_0^\infty g(t)cos(\omega t) dt$$
+The second term of the second last step is zero since it is odd\\
+\subsection{Fourier Transform of a Gaussian}
+\textit{Lemma:} $n(t) = \frac{1}{\sqrt{2\pi} \sigma} e^{-\frac{1}{2}(\frac{t-\mu}{\sigma})^2}$  [Normal distribution with mean $\mu$ and standard deviation $\sigma$ (spread)] [Side note: the area under this curve is 1]
+$$\F(n(t)) = e^{-\iu \mu \omega} e^{-\frac{1}{2} \sigma^2 \omega^2}$$
+\textit{Proof:}
+\begin{enumerate}[]
+    \item It is known that $\int^{\infty}_{-\infty} e^{-u^2} du = \sqrt{\pi}$
+    \item Let $$I(\omega) = \int^{\infty}_{-\infty} e^{-\frac{1}{2}x^2}cos(\omega x) dx $$
+    $$\frac{dI}{d\omega} = \frac{d}{d\omega} \int^{\infty}_{-\infty} e^{-\frac{1}{2}x^2}cos(\omega x) \equiv \int^{\infty}_{-\infty} \frac{\partial}{\partial\omega}( e^{-\frac{1}{2}x^2}cos(\omega x)) = \int^{\infty}_{-\infty} -xe^{-\frac{1}{2}x^2}sin(\omega x)$$
+    $$e^{-\frac{1}{2}x^2} sin\omega x |^\infty_{-\infty} -\omega\int^{\infty}_{-\infty}e^{-\frac{1}{2}x^2}cos(\omega x) dx = 0 - \omega I(\omega)$$
+    Thus,
+    $$\frac{dI}{d\omega} = -\omega I(\omega)$$ and on solving this differential equation we get,
+    either $I = 0$ or $I = I_0e^{-\frac{1}{2}\omega^2}$\\
+    $$I(0) = I_0 = \int^{\infty}_{-\infty}e^{-\frac{1}{2}x^2}dx $$
+    Let $x^2 = 2u^2 \implies dx = \sqrt{2} du$ and thus
+    $$(\int^{\infty}_{-\infty} e^{-u^2}du)\sqrt{2} = \sqrt{2\pi}$$
+\end{enumerate}
+$$\F[e^{-\frac{1}{2}t^2}] = \int_{-\infty}^\infty e^{-\frac{1}{2}x^2}cos(\omega t) dt = \sqrt{2\pi}\;e^{-\frac{1}{2}\omega^2}$$
+$$\F[\frac{1}{\sqrt{2\pi}} \frac{1}{\sigma} e^{-\frac{1}{2}t^2}] = \frac{1}{\sqrt{2\pi}} \frac{1}{\sigma} \sqrt{2\pi}\;e^{-\frac{1}{2}\omega^2} = \frac{1}{\sigma}e^{-\frac{1}{2}\omega^2}$$
+$$\F[\frac{1}{\sqrt{2\pi}} \frac{1}{\sigma} e^{-\frac{1}{2}(\frac{t}{\sigma})^2}] = \frac{1}{\sigma}\sigma e^{-\frac{1}{2}\omega^2\sigma^2} = e^{-\frac{1}{2}\omega^2\sigma^2}$$
+$$\F[\frac{1}{\sqrt{2\pi}} \frac{1}{\sigma} e^{-\frac{1}{2}(\frac{t-\mu}{\sigma})^2}]  = e^{-j\omega \mu}e^{-\frac{1}{2}\omega^2\sigma^2}$$
+\subsection{Parseval's Theorem}
+Let $g(t)$ be a square integral function with Fourier Transformation $G(\omega)$ then
+$$\int_{-\infty}^\infty g(t) \overline{g(t)} = \int_{-\infty}^\infty |g(t)|^2dt = \frac{1}{2\pi}\int_{-\infty}^\infty G(\omega) \overline{G(\omega)} = \frac{1}{2\pi} \int_{-\infty}^\infty |G(\omega)|^2 d\omega$$
+If
+\[T(t) =  \begin{cases}
+      1-|t| & |t| < 1 \\
+      0 & |t| \geq 1
+   \end{cases}
+\]\\ and $\F[T(t)] = (sinc\frac{\omega}{2})^2$
+then
+$$\int_{-\infty}^\infty |T(t)|^2 = 2\int_{0}^\infty (1-t)^2 dt = \frac{2}{3} \stackrel{Parseval}{=} \frac{1}{2\pi}\int_{-\infty}^\infty ((sinc(\frac{1}{2}\omega))^2)^2 d\omega$$
+$$\implies \int_{-\infty}^\infty \frac{sin(\frac{\omega}{2})^4}{(\frac{\omega}{2})^4}d\omega = \frac{4\pi}{3}$$
+After substituting $\frac{\omega}{2} = y$ and simplifying
+$$\implies \int_0^\infty \frac{siny^4}{y^4}dy = \frac{\pi}{3}$$
 
 \end{document}

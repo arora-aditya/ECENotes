@@ -1144,4 +1144,42 @@ $$\implies \int_{-\infty}^\infty \frac{sin(\frac{\omega}{2})^4}{(\frac{\omega}{2
 After substituting $\frac{\omega}{2} = y$ and simplifying
 $$\implies \int_0^\infty \frac{siny^4}{y^4}dy = \frac{\pi}{3}$$
 
+\newpage
+\subsection{Fourier Transformation of Dirac Function}
+$$\F(\delta(t)) = \int_{-\infty}^\infty \delta(t) e^{-\iu \omega t }dt = e^0 = 1$$
+$$\F(\delta(t-a)) = \int_{-\infty}^\infty \delta(t-a) e^{-\iu \omega t }dt = e^{-\iu \omega a} $$
+\subsubsection{Fourier Integral of 1}
+It gives us the reverse of the transformation above
+$$\frac{1}{2\pi} \int_{-\infty}^\infty 1e^{\iu \omega t} dw = \delta(t)$$
+\subsubsection{Fourier Composition}
+$$\F(\F(\delta(t))) = 2\pi \delta(-\omega)$$
+$$\F(1) = 2\pi \delta(\omega)$$
+
+We can make use of this and our properties of $\F$ to evaluate $F(cos(\alpha t))$ and $F(sin(\alpha t))$
+$$cos(\alpha t) = \frac{e^{\iu \alpha t} + e^{-\iu \alpha t}}{2} \;\;\;\;\text{and}\;\;\;\; sin(\alpha t) = \frac{e^{\iu \alpha t} - e^{-\iu \alpha t}}{2\iu}$$
+$$\cos(\alpha t) = \frac{1}{2}[e^{\iu \alpha t}\cdot 1 + e^{-\iu \alpha t}\cdot 1]$$
+Thus,
+$$\F[cos(\alpha t)] = \frac{2\pi}{2}[\delta (\omega - \alpha) + \delta(\omega + \alpha)]$$
+Similarly,
+$$\F[sin(\alpha t)] = \frac{2\pi}{2\iu} [\delta(\omega - \alpha) - \delta(\omega + \alpha)]$$
+\subsection{A Finite Wave Pulse}
+\[W(t) =  \begin{cases}
+      1 & |t| < \frac{1}{2} \\
+      0 & |t| \geq \frac{1}{2}
+   \end{cases}
+\]\\
+$$\F(\omega(t)) = sinc(\frac{1}{2}\omega)$$
+\clearpage
+For $a > 0$,
+\[W(at) =  \begin{cases}
+      1 & |at| < \frac{1}{2} \implies |t| < \frac{1}{2a}\\
+      0 & |at| \geq \frac{1}{2} \implies |t| \geq \frac{1}{2a}
+   \end{cases}
+\]\\
+$$\F(\omega(at)) = \frac{1}{a}sinc(\frac{1}{2a}\omega)$$
+For,
+$$f(t) = cos(\alpha t) W(at) = \frac{1}{2}[e^{\iu \alpha t} + e^{-\iu \alpha t}][W(at)]$$
+$$\F(f(t)) = \frac{1}{2a}[sinc(\frac{\omega - \alpha}{2a}) + sinc(\frac{\omega + \alpha}{2a})]$$
+\newpage
+
 \end{document}

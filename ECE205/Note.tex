@@ -1182,4 +1182,59 @@ $$f(t) = cos(\alpha t) W(at) = \frac{1}{2}[e^{\iu \alpha t} + e^{-\iu \alpha t}]
 $$\F(f(t)) = \frac{1}{2a}[sinc(\frac{\omega - \alpha}{2a}) + sinc(\frac{\omega + \alpha}{2a})]$$
 \newpage
 
+\section{Partial Differential Equation}
+We not consider the scenario of more than one independent variable for example $z = z(x, y)$. We will now have to consider partial derivatives.\\
+An equation involving the partial derivatives of an unknown function(s) is called a PDE\\
+Eg:
+Linear PDE's
+$$\frac{\pd^2z}{\pd x^2} + xyz = 5$$
+$$\frac{\pd^2z}{\pd x \pd y} + x^2\frac{\pd z}{\pd y} + y^2 \frac{\pd z}{\pd x} = 0$$
+Non Linear PDE's
+$$\frac{\pd^2 z}{\pd x^2 \pd y} + \frac{\pd z}{\pd x} \cdot \frac{\pd z}{\pd y} = xy$$
+$$\frac{\pd^2 z}{\pd y^2} = xyz^2$$
+\subsection{Definitions}
+The \textit{order} of a PDE is the highest derivative that appears\\
+The PDE is said to be linear when all the terms involving $z$ (and any derivatives) only appear linearly\\
+The PDE is homogeneous when if we collect all the derivative on the left hand side of the PDE then the RHS is zero.\\
+$$\frac{\pd^2z}{\pd x \pd y} + x\frac{\pd z}{\pd x} + y \frac{\pd z}{\pd y} = 0 \;\;\;\;\; \text{[Homo]}$$
+$$\frac{\pd^2z}{\pd x \pd y} + x\frac{\pd z}{\pd x} + y \frac{\pd z}{\pd y} = x^2 + y^2 + 25 \;\;\;\;\; \text{[No-Homo]}$$
+\textbf{In our physical world second order PDEs arise frequently}\\
+If we have $2^{nd}$ independent variables u and v, the most general $2^{nd}$ order linear PDE  has the form:
+$$AF_{uu} + BF_{vv} + 2CF_{uv} + DF_u + EF_v + HF = R(u,v)$$
+The PDEs are classified according to the sign of the term:
+$$\det\begin{pmatrix} A & C \\ C & B \end{pmatrix} = AB - C^2$$
+\begin{itemize}
+    \item $AB - C^2 > 0$: The PDE is called \textbf{elliptical}. \\
+    examples: Laplace's equation: $\frac{\pd^2 F}{\pd x^2} + \frac{\pd^2 F}{\pd y^2} = 0$ or Poisson's equation: $\frac{\pd^2 F}{\pd x^2} + \frac{\pd^2 F}{\pd y^2} = e$
+    \item $AB - C^2 = 0$: The PDE is called \textbf{parabolic}. \\
+    examples: Heat equation: $\frac{\pd^2 F}{\pd x^2} + 0\frac{\pd^2 F}{\pd t^2} + \frac{\pd F}{\pd t}= 0$
+    \item $AB - C^2 < 0$: The PDE is called \textbf{hyperbolic}. \\
+    examples: Wave equation: $\frac{\pd^2 F}{\pd x^2} - \frac{\pd^2 F}{\pd t^2} = 0$
+\end{itemize}
+$$\pdt{x}{y} = \pdo{x}{z}$$
+\subsection{Vector Differential Operator $\nabla$}
+$$\nabla^2 = \pdt{}{x} + \pdt{}{y} + \pdt{}{z}$$
+$$\nabla^2 \phi = \pdt{\phi}{x} + \pdt{\phi}{y} + \pdt{\phi}{z}$$
+Laplacian Del Squared: $\nbt$
+\subsubsection{Elliptical}
+No time dependence here
+$$\text{Laplace's Equation}:\;\;\; \nbt \phi = 0  $$
+$$\text{Poisson's Equation}:\;\;\; \nbt \phi = \rho(x,y,x)  \;\;\; $$
+\subsubsection{Parabolic}
+Time Dependence
+$$\text{Heat Equation}:\;\;\; \nbt \phi = \pdo{\phi}{t}$$
+\subsubsection{Hyperbolic}
+Time is involved
+$$\text{Wave Equation}:\;\;\; \nbt \phi = \pdt{\phi}{t} \implies \nbt \phi - \pdt{\phi}{t} = 0$$
+
+\textit{Note 1: we often have problems which settle down to some sort of stable state behaviour, we define the equilibrium state to be a solution $u_E$ which satisfies the derivative $\pdo{u_E}{t} = 0$\\
+For eg: For the heat eqn:
+$\pdo{\phi_E}{t} = 0$ then $\nbt \phi_E = 0$\\
+For eg: For the wave eqn:\vspace{5mm}
+$\pdt{\phi_E}{t} = 0$ then $\nbt \phi_E = 0$}\\
+
+\textit{Note 2: Other co-ordinates may be appropriate\\
+eg: 2-D Laplacian - in polar coordinates $(x,y) \rightarrow (r, \theta)$\\
+$\nbt \phi = \pdt{\phi}{r} + \frac{1}{r} \pdo{\phi}{r} + \frac{1}{r^2} \pdt{\phi}{\theta}$ and if there were rotational symmetry then: $\pdo{\phi}{\theta} = 0$}
+
 \end{document}

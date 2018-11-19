@@ -1237,4 +1237,56 @@ $\pdt{\phi_E}{t} = 0$ then $\nbt \phi_E = 0$}\\
 eg: 2-D Laplacian - in polar coordinates $(x,y) \rightarrow (r, \theta)$\\
 $\nbt \phi = \pdt{\phi}{r} + \frac{1}{r} \pdo{\phi}{r} + \frac{1}{r^2} \pdt{\phi}{\theta}$ and if there were rotational symmetry then: $\pdo{\phi}{\theta} = 0$}
 
+\newpage
+\subsection{The Heat Equation in one spacial dimension}
+
+$$ \alpha^2 \pdt{\theta}{x} = \pdo{\theta}{t} \;\;\; [\theta \text{ is the temperature, } \alpha^2 = \frac{k}{\rho c}]$$
+where $k$ is the thermal conductivity, $\rho$ is the mass density and $c$ is the specific heat\\
+A general problem is a 1-D rod/bar with perfect insulation on the outside, and length $L$
+\begin{enumerate}[topsep=0pt]
+    \item We need some initial conditions $\theta(x, 0) = g(x)$ on $0 < x < L$
+    \item We also require boundary conditions, which is typically $\theta(0,t)$ and $\theta(L,t)$ and in the simplest case they might be fixed temperatures $T_1$ and $T_2$ respectively
+\end{enumerate}
+\subsubsection{The method of separation of variables}
+We try to find a solution $\theta(x,t) = T(t)\cdot X(x)$. \\Let the endpoints both have zero temperature i.e. $\theta(0,t) = 0$ and $\theta(L,t) = 0$\\
+Obviously $\theta(x,t) \equiv 0$ is a solution and the in the other case:
+$$\pdt{\theta}{x} = T(t)\dt{X}{x}$$
+$$\pdo{\theta}{t} = X\ddo{T}{t}$$
+Now our heat equation becomes:
+$$\alpha^2 T\pdt{X}{x} = \pdo{T}{t}X$$
+$$\frac{1}{X}\dt{X}{x} = \frac{1}{\alpha^2}\frac{1}{T}\ddo{T}{t} = -\lambda$$
+The left hand side is a function of only $X$ and the right hand side is a function of only $t$\\
+\texttt{Solving the equation with $t$ first:}\\
+$$\ddo{T}{t} = -\alpha^2 \lambda T \implies T(t) =  e^{-\alpha^2 \lambda t}$$
+\texttt{Solving the equation with $x$ now:}\\
+$\theta(0, t) = 0 \implies T(t)X(0) = 0 \implies X(0) = 0$ and
+$\theta(L, t) = 0 \implies T(t)X(L) = 0 \implies X(L) = 0$
+$$\dt{X}{x} = -\lambda X \implies \dt{X}{x} + \lambda X = 0$$
+This equation is called the \textbf{\texttt{Sturm Liouville equation}}\\
+\begin{enumerate}
+    \item Let $\lambda = 0$:
+    $$\dt{X}{x} = 0 \implies X = ax + b$$
+    Solving this using $X(0) = 0 $ and $X(L) = 0$ we get $b = 0$ and $a = 0$ respectively.\\
+    Thus $X \equiv 0$
+    \item Let $\lambda < 0$:
+    $\lambda = -\mu^2$\\
+    Thus,
+    $$\dt{X}{x} -\mu^2x = 0 \implies \dt{X}{x} = \mu^2x$$\\
+    $X = Ae^{\mu x} + Be^{-\mu x}$ with $X(0) = 0 \implies A + B = 0$ and $X(L) = 0 \implies Ae^{\mu L} + Be^{-\mu L} = 0$
+    Using these we get $X = 0$
+    \item Let $\lambda > 0 \implies \lambda = \mu^2$
+    Using these we get X = 0
+     Thus,
+    $$\dt{X}{x} +\mu^2x = 0 \implies \dt{X}{x} = -\mu^2x$$\\
+    $X = Acos(\mu x) + Bsin(\mu x)$ with $X(0) = 0 \implies A = 0$ and\\ $X(L) = 0 \implies Bsin(\mu L) = 0$\\
+    For the second equation, either $B = 0$ or
+    let $\mu = \mu_n$, $\mu_n L = n\pi \implies \mu_n = \frac{n\pi}{L} \;\; [n\; \epsilon\; \Z]$\\
+    For each $n\; \epsilon\; \Z$, $\mu_n = \frac{n\pi}{L}$
+    $$X_n = sin(\frac{n\pi}{L}x)$$
+    From earlier but with $\lambda = (\frac{n\pi}{L})^2$,
+    $$T_n = e^{-(\frac{\alpha n\pi}{L})^2t}$$
+    And thus,
+    $$\theta_n(x,t) = sin(\frac{n\pi}{L}x) \cdot e^{-(\frac{\alpha n\pi}{L})^2t}$$
+\end{enumerate}
+
 \end{document}

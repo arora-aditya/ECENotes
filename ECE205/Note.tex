@@ -1338,4 +1338,45 @@ $$\theta = \frac{4u_0}{\pi}[e^{-t}sinx + \frac{1}{3}e^{-9t}sin3x + \frac{1}{5}e^
 for $t > 0$:
 $$\theta = \frac{4u_0}{\pi}[e^{-t}sinx]$$
 
+\subsubsection{Temperature Profiles}
+Assuming $u_0 > 0$\\
+\includegraphics[]{MVIMG_20181127_084026.jpg}\\
+\textit{Note that at $t=0$, $\theta(\frac{\pi}{2},0) = u_0$ and $t>0$, $\theta(\frac{\pi}{2},t) < u_0$ i.e. instantaneous communication of the signal i.e. temperature at the ends is not physically possible. This shows that this result is idealized equation since the signal propagation is instantaneous, faster than the speed of light}\\
+\subsubsection{Other Boundary Conditions}
+\textbf{Insulation at the Ends}\\
+Another type of boundary conditions is when you don't allow the heat to flow out at the ends
+\\
+Insulation $\Longleftrightarrow$ No heat flow $\Longleftrightarrow$ $\theta_x = 0$
+$$\theta_x(0,t) = 0\; \; \theta_x(L,t) = 0$$
+\textbf{Mixed Conditions}\\
+\textit{Eg:} $\theta(0,t) = 0\;\; \theta_x(L,t) = 0$
+\subsubsection{The problem with inhomogeneous boundary conditions}
+$$\theta_t = \theta_{xx}\;\;, \; \alpha = 1,\;\;\;\; L = \pi$$
+Let the ends be at [boundary conditions]:
+$\theta(0,t) = 100\;\;\;\;\;\; \theta(\pi,0) = 0$\\
+Initial conditions: $\theta(x,0) = 50$\\
+Consider, $\theta_E$ which satisfies:
+\begin{enumerate}[topsep=0pt]
+    \item $(\theta_E)_{xx} = (\theta_E)_t$
+    \item $\theta_E(0,t) = 100\;\;\; \theta_E(\pi,t) = 100$
+    \item $(\theta_E)_t = 0$
+\end{enumerate}
+If we put 3. into 1., $(\theta_E)_xx = 0 \implies \theta_E = ax + b$\\
+Using this in 2. we get:
+$a = \frac{-100}{\pi}$ and $b = 100$
+$$\theta_E = \frac{100}{\pi}(\pi - x)$$
+Let $\theta(x,t) = \theta_E(x,t) + V(x,t)$ where $ V(x,t) = \theta(x,t) - \theta_E(x,t)$
+\begin{enumerate}
+    \item PDE: $\theta_t = \theta_{xx}$ so $(\theta_E)_t + V_t = (\theta_E)_{xx} + V_{xx} \implies V_t = V_{xx}$
+    \item Boundary conditions: $$\theta(0,t) = 100\;\; and \;\; \theta_E(0,t) = 100 \implies V(0,t) = 0$$  $$\theta(\pi,t) = 0\;\; and \;\; \theta_E(\pi,t) = 0 \implies V(\pi,t) = 0$$
+    \item Initial conditions:\\
+    $\theta(x,0) = 50$ and $\theta_E(x,0) = \frac{100}{\pi}(\pi - x)$\\
+    $V(x,0) = 50 - \frac{100}{\pi}(\pi - x) \implies V(x,0) = \frac{50}{\pi}(2x-\pi)$
+\end{enumerate}
+Since $V$ satisfies the PDE with the homogeneous BC's
+$$V(x,t) = \sum_1^{\infty} A_n sin(nx) e^{-n^2 t}$$ and we need $V(x,0) = \frac{50}{\pi}(2x - \pi)$ i.e. $$\sum_1^{\infty}A_n sin(nx) = \frac{50}{\pi}(2x - \pi)$$ i.e. we need the Fourier sin series of $2x-\pi$
+$$\theta = \theta_E + V$$ and $$\lim_{t \to \infty} U = U_E = 0$$
+$$V(x,t) = \frac{-100}{\pi}\sum_{n= 1}^{\infty} \frac{sin(2nx)}{n}e^{-(2n)^2t}$$
+\newpage
+
 \end{document}

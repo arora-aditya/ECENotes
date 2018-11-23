@@ -1411,4 +1411,35 @@ The final is not out to get you, and according to Conrad is very similar to the 
 Apparently the piece of paper that was being passed around is for Conrad to judge who actually attends lectures, and that attendance is basically proof for who attended and who did not once the final is over and he is getting spammed with emails about further lenience
 \newpage
 
+
+\subsection{Wave Equation (1 spatial dimension)}
+$$ c^2\pdt{y}{x} = \pdt{y}{t}$$
+\includegraphics[]{wave.jpg}
+\subsubsection{Simple Model}
+Wire with length = $L$ fixed at the ends with linear density $\rho$ and tension $T$
+$$c^2 = \frac{T}{\rho}$$
+\begin{enumerate}
+    \item Boundary Conditions: $y(0,t) = y(L,t) = 0$
+    \item Initial conditions: $y(x,0) = f(x)\;,\;\;\;\; \pdo{y}{t} (x,0) = g(x)$
+\end{enumerate}
+\textbf{Solution:} Try $y(x,t) = X(x)\cdot T(t)$\\
+putting this into the DE to get:
+$$c^2T\dt{X}{x} = \dt{T}{t} X \implies \frac{1}{X}\dt{X}{x} = \frac{1}{c^2} \frac{1}{T}\dt{T}{t} = \lambda \text{   some constant (separation constant)}$$
+\begin{enumerate}
+    \item $\lambda = 0 \implies \dt{X}{x} = 0 \implies X = ax + b$ but since $X(0) = X(L) = 0 \implies a = b = 0 \implies X = 0$
+    \item $\lambda > 0, \lambda = \mu^2 \implies \dt{X}{x} = \mu^2 X \implies X = Ae^{mx} + Be^{-mx}$ but since $X(0) = X(L) = 0 \implies A = B = 0 \implies X = 0$
+    \item  $\lambda < 0, \lambda = -\mu^2 \implies \dt{X}{x} = -\mu^2 X \implies X = Asin(\mu x) + Bcos(\mu x)$ but since $X(0) = 0 \implies B = 0 $ $X(L) = 0 \implies Asin(\mu L) = 0 \implies  A = 0 \text{ or } \mu L = n \pi \; \forall\; n \; \epsilon\; \Z$\\
+    Let $\mu_n = \frac{n\pi}{L}$ and $n\; \epsilon\; \Z^+$\\
+    This means $\lambda_n = -(\frac{n\pi}{L})^2 \implies X_n = sin(\mu_n x) = sin(\frac{n\pi x}{L})$\\
+    We now solve for the time behaviour:\\
+    $$\frac{1}{c^2} \frac{1}{T_n}\dt{T_n}{t} = \lambda_n = -(\frac{n\pi}{L})^2$$
+    $$ \dt{T_n}{t} = -(\frac{n\pi}{L})^2T_n \implies T_n = A_n sin(\frac{n\pi c t}{L}) + B_n cos(\frac{n\pi c t}{L})$$
+    $$Y_n(x,t) = A_n sin(\frac{n\pi c t}{L})sin(\frac{n\pi x}{L}) + B_n cos(\frac{n\pi c t}{L})sin(\frac{n\pi x}{L}) $$
+    Thus the general solution of the PDE and the boundary conditions is:
+    $$\sum_{n=1}^\infty Y_n(x,t)$$
+    \textit{We now consider the initial conditions\\} $Y(x,0) = \sum_{n=1}^\infty B_n sin(\frac{n\pi x}{L}) = f(x)$ i.e. perform the Fourier sine series of $f(x)$\\
+    Moreover,
+    $\pdo{X(x,0)}{t} = \sum_{n=1}^\infty A_n\cdot (\frac{n \pi c}{L})\cdot sin(\frac{n\pi x}{L})$  i.e. perform the Fourier sine series of $g(x)$\\
+\end{enumerate}
+
 \end{document}

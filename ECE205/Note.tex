@@ -1442,4 +1442,56 @@ $$c^2T\dt{X}{x} = \dt{T}{t} X \implies \frac{1}{X}\dt{X}{x} = \frac{1}{c^2} \fra
     $\pdo{X(x,0)}{t} = \sum_{n=1}^\infty A_n\cdot (\frac{n \pi c}{L})\cdot sin(\frac{n\pi x}{L})$  i.e. perform the Fourier sine series of $g(x)$\\
 \end{enumerate}
 
+Taking a look at these individual equations
+$$Y_n(x,t) = sin(\frac{n\pi x}{L}) \Big[A_n sin(\frac{n\pi c t}{L}) + B_n cos(\frac{n\pi c t}{L})\Big] \;\;\;\; n\; \epsilon\; \Z$$
+$$Y_n(x,t) = sin(\frac{n\pi x}{L}) \Big[C_n cos(\frac{n\pi c (t-\phi)}{L})\Big] \;\;\;\; n\; \epsilon\; \Z$$
+These functions are called the Normal Modes of Vibration\\ There are periodic in both space and time and the frequency is $\frac{1}{2\pi}\frac{n\pi c }{L} = \frac{n}{2L}\sqrt{\frac{T}{\rho}} = \nu_n$\\
+$\nu_1 = \frac{1}{2L} \sqrt{\frac{T}{\rho}}$ is called the fundamental frequency and
+$\nu_n = n \nu_1$\\
+$Y_1$ is called the first harmonic and $Y_n$ is called the $n^{th}$ harmonic\\
+\includegraphics[]{harmonics.png}\\
+The $n^{th}$ harmonic has $n-1$ nodes\\
+\subsubsection{D'Alemberts Equation}
+We now investigate the wave equation and its solutions
+$$ c^2\pdt{y}{x} = \pdt{y}{t}$$
+If we subsitute $u = x-ct,\; v = x + ct$ it evolves to
+$$\pdo{^2y}{u\partial v} = 0$$
+The general solution of the equation above is:
+$y = F_1(u) + F_1(v) \implies y = F_1(x+ct) + F_2(x-ct)$\\
+Consider $y = F_2(x-ct)$ i.e. $F_1 = 0$ and when $t = 0$, $y = F_2(x) \;\;\; (=f(x))$\\
+If t = 1,
+$y(x,1) = F_2(x - c.1)$ i.e. we have a wave pulse moving to the right at the speed of $c$\\
+Similarly for the other term we have\\
+$y = F(x+ct)$ acting like a wave with speed $c$ moving to the left.\\
+In general with $g(x) = 0$
+$$y(x,0) = f(x) \implies F_1(p) = \frac{1}{2}f(p)\;\; and \;\; F_2(p) = \frac{1}{2}f(p)$$
+$$y(x,t) = \frac{1}{2}\Big(f(x-ct) + f(x+ct)\Big)$$
+
+In general it seems like the whole wave breaks into two parts, one that goes left with speed $c$ and one that goes right with speed $c$\\
+
+\includegraphics[width=0.8\textwidth]{left.jpg}\\
+\includegraphics[width=0.8\textwidth]{right.jpg}\\\\
+
+Superimposed they look like this:\\
+\includegraphics[width=0.8\textwidth]{superimposed.jpg}\\
+Capital U ($U$) and Small u ($u$) are used interchangably below\\
+For the infinite string (ends as far away so that we don't have to deal with boundary conditions)
+$$U_{tt} = c^2 U_{xx} \;\;\;\; t \geq 0 \; \forall \; -\infty < x < \infty$$
+$$U(x,0) = f(x),\;\; U_t(x,0) = g(x)$$
+The general solution is :
+$$U(x,t) = F_1(x-ct) + F_2(x+ct)$$
+\begin{enumerate}
+    \item $u(x,0) = f(x) \implies F_1(x) + F_2(x) = f(x)$
+    \item $u_t(x,0) = g(x) \implies -c F_1'(x) + cF_2'(x) = g(x)$
+\end{enumerate}
+We integrate 2. - introduce a dummy variable:\\
+$$-c\int^x_0F_1'(s)ds + c\int^x_0F_2'(s)ds = \int^x_0g(s)ds$$
+$$\implies -F_1(x) + F_2(x) = \frac{1}{c}\int^x_0g(s)ds + (F_2(0) - F_1(0))\;\;\;\; 3.$$
+Adding 1. and 3. we get:
+$$F_2(x) = \frac{1}{2}[f(x) + \frac{1}{c}\int^x_0g(s)ds + F_2(0) - F_1(0)]$$
+Subtracting 3. from 1.
+$$F_1(x) = \frac{1}{2}[f(x) - \frac{1}{c}\int^x_0g(s)ds - F_2(0) + F_1(0)]$$
+
+$$U(x,t) = \frac{1}{2}\Big[f(x-ct) + f(x+ct)\Big] + \frac{1}{2c}\int^{x+ct}_{x-ct} g(s) ds$$
+
 \end{document}

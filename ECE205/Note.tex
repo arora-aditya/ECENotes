@@ -1493,5 +1493,27 @@ Subtracting 3. from 1.
 $$F_1(x) = \frac{1}{2}[f(x) - \frac{1}{c}\int^x_0g(s)ds - F_2(0) + F_1(0)]$$
 
 $$U(x,t) = \frac{1}{2}\Big[f(x-ct) + f(x+ct)\Big] + \frac{1}{2c}\int^{x+ct}_{x-ct} g(s) ds$$
+\includegraphics[width=0.8\textwidth]{superimposed.jpg}\\
+\textbf{The effect of $g(x)$}\\
+The integral is only active in a given range, only as time passes do you actually start to feel the signal i.e. if you wait long enough you'll feel the signal [$g(x)$]\\
+This is true in ideal conditions, in reality it often loses energy\\
+\subsubsection{D'Alemberts solution on the finite string}
+$$U_{tt} = c^2 U_{xx} \;\;\;\; t \geq 0 \; \forall \; -\infty < x < \infty$$
+$$U(0,t) = U(L,t) = 0$$
+$$U(x,0) = f(x),\;\; U_t(x,0) = 0$$
+From earlier recall,
+$$U_n(x,t) = A_n cos(\frac{n\pi ct}{L}) sin(\frac{n \pi x}{L}) \implies U_n(x,t) = \frac{1}{2}A_n\Big[sin(\frac{n\pi}{L}(x+ct)) + sin(\frac{n\pi}{L}(x-ct)) \Big]$$
+$$U_n(x,t) = F_{n,1}(x+ct) + F_{n,2}(x-ct)$$
+$$\implies U(x,t) = \sum_{n=1}^\infty U_n(x,t) = \sum_{n=1}^\infty F_{n,1}(x+ct) + \sum_{n=1}^\infty F_{n,2}(x-ct)$$
+$$\implies U(x,t) = F_1(x+ct) + F_2(x-ct)$$
+Going backwards you will get:\\
+$$F_2(x-ct) = \sum_{n=1}^\infty \frac{1}{2}A_n sin(\frac{n\pi}{L}(x+ct))$$
+$$F_2(x) = \frac{1}{2}f(x) = \sum_{n=1}^\infty \frac{1}{2}A_n sin(\frac{n\pi x}{L})$$
+where $f(x)$ was originally defined on the string from $[0,L]$\\
+Let $\widetilde{f}: \R \to \R$ be the 2$L$ periodic odd extension of $f(x)$\\
+$$\widetilde{f} = \sum A_n sin(\frac{n \pi s}{L})\;\; s\;\epsilon\;\R$$
+$\widetilde{f}(x-ct) = F_2(x-ct)$ and similarly $\widetilde{f}(x+ct) = F_1(x+ct)$ such that
+$$U(x,t) = \frac{1}{2}[\widetilde{f}(x+ct) + \widetilde{f}(x-ct)]$$
+\includegraphics[width=0.8\textwidth]{48360299_943482375858391_8085245058200109056_n.jpg}
 
 \end{document}

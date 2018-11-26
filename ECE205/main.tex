@@ -35,6 +35,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{booktabs}
 \setlist[itemize]{noitemsep, topsep=0pt}
 \setlength{\OuterFrameSep}{0pt}
 \graphicspath{ {./images/} }
@@ -42,7 +43,18 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\iu}{{j\mkern1mu}}
+\newcommand{\F}{{\mathcal{F}}}
+\newcommand{\pd}{{\partial}}
+\newcommand*{\ddo}[2]{\frac{d{#1}}{d{#2}}}%
+\newcommand*{\dt}[2]{\frac{d^2{#1}}{d{#2}^2}}
+\newcommand*{\pdo}[2]{\frac{\pd{#1}}{\pd{#2}}}%
+\newcommand*{\pdt}[2]{\frac{\pd^2{#1}}{\pd{#2}^2}}
 \newcommand*{\Co}[2]{{}^{#1}C_{#2}}%
+\newcommand*{\nbt}{\nabla^2}
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
 \lstset { %
     language=C++,
     backgroundcolor=\color{black!5}, % set backgroundcolor
@@ -54,7 +66,6 @@
 \begin{document}
 \title{Review}
 \thispagestyle{empty}
-
 \begin{center}
 {\vspace{5mm} \LARGE ECE 205 - Fall 2018 \\ \vspace{5mm}Aditya Arora\\ \vspace{5mm} 6th September 2018}\\
 {\vspace{5mm} \LARGE \bf Week 1 - Review \& Introduction}
@@ -81,7 +92,7 @@ $$Ae^{\alpha t}cos\beta t + Be^{\alpha t}sin\beta t \; (A,\:B\: \epsilon\: \R)$$
 \section{Linear Algebra}
 Everything is set up to manage and use Vector Spaces as $\R^n, M_{m+n} \; P_3$
 \subsection{Linear Equation}
-$$A\vec{x} = \vec{b}$$
+$$A\vec{x} = \vec{b}$$ 
 $A\:  \epsilon\:  M_{m+n}\: [known],\: b\: \epsilon\: \R^n\:  [unknown],\: b\: \epsilon\:  \R^m\:  [known]$
 \subsubsection{Special Cases}
 Homogeneous Equation:$A\vec{x} = \vec{0}_{\R^m}$\\
@@ -89,7 +100,7 @@ $\vec{0}_{\R^n}$ is a solution\\
 A solution set \textbf{$S$} is a vector subspace of $\R^n$\\
 If $\vec{x}_1, \vec{x}_2 \epsilon S$ then $\vec{x}_1 + \vec{x}_2 \epsilon S$ and if $\vec{x}_1 \epsilon S $ then $ c\vec{x}_1 \epsilon S$
 \subsubsection{Some other points}
-Consider In-homogeneous equation $$A\vec{x} = \vec{b}$$
+Consider In-homogeneous equation $$A\vec{x} = \vec{b}$$ 
 $\vec{b} \neq \vec{0}$ with  solution set $\tilde{S}$
 \begin{enumerate}
     \item Lemma 1: Let $\vec{y_1}\; \epsilon\; \tilde{S}$ and $\vec{y_2}\; \epsilon\; \tilde{S}$\\
@@ -133,15 +144,15 @@ A DE is called a partial differential equation (PDE) to mean that it contains pa
 \textbf{Def \#5:} We say that a DE is linear to mean that all the terms in the dependent variable(s) are linear expressions\\
 \textit{Eg:} Let $x = x(t)$, x is the dependent variable\\
 Not linear
-$$\frac{dx}{dt} + x^2 = 0$$
+$$\frac{dx}{dt} + x^2 = 0$$  
 Linear
-$$\frac{d^2x}{dt^2} + xt^2 = 0$$
+$$\frac{d^2x}{dt^2} + xt^2 = 0$$ 
 Not linear (product of terms in x)
-$$\frac{d^2x}{dt^2}\frac{dx}{dt} + sin(t) = 0$$
+$$\frac{d^2x}{dt^2}\frac{dx}{dt} + sin(t) = 0$$ 
 Linear
-$$\frac{d^2x}{dt^2}+ sin(t)\frac{dx}{dt} + cos(t)x = t^2$$
+$$\frac{d^2x}{dt^2}+ sin(t)\frac{dx}{dt} + cos(t)x = t^2$$ 
 Not linear
-$$\frac{d^2x}{dt^2}+ sin(t)\frac{dx}{dt} + cos(tx) = t^2$$
+$$\frac{d^2x}{dt^2}+ sin(t)\frac{dx}{dt} + cos(tx) = t^2$$ 
 
 In this course we will examine, 1st order ODE (4 types, one of them is linear), 2nd order linear
 \newpage
@@ -149,7 +160,7 @@ In this course we will examine, 1st order ODE (4 types, one of them is linear), 
     {\LARGE 7th September 2018 \\ Lecture 2}
 \end{center}'
 
-\textbf{Def \#6:} The most general $n^{th}$ order ODE is of the form
+\textbf{Def \#6:} The most general $n^{th}$ order ODE is of the form 
 $$a_n(t)\frac{d^nx}{dt^n} + a_{n-1}(t)\frac{d^{n-1}x}{dt^{n-1}} + a_{n-2}(t)\frac{d^{n-2}x}{dt^{n-2}} + ... + a_0(t)\frac{dx}{dt} + f(t) = 0$$
 
 The coefficient function $a_n(t) \neq 0$, meaning it cannot be the $0^{th}$ function all the time, but it can have occasional zeros, \textit{Eg:} It can be $sin(t)$. If it is always zero then it will not be $n^{th}$ order anymore
@@ -158,7 +169,7 @@ The coefficient function $a_n(t) \neq 0$, meaning it cannot be the $0^{th}$ func
 
 \textbf{Def \#8:} If the ODE is not homogeneous then we call it in-homogeneous or non-homogeneous
 
-\textbf{Def \#9:} Given a linear in-homogeneous ODE, $$a_n(t)\frac{d^nx}{dt^n} + a_{n-1}(t)\frac{d^{n-1}x}{dt^{n-1}} + a_{n-2}(t)\frac{d^{n-2}x}{dt^{n-2}} + ... + a_0(t)\frac{dx}{dt} + f(t) = 0, \; f(t) \not\equiv 0$$
+\textbf{Def \#9:} Given a linear in-homogeneous ODE, $$a_n(t)\frac{d^nx}{dt^n} + a_{n-1}(t)\frac{d^{n-1}x}{dt^{n-1}} + a_{n-2}(t)\frac{d^{n-2}x}{dt^{n-2}} + ... + a_0(t)\frac{dx}{dt} + f(t) = 0, \; f(t) \not\equiv 0$$ 
 Then we call the ODE, $$a_n(t)\frac{d^nx}{dt^n} + a_{n-1}(t)\frac{d^{n-1}x}{dt^{n-1}} + a_{n-2}(t)\frac{d^{n-2}x}{dt^{n-2}} + ... + a_0(t)\frac{dx}{dt} + 0 = 0,$$ the associated homogeneous equation
 
 \textbf{Def \#10:}\\
@@ -174,7 +185,6 @@ Then we call the ODE, $$a_n(t)\frac{d^nx}{dt^n} + a_{n-1}(t)\frac{d^{n-1}x}{dt^{
 $$\int_a^bf(x)dx = N\;\; a,\;b\; \epsilon\; \R \implies \frac{d}{dt}(\int_a^bf(x)dx) = \frac{dN}{dt} = 0$$
 \\
 $$\int^\tau sin(x)dx = g(\tau) \implies g(\tau) = -cos(\tau) + c \implies \frac{d}{d\tau} \int^\tau sin(x)dx = sin(\tau)$$
-
 
 \newpage
 \begin{center}
@@ -200,14 +210,14 @@ We say that $\frac{dy}{dx} = F(x, y)$ is a seperable ODE to mean that $F(x, y) =
     If $B(y_1) = 0$, then $y = y_1$ is a solution of this ODE\\
     Find all such functions $y = y_1$, $y = y_2, \dots$
     \item Otherwise when $y \neq y_1$, $y \neq y_2, \dots$, $B(y) \neq 0$, which means we can divide by it
-    $$\frac{dy}{dx} = A(x).B(y)$$
+    $$\frac{dy}{dx} = A(x).B(y)$$ 
     $$\implies \frac{1}{B(y)}\frac{dy}{dx} = A(x)$$
     $$\implies \int \frac{1}{B(y)}\frac{dy}{dx} dx = \int A(x) dx$$
-    $$\implies \int \frac{1}{B(y)}dy = \int A(x) dx$$
+    $$\implies \int \frac{1}{B(y)}dy = \int A(x) dx$$ 
     On integrating if you can,
     $$H(y) = K(x)$$
     \textit{Only need constant on one side of these integrations}
-
+    
 \end{enumerate}
 \textit{Eg:} $$\frac{dy}{dx} = -xy$$
     $$\implies \frac{1}{y}\frac{dy}{dx} = -x$$
@@ -215,9 +225,9 @@ We say that $\frac{dy}{dx} = F(x, y)$ is a seperable ODE to mean that $F(x, y) =
     $$\implies ln|y| = \frac{-x^2}{2} + c$$
     $$\implies |y| = e^{\frac{-x^2}{2} + c}$$
     $$\implies |y| = e^{\frac{-x^2}{2}}.e^c,\;\; e^c = A \epsilon \R^+$$
-    $$\implies y = \pm Ae^{\frac{-x^2}{2}},\;\; A\; \epsilon\; \R^+$$
+    $$\implies y = \pm Ae^{\frac{-x^2}{2}},\;\; A\; \epsilon\; \R^+$$ 
     $$\implies y = Ae^{\frac{-x^2}{2}},\;\; A\; \epsilon\; \R\; -\; \{0\}$$
-
+    
     But solution set,
     $$\{y = \pm Ae^{\frac{-x^2}{2}},\;\; A\; \epsilon\; \R\}$$
 
@@ -234,8 +244,8 @@ The differential equation $\frac{dy}{dx} = F(x,y)$ is said to be linear to meant
 \begin{equation} \label{eq:1}
 \frac{dy}{dx} = p(x)y + q(x) \implies \frac{dy}{dx} - p(x)y = q(x)
 \end{equation}
-
-Homogeneous means $q(x) \equiv 0$ when not homogeneous.
+ 
+Homogeneous means $q(x) \equiv 0$ when not homogeneous. 
 \begin{equation} \label{eq:2}
 \frac{dy}{dx} - p(x)y = 0
 \end{equation}
@@ -257,7 +267,7 @@ i.e. the easiest thing to integrate is a derivative CFT(I)\\
     \item What we got, and what we want:
     $$I\frac{dy}{dx} - pIy = I(x)\frac{dy}{dx} + y(x)\frac{dI}{dx} \implies -p(x)I(x)y(x) = y(x)\frac{dI}{dx}$$
     for $y(x)\; \neq\; 0$
-    $$\implies -p(x)I(x) = \frac{dI}{dx} \implies -\int^x p(a) da = \int \frac{1}{I(x)} \frac{dI}{dx}dx \mbox{ [Solving 1st order separable ODE]}$$
+    $$\implies -p(x)I(x) = \frac{dI}{dx} \implies -\int^x p(a) da = \int \frac{1}{I(x)} \frac{dI}{dx}dx \mbox{ [Solving 1st order separable ODE]}$$ 
     But don't forget to find the solutions of $I(x) \equiv 0 \implies I = 0$, but that solution is not useful
     $$\implies -\int^x p(a) da = ln(|I(x)|) \implies |I(x)| = e^{-\int^x p(a) da} \implies I(x) = \pm e^{-\int^x p(a) da}$$
     \item Choosing the positive integration factor, and moreover we will choose the constant of the integration on the right to be zero so that we get exactly one Integration factor.
@@ -298,7 +308,6 @@ $$\implies y = -\frac{2x}{3} - \frac{2}{9} + ce^{3x} \;\;\;\;\;\;\; c\; \epsilon
 \vspace{5000mm}
 \clearpage
 \newpage
-
 \begin{center}
     {\LARGE 14th September Part 1}\\
 \end{center}
@@ -347,7 +356,7 @@ Suppose we have our $1^{st}$ order ODE $$\frac{dy}{dx} = F(x,y)$$. When we have 
 
 Our solution from earlier becomes: $$G(x,y) = \frac{y + \frac{2}{3}x + \frac{2}{9}}{e^{3x}}$$
 
-If we differentiate this expression:
+If we differentiate this expression: 
 $$\frac{\partial G}{\partial x} + \frac{\partial G}{\partial y}\frac{dy}{dx} = 0$$
 $$\implies \frac{dy}{dx} = -\frac{\frac{\partial G}{\partial x}}{ \frac{\partial G}{\partial y}}$$
 
@@ -373,7 +382,7 @@ $$\frac{\partial }{\partial y}\frac{\partial G}{\partial x} = \frac{\partial M(x
 
 Given the ODE $mdx + Ndy = 0$ we say that the equation is exact to mean that the condition above is satisfied $\frac{N(x,y)}{\partial x} = \frac{\partial M(x,y)}{\partial y}$
 
-\textit{Eg:}
+\textit{Eg:} 
 $$
 \frac{dy}{dx} = \frac{-1}{\frac{-(6y^2-x^2+3}{3x^2-3xy+2}}
 $$
@@ -388,8 +397,6 @@ We also need $G$ to satisfy $\frac{\partial G}{\partial y} = 6y^2 -x^2 + 3$\\
 A solution is $G = 2y^3 -x^2y + 3y$.\\ The most general solution is $G = 2y^3 -x^2y + 3y + B(x)$ where $B(x)$ for some function $B(x)$\\\\
 Thus, the general solution of the DE is: $G(x,y) = x^3 + 2y^3 - x^2y + 2x + 3y + c$
 
-\newpage
-
 \begin{center}
     {\LARGE 18th September}\\
 \end{center}
@@ -402,7 +409,7 @@ Instead of remembering formulas remember:
 
 $Mdx + Ndy = 0$ and that our solution for that is $\frac{\partial G}{\partial x}dx + \frac{\partial G}{\partial y}dy = 0$ and thus, $M=\frac{\partial G}{\partial x}$ and $N = \frac{\partial G}{\partial y}$.
 
-And for a nice function $f$
+And for a nice function $f$ 
 $$\frac{\partial^2G}{\partial x \partial y} = \frac{\partial^2G}{\partial y \partial x} \implies \frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}\;\;\;\;\;\;\;\;\;\;\;\; \text{Clairaut's theorem on equality of mixed partials}$$
 
 \subsubsection{Why could the Clairaut's theorem on equality of mixed partials fail for a G}
@@ -442,7 +449,7 @@ $$\implies M = 1+xy \implies M_y = x$$
 $$\implies N = x^2 \implies N_x = 2x$$
 Thus, $x \not\equiv 2x$, i.e. they are not identical, but they can be equal at $x = 0$
 We examine $\frac{M_y - N_x}{N} = \frac{x-2x}{x^2} = -\frac{1}{x}$\\
-Since is this a function of $x$ only,
+Since is this a function of $x$ only, 
 \begin{itemize}
     \item There will be an integration factor for the DE of the form $I(x,y) = I(x)$
     \item $\frac{dlnI}{dx} = -\frac{1}{x}$, integration $ln(I) = ln|\frac{1}{x}|$ and one solution is $I(x) = x^{-1}$
@@ -473,13 +480,13 @@ $(Iy^2)_y = \frac{dI}{dy}y^2 + 2yI$ and $(I(1+xy))_x = I_y $\\
 If we equate these, $y^2\frac{dI}{dy} + 2yI = I_y \Longleftrightarrow y^2\frac{dI}{dy} + yI$\\
 Assuming $y \not \equiv 0$,
 $$\frac{dI}{dy}\frac{1}{I} = -\frac{1}{y}$$
-Integrating we get,
+Integrating we get, 
 $$ln|I| = -ln|y| \implies ln|I||y| = 0 \implies |Iy| = e^0 \implies Iy = \pm 1 \implies I = \frac{1}{y} \;\;\;\; \text{(Choosing the positive one only)}$$
-$(1)$ becomes,
+$(1)$ becomes, 
 $$ydx + \frac{1+xy}{y}dy = 0$$
-There exists a $G(x,y)$ such that
+There exists a $G(x,y)$ such that 
 $G_x = y \implies G= xy + F(y)$ and $G_y = \frac{1}{y} + x \implies G = xy + ln|y| + H(x)$\\
-Thus,
+Thus, 
 $$G = xy + ln|y| \;\;\;\;\; \text{and the Solution is } G = xy + ln|y| = c$$
 \section{Second Order Linear ODEs}
 $$a_2(x)\frac{d^2y}{dx^2} + a_1(x)\frac{dy}{dx} + a_0(x)y = f(x)$$
@@ -514,7 +521,7 @@ There are three cases:
     \item Two real distinct roots $m_1, m_2$\\
     Two solutions $e^{m_1x}, e^{m_2x}$ which are two linearly independent solutions\\
     General solution: $y = Ae^{m_1x} + Be^{m_2x}$\\
-    Solution set is $\{Ae^{m_1x} + Be^{m_2x}\} = span(\{e^{m_1x}, e^{m_2x}\})$
+    Solution set is $\{Ae^{m_1x} + Be^{m_2x}\} = span(\{e^{m_1x}, e^{m_2x}\})$ 
     \item Real equal roots $m_1 = m_2$; $y = e^{m_1x}$ is a solution\\
     This is bad luck (i.e. Conrad Resonance of Type 1)\\
     Another independent solution is $y_2 = xy_1 = xe^{m_1x}$\\
@@ -532,7 +539,7 @@ There are three cases:
 
 \textbf{Note:} $Acos(\beta t) + B sin(\beta t) = Rcos(\beta t - \phi)$
 then $R = \sqrt{A^2 + B^2}$ and $tan(\phi) = \frac{B}{A}$\\
-\textit{Eg:} Solve
+\textit{Eg:} Solve 
 \begin{itemize}[topsep=-10pt]
     \item $y'' + 2y' -8y = 0$\\
     Try $e^{mx}$, we get $(m^2 + 2m - 8)e^{mx} = 0 \implies (m^2 + 2m - 8) = 0$ \\$\implies (m+4)(m-2) = 0 \implies m = -4, 2$\\
@@ -547,10 +554,9 @@ then $R = \sqrt{A^2 + B^2}$ and $tan(\phi) = \frac{B}{A}$\\
     \item $y'' - 2y' + 5y = 0$
     Try $e^{mx}$, we get $(m^2 - 2m + 5)e^{mx} = 0 \implies (m^2 - 2m + 5) = 0$ \\$ \implies m = 1 \pm 2j$\\
     We have
-
+    
 \end{itemize}
 \newpage
-
 \begin{center}
     {\LARGE 24th September}\\
 \end{center}
@@ -611,8 +617,8 @@ $y_p = -\frac{3}{40}sin2x + -\frac{1}{40}cos(2x)$ with the general solution bein
 Try $y_p = ae^{2x}$
 We put $y_p$ into the LHS of the DE:\\
 LHS becomes zero, because it is already of the homogeneous solution.
-We know that this will give zero, i.e. we have bad luck (i.e. Conrad Resonance of Type 2)\\
-Instead we try:
+We know that this will give zero, i.e. we have bad luck (i.e. Conrad Resonance of Type 2)\\ 
+Instead we try: 
 $y_p = x(ae^{2x}) \implies y_p' = a(2x+1)e^{2x}$ and $y_p'' = a(4x+2+2)e^{2x}$\\
 Putting this in the LHS of the DE we get $a(4x + 4 + 4x + 2 - 8x)e^{2x} = 6ae^{2x}$\\
 We want this to be equal to RHS, we need $6a = 1 \implies a = \frac{1}{6}$
@@ -626,7 +632,6 @@ We use $x^2$ because it is over 2
 Thus we have to try: $y_p = x^2(ax^2+bx+c)e^{5x}$
 
 \newpage
-
 \begin{center}
     {\LARGE 25th September}\\
 \end{center}
@@ -653,8 +658,6 @@ Since we know $I = \frac{dQ}{dt} \implies \frac{d^2Q}{dt^2} + \frac{R}{L}\frac{d
 Spring constant k \\ Hooke's Law $F = -kx$\\ Air resistance for low velocity $\approx \alpha \frac{dx}{dt}$\\
 $\frac{d}{dt}(mv) = mg -kx -\alpha \frac{dx}{dt}$
 \newpage
-
-
 \begin{center}
     {\LARGE 27th September}\\
 \end{center}
@@ -687,11 +690,10 @@ $$\frac{d}{dt}(Qe^{\frac{t}{RC}}) = \frac{1}{R}e^{\frac{t}{RC}}V(t)$$
     The first part is the steady state term, and other one dies away and is the transient part
 \end{enumerate}
 \newpage
-
 \begin{center}
     {\LARGE 28th September}\\
 \end{center}
-\newgeometry{top=-10mm, bottom=4mm, left=10mm, right=10mm}
+\newgeometry{top=-10mm, bottom=4mm, left=10mm, right=10mm} 
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{friday/1.jpg}\\
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{friday/2.jpg}\\
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{friday/3.jpg}\\
@@ -701,7 +703,6 @@ $$\frac{d}{dt}(Qe^{\frac{t}{RC}}) = \frac{1}{R}e^{\frac{t}{RC}}V(t)$$
 \restoregeometry
 \clearpage
 \newpage
-
 \textbf{Part 2: Driving term/ Forcing Term}
 $$\ddot{x} + 2\lambda \dot{x} + \omega_0^2x = F(t)$$
 $\omega_0$ is the natural frequency of the system.
@@ -717,7 +718,7 @@ $x = x_H + x_P$ where $x_H$ solves $\ddot{x} + \omega_0^2x = 0$, $x_H = Rcos(\om
 $x_P = Asin(\Omega t) + Bcos(\Omega t)$\\
 $\dot{x}  = \Omega[A cos\Omega t - Bsin\Omega t]$\\
 $\ddot{x} = \Omega^2 [-x_p]$\\
-Put into the DE to get
+Put into the DE to get 
 $$-\Omega^2x_p + \omega_0^2x_p = cos(\Omega t)$$
 Thus
 $$(\omega_0^2-\Omega^2)[Asin(\Omega t) + Bcos(\Omega t)] = 1\dot cos(\Omega t)$$\\
@@ -747,7 +748,6 @@ This has linear growth and it eventually breaks as visible from the graph on the
 
 
 \textit{Lemma:} $L[t^nf(t)] = (-1)^n\frac{d^nF(s)}{ds^n}$, where $L[f(t)] = F(s)$
-
 \newpage
 \section{Fourier Series}
 \subsection{Hyper applied linear algebra}
@@ -756,12 +756,12 @@ We're going to be looking in $C^\infty [-\pi, \pi]$, i.e. infinitely differentia
 \textbf{Unique Representation Theorem:} Any vector in a given space can be represented in exactly one way using the given bases [There is only one way because the basis are all linearly independent]
 
 
-To get from one base to another, there are 2 ways.
+To get from one base to another, there are 2 ways. 
 \begin{enumerate}[topsep=-10pt,itemsep=-5pt]
     \item Solve the equation
     \item Change of basis/co-ordinate matrix
     \item Orthogonal / Orthonormal basis
-\end{enumerate}
+\end{enumerate}  
 \subsubsection{Ortho-normal Basis}
 
 $B_1 = \{
@@ -830,7 +830,7 @@ Consider the basis $B = \{1, cosx, cos2x,....sin(x), sin(2x)....sin(mx)\}$ and t
 
 $$<1,cosnx> = \int^\pi_{-\pi} 1cos(nx)dx = \frac{sin(nx)}{n}|^{\pi}_{-\pi} = 0$$
 
-$$<1,sinmx> = \int^\pi_{-\pi} 1sin(mx)dx =
+$$<1,sinmx> = \int^\pi_{-\pi} 1sin(mx)dx = 
 \frac{cos(mx)}{-m}|^{\pi}_{-\pi} = 0$$
 If $m \neq n$,
 $$<cos(mx),cos(nx)> = \int^\pi_{-\pi} cos(mx)cos(nx)dx = 0$$
@@ -854,14 +854,13 @@ The scalars $a_0, a_1, ....b_1, ...b_m$ are called the fourier coefficients of h
 Consider $h(x) = x$ on $(-\pi, \pi)$, and $h(x)$ is an odd function\\
 $$a_0 = \frac{1}{\pi}\int^\pi_{-\pi}xdx = 0 \text{ since it is an odd function}$$\\
 $$a_k = \frac{1}{\pi}\int^\pi_{-\pi}xcos(kx)dx = 0 \text{ since it is an odd function}$$\\
-$$b_m = \frac{1}{\pi}\int^\pi_{-\pi}xsin(mx)dx = \frac{2}{\pi}\int^\pi_{0}xsin(mx)dx = \frac{2}{\pi}[\frac{xcos(mx)}{-m}|_0^\pi + \frac{1}{m}\int^\pi_0cos(mx)dx] = \frac{2}{\pi}\frac{\pi cos(m\pi)}{-m}$$
+$$b_m = \frac{1}{\pi}\int^\pi_{-\pi}xsin(mx)dx = \frac{2}{\pi}\int^\pi_{0}xsin(mx)dx = \frac{2}{\pi}[\frac{xcos(mx)}{-m}|_0^\pi + \frac{1}{m}\int^\pi_0cos(mx)dx] = \frac{2}{\pi}\frac{\pi cos(m\pi)}{-m}$$ 
 $$= 2(-1)^m/-m = \frac{2(-1)^{m+1}}{m}$$
-Thus the fourier series for the function $x$ is
+Thus the fourier series for the function $x$ is 
 $$2[1sin(1x) -\frac{1}{2}sin(2x) + \frac{1}{3}sin(3x) -\frac{1}{4}sin(4x)+\dots + \frac{(-1)^{m+1}sin(mx)}{m}]$$
 \subsection{Partial sums}
 $$S_1 = 2sin(1x)$$
 $$S_2 = 2[sinx - \frac{1}{2}sin(2x)]$$
-
 \newpage
 \textit{Notice:} The original function was defined on $(-\pi, \pi)$ but the Fourier series is defined on the whole of R and has period $2\pi$, so what does it converge to?\\
 Let $F(x)$ be defined on $(-\pi, \pi)$. We define the $2\pi$ periodic extension of $F,\; F_p(x)$ as follows:
@@ -871,7 +870,7 @@ Let $F(x)$ be defined on $(-\pi, \pi)$. We define the $2\pi$ periodic extension 
     \includegraphics[width=\textwidth]{fourier1.jpg}\\
 
 \textbf{Theorem:} Point-wise Convergence of Fourier Series\\
-Suppose $G(x)$ has a period of $2\pi$ and is a piecewise in $\C'$ then:
+Suppose $G(x)$ has a period of $2\pi$ and is a piecewise in $\C'$ then: 
 \begin{enumerate}[topsep=-10pt]
     \item The Fourier series of $G(x)$ converges pointwise for all $x_0 \epsilon \R$:
     $$\frac{1}{2}a_0 + \sum ^\infty_{k=1}a_kcos(kx) + \sum ^\infty_{m=1}b_msin(mx) = N_{x_0}$$
@@ -895,8 +894,6 @@ We will extend $F(x)$ there are 5 ways:\\
 $$x = 2[sinx -\frac{sin2x}{2} + \frac{sin3x}{3} + \dots] \text{ on } [-\pi, \pi]$$
 $$\implies \frac{\pi}{2} = 2[1 - \frac{1}{3} + \frac{1}{5} \dots]\implies \frac{\pi}{4} = \sum^\infty_{n=0} \frac{(-1)^n}{2n + 1}$$
 
-
-
 If $F(x)$ is defined on $(0,\pi)$\\
 \includegraphics[width=\textwidth]{extensions.jpg}\\
 
@@ -908,14 +905,14 @@ $a_n = 0$, when n is even, and is $-\frac{4}{\pi n^2}$\\
 $F(x) = \frac{\pi}{2} - \frac{4}{\pi}[\frac{cosx}{1^2} + \frac{cos3x}{3^2} + \dots]$\\
 $$F(x) = \frac{\pi}{2} - \frac{4}{\pi}\sum_{n=0}^\infty\frac{cos(2n+1) x}{(2n+1)^2}$$\\
 $\pi$ Periodic Extension: There are two ways for this\\
-\[F(x) =  \begin{cases}
+\[F(x) =  \begin{cases} 
       x & (0,\pi) \\
       x+\pi & (-\pi, 0) \\
       2.5 & x = 0
    \end{cases}
 \]
 \textbf{OR WE CAN DO}
-\[F(x) =  \begin{cases}
+\[F(x) =  \begin{cases} 
       x & (0,\pi/2) \\
       x+\pi & (-\pi/2, 0) \\
       0 & x = 0
@@ -932,7 +929,6 @@ $$b_n =  \frac{2}{\pi}\int^{\frac{\pi}{2}}_{\frac{-\pi}{2}}F(x)sin(2nx)dx = \fra
 $$\implies \frac{2}{\pi}[\int^{\frac{\pi}{2}}_{\frac{-\pi}{2}} xsin(2nx)dx + \int^{0}_{\frac{-\pi}{2}}\pi sin(2nx)dx] = \frac{2}{\pi}[2(\frac{xcos(2nx)}{-2n})|_0^{\frac{\pi}{2}} + \frac{1}{2n}\int^{\frac{\pi}{2}}_0 cos(2nx)dx + \pi \frac{cos(2nx)}{-2n}|^0_{\frac{-\pi}{2}}] = \frac{-1}{n}$$
 
 $$\implies F(x) = \frac{\pi}{2} - \sum^\infty_1 \frac{sin(2nx)}{n}$$
-
 \newpage
 Consider a function with period $\tau$ defined on $[-\frac{\pi}{2}, \frac{\pi}{2}]$, $2\pi \rightarrow \tau$ i.e. $2L = \tau$
 $$F(t) = \frac{1}{2}a_0 + \sum^\infty_1 a_nsin(\frac{2n\pi t}{\tau}) + \sum^\infty_1 b_ncos(\frac{2n\pi t}{\tau})$$
@@ -950,7 +946,7 @@ In this space a basis is $\{1, e^{\iu n\omega_0 t}\}_{n\; \epsilon\; \Z}$ which 
 $$<e^{\iu n\omega_0 t}, e^{\iu m\omega_0 t}> = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} e^{\iu n\omega_0 t} e^{-\iu m\omega_0 t}dt = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} e^{\iu (n-m)\omega_0 t}dt = \frac{e^{\iu(n-m)\omega_0t}}{\iu (n-m)\omega_0}|^\frac{\tau}{2}_{-\frac{\tau}{2}} = 0 \text{ given }m \neq n$$
 $$<1,1> = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} 1dt = \tau$$
 $$||e^{\iu n\omega_0 t}|| =  <e^{\iu n\omega_0 t}, e^{-\iu n\omega_0 t}> = \int^{\frac{\tau}{2}}_{\frac{-\tau}{2}} e^0dt = \tau$$\\
-Let function $F(t)$ be a function in the vector space. We define the complex Fourier Series of $F(t)$ as follows
+Let function $F(t)$ be a function in the vector space. We define the complex Fourier Series of $F(t)$ as follows 
 $$\sum^\infty_{n=-\infty}C_ne^{
 \iu n\omega_0t} \text{   = F(t) for most of the time}$$
 
@@ -984,7 +980,6 @@ If the function $f(t)$ is real $C_{-n} = \overline{C_n}$\\
 \end{enumerate}
 Using these we can get the result: $C_n = \frac{1}{2}(a_n - jb_n)$ and the other way: $a_n = (C_n + \overline{C_n}) = (C_n + {C_{-n}})$ and $b_n = \frac{1}{j}(\overline{C_n} - C_n) = j(C_n - \overline{C_n})$\\
 \hfill\break
-
 \textit{In a vector space with a basis $B$, if $\underline{v} \epsilon V$ and we know the components of $\underline{v}$ in B then we know everything about $\underline{v}$}\\
 Suppose we have the complex Fourier coefficients of $f(t)$ then we know everything about $f(t)$\\
 $C_n\; \epsilon\; \C$ and $C_n = |C_n|e^{i\phi}$ where $|C_n|$ is the magnitude and $\phi$ is the phase.\\
@@ -1026,9 +1021,9 @@ Suppose we have a function which is defined on $[-\frac{\tau}{2}, \frac{\tau}{2}
 \\
 \includegraphics[width=0.8\textwidth]{non-periodic.jpeg}\\
 
-We define
+We define 
 $$F(\omega) =  \int^{\infty}_{-\infty} f(t) e^{-j\omega t}dt $$
-Consider the complex Fourier series $f_\tau (t)$
+Consider the complex Fourier series $f_\tau (t)$ 
 $$\lim_{\tau\to\infty} f_\tau(t) = f(t)$$\\
 \includegraphics[width=0.8\textwidth]{periodic.jpg}\\
 
@@ -1040,7 +1035,6 @@ $$f_\tau(t) = \sum_{n = -\infty}^\infty \frac{1}{\tau}F(n\Delta\omega)e^{jn\omeg
 $$[\text{Riemann Sum: }\lim_{N\to\infty, \Delta t \to 0} \sum_{n = 1}^N g(a+n\Delta t) \Delta t = \int_a^b g(t)dt \text{ where } b = a + n\Delta t]$$
 $$\lim_{\tau \to \infty} f_\tau (t) = \frac{1}{2\pi}\lim_{\tau \to \infty, \Delta\omega \to 0}\sum_{n=-\infty}^\infty F(n\Delta\omega)e^{jtn\Delta \omega}\Delta \omega = \frac{1}{2\pi}\int^\infty_{-\infty}F(\omega)  e^{jt\omega}d\omega$$
 $$ = \int_{-\infty}^{\infty}F(\omega)e^{jt\omega}\;\; \text{ which is known as the Fourier Integral}$$
-
 
 
 \newpage
@@ -1059,7 +1053,7 @@ Since $\tau = 2\pi, \omega_0 = 1$ and $C_n = \frac{1}{\tau}G(n\omega_0) \implies
 Now if  $\tau = 4\pi, \omega_0 = \frac{1}{2}$ and $C_n = \frac{1}{\tau}G(n\omega_0) \implies C_n = \frac{1}{4\pi}sinc(\frac{n}{4})$\\
 
 Another example:
-\[T(t) =  \begin{cases}
+\[T(t) =  \begin{cases} 
       1-|t| & |t| < 1 \\
       0 & |t| \geq 1
    \end{cases}
@@ -1068,7 +1062,6 @@ $\mathcal{F}(T(t)) = \int_{-\infty}^{\infty}T(t) e^{-j\omega t}dt = \int_{-1}^{1
 The first term is even and non-zero, while the second term is odd and zero
 $$\mathcal{F}(T(t)) = 2[\frac{sin(\omega t)}{\omega}|^1_0 -t\frac{sin(\omega t)}{\omega}|^1_0 + \int^1_0\frac{(sin\omega t)}{\omega}dt] = -2[\frac{cos\omega - 1 }{\omega^2}] = -2[\frac{-2sin^2(\frac{\omega}{2})}{\omega^2}]$$
 $$= sinc^2(\frac{\omega}{2})$$\\
-
 
 \subsection{Properties of the Fourier Transformation}
 \begin{enumerate}
@@ -1083,7 +1076,7 @@ $$= sinc^2(\frac{\omega}{2})$$\\
 \end{enumerate}
 \newpage
 If
-\[T(t) =  \begin{cases}
+\[T(t) =  \begin{cases} 
       1-|t| & |t| < 1 \\
       0 & |t| \geq 1
    \end{cases}
@@ -1099,7 +1092,7 @@ then
     You can see that the function gets compressed
     \item $\F^2(T(t)) = 2\pi T(-\omega) = 2\pi T(\omega) \text{ since $T$ is symmetric}$\\
     $\F(F(T(t))) = \F((sinc\frac{\omega}{2})^2) = 2\pi T(\omega)$\\
-    \[\F((sinc\frac{\omega}{2})^2) =  \begin{cases}
+    \[\F((sinc\frac{\omega}{2})^2) =  \begin{cases} 
       2\pi(1-|\omega|) & |\omega| < 1 \\
       0 & |\omega| \geq 1
    \end{cases}
@@ -1112,28 +1105,29 @@ The second term of the second last step is zero since it is odd\\
 \subsection{Fourier Transform of a Gaussian}
 \textit{Lemma:} $n(t) = \frac{1}{\sqrt{2\pi} \sigma} e^{-\frac{1}{2}(\frac{t-\mu}{\sigma})^2}$  [Normal distribution with mean $\mu$ and standard deviation $\sigma$ (spread)] [Side note: the area under this curve is 1]
 $$\F(n(t)) = e^{-\iu \mu \omega} e^{-\frac{1}{2} \sigma^2 \omega^2}$$
-\textit{Proof:}
+\textit{Proof:} 
 \begin{enumerate}[]
     \item It is known that $\int^{\infty}_{-\infty} e^{-u^2} du = \sqrt{\pi}$
     \item Let $$I(\omega) = \int^{\infty}_{-\infty} e^{-\frac{1}{2}x^2}cos(\omega x) dx $$
     $$\frac{dI}{d\omega} = \frac{d}{d\omega} \int^{\infty}_{-\infty} e^{-\frac{1}{2}x^2}cos(\omega x) \equiv \int^{\infty}_{-\infty} \frac{\partial}{\partial\omega}( e^{-\frac{1}{2}x^2}cos(\omega x)) = \int^{\infty}_{-\infty} -xe^{-\frac{1}{2}x^2}sin(\omega x)$$
     $$e^{-\frac{1}{2}x^2} sin\omega x |^\infty_{-\infty} -\omega\int^{\infty}_{-\infty}e^{-\frac{1}{2}x^2}cos(\omega x) dx = 0 - \omega I(\omega)$$
     Thus,
-    $$\frac{dI}{d\omega} = -\omega I(\omega)$$ and on solving this differential equation we get,
+    $$\frac{dI}{d\omega} = -\omega I(\omega)$$ and on solving this differential equation we get, 
     either $I = 0$ or $I = I_0e^{-\frac{1}{2}\omega^2}$\\
     $$I(0) = I_0 = \int^{\infty}_{-\infty}e^{-\frac{1}{2}x^2}dx $$
-    Let $x^2 = 2u^2 \implies dx = \sqrt{2} du$ and thus
+    Let $x^2 = 2u^2 \implies dx = \sqrt{2} du$ and thus 
     $$(\int^{\infty}_{-\infty} e^{-u^2}du)\sqrt{2} = \sqrt{2\pi}$$
 \end{enumerate}
 $$\F[e^{-\frac{1}{2}t^2}] = \int_{-\infty}^\infty e^{-\frac{1}{2}x^2}cos(\omega t) dt = \sqrt{2\pi}\;e^{-\frac{1}{2}\omega^2}$$
 $$\F[\frac{1}{\sqrt{2\pi}} \frac{1}{\sigma} e^{-\frac{1}{2}t^2}] = \frac{1}{\sqrt{2\pi}} \frac{1}{\sigma} \sqrt{2\pi}\;e^{-\frac{1}{2}\omega^2} = \frac{1}{\sigma}e^{-\frac{1}{2}\omega^2}$$
 $$\F[\frac{1}{\sqrt{2\pi}} \frac{1}{\sigma} e^{-\frac{1}{2}(\frac{t}{\sigma})^2}] = \frac{1}{\sigma}\sigma e^{-\frac{1}{2}\omega^2\sigma^2} = e^{-\frac{1}{2}\omega^2\sigma^2}$$
 $$\F[\frac{1}{\sqrt{2\pi}} \frac{1}{\sigma} e^{-\frac{1}{2}(\frac{t-\mu}{\sigma})^2}]  = e^{-j\omega \mu}e^{-\frac{1}{2}\omega^2\sigma^2}$$
+
 \subsection{Parseval's Theorem}
-Let $g(t)$ be a square integral function with Fourier Transformation $G(\omega)$ then
+Let $g(t)$ be a square integral function with Fourier Transformation $G(\omega)$ then 
 $$\int_{-\infty}^\infty g(t) \overline{g(t)} = \int_{-\infty}^\infty |g(t)|^2dt = \frac{1}{2\pi}\int_{-\infty}^\infty G(\omega) \overline{G(\omega)} = \frac{1}{2\pi} \int_{-\infty}^\infty |G(\omega)|^2 d\omega$$
 If
-\[T(t) =  \begin{cases}
+\[T(t) =  \begin{cases} 
       1-|t| & |t| < 1 \\
       0 & |t| \geq 1
    \end{cases}
@@ -1143,7 +1137,6 @@ $$\int_{-\infty}^\infty |T(t)|^2 = 2\int_{0}^\infty (1-t)^2 dt = \frac{2}{3} \st
 $$\implies \int_{-\infty}^\infty \frac{sin(\frac{\omega}{2})^4}{(\frac{\omega}{2})^4}d\omega = \frac{4\pi}{3}$$
 After substituting $\frac{\omega}{2} = y$ and simplifying
 $$\implies \int_0^\infty \frac{siny^4}{y^4}dy = \frac{\pi}{3}$$
-
 \newpage
 \subsection{Fourier Transformation of Dirac Function}
 $$\F(\delta(t)) = \int_{-\infty}^\infty \delta(t) e^{-\iu \omega t }dt = e^0 = 1$$
@@ -1155,7 +1148,7 @@ $$\frac{1}{2\pi} \int_{-\infty}^\infty 1e^{\iu \omega t} dw = \delta(t)$$
 $$\F(\F(\delta(t))) = 2\pi \delta(-\omega)$$
 $$\F(1) = 2\pi \delta(\omega)$$
 
-We can make use of this and our properties of $\F$ to evaluate $F(cos(\alpha t))$ and $F(sin(\alpha t))$
+We can make use of this and our properties of $\F$ to evaluate $F(cos(\alpha t))$ and $F(sin(\alpha t))$ 
 $$cos(\alpha t) = \frac{e^{\iu \alpha t} + e^{-\iu \alpha t}}{2} \;\;\;\;\text{and}\;\;\;\; sin(\alpha t) = \frac{e^{\iu \alpha t} - e^{-\iu \alpha t}}{2\iu}$$
 $$\cos(\alpha t) = \frac{1}{2}[e^{\iu \alpha t}\cdot 1 + e^{-\iu \alpha t}\cdot 1]$$
 Thus,
@@ -1163,7 +1156,7 @@ $$\F[cos(\alpha t)] = \frac{2\pi}{2}[\delta (\omega - \alpha) + \delta(\omega + 
 Similarly,
 $$\F[sin(\alpha t)] = \frac{2\pi}{2\iu} [\delta(\omega - \alpha) - \delta(\omega + \alpha)]$$
 \subsection{A Finite Wave Pulse}
-\[W(t) =  \begin{cases}
+\[W(t) =  \begin{cases} 
       1 & |t| < \frac{1}{2} \\
       0 & |t| \geq \frac{1}{2}
    \end{cases}
@@ -1171,17 +1164,16 @@ $$\F[sin(\alpha t)] = \frac{2\pi}{2\iu} [\delta(\omega - \alpha) - \delta(\omega
 $$\F(\omega(t)) = sinc(\frac{1}{2}\omega)$$
 \clearpage
 For $a > 0$,
-\[W(at) =  \begin{cases}
+\[W(at) =  \begin{cases} 
       1 & |at| < \frac{1}{2} \implies |t| < \frac{1}{2a}\\
       0 & |at| \geq \frac{1}{2} \implies |t| \geq \frac{1}{2a}
    \end{cases}
 \]\\
 $$\F(\omega(at)) = \frac{1}{a}sinc(\frac{1}{2a}\omega)$$
-For,
+For, 
 $$f(t) = cos(\alpha t) W(at) = \frac{1}{2}[e^{\iu \alpha t} + e^{-\iu \alpha t}][W(at)]$$
 $$\F(f(t)) = \frac{1}{2a}[sinc(\frac{\omega - \alpha}{2a}) + sinc(\frac{\omega + \alpha}{2a})]$$
 \newpage
-
 \section{Partial Differential Equation}
 We not consider the scenario of more than one independent variable for example $z = z(x, y)$. We will now have to consider partial derivatives.\\
 An equation involving the partial derivatives of an unknown function(s) is called a PDE\\
@@ -1207,9 +1199,9 @@ $$\det\begin{pmatrix} A & C \\ C & B \end{pmatrix} = AB - C^2$$
     \item $AB - C^2 > 0$: The PDE is called \textbf{elliptical}. \\
     examples: Laplace's equation: $\frac{\pd^2 F}{\pd x^2} + \frac{\pd^2 F}{\pd y^2} = 0$ or Poisson's equation: $\frac{\pd^2 F}{\pd x^2} + \frac{\pd^2 F}{\pd y^2} = e$
     \item $AB - C^2 = 0$: The PDE is called \textbf{parabolic}. \\
-    examples: Heat equation: $\frac{\pd^2 F}{\pd x^2} + 0\frac{\pd^2 F}{\pd t^2} + \frac{\pd F}{\pd t}= 0$
+    examples: Heat equation: $\frac{\pd^2 F}{\pd x^2} + 0\frac{\pd^2 F}{\pd t^2} + \frac{\pd F}{\pd t}= 0$ 
     \item $AB - C^2 < 0$: The PDE is called \textbf{hyperbolic}. \\
-    examples: Wave equation: $\frac{\pd^2 F}{\pd x^2} - \frac{\pd^2 F}{\pd t^2} = 0$
+    examples: Wave equation: $\frac{\pd^2 F}{\pd x^2} - \frac{\pd^2 F}{\pd t^2} = 0$ 
 \end{itemize}
 $$\pdt{x}{y} = \pdo{x}{z}$$
 \subsection{Vector Differential Operator $\nabla$}
@@ -1236,7 +1228,6 @@ $\pdt{\phi_E}{t} = 0$ then $\nbt \phi_E = 0$}\\
 \textit{Note 2: Other co-ordinates may be appropriate\\
 eg: 2-D Laplacian - in polar coordinates $(x,y) \rightarrow (r, \theta)$\\
 $\nbt \phi = \pdt{\phi}{r} + \frac{1}{r} \pdo{\phi}{r} + \frac{1}{r^2} \pdt{\phi}{\theta}$ and if there were rotational symmetry then: $\pdo{\phi}{\theta} = 0$}
-
 \newpage
 \subsection{The Heat Equation in one spacial dimension}
 
@@ -1288,10 +1279,9 @@ This equation is called the \textbf{\texttt{Sturm Liouville equation}}\\
     And thus,
     $$\theta_n(x,t) = sin(\frac{n\pi}{L}x) \cdot e^{-(\frac{\alpha n\pi}{L})^2t}$$
 \end{enumerate}
-
 \subsubsection{\textit{Lemma:} Linearity Homogenity and Superposition}
 Let $L$ be a linear differential operator [$L(t) = 0$] and suppose that we have homogeneous boundary conditions\\
-For the heat equation, our linear differential operator is:
+For the heat equation, our linear differential operator is: 
 $$L = \pdo{}{t} - \alpha^2\pdt{}{x} \implies L(\theta) = 0$$
 Then the solution to the PDE and BC's has vector space structure\\
 \textbf{Applications}\\
@@ -1307,7 +1297,7 @@ $$A_n = \frac{1}{L}\int^L_{-L} g(x) sin(\frac{n\pi x}{L}) dx = \frac{2}{L}\int^L
 \textit{Example:} $g(x) = \theta(x,0) = u_0$\\
 In this case the:
 $$A_n = \frac{2u_0}{L}\int^L_0sin(\frac{n\pi x}{L}) dx =  \frac{2u_0}{L} [\frac{-L}{n\pi} + cos(\frac{n\pi x}{L})]_0^L \implies A_n = \frac{2u_0}{n\pi}[1-(-1)^n]$$
-\[A_n =  \begin{cases}
+\[A_n =  \begin{cases} 
       0 & n\%2 == 0 \\
       \frac{4u_0}{n\pi} & n\%2 == 1
    \end{cases}
@@ -1319,11 +1309,11 @@ $$\theta(x,t) = \frac{4u_0}{\pi}[\sum^\infty_{m=0}\frac{1}{2m+1}sin((2m+1)\pi)e^
 $$\frac{4u_0}{\pi} [sinx e^{-\alpha^2 t} + \frac{1}{3}sin(3x) e^{-9\alpha^2 t} + \frac{1}{5}sin(5x) e^{-25\alpha^2 t}]$$
 For $t>0$,
 $$\theta(x,t) \approx \frac{4u_0}{\pi} sinx e^{-\alpha^2 t}$$
-We define
-\[\theta_E \text{ as one that}  \begin{cases}
+We define 
+\[\theta_E \text{ as one that}  \begin{cases} 
       \text{Solves the PDE} \\
-      \text{Solves the boundary conditions} \\
-       \pdo{\theta_E}{t} = 0\\
+      \text{Solves the boundary conditions} \\ 
+       \pdo{\theta_E}{t} = 0\\ 
    \end{cases}
 \]\\
 In the problem we have:
@@ -1337,7 +1327,6 @@ Continuing from earlier
 $$\theta = \frac{4u_0}{\pi}[e^{-t}sinx + \frac{1}{3}e^{-9t}sin3x + \frac{1}{5}e^{-25t}sin5x + \dots]$$
 for $t > 0$:
 $$\theta = \frac{4u_0}{\pi}[e^{-t}sinx]$$
-
 \subsubsection{Temperature Profiles}
 Assuming $u_0 > 0$\\
 \includegraphics[]{MVIMG_20181127_084026.jpg}\\
@@ -1373,12 +1362,11 @@ Let $\theta(x,t) = \theta_E(x,t) + V(x,t)$ where $ V(x,t) = \theta(x,t) - \theta
     $\theta(x,0) = 50$ and $\theta_E(x,0) = \frac{100}{\pi}(\pi - x)$\\
     $V(x,0) = 50 - \frac{100}{\pi}(\pi - x) \implies V(x,0) = \frac{50}{\pi}(2x-\pi)$
 \end{enumerate}
-Since $V$ satisfies the PDE with the homogeneous BC's
+Since $V$ satisfies the PDE with the homogeneous BC's 
 $$V(x,t) = \sum_1^{\infty} A_n sin(nx) e^{-n^2 t}$$ and we need $V(x,0) = \frac{50}{\pi}(2x - \pi)$ i.e. $$\sum_1^{\infty}A_n sin(nx) = \frac{50}{\pi}(2x - \pi)$$ i.e. we need the Fourier sin series of $2x-\pi$
 $$\theta = \theta_E + V$$ and $$\lim_{t \to \infty} U = U_E = 0$$
 $$V(x,t) = \frac{-100}{\pi}\sum_{n= 1}^{\infty} \frac{sin(2nx)}{n}e^{-(2n)^2t}$$
 \newpage
-
 {\LARGE FINAL \\ \large(Conrad's rant about things on the final and advise on how not to totally fuck it up)}\\
 \\
 Course is basically 5 topics
@@ -1402,17 +1390,15 @@ Course is basically 5 topics
     \item Fourier
     \item PDE's
 \end{enumerate}
-More of the last 3 points, since you've already been tested on points 1 and 2 on the midterm.
+More of the last 3 points, since you've already been tested on points 1 and 2 on the midterm. 
 
-He's advised to look at the entire final first, and then starting with the easiest question first, which might not necessarily be the first question. Get into the exam in a good sense of mind, and make sure that you have a good nights of sleep. Forget about the exam as soon as you're done with it.
+He's advised to look at the entire final first, and then starting with the easiest question first, which might not necessarily be the first question. Get into the exam in a good sense of mind, and make sure that you have a good nights of sleep. Forget about the exam as soon as you're done with it. 
 
 The final is not out to get you, and according to Conrad is very similar to the midterm. He's repeatedly mentioning the previous final so it might make sense to take a look at it.
 
 Apparently the piece of paper that was being passed around is for Conrad to judge who actually attends lectures, and that attendance is basically proof for who attended and who did not once the final is over and he is getting spammed with emails about further lenience
 \newpage
-
-
-\subsection{Wave Equation (1 spatial dimension)}
+\subsection{Wave Equation (1 spatial dimension)} 
 $$ c^2\pdt{y}{x} = \pdt{y}{t}$$
 \includegraphics[]{wave.jpg}
 \subsubsection{Simple Model}
@@ -1426,7 +1412,7 @@ $$c^2 = \frac{T}{\rho}$$
 putting this into the DE to get:
 $$c^2T\dt{X}{x} = \dt{T}{t} X \implies \frac{1}{X}\dt{X}{x} = \frac{1}{c^2} \frac{1}{T}\dt{T}{t} = \lambda \text{   some constant (separation constant)}$$
 \begin{enumerate}
-    \item $\lambda = 0 \implies \dt{X}{x} = 0 \implies X = ax + b$ but since $X(0) = X(L) = 0 \implies a = b = 0 \implies X = 0$
+    \item $\lambda = 0 \implies \dt{X}{x} = 0 \implies X = ax + b$ but since $X(0) = X(L) = 0 \implies a = b = 0 \implies X = 0$ 
     \item $\lambda > 0, \lambda = \mu^2 \implies \dt{X}{x} = \mu^2 X \implies X = Ae^{mx} + Be^{-mx}$ but since $X(0) = X(L) = 0 \implies A = B = 0 \implies X = 0$
     \item  $\lambda < 0, \lambda = -\mu^2 \implies \dt{X}{x} = -\mu^2 X \implies X = Asin(\mu x) + Bcos(\mu x)$ but since $X(0) = 0 \implies B = 0 $ $X(L) = 0 \implies Asin(\mu L) = 0 \implies  A = 0 \text{ or } \mu L = n \pi \; \forall\; n \; \epsilon\; \Z$\\
     Let $\mu_n = \frac{n\pi}{L}$ and $n\; \epsilon\; \Z^+$\\
@@ -1438,10 +1424,9 @@ $$c^2T\dt{X}{x} = \dt{T}{t} X \implies \frac{1}{X}\dt{X}{x} = \frac{1}{c^2} \fra
     Thus the general solution of the PDE and the boundary conditions is:
     $$\sum_{n=1}^\infty Y_n(x,t)$$
     \textit{We now consider the initial conditions\\} $Y(x,0) = \sum_{n=1}^\infty B_n sin(\frac{n\pi x}{L}) = f(x)$ i.e. perform the Fourier sine series of $f(x)$\\
-    Moreover,
+    Moreover, 
     $\pdo{X(x,0)}{t} = \sum_{n=1}^\infty A_n\cdot (\frac{n \pi c}{L})\cdot sin(\frac{n\pi x}{L})$  i.e. perform the Fourier sine series of $g(x)$\\
 \end{enumerate}
-
 Taking a look at these individual equations
 $$Y_n(x,t) = sin(\frac{n\pi x}{L}) \Big[A_n sin(\frac{n\pi c t}{L}) + B_n cos(\frac{n\pi c t}{L})\Big] \;\;\;\; n\; \epsilon\; \Z$$
 $$Y_n(x,t) = sin(\frac{n\pi x}{L}) \Big[C_n cos(\frac{n\pi c (t-\phi)}{L})\Big] \;\;\;\; n\; \epsilon\; \Z$$
@@ -1478,7 +1463,7 @@ Capital U ($U$) and Small u ($u$) are used interchangably below\\
 For the infinite string (ends as far away so that we don't have to deal with boundary conditions)
 $$U_{tt} = c^2 U_{xx} \;\;\;\; t \geq 0 \; \forall \; -\infty < x < \infty$$
 $$U(x,0) = f(x),\;\; U_t(x,0) = g(x)$$
-The general solution is :
+The general solution is : 
 $$U(x,t) = F_1(x-ct) + F_2(x+ct)$$
 \begin{enumerate}
     \item $u(x,0) = f(x) \implies F_1(x) + F_2(x) = f(x)$
@@ -1493,6 +1478,7 @@ Subtracting 3. from 1.
 $$F_1(x) = \frac{1}{2}[f(x) - \frac{1}{c}\int^x_0g(s)ds - F_2(0) + F_1(0)]$$
 
 $$U(x,t) = \frac{1}{2}\Big[f(x-ct) + f(x+ct)\Big] + \frac{1}{2c}\int^{x+ct}_{x-ct} g(s) ds$$
+
 \includegraphics[width=0.8\textwidth]{superimposed.jpg}\\
 \textbf{The effect of $g(x)$}\\
 The integral is only active in a given range, only as time passes do you actually start to feel the signal i.e. if you wait long enough you'll feel the signal [$g(x)$]\\
@@ -1515,5 +1501,4 @@ $$\widetilde{f} = \sum A_n sin(\frac{n \pi s}{L})\;\; s\;\epsilon\;\R$$
 $\widetilde{f}(x-ct) = F_2(x-ct)$ and similarly $\widetilde{f}(x+ct) = F_1(x+ct)$ such that
 $$U(x,t) = \frac{1}{2}[\widetilde{f}(x+ct) + \widetilde{f}(x-ct)]$$
 \includegraphics[width=0.8\textwidth]{48360299_943482375858391_8085245058200109056_n.jpg}
-
 \end{document}

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L28.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#copy-modify-merge">Copy-Modify-Merge</a></li>
+<li><a href="#you-have-15-unread-notifications...">You Have 15 Unread Notifications...</a></li>
+<li><a href="#consistency-journalling">Consistency: Journalling</a><ul>
+<li><a href="#zfs-sunoracle-file-system">ZFS (Sun/Oracle File System)</a></li>
+<li><a href="#apfs-apple-file-system">APFS (Apple File System)</a></li>
+<li><a href="#ntfs-windows-file-system">NTFS (Windows File System)</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>Concurrency in File Systems, Continued</span></p>
+<h2 id="copy-modify-merge" class="unnumbered">Copy-Modify-Merge</h2>
+<p>Thus far when we talk about modification of shared data we follow a model that could be described as “Lock-Modify-Unlock”. But you’ve also used <code>git</code> or some other version control system (<code>svn</code>) that uses a different model: Copy-Modify-Merge. Let’s take a minute to talk about that.</p>
+<p>Using <code>git</code> or something else, you and your lab partner check out a repository. You make changes and then try to merge those changes. When changes are being applied, we want to make sure that all changes in a particular grouping (in version control, a commit) either succeed as a group or fail as a group and nothing is left half-done.</p>
+<p>A <em>transaction</em> is a grouping of operations that belong together and should be treated as an indivisible unit. You will recall from a great deal of discussion on the subject of concurrency that bad things can happen when an intermediate state of a multiple-step operation becomes inadvertently visible. Most of the examples looked at things like <code>x++;</code> being a read, addition, and a write and how concurrent accesses to <code>x</code> could result in the wrong value being read or written. The solution is usually mutual exclusion: forcing other accesses to <code>x</code> to wait while some operation was in progress. And this of course also scales up so you could change <code>x, y, z, a, b, c</code> all in one go. But in the copy-modify-merge scenario, people can make their changes separately and then we try to put them all together.</p>
+<p>A transaction has some sort of begin transaction statement at the beginning, then the operations to take place in the transaction, and finally an end transaction statement. Execution looks something like writing down the transaction into a log, doing the operations in the transaction, and when the last one is complete, if all went well, marking the transaction as successful.</p>
+<p>In the case of version control, if there are merge conflicts then we are notified that the merge cannot take place until conflicts are resolved. But in file systems, the last write wins.</p>
+<h2 id="you-have-15-unread-notifications..." class="unnumbered">You Have 15 Unread Notifications...</h2>
+<p>Another way that we can use the file system (in Linux only!) for synchronization or concurrency control is through the use of <code>inotify</code>. Using this API, you can register your program as being interested in the events in the file system. We’ll come back to a definition of what an event is soon. But in short, you say you want to watch a file or directory, and when an event occurs, then your program is informed. Note that this is not a portable thing: it is Linux only.</p>
+<p>The key steps are <span class="citation" data-cites="lpi"></span>:</p>
+<ol>
+<li><p>Use an initialization function to create the management structure (and get a file descriptor back to refer to it).</p></li>
+<li><p>Then you tell the kernel what files you are interested in by adding them to the structure (you can also remove them).</p></li>
+<li><p>To collect an event, use <code>read</code> on the file descriptor. Each call returns one or more event structures.</p></li>
+<li><p>If you’re done, close the file descriptor representing the management structure, which conveniently cleans everything up for you.</p></li>
+</ol>
+<p>It is noteworthy that the mechanism is not recursive: so if you add a directory, that covers the files in that directory, but not subdirectories.</p>
+<p>The API calls:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> inotify_init( ); <span class="co">/* Returns file descriptor referring to the struct */</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="dt">int</span> inotify_add_watch( <span class="dt">int</span> fd, <span class="dt">const</span> <span class="dt">char</span>* pathname, <span class="dt">uint32_t</span> mask );</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">int</span> inotify_rm_watch( <span class="dt">int</span> fd, <span class="dt">uint32_t</span> wd );</a></code></pre></div>
+<p>Initialization doesn’t require any arguments, so that’s quite convenient.</p>
+<p>Adding an item to the watch takes as an argument the inotify structure to add it to, the name of the file to add, and a mask. You must have at least read permission on the file to be able to watch it. The mask is how we specify details about the events that we are interested in (we’ll come back to that). If the file is already being watched, then calling add with a different mask will replace the mask with the new one.</p>
+<p>We have to save the return value of the add function if we want to use the remove function, because it takes that return value as an argument. The remove function says remove the given watch item from the list.</p>
+<p>When we’re completely done, just call close on the file descriptor representing the inotify.</p>
+<p>There are about 23 different events that you can watch for using the bit mask. Some of them are a bit obscure, but here are some that are highlighted in the spec:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Bit Value</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>IN_ACCESS</code></td>
+<td style="text-align: left;">File accessed (read/execute)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>IN_ATTRIB</code></td>
+<td style="text-align: left;">Metadata changed, such as permissions</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>IN_CLOSE_WRITE</code></td>
+<td style="text-align: left;">File opened for writing was closed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>IN_CLOSE_NOWRITE</code></td>
+<td style="text-align: left;">File not opened for writing was closed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>IN_CREATE</code></td>
+<td style="text-align: left;">File or directory created in watched directory</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>IN_DELETE</code></td>
+<td style="text-align: left;">File or directory deleted from watched directory</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>IN_DELETE_SELF</code></td>
+<td style="text-align: left;">Watched file or directory deleted</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>IN_MODIFY</code></td>
+<td style="text-align: left;">File modified (write, for example)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>IN_OPEN</code></td>
+<td style="text-align: left;">File opened</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>IN_ALL_EVENTS</code></td>
+<td style="text-align: left;">Watch for all of the above (and a few more)</td>
+</tr>
+</tbody>
+</table>
+<p>Great, so imagine we have set up some files that we would like to watch. When you’re ready for such an event, use <code>read</code> on the file descriptor for the inotify. If an event occurred, you get back a structure <code>inotify_event</code> that looks like this (as described in the official docs):</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">struct</span> inotify_event {</a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="dt">int</span>      wd;       <span class="co">/* Watch descriptor */</span></a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="dt">uint32_t</span> mask;     <span class="co">/* Mask describing event */</span></a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="dt">uint32_t</span> cookie;   <span class="co">/* Unique cookie associating related events (for rename(2)) */</span>  </a>
+<a class="sourceLine" id="cb2-5" title="5">  <span class="dt">uint32_t</span> len;      <span class="co">/* Size of name field */</span></a>
+<a class="sourceLine" id="cb2-6" title="6">  <span class="dt">char</span>     name[];   <span class="co">/* Optional null-terminated name */</span></a>
+<a class="sourceLine" id="cb2-7" title="7">};</a></code></pre></div>
+<p>The first returned value is which file descriptor it was the event happened on, as we’d expect. The second says what kind of event occurred. The third parameter is a delicious, delicious cookie: it allows you to identify a rename operation (if a file is renamed in the directory, this shows up as two events and the cookie is used to link the two). The length field tells you how long the name array is, and then there is of course the name array. That means memory size of an inotify event is thus the structure size plus the length of the array, i.e.: <code>sizeof( struct inotify_event) + len</code> <span class="citation" data-cites="lpi"></span>.</p>
+<p>This is something somewhat rare – usually when we do a read we need to know how many bytes we’d like to read. If we’re reading a struct, we know the size of the struct, but now it depends on the length of the data you get back. Your standard clairvoyance problem. One approach is to just make the buffer really big: much bigger than it needs to be. The length of the largest filename plus one (for the null terminator) would work. If your buffer isn’t big enough the read call will fail.</p>
+<p>Alternatively, <code>ioctl</code> can tell you what you want to know: <code>ioctl( fd, FIONREAD, &amp;numbytes )</code> updates <code>numbytes</code> with the number of bytes currently available to read from the inotify instance <span class="citation" data-cites="lpi"></span>. If multiple events occurred you can get multiple structures back (if your buffer is big enough).</p>
+<p>A relatively simple example then: we’d like to observe when a lock file is deleted, so that we can try to take some action that occurs afterwards. We can demonstrate this program working when we start it and the lock file already exists.</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="pp">#include </span><span class="im">&lt;sys/inotify.h&gt;</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="pp">#include </span><span class="im">&lt;stdbool.h&gt;</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></a>
+<a class="sourceLine" id="cb3-8" title="8"></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="dt">const</span> <span class="dt">char</span> filename[] = <span class="st">&quot;file.lock&quot;</span>;</a>
+<a class="sourceLine" id="cb3-10" title="10"></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb3-12" title="12">    <span class="dt">int</span> lockFD;</a>
+<a class="sourceLine" id="cb3-13" title="13">    <span class="dt">bool</span> our_turn = false;</a>
+<a class="sourceLine" id="cb3-14" title="14">    </a>
+<a class="sourceLine" id="cb3-15" title="15">    <span class="cf">while</span>( !our_turn ) {</a>
+<a class="sourceLine" id="cb3-16" title="16">        lockFD = open( filename, O_CREAT | O_EXCL | O_TRUNC );</a>
+<a class="sourceLine" id="cb3-17" title="17">        <span class="cf">if</span> ( lockFD == -<span class="dv">1</span> ) {</a>
+<a class="sourceLine" id="cb3-18" title="18">            printf( <span class="st">&quot;The lock file exists and process %ld will wait its turn...</span><span class="sc">\n</span><span class="st">&quot;</span>, getpid() ); </a>
+<a class="sourceLine" id="cb3-19" title="19">            <span class="dt">int</span> notifyFD = inotify_init( );</a>
+<a class="sourceLine" id="cb3-20" title="20">            <span class="dt">uint32_t</span> watched = inotify_add_watch( notifyFD, filename, IN_DELETE_SELF );</a>
+<a class="sourceLine" id="cb3-21" title="21">            </a>
+<a class="sourceLine" id="cb3-22" title="22">            <span class="co">/* Read the file descriptor for the notify -- we get blocked here</span></a>
+<a class="sourceLine" id="cb3-23" title="23"><span class="co">               until there&#39;s an event that we want */</span></a>
+<a class="sourceLine" id="cb3-24" title="24">            <span class="dt">int</span> buffer_size = <span class="kw">sizeof</span>( <span class="kw">struct</span> inotify_event ) + strlen( filename ) + <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-25" title="25">            <span class="dt">char</span>* event_buffer = malloc( buffer_size );</a>
+<a class="sourceLine" id="cb3-26" title="26">            printf(<span class="st">&quot;Setup complete, waiting for event...</span><span class="sc">\n</span><span class="st">&quot;</span>);</a>
+<a class="sourceLine" id="cb3-27" title="27">            read( notifyFD, event_buffer, buffer_size );</a>
+<a class="sourceLine" id="cb3-28" title="28"></a>
+<a class="sourceLine" id="cb3-29" title="29">            <span class="kw">struct</span> inotify_event* event = (<span class="kw">struct</span> inotify_event*) event_buffer;</a>
+<a class="sourceLine" id="cb3-30" title="30">            <span class="co">/* Here we can look and see what arrived and decide what to do.</span></a>
+<a class="sourceLine" id="cb3-31" title="31"><span class="co">               In this example, we&#39;re only watching one file and one type</span></a>
+<a class="sourceLine" id="cb3-32" title="32"><span class="co">               of event, so we don&#39;t need to make any decisions now */</span></a>
+<a class="sourceLine" id="cb3-33" title="33"></a>
+<a class="sourceLine" id="cb3-34" title="34">            printf(<span class="st">&quot;Event occurred!</span><span class="sc">\n</span><span class="st">&quot;</span>);</a>
+<a class="sourceLine" id="cb3-35" title="35"></a>
+<a class="sourceLine" id="cb3-36" title="36">            free( event_buffer );</a>
+<a class="sourceLine" id="cb3-37" title="37">            inotify_rm_watch( lockFD, watched );</a>
+<a class="sourceLine" id="cb3-38" title="38">            close( notifyFD );</a>
+<a class="sourceLine" id="cb3-39" title="39">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb3-40" title="40">            <span class="dt">char</span>* pid = malloc( <span class="dv">32</span> );</a>
+<a class="sourceLine" id="cb3-41" title="41">            memset( pid, <span class="dv">0</span>, <span class="dv">32</span> );</a>
+<a class="sourceLine" id="cb3-42" title="42">            <span class="dt">int</span> bytes_of_pid = sprintf( pid, <span class="st">&quot;%ld&quot;</span>, getpid() );</a>
+<a class="sourceLine" id="cb3-43" title="43"></a>
+<a class="sourceLine" id="cb3-44" title="44">            write( lockFD, pid, bytes_of_pid ); </a>
+<a class="sourceLine" id="cb3-45" title="45">            free ( pid );</a>
+<a class="sourceLine" id="cb3-46" title="46">            close( lockFD );</a>
+<a class="sourceLine" id="cb3-47" title="47">            our_turn = true; </a>
+<a class="sourceLine" id="cb3-48" title="48">        }</a>
+<a class="sourceLine" id="cb3-49" title="49">    } </a>
+<a class="sourceLine" id="cb3-50" title="50"></a>
+<a class="sourceLine" id="cb3-51" title="51">    printf(<span class="st">&quot;Process %ld is in the area protected by file lock.</span><span class="sc">\n</span><span class="st">&quot;</span>, getpid());</a>
+<a class="sourceLine" id="cb3-52" title="52">    remove( filename );</a>
+<a class="sourceLine" id="cb3-53" title="53">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb3-54" title="54">}</a></code></pre></div>
+<h1 id="consistency-journalling" class="unnumbered">Consistency: Journalling</h1>
+<p>Unfortunately, an error, crash, or power failure may result in a loss of data or inconsistent data in the file system. The directory structures, pointers, inodes, et cetera are all data structures and if they become corrupted it may lead to serious problems.</p>
+<p>We could check for inconsistent data periodically (e.g., on system boot up) and many operating systems do so. This is, of course, an operation that will consume a very large amount of time while the whole disk is scanned. The UNIX tool for this is <code>fsck</code> (... not exactly something you want to say out loud) and the Windows tool is <code>chkdsk</code> (check disk). These tools will look for inconsistent states (e.g., a file that claims to be 12 blocks but the linked list contains only 5) and will attempt to repair the data structures. Its level of success depends on the nature of the problem and the implementation of the file system.</p>
+<p>Obviously we would like to prevent the problem, if we can. The solution is to use transactions, just as we do in version control. Either a change takes place in its entirety or it is as if it never happened.</p>
+<h2 id="zfs-sunoracle-file-system" class="unnumbered">ZFS (Sun/Oracle File System)</h2>
+<p>Let’s consider ZFS (as I understand it, pronounced “Zee Eff Ess”), which is intended for scalability and has some interesting features. The primary source for this section is the official documentation <span class="citation" data-cites="zfs"></span>. Because what better place than from the source?</p>
+<p>ZFS uses the idea of transactions, making sure that the state is always consistent on disk. Much like the copy-modify-merge model, data is copied, then changed, then rewritten. Blocks are never overwritten with new data. Instead, a transaction writes all data and metadata to new blocks. Only when the transaction is complete, any references to the old blocks are replaced with the location of the new blocks. Then the old pointers and blocks can be cleaned up (reused or disposed of).</p>
+<p>This does have an interesting weakness: if the disk becomes completely and totally full it is not possible to delete anything and make space, because there’s no place to allocate new blocks. That’s a problem. And not just a hypothetical: it happened to a friend of mine when he tried to put too much data in his NAS (network attached storage). He was mad. But he was going to buy a new one anyway, I guess...</p>
+<h2 id="apfs-apple-file-system" class="unnumbered">APFS (Apple File System)</h2>
+<p>Like some version control systems, APFS brings the ability to take snapshots of the file system: freeze the state of the file system and from there any additional changes are “diffs” against that base state, meaning only new things take up space. This is potentially quite helpful for taking backups (you do take backups, right?) <span class="citation" data-cites="apfs"></span>.</p>
+<p>Speedier backups can result: the performance of your system can be degraded while backups are being taken because you need to compute the difference between the last backup copy and the current. This is faster! But it is also a way to avoid corruption: you can replay changes as needed to get the file back to <em>a</em> consistent state (of some sort).</p>
+<p>The APFS does potentially harm the most common “backup” system of non-technical users: take a copy of the file and put it in a different folder. If you copy a file to the same volume (and make no changes) then APFS will not copy the data and instead just have two references to the same underlying location. It sounds like they’re doing you a favour if you think of this as just reducing wasted space, but is actually a negative from the perspective of redundancy: if that part of the disk is damaged then all copies are lost <span class="citation" data-cites="apfs"></span>.</p>
+<p>Somewhat like ZFS, the APFS approach to avoiding inconsistent data amidst a crash is something like copy-on-write, though in typical Apple fashion they were pretty vague about what this means in a practical sense; the APFS lead developer Dominic Giampaolo just says it’s a “novel copy-on-write metadata scheme” but also somehow not exactly the same as ZFS’s single-atomic-update approach <span class="citation" data-cites="apfs"></span>.</p>
+<h2 id="ntfs-windows-file-system" class="unnumbered">NTFS (Windows File System)</h2>
+<p>Though UNIX and similar systems have often been a focus of the examples, in this case, we will instead examine NTFS, the default file system for Windows since Windows NT and used in 2000, XP, Vista, 7, 8, 10... NTFS supports large disks and large files, and uses journalling.</p>
+<p>A volume is laid out as follows:</p>
+<p><img src="images/ntfs-volume.png" alt="image" style="width:60.0%" /><br />
+Standard layout of an NTFS volume <span class="citation" data-cites="osi"></span>.</p>
+<p>The Master File Table (MFT) contains information about all the files and folders. Following the that, a block is allocated to system files that contain some important system information <span class="citation" data-cites="osi"></span>:</p>
+<ol>
+<li><p><strong>MFT2</strong>: Mirror of the first few rows of the MFT (in case the original is damaged).</p></li>
+<li><p><strong>Log File</strong>: The journalling transaction log.</p></li>
+<li><p><strong>Cluster Bitmap</strong>: Bitmap showing which of the clusters are in use.</p></li>
+<li><p><strong>Attribute Definition Table</strong>: Attribute types supported on this volume.</p></li>
+</ol>
+<p>NTFS uses journalling to ensure that the file system will be in a consistent state at all times, even after a crash or restart. There is a service responsible for maintaining a log file that will be used to recover in the event that things go wrong. Note that the goal of recovery is to make sure the system-maintained metadata is in a consistent state; user data can still get lost. This was a decision on the part of Microsoft to make the recovery operations significantly simpler and faster.</p>
+<p>All metadata changes are written sequentially to a log file; once the changes are written to the log, control may return to the program that requested the operation. Meanwhile, the log entries are actually carried out. As changes are made, a pointer is updated to indicate which of the log entries have really happened and which have not. When an entire transaction is completed, it is removed from the log file. If the system crashes, the log file will contain zero or more transactions. If there are zero there is no problem: nothing was in progress at the time of the crash. If there are some, then the transactions were not completed and the operations should still be carried out. If a transaction was aborted (not committed), we walk backwards through the log entries to undo any completed operations and go back to the state before the start of the transaction <span class="citation" data-cites="osc"></span>.</p>
+<p>Even though a particular write may not have taken place because of a crash, resulting in some data loss, at least the system will always remain in a consistent state. As a side benefit, we can sometimes re-order the writes to get better performance (e.g., schedule them in such a way that we get better disk utilization).</p>
+<p>The actual implementation of journalling works as follows <span class="citation" data-cites="russ"></span>:</p>
+<ol>
+<li><p>Record the change(s) in the log file in the cache.</p></li>
+<li><p>Modify the volume in the cache.</p></li>
+<li><p>The cache manager flushes the log file to disk.</p></li>
+<li><p>Only after the log file is flushed to disk, the cache manager flushes the volume changes.</p></li>
+</ol>
+<p>What’s really interesting about this is that the changes are carried out in the background, that is to say, asynchronously. A program can say that it wants to write some data, and not have to wait for the data to be written before going on to the next thing. How interesting! Can we get that behaviour in our (regular) program? Yes we can...</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

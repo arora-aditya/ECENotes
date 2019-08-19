@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L33.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#background.">Background.</a></li>
+<li><a href="#primary-objective.">Primary Objective.</a></li>
+<li><a href="#secondary-objectives.">Secondary Objective(s).</a></li>
+<li><a href="#starter-code.">Starter Code.</a></li>
+<li><a href="#submitting-your-code.">Submitting Your Code.</a></li>
+<li><a href="#grading.">Grading.</a></li>
+<li><a href="#description-of-behaviour.">Description of Behaviour.</a></li>
+<li><a href="#hints-debugging-guidance.">Hints &amp; Debugging Guidance.</a></li>
+</ul>
+</nav>
+<p>*<span>In Class Exercise: </span></p>
+<h4 id="background.">Background.</h4>
+<p>Your name is Oliver Queen. After five years in hell, you have come home with only one goal: to save your city. Now others have joined your crusade. To them, you’re Oliver Queen. To the rest of Starling City, you’re someone else. You are something else. You are... the Green Arrow.</p>
+<p>The League of Assassins has planted an explosive device in one of the buildings around town. There are too many buildings for you to search by yourself, but you have a team of your fellow vigilantes who will help you. It’s your team, so you will need to coordinate the actions of your team members – telling them what areas they should search, and checking in with them as to whether they’ve found it. You are a hands-on individual, so you will also be searching in the meantime.</p>
+<p>Either you or a member of your team will find the device eventually. Once it has been found, you can tell your team members they can stop searching. If you found the device, deal with it immediately. If someone else found it, they will tell you where it is so you can deal with it. Once it’s disabled, the city is safe for another night and you can go back to the lair.</p>
+<h4 id="primary-objective.">Primary Objective.</h4>
+<p>The primary objective of this exercise is to practice using asynchronous I/O in a program.</p>
+<h4 id="secondary-objectives.">Secondary Objective(s).</h4>
+<p>This is an additional opportunity to practice with system calls, program design, . You may also improve your ability to work with version control (git) and gitlab.</p>
+<h4 id="starter-code.">Starter Code.</h4>
+<p>The starter code can be found at <a href="https://git.uwaterloo.ca/ece252-1195/ece252-e4">https://git.uwaterloo.ca/ece252-1195/ece252-e4</a> – fork this repository to your own space. Set permissions for this repository to be private, but add the group for the course staff with read access so your code can be evaluated.</p>
+<h4 id="submitting-your-code.">Submitting Your Code.</h4>
+<p>When you’re done, use the command <code>git commit -a</code> to add all files to your commit and enter a commit message. Then <code>git push</code> to upload your changes to your repository. You can commit and push as many times as you like; we’ll look at whatever was last pushed. And check that you gave the course staff permissions!</p>
+<h4 id="grading.">Grading.</h4>
+<p>Binary grading: 1 if you have made a meaningful attempt at implementing the code; 0 otherwise.</p>
+<h4 id="description-of-behaviour.">Description of Behaviour.</h4>
+<p>The goal is to implement the program so that the following behaviour occurs:</p>
+<ul>
+<li><p>Each building needs to be searched. You will do some yourself as shown in the starter code (every 5th building is assigned to you). You can search one building at a time the normal way (with blocking reads), as is shown in the starter code.</p></li>
+<li><p>The majority of the work should be handed out to team members using POSIX AIO. And the AIO requests can all be started up-front, before you search any buildings yourself.</p></li>
+<li><p>For each building you’re not going to search yourself you should create and enqueue a POSIX AIO request.</p></li>
+<li><p>For each building, you need to create an AIO control block and its associated buffer.</p></li>
+<li><p>Offset should be 0 in each control block.</p></li>
+<li><p>The event action when the AIO is complete should be to create a new thread; the new thread should run the function name of the team member who has been assigned that building.</p></li>
+<li><p>You have four team members helping you: Diggle, Speedy, Black Canary, and Arsenal. Each of them can be in only one place at a time, so it is best to distribute the work evenly between them.</p></li>
+<li><p>The argument in the event (<code>sigev_value.sival_ptr</code>) should be a pointer to the buffer representing the building (i.e., the same as the read buffer).</p></li>
+<li><p>Your program should not leak memory; be sure to destroy/deallocate anything initialized/allocated.</p></li>
+<li><p>There should not be any race conditions in your program either.</p></li>
+</ul>
+<h4 id="hints-debugging-guidance.">Hints &amp; Debugging Guidance.</h4>
+<p>Some general guidance is below. If you’re having trouble, try running through these steps and it may resolve your problem. If you’re still stuck you can ask a neighbour or the course staff.</p>
+<ul>
+<li><p>If you need to catch up on how AIO works then you can look at the lecture on the subject in the course notes or <span class="citation" data-cites="apunix"></span> chapter 14.5.3.</p></li>
+<li><p>If your program seems to hang, it may be because the <code>found_it</code> semaphore is never triggered.</p></li>
+<li><p>If you get double <code>free</code> alerts it may be because you are re-using a buffer inappropriately.</p></li>
+<li><p>To narrow down the source of a problem, you could assign all work to yourself (main) or to one team member; if the problem does not occur then concurrency may be an issue.</p></li>
+<li><p>Check the documentation for how functions work if you are unfamiliar with them (google is your friend!)</p></li>
+<li><p>Have you initialized all variables? It is easy to forget; <code>malloc</code> does not initialize the value...</p></li>
+<li><p>Is there a missing or extra <code>*</code> (dereference) on a pointer somewhere?</p></li>
+<li><p>Does every memory allocation have a matching deallocation?</p></li>
+<li><p>Check whether values are stack or heap allocated (this can cause problems).</p></li>
+<li><p>It may be helpful to put <code>printf()</code> statements to follow along what the program is doing and it may help you narrow down where the issue is.</p></li>
+<li><p>Don’t be shy about asking for help; the TAs and instructor are here to help you get it done and will help you as much as is reasonable.</p></li>
+</ul>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L29.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#third-option-select">Third option: <code>select()</code></a><ul>
+<li><a href="#chat-server.">Chat Server.</a></li>
+<li><a href="#slightly-different-mostly-the-same-pselect.">Slightly different, mostly the same: <code>pselect</code>.</a></li>
+<li><a href="#i-only-wanted-a-nap...">I only wanted a nap...</a></li>
+</ul></li>
+<li><a href="#alternative-poll">Alternative: <code>poll()</code></a><ul>
+<li><a href="#comparing-the-two.">Comparing the two.</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>Asynchronous (non-blocking) I/O</span>
+Consider some of the usual file read code:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> fd = open( <span class="st">&quot;example.txt&quot;</span>, O_RDONLY );</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="dt">int</span> bytes_read = read( fd, buffer, num_bytes );</a>
+<a class="sourceLine" id="cb1-3" title="3">close( fd );</a></code></pre></div>
+<p>As we discussed much earlier, the <code>read</code> call is blocking, as expected. So, your program waits for the I/O operation to be complete before continuing on to the next statements (whatever they are). This is sometimes, but not always, sensible. If you need the data in the next statement, you can’t go on until the data is present.</p>
+<p>If you are waiting for the bus, do you stare off blankly into space while waiting for it to arrive? Probably not. More likely you pull out your phone and start to use it for something. Whether that is productive or not (e.g., answering a project e-mail or liking posts on Facebook) is up to you, but you are doing something and making use of the time.</p>
+<p>Our main solution until now is threads: if one thread gets blocked on the I/O the other ones can continue and is fine. But maybe you don’t want to use threads, or maybe you can’t due to: race conditions, thread stack size overhead, or limitations on the maximum number of threads. The last one might seem ridiculous, but in some embedded system you may not have the option to make new threads (or at least not as many as you want).</p>
+<p>Sometimes, also, your programming language (e.g., Javascript) doesn’t allow you to make multiple threads and you really have no choice but to use asynchronous I/O. It’s a useful tool to have in the toolbox so let’s get into it.</p>
+<p>The simplest example:</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> fd = open( <span class="st">&quot;example.txt&quot;</span>, O_RDONLY | O_NONBLOCK );</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="dt">int</span> bytes_read = read( fd, buffer, num_bytes ); <span class="co">/* Returns instantly! */</span></a>
+<a class="sourceLine" id="cb2-3" title="3">close( fd );</a></code></pre></div>
+<p>If we opened the file in non-blocking, the <code>read</code> call returns instantly. Whether or not results are ready. Unfortunately, this doesn’t work here. The <code>O_NONBLOCK</code> option is not helpful, because this call says we should not wait for data when there is no data available. But a file <em>always</em> has data available. It might take a long time to load it up from disk, but the data is there. Do we know any scenarios where we don’t have data always available?</p>
+<p>Sure! Sockets. If we haven’t received something, we would get blocked waiting for some data to arrive. But we can change that behaviour on a socket if we wish, by setting the socket to be nonblocking <span class="citation" data-cites="getaddrinfo"></span>:</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1">sockfd = socket( PF_INET, SOCK_STREAM, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb3-2" title="2">fcntl( sockfd, F_SETFL, O_NONBLOCK );</a></code></pre></div>
+<p>This means that calls to <code>accept()</code>, <code>recv()</code>, or <code>recvfrom()</code> would not block. If you call those and there’s no data to receive, you get back a return value of <code>-1</code> and <code>errno</code> is going to be either <code>EAGAIN</code> or <code>EWOULDBLOCK</code>. Sadly, the specification does not say which it would be, so the fully correct approach is to check for both. Not great, but it’s how we are sure.</p>
+<p>Suppose that you are writing a server application that’s going to listen on several sockets. This is a common enough scenario. You could have different threads listening on their individual sockets but – see the reasoning above as to why we might not have that option. And we no longer have to!</p>
+<p>But if we are a server and there aren’t any incoming requests, what exactly are we supposed to do with our time? If we just poll each socket using, for example, <code>accept()</code>, this amounts to tight polling and is CPU intensive and wastes the CPU’s time. But we don’t want to get blocked on a particular socket either, because what if it’s not the one where the next packet arrives? What we need is a third option.</p>
+<h2 id="third-option-select" class="unnumbered">Third option: <code>select()</code></h2>
+<p>Our wish is granted. The third option is called <code>select()</code> – it allows us to monitor a group of sockets, telling us about the state of each of them. A socket could be ready for a read, ready for a write (of small size – you can’t write a huge chunk to a socket without getting blocked at some point), or whether an exception has occurred. So actually, select works on three sets of sockets:</p>
+<div class="sourceCode" id="cb4" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1"> <span class="dt">int</span> select( <span class="dt">int</span> nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, <span class="kw">struct</span> timeval *timeout );</a></code></pre></div>
+<p>If we call this function, we’ll get blocked until something happens on one of the sockets so that it becomes “ready” – data is available to read, space is available to write, etc. or until we reach a timeout. While blocked, we could also get interrupted by something (e.g., a signal).</p>
+<p>The first parameter, <code>nfds</code>, is supposed to be the value of the highest number file descriptor in any of the three sets plus 1. So. It has come to this. One of the problems with <code>select()</code> is that it is pretty... arcane. According to the documentation, the reason why it is this, is because <code>select()</code> will scan through all the file descriptors from 0 up to <code>nfds-1</code> to figure out if we care about them.</p>
+<p>What’s this about? Well, the <code>fd_set</code> structure can have up to 1024 file descriptors, and is actually implemented as a bitfield; by specifying the highest file descriptor that we are interested in, the kernel can stop looking once we reached the last one (and the <code>fd_set</code> structure doesn’t have to be a linked list or array or anything large!) <span class="citation" data-cites="apunix"></span>.</p>
+<p>Well, we were going to have to figure out what the <code>fd_set</code> means anyway. It represents a set of file descriptors, just as the name says. There are then four functions for manipulating a set:</p>
+<pre><code>void FD_ZERO( fd_set *set ); /* Clear the set */
+void FD_SET( int fd, fd_set *set ); /* Add fd to the set */
+void FD_CLR( int fd, fd_set *set ); /* Remove fd from the set */
+int  FD_ISSET( int fd, fd_set *set); /* Tests if fd is a part of the set */ </code></pre>
+<p>When we create a new set, we should first initialize it with a <code>FD_ZERO</code> call. That could also be used to reset it, if desired, at some later point. Then we can add file descriptors that we want to have. To add one, use <code>FD_SET</code> with the file descriptor to add; to remove one that has been added, use <code>FD_CLR</code> with the file descriptor to remove.</p>
+<p>But that last one, <code>FD_ISSET</code>, is a little different. It’s not as if we would forget whether we put a file descriptor in the set. It’s really for us to see what happens after <code>select()</code> is called – we can find out whether a given file descriptor is in a particular set or not.</p>
+<p>The <code>readfds</code> are obviously sockets we are interested in reading from and <code>writefds</code> are accordingly those we are interested in writing from. But what about the <code>exceptfds</code> – this isn’t Java, it’s not like we’re going to get a <code>SocketDoesNotFeelLikeDoingWorkRightNowException</code>. No, this is for sockets that are in an exceptional state, which usually means there is Out-Of-Band (OOB) data on a TCP socket. We didn’t cover this earlier in network communication and we will also not be going into this subject now. But you can find out if a socket is in that state if you have a reason.</p>
+<p>We don’t have to use all three of <code>readfds</code>, <code>writefds</code>, and <code>exceptfds</code> in a call to <code>select()</code> if we do not need them all. If we have only read sockets, we put them all in the <code>readfds</code> set and can just give <code>NULL</code> or empty <code>fd_set</code>s in for the other parameters <span class="citation" data-cites="getaddrinfo"></span>.</p>
+<p>Finally, there is a timeout parameter: we can specify a maximum amount of time we are willing to wait. If nothing happens before the timeout amount of time occurs, then <code>select()</code> returns. The format of this is a fairly simple structure <code>struct timeval</code>:</p>
+<div class="sourceCode" id="cb6" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">struct</span> timeval {</a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="dt">long</span> tv_sec; <span class="co">/* seconds */</span></a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="dt">long</span> tv_usec; <span class="co">/* microseconds */</span></a>
+<a class="sourceLine" id="cb6-4" title="4">};</a></code></pre></div>
+<p>If both fields of the <code>struct timeval</code> are zero, then <code>select()</code> returns immediately; if the pointer to it is <code>NULL</code> then there is no timeout and we will wait as long as it takes for something – anything – to happen.</p>
+<p>When <code>select()</code> returns, however that happened, some if not all of the parameters other than <code>nfds</code> got updated (argh). The file descriptors passed in are modified in-place to see if they changed status. And the <code>struct timeval</code> parameter may (but also may not) be updated to reflect how much time was left before the timeout. Because different systems may or may not change this value, it is not safe to re-use and should be overwritten if you plan to use that structure again.</p>
+<p>After select has returned, then we check the file descriptors in our sets. All of them. Yes, really. The function returns when there is something to do – but we aren’t told what socket is ready. So we would need to check each socket to see if, for example, it’s ready for reading (if that’s the plan). To do that we check <code>FD_ISSET</code> with the socket and the set to see if it’s in the desired state.</p>
+<p>Because the sets of file descriptors may have been modified, you probably need to rebuild them after each call, if you plan to use them again. If you were waiting, for example, three sockets, not all of them necessarily became ready at the same time. So if you want to go on waiting for those three, you will need to put them in a set again.</p>
+<p>Let’s imagine a brief example where we have a server that is going to listen on some different sockets for different services, imaginatively called service1, service2, and service3.</p>
+<div class="sourceCode" id="cb7" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb7-1" title="1"><span class="dt">void</span> listen_for_connections( <span class="dt">int</span> service1_sock, <span class="dt">int</span> service2_sock, <span class="dt">int</span> service3_sock ) {</a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="dt">int</span> nfds = <span class="dv">1</span> + (service1_sock &gt; service<span class="dv">2</span><span class="er">_sock</span></a>
+<a class="sourceLine" id="cb7-3" title="3">    ? service1_sock &gt; service3_sock ? service1_sock : service<span class="dv">3</span><span class="er">_sock</span></a>
+<a class="sourceLine" id="cb7-4" title="4">    : service2_sock &gt; service3_sock ? service2_sock : service3_sock);</a>
+<a class="sourceLine" id="cb7-5" title="5">    </a>
+<a class="sourceLine" id="cb7-6" title="6">  fd_set s;</a>
+<a class="sourceLine" id="cb7-7" title="7">  <span class="kw">struct</span> timeval tv;</a>
+<a class="sourceLine" id="cb7-8" title="8">  printf( <span class="st">&quot;Going to start listening for socket events.</span><span class="sc">\n</span><span class="st">&quot;</span> );</a>
+<a class="sourceLine" id="cb7-9" title="9">  </a>
+<a class="sourceLine" id="cb7-10" title="10">  <span class="cf">while</span>( !quit ) {</a>
+<a class="sourceLine" id="cb7-11" title="11">  </a>
+<a class="sourceLine" id="cb7-12" title="12">    FD_ZERO( &amp;s );</a>
+<a class="sourceLine" id="cb7-13" title="13">    FD_SET( service1_sock, &amp;s );</a>
+<a class="sourceLine" id="cb7-14" title="14">    FD_SET( service2_sock, &amp;s );</a>
+<a class="sourceLine" id="cb7-15" title="15">    FD_SET( service3_sock, &amp;s );</a>
+<a class="sourceLine" id="cb7-16" title="16">    </a>
+<a class="sourceLine" id="cb7-17" title="17">    tv.tv_sec = <span class="dv">30</span>;</a>
+<a class="sourceLine" id="cb7-18" title="18">    tv.tv_usec = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb7-19" title="19">  </a>
+<a class="sourceLine" id="cb7-20" title="20">    <span class="dt">int</span> res = select( nfds, &amp;s, NULL, NULL, &amp;tv );</a>
+<a class="sourceLine" id="cb7-21" title="21">    <span class="cf">if</span> ( res == -<span class="dv">1</span> ) { <span class="co">/* An error occurred */</span></a>
+<a class="sourceLine" id="cb7-22" title="22">      printf( <span class="st">&quot;An error occurred in select(): %s.</span><span class="sc">\n</span><span class="st">&quot;</span>, strerror( errno ) );</a>
+<a class="sourceLine" id="cb7-23" title="23">      quit = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb7-24" title="24">    } <span class="cf">else</span> <span class="cf">if</span> ( res == <span class="dv">0</span> ) { <span class="co">/* 0 sockets had events occur */</span></a>
+<a class="sourceLine" id="cb7-25" title="25">      printf( <span class="st">&quot;Still waiting; nothing occurred recently.</span><span class="sc">\n</span><span class="st">&quot;</span> );</a>
+<a class="sourceLine" id="cb7-26" title="26">    } <span class="cf">else</span> { <span class="co">/* Things happened */</span></a>
+<a class="sourceLine" id="cb7-27" title="27">      <span class="cf">if</span> ( FD_ISSET( service1_sock, &amp;s ) {</a>
+<a class="sourceLine" id="cb7-28" title="28">        service1_activate( ); </a>
+<a class="sourceLine" id="cb7-29" title="29">      }</a>
+<a class="sourceLine" id="cb7-30" title="30">      <span class="cf">if</span> ( FD_ISSET( service2_sock, &amp;s ) {</a>
+<a class="sourceLine" id="cb7-31" title="31">        service2_activate( ); </a>
+<a class="sourceLine" id="cb7-32" title="32">      }</a>
+<a class="sourceLine" id="cb7-33" title="33">      <span class="cf">if</span> ( FD_ISSET( service3_sock, &amp;s ) {</a>
+<a class="sourceLine" id="cb7-34" title="34">        service3_activate( ); </a>
+<a class="sourceLine" id="cb7-35" title="35">      }</a>
+<a class="sourceLine" id="cb7-36" title="36">  }</a>
+<a class="sourceLine" id="cb7-37" title="37">}</a></code></pre></div>
+<p>You’ll notice that we check each of the sockets individually – more than one of them could become ready at once. Now, the <code>activate()</code> calls there could take some nontrivial time, and if sockets receive data in the meantime then on the next iteration of the loop then <code>select()</code> will return immediately because data is waiting.</p>
+<p>This represents a fairly simple scenario, though, where we are just waiting for <code>accept()</code> on the three services where we send back as simple response and that’s the end of it. But if the connections we were looking at are supposed to stay open for some period of time, such as when there is occasional communication, then we would also have to add and remove sockets from the sets as connections were opened and closed. Managing the set of sockets in such a scenario is non-trivial, because each call to <code>select</code> can (and usually does) change the sets.</p>
+<h4 id="chat-server.">Chat Server.</h4>
+<p>The more complicated example in <span class="citation" data-cites="getaddrinfo"></span> is about a chat program (if you ever used IRC you have a pretty good idea of how this would work). When people want to join the chat room they send a message to a server. The server accepts and opens the connection and adds the client to the chat room. But people don’t always talk. So if nothing is happening right now there’s nothing to send. So the server can use <code>select()</code> to keep an eye open for when someone has said something. Either way, we would wait for something to happen, either on one of the sockets from a current client, or the socket for accepting incoming connections.</p>
+<p>If it’s the socket for accepting incoming connections that activated then accept the incoming connection, and add the new socket to the list that we are going to listen to. A chat server might choose to send a notification to other clients to let them know that a new person has joined the chat. That would be a write to the sockets that represent connected clients.</p>
+<p>If another socket activated, most likely someone had something to say. So we can read from the socket that is ready to read and pass on the message that we received to all the other clients. Except, sometimes there isn’t one! A socket will show up as being ready for reading if it has closed. But the call to read will return 0 (or a negative number) if the socket has closed (i.e., the client has disconnected). If the connection has been closed, then we should remove that socket from the list that we are interested in. And also we sometimes send a message telling other clients that a person has left the chat.</p>
+<p>And when a message is received from a client, then of course the thing for the server to do is to send it on to the other clients, by writing to their sockets so the message is transmitted to them. The clients are waiting to receive messages and will then show them to the user when someone says something. And then look at that: you’re talking to other people on the internet! Just remember not to give out your personal information to strangers.</p>
+<p>Obviously there are some other considerations that come with managing a chat server. There might be periodic connection-keep-alive kind of messages so that clients remain connected even if nobody is talking right now. And you might want the ability to kick out people who are spammers and perhaps even ban them, amongst other things. But the goal of this explanation wasn’t really to learn how to write a chat server in great detail – just to give an example of how you could use <code>select</code> to write something useful.</p>
+<h4 id="slightly-different-mostly-the-same-pselect.">Slightly different, mostly the same: <code>pselect</code>.</h4>
+<p>There is also <code>pselect()</code> which has the signature:</p>
+<div class="sourceCode" id="cb8" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb8-1" title="1"><span class="dt">int</span> pselect( <span class="dt">int</span> nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, </a>
+<a class="sourceLine" id="cb8-2" title="2">            <span class="dt">const</span> <span class="kw">struct</span> timespec *timeout, <span class="dt">const</span> sigset_t *sigmask );</a></code></pre></div>
+<p>The signature is different in two ways. The first is that instead of <code>struct timeval</code> it is a <code>struct timespec</code>, which is slightly different in its meaning, and also will never be modified by the call to <code>pselect</code>:</p>
+<div class="sourceCode" id="cb9" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">struct</span> timespec {</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="dt">long</span> tv_sec; <span class="co">/* seconds */</span></a>
+<a class="sourceLine" id="cb9-3" title="3">  <span class="dt">long</span> tv_nsec; <span class="co">/* nanoseconds */</span></a>
+<a class="sourceLine" id="cb9-4" title="4">};</a></code></pre></div>
+<p>Yes, the only real difference is that it is seconds and nanoseconds, rather than seconds and milliseconds. The other parameter is about setting up a signal mask. We discussed the signal mask much earlier on when we talked about signals for interprocess communication. This is the same, but it allows us to change the signal mask atomically in the same step as the call to select, so we can choose what signals are allowed to wake us up while we are waiting for something to happen. Given appropriate allocation and initialization of the values, the call:</p>
+<div class="sourceCode" id="cb10" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1">ready = pselect( nfds, &amp;readfds, &amp;writefds, &amp;exceptfds, timeout, &amp;sigmask );</a></code></pre></div>
+<p>is equivalent to an atomic operation that does all of:</p>
+<div class="sourceCode" id="cb11" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb11-1" title="1">sigset_t origmask;</a>
+<a class="sourceLine" id="cb11-2" title="2">pthread_sigmask( SIG_SETMASK, &amp;sigmask, &amp;origmask );</a>
+<a class="sourceLine" id="cb11-3" title="3">ready = select( nfds, &amp;readfds, &amp;writefds, &amp;exceptfds, timeout );</a>
+<a class="sourceLine" id="cb11-4" title="4">pthread_sigmask( SIG_SETMASK, &amp;origmask, NULL );</a></code></pre></div>
+<p>If we had tried to do the multi-step sequence then there is always the possibility that something (e.g., a signal!) could happen in between changing the signal mask and the call to <code>select</code>. The syntax here for changing the signal mask is slightly different than what we have seen before, but this is the POSIX specification implementation of the <code>sigprocmask()</code> call. So, it works the same as we have seen earlier.</p>
+<h4 id="i-only-wanted-a-nap...">I only wanted a nap...</h4>
+<p>It is possible to “misuse” a call to <code>select</code> or <code>pselect</code> as a way to make a very portable call to put the current thread to sleep. Some of the calls to sleep functions don’t translate well to other UNIX-like systems, especially if you want a very short sleep – but <code>select</code> is in the standard! So you can do this by calling <code>select</code> with all three sets empty and <code>nfds</code> at zero and whatever timeout you wish. Clever!</p>
+<h2 id="alternative-poll" class="unnumbered">Alternative: <code>poll()</code></h2>
+<p>There’s a slightly different function that is very much like <code>select()</code> and it is called <code>poll()</code>. Like its cousin, it is used to watch file descriptors and see if any of them are ready for an I/O operation. The signature is:</p>
+<div class="sourceCode" id="cb12" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb12-1" title="1"><span class="dt">int</span> poll( <span class="kw">struct</span> pollfd *fds, nfds_t nfds, <span class="dt">int</span> timeout );</a></code></pre></div>
+<p>The signature is a lot simpler, that’s for sure. The first argument is an array of <code>struct pollfd</code>, which is our structure for passing in the sockets we wish to monitor. The second parameter is <code>ndfs</code> which is just the number of items in the array. Finally, <code>timeout</code> is the number of milliseconds to wait before returning with zero meaning don’t wait at all, and a negative number meaning wait infinitely.</p>
+<p>Alright, let’s look at the structure:</p>
+<div class="sourceCode" id="cb13" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">struct</span> pollfd {</a>
+<a class="sourceLine" id="cb13-2" title="2">  <span class="dt">int</span> fd;        <span class="co">/* file descriptor */</span></a>
+<a class="sourceLine" id="cb13-3" title="3">  <span class="dt">short</span> events;  <span class="co">/* requested events */</span></a>
+<a class="sourceLine" id="cb13-4" title="4">  <span class="dt">short</span> revents; <span class="co">/* returned events */</span></a>
+<a class="sourceLine" id="cb13-5" title="5">};</a></code></pre></div>
+<p>Someone found a use for a <code>short</code> after all! Just kidding, hardware people.</p>
+<p>The first parameter is obviously the file descriptor to watch. The second is where we specify what events we want to wait for on this file descriptor, and the third parameter is set by the kernel so we can find out what happened.</p>
+<p>What can we add? You can look for data that’s ready to read with <code>POLLIN</code>, a socket where you can write without blocking with <code>POLLOUT</code>, and an exception (as above) with <code>POLLPRI</code>. These can be combined with the bitwise OR operator if you want more than one.</p>
+<p>The return value will be constructed as a bitwise OR of the fields as well, with the possibility that you could have one of these other return values: <code>POLLERR</code> if an error occurred, <code>POLLHUP</code> if the other side ended the connection, or <code>POLLNVAL</code> if there’s a problem with the socket (e.g., uninitialized) <span class="citation" data-cites="getaddrinfo"></span>.</p>
+<p>As with <code>select</code>, when <code>poll</code> returns we have to check which file descriptors have had an event occur and then decide what to do with them. Let’s rewrite the <code>select</code> example with three services to see its <code>poll</code> equivalent:</p>
+<div class="sourceCode" id="cb14" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb14-1" title="1"><span class="dt">void</span> listen_for_connections( <span class="dt">int</span> service1_sock, <span class="dt">int</span> service2_sock, <span class="dt">int</span> service3_sock ) {</a>
+<a class="sourceLine" id="cb14-2" title="2">  <span class="kw">struct</span> pollfd fds[<span class="dv">3</span>];</a>
+<a class="sourceLine" id="cb14-3" title="3">  fds[<span class="dv">0</span>].fd = service1_sock;</a>
+<a class="sourceLine" id="cb14-4" title="4">  fds[<span class="dv">0</span>].events = POLLIN;</a>
+<a class="sourceLine" id="cb14-5" title="5">  fds[<span class="dv">1</span>].fd = service2_sock;</a>
+<a class="sourceLine" id="cb14-6" title="6">  fds[<span class="dv">1</span>].events = POLLIN;</a>
+<a class="sourceLine" id="cb14-7" title="7">  fds[<span class="dv">2</span>].fd = service3_sock;</a>
+<a class="sourceLine" id="cb14-8" title="8">  fds[<span class="dv">2</span>].events = POLLIN;</a>
+<a class="sourceLine" id="cb14-9" title="9"> </a>
+<a class="sourceLine" id="cb14-10" title="10">  <span class="dt">int</span> timeout = <span class="dv">30</span> * <span class="dv">1000</span>; <span class="co">/* 30 seconds in ms */</span> </a>
+<a class="sourceLine" id="cb14-11" title="11">  printf( <span class="st">&quot;Going to start listening for socket events.</span><span class="sc">\n</span><span class="st">&quot;</span> );</a>
+<a class="sourceLine" id="cb14-12" title="12">  </a>
+<a class="sourceLine" id="cb14-13" title="13">  <span class="cf">while</span>( !quit ) {</a>
+<a class="sourceLine" id="cb14-14" title="14">    </a>
+<a class="sourceLine" id="cb14-15" title="15">    <span class="dt">int</span> res = poll( &amp;fds, <span class="dv">3</span>, timeout );</a>
+<a class="sourceLine" id="cb14-16" title="16">    <span class="cf">if</span> ( res == -<span class="dv">1</span> ) { <span class="co">/* An error occurred */</span></a>
+<a class="sourceLine" id="cb14-17" title="17">      printf( <span class="st">&quot;An error occurred in select(): %s.</span><span class="sc">\n</span><span class="st">&quot;</span>, strerror( errno ) );</a>
+<a class="sourceLine" id="cb14-18" title="18">      quit = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb14-19" title="19">    } <span class="cf">else</span> <span class="cf">if</span> ( res == <span class="dv">0</span> ) { <span class="co">/* 0 sockets had events occur */</span></a>
+<a class="sourceLine" id="cb14-20" title="20">      printf( <span class="st">&quot;Still waiting; nothing occurred recently.</span><span class="sc">\n</span><span class="st">&quot;</span> );</a>
+<a class="sourceLine" id="cb14-21" title="21">    } <span class="cf">else</span> { <span class="co">/* Things happened */</span></a>
+<a class="sourceLine" id="cb14-22" title="22">      <span class="cf">if</span> ( fds[<span class="dv">0</span>].revents &amp; POLLIN ) {</a>
+<a class="sourceLine" id="cb14-23" title="23">        service1_activate( ); </a>
+<a class="sourceLine" id="cb14-24" title="24">      }</a>
+<a class="sourceLine" id="cb14-25" title="25">      <span class="cf">if</span> ( fds[<span class="dv">1</span>].revents &amp; POLLIN ) {</a>
+<a class="sourceLine" id="cb14-26" title="26">        service2_activate( ); </a>
+<a class="sourceLine" id="cb14-27" title="27">      }</a>
+<a class="sourceLine" id="cb14-28" title="28">      <span class="cf">if</span> ( fds[<span class="dv">2</span>].revents &amp; POLLIN ) {</a>
+<a class="sourceLine" id="cb14-29" title="29">        service3_activate( ); </a>
+<a class="sourceLine" id="cb14-30" title="30">      }</a>
+<a class="sourceLine" id="cb14-31" title="31">  }</a>
+<a class="sourceLine" id="cb14-32" title="32">}</a></code></pre></div>
+<h4 id="comparing-the-two.">Comparing the two.</h4>
+<p>Ultimately both functions do the same job; it is only the specifics of the API call that make the difference. You might find one or the other to be better, and in particular it is nice that <code>poll</code> doesn’t ask you to find the maximum file descriptor or manage three sets or have to rebuild the sets on each iteration of the loop.</p>
+<p>Both <code>select</code> and <code>poll</code> are slow, unfortunately. They have linear characteristics: the more file descriptors you give them the slower they get; if you get up to a hundred file descriptors, roughly, then you end up actually spending significant CPU time trying to figure out which of the sockets changed <span class="citation" data-cites="pollvselect"></span>.</p>
+<p>If we want to do things more efficiently we will want to use a different tool, specifically <code>libevent</code>, but we aren’t quite done with network communication. After sockets, we learned about cURL, and it turns out we can use nonblocking I/O there as well!</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Periodic Inputs and Fourier Series</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Periodic Inputs and Fourier Series</h1>
+<p class="author">Aditya Arora</p>
+</header>
+<p>There are applications such as modulation and demodulation of radio signal, where we are interested in the response of the system
+<span class="math display">
+\begin{cases}
+      Q(D)y(t) = P(D)x(t) \\
+      y(-\infty) = 0,\dots, y^{n-1}(-\infty) = 0
+\end{cases}
+</span>
+to periodic inputs i.e. there exists <span class="math inline">\tau</span> such that:
+<span class="math display">x(t+\tau) = x(t)\;\; \forall\;t\;\epsilon\;\mathbb{R}</span></p>
+<p>In such applications the transients are irrelevant or insignificant, so we do not impose <span class="math inline">x(t) = 0\;\;\forall\; t &lt; 0</span>, or specify initial conditions at <span class="math inline">t = 0</span> or specify initial conditions at <span class="math inline">t=0</span>. As we saw in Chapter 3, the steady-state response of an LTI system to a sinusoidal input is easily characterized. We will use the Fourier</p>
+</body>
+</html>

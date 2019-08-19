@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L01.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#some-background-on-operating-systems">Some Background on Operating Systems</a><ul>
+<li><a href="#systems-programming">Systems Programming</a></li>
+<li><a href="#concurrency">Concurrency</a></li>
+</ul></li>
+<li><a href="#our-c-toolkit">Our C Toolkit</a><ul>
+<li><a href="#comments.">Comments.</a></li>
+<li><a href="#structures.">Structures.</a></li>
+<li><a href="#type-names.">Type Names.</a></li>
+<li><a href="#memory-allocation-deallocation-and-pointers">Memory Allocation, Deallocation, and Pointers</a></li>
+<li><a href="#dereferencing-address-of-and-the-arrow.">Dereferencing, Address-Of, and The Arrow.</a></li>
+<li><a href="#arrays.">Arrays.</a></li>
+<li><a href="#strings.">Strings.</a></li>
+<li><a href="#function-convention.">Function Convention.</a></li>
+<li><a href="#printing.">Printing.</a></li>
+<li><a href="#define-directives.">Define Directives.</a></li>
+<li><a href="#main-and-arguments.">Main and Arguments.</a></li>
+<li><a href="#void-pointers.">Void Pointers.</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>About the Course</span>
+We’ll start by reviewing the highlights of the class syllabus. Please read it carefully (it is available in Learn under Content <span class="math inline">\rightarrow</span> Overview). It contains a lot of important information about the class including: the lecture topics, the grading scheme, contact information for the course staff, and university policies.</p>
+<h1 id="some-background-on-operating-systems" class="unnumbered">Some Background on Operating Systems</h1>
+<p>An operating system (often abbreviated OS) is a piece of software that sits between the hardware of a computer and the applications (programs) that run on that computer. The OS does many different things and often has many (occasionally-conflicting) goals.</p>
+<p>To use an analogy, you may wish to think of the operating system as the “secretary” of the computer. It is a resource manager, and it allocates resources as necessary. The most significant difference between a secretary and an operating system is that while a secretary can work in parallel with you, operating systems often work when programs are sleeping, and operating systems must put themselves to sleep to allow programs to execute. It is responsible for seeing to it that other programs can operate efficiently, providing an environment for other programs, and collecting and reporting data about what is and has been happening.</p>
+<p>An operating system is also responsible for resource allocation. In the real world, the resources we have to work with, such as CPU time or memory space, are limited. The OS decides how to allocate these resources, keeps track of who currently owns what, and, in the event of conflicting requests, determines who gets the resource.</p>
+<p>The OS usually enables useful programs like Photoshop or Microsoft Word to run. Any computer has various pieces of hardware, such as the CPU, memory, input/output devices (such as monitors, keyboards, modems). The OS is responsible for abstracting away the details of this, so that the authors of programs do not have to worry about the specifics of the hardware. Imagine how painful it would be to write even a simple program, like the Hello World example, if we had to write our program differently for every combination of hardware.</p>
+<p>In most cases there will be multiple programs running on the computer. This implies the sharing of various resources. When this is the case, there is the potential for conflicts to arise. An operating system creates and enforces rules to make sure all the programs get along and play fairly. Of course, not all interaction between programs is competitive; sometimes they want to co-operate, and the OS helps them do that, too.</p>
+<h2 id="systems-programming" class="unnumbered">Systems Programming</h2>
+<p>The operating system is, however, just the backdrop to what we are going to do in this course. We will often be doing <em>Systems Programming</em>. This is the next layer above the operating system itself. System programs ship with the operating system and they are useful tools, but they are not part of the kernel.</p>
+<p>Some examples of things that might fall under systems programming (from <span class="citation" data-cites="osc"></span>):</p>
+<ul>
+<li><p><strong>File Manipulation</strong> - Programs to create, delete, copy, rename, print, and manipulate files and directories.</p></li>
+<li><p><strong>Communication</strong> - Remote login capability, file transfer, download utilities, and messaging.</p></li>
+<li><p><strong>Processes and Thread Management</strong> - Creating processes and threads, working with them, interacting with others, and cleaning them up.</p></li>
+</ul>
+<p>Programming at this level is more difficult than writing regular programs. It may require knowledge of the hardware, or perhaps programming facilities like debugging are limited. Furthermore, systems programs must take concurrency into account; multiple (regular) programs may try to use the systems program at the same time. An e-mail client may choose to refuse to allow two instances of the program to be open at the same time, but users would not accept a system that did not permit more than one file operation at a time.</p>
+<p>A key thing that distinguishes systems programming is that we want to do certain operations that involve the operating system. In short, there are some things that the operating system does not allow programs to do, and what they have to do is ask the operating system to do it instead. Learning how to use the functionality provided by the OS is a key part of writing any complex program (i.e., one that is non-trivial).</p>
+<h2 id="concurrency" class="unnumbered">Concurrency</h2>
+<p>The previous section mentioned concurrency, but didn’t really introduce what it is. A program is said to be concurrent if it can support two or more actions in progress at the same time; it is parallel if it can have two or more actions executing simultaneously <span class="citation" data-cites="artofc"></span>. Soon enough we will spend a great deal of time examining the differences between parallelism and concurrency in the program.</p>
+<p>It is already the case that many programs you use are to a greater or smaller degree concurrent. Depending on your level of programming experience, you may have already written a concurrent program, intentionally or without knowing it. We will learn about how to take a program and make it concurrent, as well as how to write it with concurrency in mind from the ground up.</p>
+<p>Concurrency comes with a number of advantages, chief amongst them the ability to speed up your program and get more work done in the same amount of time. It does, however, come with a number of drawbacks. On top of being somewhat more difficult to write, it is more difficult to be sure that the program is correct. We have tools to find and deal with the problems that arise, but we will need to use them carefully.</p>
+<p>To give you a taste of the sort of problem that we may encounter, consider a program that performs a simple calculation given some input. If the program has a concurrency problem, then the answer could be (1) consistently the wrong answer every single time, (2) different on consecutive runs with the same input, or (3) correct some of the time but incorrect some of the time. As you can imagine, none of these options are acceptable. If you bought a simple four operation calculator that only gave the correct answer 99% of the time, would you be satisfied with your purchase?</p>
+<p>Without going too much into the statistics of this, if your company’s payroll system got it right 98% of the time, and the company paid you every 2 weeks (ie 26 pay periods a year), then statistically they would likely fail to pay you within your first two years working there. Ouch. Correctness matters.</p>
+<h1 id="our-c-toolkit" class="unnumbered">Our C Toolkit</h1>
+<p>This is a programming course, after all, and we will be programming in C. There’s a baseline assumption that you have experience with a C-like language (if not C itself), such as , Java, C#. While the purpose of this class it not to teach you how to program in C, past experience (from ECE 254) suggests that it is helpful to cover a number of key concepts and conventions in C programming to make sure that everyone is on the same page, and to streamline explanation of future code examples. It is also probably desirable to put all of these things together in the same place for quick reference.</p>
+<p>C is a procedural language: that is to say it has functions (but that doesn’t make it a functional programming language). It is not Object-Oriented or anything like it. We will write functions and functions work as they do in all C-like languages. They have a return type, function name, and then a list of arguments (or parameters) in parenthesis.</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> function_name( <span class="dt">double</span> arg1, <span class="dt">int</span> arg2, <span class="dt">char</span> arg3 ) { ... }</a></code></pre></div>
+<p>Header files, whether our own or for provided libraries are imported into the program using a precompiler directive such as below, where two of the standard headers are imported.</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a></code></pre></div>
+<p>Many of the functions we wish to call are included in these header files, but there are many many more. If you are attempting to use a library function and the compiler says it doesn’t know what you mean, then first check your spelling, as well as the number of parameters... and then check to be sure you have included the correct header file(s). If you get a compiler warning about “implicit declaration” of a function it means that a header is missing but the compiler can guess about what you want. You should still fix this by including the right header, which you might have to google.</p>
+<p>C has no <code>bool</code> type by default. In many contexts an <code>int</code> is used where 0 represents false and 1 represents true. Or you can include the header <code>stdbool.h</code> which provides you the type as well as the explicit values of true and false.</p>
+<p>But speaking of the compiler not knowing how to find a function you might have the compiler tell you that it can’t find the definition for <code>bar</code> when compiling <code>foo</code>.</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> foo() {</a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="cf">return</span> bar( <span class="dv">7</span>, <span class="dv">11</span> );</a>
+<a class="sourceLine" id="cb3-3" title="3">}</a>
+<a class="sourceLine" id="cb3-4" title="4"></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="dt">int</span> bar( <span class="dt">int</span> v1, <span class="dt">int</span> v2 ) {</a>
+<a class="sourceLine" id="cb3-6" title="6">  <span class="cf">return</span> v1 * v2;</a>
+<a class="sourceLine" id="cb3-7" title="7">} </a></code></pre></div>
+<p>What gives?! It’s RIGHT THERE!</p>
+<p>Some of the rules of the C compiler date back to the original design of the language and in these ancient and primitive times the compiler was unwilling to take two passes compiling source code because it would take too long. This can be solved in one of two ways. Either move <code>bar()</code> in the source so it appears before <code>foo</code>, or, instead, provide a function prototype for <code>bar()</code>.</p>
+<div class="sourceCode" id="cb4" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> bar( <span class="dt">int</span> v1, <span class="dt">int</span> v2 );</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="dt">int</span> foo() {</a>
+<a class="sourceLine" id="cb4-4" title="4">  <span class="cf">return</span> bar( <span class="dv">7</span>, <span class="dv">11</span> );</a>
+<a class="sourceLine" id="cb4-5" title="5">}</a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="dt">int</span> bar( <span class="dt">int</span> v1, <span class="dt">int</span> v2 ) {</a>
+<a class="sourceLine" id="cb4-8" title="8">  <span class="cf">return</span> v1 * v2;</a>
+<a class="sourceLine" id="cb4-9" title="9">} </a></code></pre></div>
+<p>The function prototype appears earlier in the file and promises the compiler that at some point there will be an implementation of this function, but be aware that it exists. This will now allow compilation to succeed. Function prototypes are frequently declared all at the top of the file.</p>
+<p>In another ancient rule based on no second passes, versions of C before the C99 standard do not allow declaring of variables in a function anywhere but at the very start of the function. This means that in the example below, <code>loop1</code> will not compile but <code>loop2</code> will. Fortunately we will always assume (at least) C99 standard so this problem is avoided.</p>
+<div class="sourceCode" id="cb5" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">void</span> loop1() {</a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="cf">for</span> ( <span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10</span>; i++ ) { ... }</a>
+<a class="sourceLine" id="cb5-3" title="3">}</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="dt">void</span> loop2() {</a>
+<a class="sourceLine" id="cb5-5" title="5">  <span class="dt">int</span> i;</a>
+<a class="sourceLine" id="cb5-6" title="6">  <span class="cf">for</span> ( i = <span class="dv">0</span>; i &lt; <span class="dv">10</span>; i++ ) { ... }</a>
+<a class="sourceLine" id="cb5-7" title="7">}</a></code></pre></div>
+<h4 id="comments.">Comments.</h4>
+<p>In C comments always begin with <code>/*</code> and end with <code>*/</code>. The style of comment like <code>// This is a comment</code> may be permitted by your compiler but this is not supported everywhere. Please use C-style comments.</p>
+<h4 id="structures.">Structures.</h4>
+<p>Perhaps the most striking difference in C for those coming from an Object-Oriented Programming language is that C has no such concept. There are no classes, and no class hierarchy, no interfaces or abstract classes, none of that. There are no access control modifiers (<code>public, private</code>, etc).</p>
+<p>What we have instead for programmer-defined types is the <em>structure</em>, the <code>struct</code>. A structure is the forerunner of the class but is much simpler: it is a grouping of variables, and nothing more. A structure is composed of a group of variables as one might expect. A simple structure representing a 3-dimensional cartesian coordinate:</p>
+<div class="sourceCode" id="cb6" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">struct</span> point {</a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="dt">double</span> x;</a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="dt">double</span> y;</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="dt">double</span> z;</a>
+<a class="sourceLine" id="cb6-5" title="5">};</a></code></pre></div>
+<p>In the example, all three elements are defined as <code>double</code> but there’s no reason why they have to be the same (they can be anything). The following short example shows creating a <code>struct point</code> and assigning some values. As you would expect, the attributes of the structure are accessed with the dot operator (<code>.</code>):</p>
+<div class="sourceCode" id="cb7" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">struct</span> point p1;</a>
+<a class="sourceLine" id="cb7-2" title="2">p1.x = <span class="fl">1.9</span>;</a>
+<a class="sourceLine" id="cb7-3" title="3">p1.y = <span class="fl">2.5</span>;</a>
+<a class="sourceLine" id="cb7-4" title="4">p1.z = -<span class="fl">1.0</span>;</a></code></pre></div>
+<h4 id="type-names.">Type Names.</h4>
+<p>In the previous example when we want to use the <code>point</code> structure as defined, we have to write <code>struct point</code> as the full name of the type. This can result in a lot of typing of the keyword <code>struct</code> such as in a function like this:</p>
+<div class="sourceCode" id="cb8" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">struct</span> point add( <span class="kw">struct</span> point p1, <span class="kw">struct</span> point p2 ) { ... }</a></code></pre></div>
+<p>Fortunately, we are provided another keyword that will reduce the amount of typing that we have to do. This is the <code>typedef</code> keyword. The keyword precedes a structure definition, and after the definition there is the new name you’d like to use.</p>
+<div class="sourceCode" id="cb9" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">typedef</span> <span class="kw">struct</span> point {</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="dt">double</span> x;</a>
+<a class="sourceLine" id="cb9-3" title="3">  <span class="dt">double</span> y;</a>
+<a class="sourceLine" id="cb9-4" title="4">  <span class="dt">double</span> z;</a>
+<a class="sourceLine" id="cb9-5" title="5">} point_t;</a></code></pre></div>
+<p>This would allow you to rewrite the previous function call as a more compact form:</p>
+<div class="sourceCode" id="cb10" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1">point_t add( point_t p1, point_t p2 ) { ... }</a></code></pre></div>
+<p>You can (if you want) use <code>typedef</code> on other things, such as <code>typedef int pid_t</code> which allows you to use your own names for certain things if you have a reason (as we’ll see later).</p>
+<p>A small note on the naming convention: it is now discouraged to use the <code>_t</code> ending on the name of a programmer-defined type. Hopefully the UNIX police will not arrest me based on the previous example. Nevertheless, when we do some future examples, we will see that there are types (like <code>pid_t</code>) where this convention holds. But regardless, it’s just convention, not law, and using it (or not using it) isn’t wrong.</p>
+<p>You may also notice that in the definition there is the <code>point</code> name after the <code>struct</code> keyword and this is not used anywhere once we have finished the <code>typedef</code> definition. It can be omitted and the definition would just be:</p>
+<div class="sourceCode" id="cb11" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">typedef</span> <span class="kw">struct</span> {</a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="dt">double</span> x;</a>
+<a class="sourceLine" id="cb11-3" title="3">  <span class="dt">double</span> y;</a>
+<a class="sourceLine" id="cb11-4" title="4">  <span class="dt">double</span> z;</a>
+<a class="sourceLine" id="cb11-5" title="5">} point_t;</a></code></pre></div>
+<p>And this would be exactly equivalent to the previous definition.</p>
+<h4 id="memory-allocation-deallocation-and-pointers">Memory Allocation, Deallocation, and Pointers</h4>
+<p>Your program has three kinds of memory: global variables, stack, and heap. Memory that is allocated on the stack is local to the function currently running and will automatically be thrown away when the function returns. Memory that is allocated on the heap is explicitly asked for and must also be explicitly returned as well. Stack memory is somewhat limited; heap is very large (although not infinite). In some programming languages one may get away without knowing the difference, but this is C...</p>
+<p>Stack allocated memory is fairly simple. In the example below, <code>bar</code> is a variable allocated on the stack. The lifetime of this variable is just as long as <code>foo</code> runs.</p>
+<div class="sourceCode" id="cb12" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb12-1" title="1"><span class="dt">void</span> foo() {</a>
+<a class="sourceLine" id="cb12-2" title="2"> <span class="dt">int</span> bar;</a>
+<a class="sourceLine" id="cb12-3" title="3"> ...</a>
+<a class="sourceLine" id="cb12-4" title="4">}</a></code></pre></div>
+<p>It’s important to remember that the variable <code>bar</code> has no initial value. It has to be initialized to some value, otherwise it simply contains garbage. This is a key step and a frequent source of error in programs. Even students in 4th year with a great deal of programming experience sometimes forget to initialize variables and spend many hours debugging their programs.</p>
+<p>Global variables are variables declared outside of any function. Although they can be used for good, excessive use of them is a warning sign of poor program design. Global variable space is also not infinite. While we might use global variables in the class for simple examples or to make an exam question simpler, in real life it is usually better to avoid them. Global variables may be initialized for you to zero or something like it, but it is best not to count on this and to initialize the variables.</p>
+<p>In C, heap memory is allocated in a very simple way: you ask for the amount of memory that you want. The function for this is <code>malloc()</code> and it takes one parameter – the number of bytes of memory that you want. So if we want to allocate an integer on the heap, we need to call <code>malloc()</code> and request the number of bytes that correspond to an <code>int</code>. But how many bytes is that?</p>
+<p>You may think the answer is 4 bytes, but a quick look at the C standard says that while there are are exact sizes for some types, other types have only a minimum size. The rest is implementation specific. That is, it can vary from one system to another. Yikes! Fortunately we have <code>sizeof</code>, which ask the compiler to help us out here and substitute in the correct size where it is needed. So we would call <code>malloc()</code> with the argument <code>sizeof( int )</code>. At run time, the correct amount of memory will be requested.</p>
+<p>This is also very helpful for when you want to allocate a structure. Instead of needing to work out the size yourself (well, this is three <code>double</code>s, and a <code>double</code> is 8 bytes...), <code>sizeof( point_t )</code> will allocate the correct size... as a nice bonus, if ever the definition of the structure is changed the amount of memory requested is updated automatically.</p>
+<p>The return value of <code>malloc()</code> is a pointer to the memory that is allocated. Unlike , the value does not need to be cast (and probably shouldn’t be).
+Consider the following allocation:</p>
+<div class="sourceCode" id="cb13" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb13-1" title="1"><span class="dt">void</span> example( ) {</a>
+<a class="sourceLine" id="cb13-2" title="2">  <span class="dt">int</span> * x = malloc( <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a>
+<a class="sourceLine" id="cb13-3" title="3">  ...</a>
+<a class="sourceLine" id="cb13-4" title="4">}</a></code></pre></div>
+<p>The variable <code>x</code> is a pointer to an integer, and it is allocated on the stack. The value contained in <code>x</code> is the address of the memory that was allocated by <code>malloc()</code>. That memory currently contains garbage because it has not been initialized. To initialize it, of course, we just assign it a value as below:</p>
+<div class="sourceCode" id="cb14" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb14-1" title="1"><span class="dt">void</span> example( ) {</a>
+<a class="sourceLine" id="cb14-2" title="2">  <span class="dt">int</span> * x = malloc( <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a>
+<a class="sourceLine" id="cb14-3" title="3">  *x = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb14-4" title="4">}</a></code></pre></div>
+<p>When we are finished with memory, it is proper to deallocate it using <code>free()</code>. This function takes a pointer to the memory that is to be deallocated and lets the operating system know that we are finished with this memory. We don’t have to specify the number of bytes being returned, because it will be the same as was originally allocated and this is tracked by the system’s memory allocator. So the complete example:</p>
+<div class="sourceCode" id="cb15" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb15-1" title="1"><span class="dt">void</span> example( ) {</a>
+<a class="sourceLine" id="cb15-2" title="2">  <span class="dt">int</span> * x = malloc( <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a>
+<a class="sourceLine" id="cb15-3" title="3">  *x = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb15-4" title="4">  ...</a>
+<a class="sourceLine" id="cb15-5" title="5">  free( x );</a>
+<a class="sourceLine" id="cb15-6" title="6">}</a></code></pre></div>
+<p>If we forget to deallocate some memory that is allocated, this is a <em>memory leak</em> and this is a bad thing. It may not have immediate bad effects, but it is wrong and in the long term (such as a program that runs 24/7) memory leaks will slow down the program and can eventually lead to a crash. When memory is being allocated, you should always take a moment to consider where it is to be deallocated. The call to <code>free()</code> should be when the memory is no longer needed (ideally as soon as possible after this is known), but it may be in a different function altogether.</p>
+<p>A provided function <code>a()</code> might, for example, allocate the memory and return a pointer to it for your use and it is then your responsibility to deallocate this memory when you no longer need it. Reading the documentation (or source code) of a function will tell you if this is the case. Or, you may pass memory between two (or more) functions you have written in your program; just be sure to check the “flow” of the data to be sure that anything that was allocated gets deallocated.</p>
+<p>It is worth noting that <code>free()</code> just marks the memory as being available; it doesn’t actually erase what is there. So you might be able to use memory after marking it as free. Murphy’s Law suggests that this will work just fine when you test your code but will crash the program every time when it is in production (or the TA is marking it). To reduce the likelihood of this, some coding conventions ask you to assign a pointer to 0 after it has been freed. This guarantees that a future attempt to use that same pointer will crash.</p>
+<p>Also noteworthy: if you try to call <code>free()</code> on the same pointer twice, this will very likely crash your program immediately. Similarly, if you try to free memory that was allocated on the stack rather than on the heap, this also leads swiftly to a crash.</p>
+<h4 id="dereferencing-address-of-and-the-arrow.">Dereferencing, Address-Of, and The Arrow.</h4>
+<p>You will recall from some basics about how pointers work that the <code>*</code> symbol is used to declare something a pointer, and to <em>dereference</em> the pointer (follow the directions to the memory on the heap). This is also used when we are expecting a value. If we have a function defined like this:</p>
+<div class="sourceCode" id="cb16" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb16-1" title="1"><span class="dt">int</span> work( <span class="dt">int</span> x, <span class="dt">int</span> y ) {</a>
+<a class="sourceLine" id="cb16-2" title="2">  <span class="cf">return</span> x + y;</a>
+<a class="sourceLine" id="cb16-3" title="3">}</a></code></pre></div>
+<p>And our variables are allocated on the heap then we know how to use them in a function call as below.</p>
+<div class="sourceCode" id="cb17" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb17-1" title="1"><span class="dt">void</span> baz() {</a>
+<a class="sourceLine" id="cb17-2" title="2">  <span class="dt">int</span>* a = malloc( <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a>
+<a class="sourceLine" id="cb17-3" title="3">  *a = <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb17-4" title="4">  <span class="dt">int</span>* b = malloc( <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a>
+<a class="sourceLine" id="cb17-5" title="5">  *b = <span class="dv">4</span>;</a>
+<a class="sourceLine" id="cb17-6" title="6">  </a>
+<a class="sourceLine" id="cb17-7" title="7">  <span class="dt">int</span> z = work( *a, *b );</a>
+<a class="sourceLine" id="cb17-8" title="8">  free( a );</a>
+<a class="sourceLine" id="cb17-9" title="9">  free( b );</a>
+<a class="sourceLine" id="cb17-10" title="10">}</a></code></pre></div>
+<p>But suppose the situation is reversed; the function <code>work()</code> is now defined like this:</p>
+<div class="sourceCode" id="cb18" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb18-1" title="1"><span class="dt">int</span> work( <span class="dt">int</span> * x, <span class="dt">int</span> * y ) {</a>
+<a class="sourceLine" id="cb18-2" title="2">  <span class="cf">return</span> *x + *y;</a>
+<a class="sourceLine" id="cb18-3" title="3">}</a></code></pre></div>
+<p>And our variables <code>a</code> and <code>b</code> are stack allocated? To invoke this function we use <code>&amp;</code>, the address-of operator.</p>
+<div class="sourceCode" id="cb19" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb19-1" title="1"><span class="dt">void</span> baz() {</a>
+<a class="sourceLine" id="cb19-2" title="2">  <span class="dt">int</span> a = <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb19-3" title="3">  <span class="dt">int</span> b = <span class="dv">4</span>;</a>
+<a class="sourceLine" id="cb19-4" title="4"></a>
+<a class="sourceLine" id="cb19-5" title="5">  <span class="dt">int</span> z = work( &amp;a, &amp;b );</a>
+<a class="sourceLine" id="cb19-6" title="6">}</a></code></pre></div>
+<p>In short, the function is expecting a pointer to an integer but we have a regular integer allocated on the stack. We can feed the function <code>work()</code> a pointer to that stack-allocated memory using the address-of operator. It needs to be used with caution, however, because of the fact that stack allocated memory does not outlive the function it is allocated in... and sometimes does not outlive a particular iteration of a loop. We will use this in a number of examples, but if your program is not behaving as expected you should check places where this is used as it can be a source of issues.</p>
+<p>The “Arrow” operator is a nice notational shorthand. If we allocate a structure on the heap, and want to assign one of the members of that structure, we write something like this: <code> (*p1).x = 99.9; </code>. An equivalent statement that results in the same outcome but looks a little neater: <code>p1-&gt;x = 99.9;</code>. These two statements are perfectly interchangeable. If you really prefer one style, use that style. If the Arrow makes no sense to you<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> you don’t have to use it.</p>
+<h4 id="arrays.">Arrays.</h4>
+<p>Arrays can be either stack or heap allocated, as you would expect. A stack allocated array is fairly simple, where you use the square brackets to specify the size that you want, as below:</p>
+<div class="sourceCode" id="cb20" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb20-1" title="1"><span class="dt">int</span> array[<span class="dv">10</span>];</a></code></pre></div>
+<p>Now the stack has an array named <code>array</code> of capacity 10 integers, all of which, remember, contains garbage because it has not been initialized. For a small array, or one that doesn’t need to last very long, this suffices. But it is much more likely that we need to allocate arrays on the heap:</p>
+<div class="sourceCode" id="cb21" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb21-1" title="1"><span class="dt">int</span>* array = malloc( <span class="dv">10</span> * <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a></code></pre></div>
+<p>This looks weird, but this is how we do it we asked for enough memory to hold 10 integers and this will be our array. But yes, an integer pointer could point to only one integer or to an array of integers. When deallocating this memory, the call is still <code>free( array ) </code> (unlike there’s no difference when deallocating an array).</p>
+<p>Either way, to assign elements of the array we use the square brackets operators, like <code>array[0] = 5;</code>. There’s no difference in whether or not it is stack or heap allocated when we do this.</p>
+<p>As said, the array needs to be initialized, regardless of whether it is stack or heap allocated. The simple way would be a for loop:</p>
+<div class="sourceCode" id="cb22" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb22-1" title="1"><span class="dt">int</span> * array = malloc( <span class="dv">10</span> * <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="cf">for</span> ( <span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10</span>; i++ ) {</a>
+<a class="sourceLine" id="cb22-3" title="3">  a[i] = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb22-4" title="4">}</a></code></pre></div>
+<p>This is nice but as you might realize this could take a long time for a sufficiently large array. There is a nice shortcut you can use (if you include the <code>string.h</code> header). It is called <code>memset</code>. It takes three arguments: a pointer to the memory you want to set, the value you want to initialize it to (the function does unsigned char conversion here, so pretty much this is only good for initializing to 0), and then how many bytes should be set:</p>
+<div class="sourceCode" id="cb23" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb23-1" title="1"><span class="dt">int</span> * array = malloc( <span class="dv">10</span> * <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a>
+<a class="sourceLine" id="cb23-2" title="2">memset( array, <span class="dv">0</span>, <span class="dv">10</span> * <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a></code></pre></div>
+<p>There are no automatic bounds checking for arrays, and C will gladly let you try to read the 12th element of a capacity-10 array. You will either read garbage or perhaps crash your program. When iterating over an array, you will need to know in advance how long the array is so you know when to terminate the loop. For that reason, when an array is passed as an argument to a function, another variable is used to specify the length.</p>
+<h4 id="strings.">Strings.</h4>
+<p>As far as C is concerned, a string is just a character array (and is generally just <code>char*</code>. In C, a string is of arbitrary length and terminates with a byte of zero (or if you prefer, <code>NULL</code>). This is distinct from the character “0” which has a nonzero value. If you put a string literal in some code like <code>"Hello World"</code> then the compiler will graciously add the null-terminator for you. If you are composing a string, however, then you need to remember to add it (and the char for it is <code>’\0’</code>). And either way you should also remember to make room for the null terminator when allocating memory or calculating the length of a string.</p>
+<h4 id="function-convention.">Function Convention.</h4>
+<p>Because there are no member functions for data objects the convention is generally that the first parameter to a function is modified. Thus, an initialization routine will take several arguments: the first being whatever it is we wish to initialize, then further arguments that are used to initialize this structure. Or, if a function modifies a struct, it is typically the first one that is changed:</p>
+<div class="sourceCode" id="cb24" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb24-1" title="1"><span class="dt">int</span> initialize_header( <span class="kw">struct</span> header * h, <span class="dt">int</span> v1, <span class="dt">double</span> v2, <span class="kw">struct</span> blah * v3 );</a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="dt">void</span> addToPoint( point p1, point p2 );</a></code></pre></div>
+<p>This is not a firm rule and there are examples that contradict this. But it is convention and will be seen frequently.</p>
+<p>In this same vein, many functions have integer return types. Because the first parameter structure is being modified, the return value is an integer that is the “result code”. If everything went well this is usually zero. If there was a problem, then it’s a nonzero number and the number can help you figure out what’s wrong. For example, a return value of 36 might be something you can look up in the documentation and find out that the value used for the third argument is too large.</p>
+<p>Also noteworthy: there is a header <code>errno.h</code> that defines a variable <code>errno</code>. Many functions and library calls set the value of this variable if something goes wrong during their execution. Knowing what precisely went wrong can be very valuable when debugging your program.</p>
+<p>If you want to read <code>errno</code> (or print it) then you include the header and declare <code>extern int errno;</code> in your program. Then, when a function call that uses it has a problem, you can use <code>errno</code> by, for example, printing an error message. The header file contains definitions of numerous standard error values such as <code>EIO</code> for “Error in Input/Output”. Check the documentation to get the full picture – there are a lot of them. But learning that your network call is code 111, <code>ECONNREFUSED</code> (connection refused) is a lot more helpful than just getting back <code>-1</code> as a return code.</p>
+<h4 id="printing.">Printing.</h4>
+<p>Writing to the console is done using the <code>printf()</code> function. This function formats a string and writes it to the console. In a simple example, the Hello World program would contain the following print statement:</p>
+<div class="sourceCode" id="cb25" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb25-1" title="1">printf(<span class="st">&quot;Hello World</span><span class="sc">\n</span><span class="st">&quot;</span>);</a></code></pre></div>
+<p>Note that the <code>"\n"</code> in there is a newline character, which should probably not be forgotten if you want your printout to look right.</p>
+<p>In addition to this, <code>printf()</code> does <em>formatted</em> printing. When we have values that need to appear in the output, we use a <em>format specifier</em>. The format specifier tells the printf how to format the value. The value is then given as an argument after the string. Order matters: the first format specifier encountered will match to the first argument after the string.</p>
+<div class="sourceCode" id="cb26" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb26-1" title="1"><span class="dt">int</span> x = -<span class="dv">25</span>;</a>
+<a class="sourceLine" id="cb26-2" title="2">...</a>
+<a class="sourceLine" id="cb26-3" title="3">printf(<span class="st">&quot;The value of x is %d</span><span class="sc">\n</span><span class="st">&quot;</span>, x);</a></code></pre></div>
+<p>Results in printing to the console <code>The value of x is -25</code> (and a newline character after it). In this example the format specifier <code>%d</code> is used for a signed integer (or <code>%i</code> would do the same). There are different format specifiers for different types: unsigned integers, floating point numbers, scientific notation, even a string. There are many options but we do not wish to belabour the point by putting them all here. But be sure you chose the right one: if you have a <code>double</code> and you try to print it with an <code>int</code> format specifier, it will look like the data contains garbage (yes, I have helped someone debug this).</p>
+<p>Or another example:</p>
+<div class="sourceCode" id="cb27" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb27-1" title="1">point p1 = malloc( <span class="kw">sizeof</span>( point ) );</a>
+<a class="sourceLine" id="cb27-2" title="2">p1-&gt;x = <span class="fl">9.5</span>;</a>
+<a class="sourceLine" id="cb27-3" title="3">p1-&gt;y = -<span class="fl">5.4</span>;</a>
+<a class="sourceLine" id="cb27-4" title="4">p1-&gt;z = <span class="fl">0.1</span>;</a>
+<a class="sourceLine" id="cb27-5" title="5">printf(<span class="st">&quot;(%f, %f, %f)</span><span class="sc">\n</span><span class="st">&quot;</span>, p1-&gt;x, p1-&gt;y, p1-&gt;z);</a></code></pre></div>
+<p>Results in printing <code>(9.5, -5.4, 0.1)</code>. As you see, the <code>printf()</code> routine takes an arbitrary number of parameters. If the string contains 5 format specifiers, then the string is followed by five arguments. If the string contains 10 format specifiers, then there are 10 arguments after the string. If you have 3 format specifiers but only 2 arguments after the string, <code>printf()</code> will take whatever value is next on the stack which may be garbage.</p>
+<h4 id="define-directives.">Define Directives.</h4>
+<p>It is possible to use a precompiler directive for fixed values in your program. This is the <code>#define</code> directive. Placing them at the top of the program is common. They are then used throughout the program to avoid “magic numbers” (i.e., numeric values that have no obvious meaning). Creation is like this:</p>
+<div class="sourceCode" id="cb28" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb28-1" title="1"><span class="pp">#define BUFFER_SIZE 1000</span></a></code></pre></div>
+<p>And then later in the program it will be used:</p>
+<div class="sourceCode" id="cb29" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb29-1" title="1"><span class="dt">char</span>* buffer = malloc( BUFFER_SIZE );</a></code></pre></div>
+<p>When the program is compiled, the compiler replaces <code>BUFFER_SIZE</code> everywhere with its definition. If used in many places, changing the definition in the central location saves you from having to change it everywhere.</p>
+<p>There is a small potential pitfall in this though; the compiler is VERY literal about how it makes the replacement. So if the directive is <code>#define VALUE 2 * 25 + 4</code>, then you will get the wrong answer if that’s later used in something like <code>int size = VALUE * 2;</code>, because the compiler will make it <code>int size = 2 * 25 + 4 * 2;</code> for a total size of 58 rather than 108. This can be avoided by putting parenthesis <code>#define VALUE (2 * 25 + 4)</code>. Because BEDMAS.</p>
+<h4 id="main-and-arguments.">Main and Arguments.</h4>
+<p>A program begins at the start of <code>main</code> and the signature is as follows:</p>
+<div class="sourceCode" id="cb30" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb30-1" title="1"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb30-2" title="2">  ...</a>
+<a class="sourceLine" id="cb30-3" title="3">  <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb30-4" title="4">}</a></code></pre></div>
+<p>The variable <code>argc</code> returns the count of the number of arguments to the program. The variable <code>argv</code> has two stars... because it is a pointer to an array of <code>char*</code> (if it helps you, imagine <code>char**</code> as <code>(char*)*</code>). This second variable is a pointer to an array of the actual text arguments. Let’s imagine we invoke a program like this:</p>
+<div class="sourceCode" id="cb31" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb31-1" title="1">jz@Tyr:~$ ./a.out Hello <span class="dv">17</span></a></code></pre></div>
+<p>In this case, the value of <code>argc</code> is 3. The first argument is always the name of the executable, and thus <code>argv[0]</code> is <code>"./a.out"</code> (as a “string”). Then <code>argv[1]</code> is <code>"Hello"</code>, and <code>argv[2]</code> is <code>"17"</code>. The use of quotation marks is not a coincidence or oversight: it is a string and not the number 17. If we actually want to convert it, we need to parse it to an integer with a function like <code>atoi()</code>, such as <code>int value = atoi( argv[2] );</code>.</p>
+<p>It is convention that the <code>main</code> method returns 0 if everything went well in the program and a different value if something went wrong. So if the wrong number of parameters is provided, you might end the program with <code>return -1;</code>.</p>
+<h4 id="void-pointers.">Void Pointers.</h4>
+<p>A construct we will use frequently is <code>void *</code>. It’s not a pointer to nothing; it is a pointer with no type. This is the way of saying there is a pointer with no specific type. We’ve already seen an example of how to use it. The function <code>memset</code> takes as its first argument a void pointer. That is to say, this function does not care what the type of the pointer that it is provided is. So we can initialize an array of <code>int, char, double, point_t</code>, anything we like. This is but one example where untyped pointers will be used; we will see many more.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Then you have failed this city...<a href="#fnref1" class="footnote-back" role="doc-backlink">↩</a></p></li>
+</ol>
+</section>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L09.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#background.">Background.</a></li>
+<li><a href="#primary-objective.">Primary Objective.</a></li>
+<li><a href="#secondary-objectives.">Secondary Objective(s).</a></li>
+<li><a href="#starter-code.">Starter Code.</a></li>
+<li><a href="#submitting-your-code.">Submitting Your Code.</a></li>
+<li><a href="#grading.">Grading.</a></li>
+<li><a href="#description-of-behaviour.">Description of Behaviour.</a></li>
+<li><a href="#hints-debugging-guidance.">Hints &amp; Debugging Guidance.</a></li>
+</ul>
+</nav>
+<p>*<span>In Class Exercise: Scarif Don’t Like It</span></p>
+<h4 id="background.">Background.</h4>
+<p>You are Jyn Erso, a traitor to His Majesty the Emperor, a member of the vile rebellion. You are trapped on the planet Scarif, having stolen the plans for the Death Star, and you plan to transmit them to the rebel fleet above. Time is short, because Lord Vader is on his way... and you know how he deals with traitors. You need to upload the plans, in the hopes that the rebellion can analyze them and possibly find a weakness. Upon transmission of the plans you’ll receive an answer from the command ship indicating whether or not the transmission was successful. Furthermore, the Death Star has just dropped out of hyperspace – and Grand Moff Tarkin is keen to open fire on the facility.</p>
+<h4 id="primary-objective.">Primary Objective.</h4>
+<p>The primary objective of this exercise is to practice communicating with a remote server using socket communication in C.</p>
+<h4 id="secondary-objectives.">Secondary Objective(s).</h4>
+<p>You will also gain some more experience using the toolchain (gcc mostly) that should have been introduced in the labs for this course. This may also be your first introduction to git and gitlab.</p>
+<h4 id="starter-code.">Starter Code.</h4>
+<p>The starter code can be found at <a href="https://git.uwaterloo.ca/ece252-1195/ece252-e1">https://git.uwaterloo.ca/ece252-1195/ece252-e1</a> – fork this repository to your own space. See the guide for the in-class exercises for first time setup and guidance!</p>
+<h4 id="submitting-your-code.">Submitting Your Code.</h4>
+<p>When you’re done, use the command <code>git commit -a</code> to add all files to your commit and enter a commit message. Make sure the <code>output.txt</code> file is included and has the answer you got back from the server. Then <code>git push</code> to upload your changes to your repository. You can commit and push as many times as you like; we’ll look at whatever was last pushed. And check that you gave the course staff permissions!</p>
+<h4 id="grading.">Grading.</h4>
+<p>Binary grading: 1 if you have made a meaningful attempt at implementing the code; 0 otherwise.</p>
+<h4 id="description-of-behaviour.">Description of Behaviour.</h4>
+<p>The goal is to implement the program so that the following behaviour occurs:</p>
+<ul>
+<li><p>Your program should take in the IP of the rebel command ship (remote server) as the first argument. So if the IP to use is <code>127.0.0.1</code> then the program is invoked like <code>./rogue-one 127.0.0.1</code>.</p></li>
+<li><p>Establish a TCP/stream connection to the command ship (actual IP will be given in the class because these things can and do change with time!). This is the client-side, so you need to get the address information (<code>getaddrinfo()</code>), create a socket (<code>socket()</code>), and then <code>connect()</code> to the remote server.</p></li>
+<li><p>Once connected, transmit the plans for the Death Star! The plans are loaded for you in the <code>load_plans</code> function (which loads the file into memory for you – remember to deallocate the data when done). The plans are large, so you probably cannot send it all in one call to <code>send</code>; so check the results and send repeatedly as needed.</p></li>
+<li><p>After you make your transmission, try to receive (using <code>recv()</code>) a response that could be up to 64 characters long. If your upload was unsuccessful you will get an error of some sort, otherwise you will get back a message that indicates success. You should print this message so you can see what it says. If it says “Success”, it worked!</p></li>
+<li><p>Close the connection.</p></li>
+<li><p>Your program should not leak memory; be sure to destroy/deallocate anything initialized/allocated.</p></li>
+</ul>
+<h4 id="hints-debugging-guidance.">Hints &amp; Debugging Guidance.</h4>
+<p>All the steps you need to take to set up the communication, and send/receive the answer have been described in the previous lectures on sockets and network communication. If you read through those, it gives you the step by step as well as the syntax. You might also find the textbook(<span class="citation" data-cites="apunix"></span>) helpful.</p>
+<p>Some general guidance is below. If you’re having trouble, try checking these things, and it may resolve your problem. If you’re still stuck you can ask a neighbour or the course staff.</p>
+<ul>
+<li><p>Check the documentation for how functions work if you are unfamiliar with them (google is your friend!)</p></li>
+<li><p>Check return values (and possibly <code>errno</code>) for network functions if things are going wrong.</p></li>
+<li><p>Have you initialized all variables? It is easy to forget; <code>malloc</code> does not initialize the value...</p></li>
+<li><p>Pay attention to compiler warnings. Warnings can sometimes be ignored, but may be a hint about a semantic error that you will want to resolve. If the compiler is trying to tell you something, listen.</p></li>
+<li><p>You need a buffer for receiving the data, and the receive function tells you how many bytes the server sent.</p></li>
+<li><p>Don’t forget null terminators for strings! Especially one you received via the socket.</p></li>
+<li><p>Is there a missing or extra <code>*</code> (dereference) on a pointer somewhere?</p></li>
+<li><p>Does every memory allocation have a matching deallocation?</p></li>
+<li><p>It may be helpful to put <code>printf()</code> statements to follow along what the program is doing and it may help you narrow down where the issue is.</p></li>
+<li><p>Don’t be shy about asking for help; the TAs and instructor are here to help you get it done and will help you as much as is reasonable.</p></li>
+</ul>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

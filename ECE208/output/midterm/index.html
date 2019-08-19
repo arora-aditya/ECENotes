@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Midterm</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Midterm<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#definitions">Definitions</a><ul>
+<li><a href="#predicate-logic">Predicate Logic</a></li>
+<li><a href="#first-order">First Order</a></li>
+<li><a href="#second-order">Second Order?</a></li>
+</ul></li>
+</ul>
+</nav>
+<h2 id="definitions">Definitions</h2>
+<h3 id="predicate-logic">Predicate Logic</h3>
+<p><strong>Logic</strong>: A precise language, with clear syntax and well-defined semantics, for mathematics and computation<br />
+<strong>Interpretation</strong>: An interpretation <span class="math inline">I</span> for a formula <span class="math inline">F</span> in propositional logic is a mapping from each propositional variables in <span class="math inline">F</span> to exactly one truth value<br />
+<span class="math inline">I \models F</span> if <span class="math inline">F</span> evaluates to <span class="math inline">\top</span> under <span class="math inline">I</span><br />
+<span class="math inline">I \not\models F</span> if <span class="math inline">F</span> evaluates to <span class="math inline">\bot</span> under <span class="math inline">I</span><br />
+</p>
+<p><strong>Soundness</strong>: We say a proof system <span class="math inline">P</span> is sound for logic (or theory) <span class="math inline">L</span>, if whenever <span class="math inline">P</span> returns “theorem” for any <span class="math inline">L</span>-formula <span class="math inline">F</span>, then <span class="math inline">F</span> is indeed valid.<br />
+<strong>Completeness</strong>: We say a proof system <span class="math inline">P</span> is complete for logic (or theory) <span class="math inline">L</span>, if for any valid <span class="math inline">L</span>-formula <span class="math inline">F</span>, <span class="math inline">P</span> returns “theorem”.<br />
+<strong>Termination</strong>: We say a proof system <span class="math inline">P</span> is terminating, if for any <span class="math inline">L</span>-formula <span class="math inline">F</span> (valid or otherwise), <span class="math inline">P</span> returns after finite number of steps.<br />
+<strong>Equisatsfiability</strong>: We say two formulas <span class="math inline">P</span> and <span class="math inline">Q</span> are equisatisfiable if <span class="math inline">P</span> is satisfiable iff <span class="math inline">Q</span> is also satisfiable. This notion is much weaker than logical equivalence. I.e., if <span class="math inline">P</span> and <span class="math inline">Q</span> are logically equivalent, then it implies that they are equisatisfiable. However, the converse does not always hold.<br />
+<strong>Normal Forms</strong></p>
+<ol type="1">
+<li>Negation Normal Form: <span class="math inline">\neg, \lor, \land</span> and <span class="math inline">\neg</span> only appear in literals</li>
+<li>Disjunctive Normal Form: <span class="math inline">\lor_i \land_j l_{i,j} \text{ for literals } l_{i,j}</span> and <span class="math inline">\neg</span> only appear in literals</li>
+<li>Conjunctive Normal Form: <span class="math inline">\land_i \lor_j l_{i,j} \text{ for literals } l_{i,j}</span> and <span class="math inline">\neg</span> only appear in literals</li>
+</ol>
+<p><strong>Tseitin</strong>’s transformation converts formula <span class="math inline">F</span> to equisatisfiable formula <span class="math inline">F&#39;</span> in CNF with only a linear increase in size (upper bound <span class="math inline">30n+2</span>).<br />
+</p>
+<h3 id="first-order">First Order</h3>
+<p><strong>Object constants</strong> refer to objects in a universe of discourse<br />
+<strong>Function constants</strong> refer to functions, and <strong>arity</strong> refers to the number of arguments each of them takes<br />
+<strong>Relation constants</strong> refer to relations between or properties of objects<br />
+A set of object, function, and relation constants <span class="math inline">C, F, R</span> specifies a <em>first-order language</em>, written <span class="math inline">L(C,F,R)</span> and <span class="math inline">C , F , R</span> form the signature of the language.<br />
+<strong>Structure</strong> A structure <span class="math inline">S = \langle U , I \rangle</span> for a first order language consists of a universe of discourse of <span class="math inline">U</span> and an interpretation <span class="math inline">I</span><br />
+<strong>Assignment</strong>: A variable assignment <span class="math inline">\sigma</span> (or assignment) to a FOL formula <span class="math inline">\varphi</span> in a structure
+<span class="math inline">S = \langle U , I \rangle</span> is a mapping from variables in <span class="math inline">\varphi</span> to an element of <span class="math inline">U</span>.<br />
+<strong>Satisfiable</strong>: An FOL formula <span class="math inline">F</span> is said to be satisfiable if there exists a structure <span class="math inline">S</span> and an assignment <span class="math inline">\sigma</span> such that <span class="math inline">S, \sigma \models F</span>.<br />
+<strong>Valid</strong>: An FOL formula <span class="math inline">F</span> is said to be valid, written as <span class="math inline">\models F</span> if for all structures <span class="math inline">S</span> and all variable assignments <span class="math inline">\sigma</span>, we have <span class="math inline">S, \sigma \models F</span>.<br />
+A formula with no free variables is called a <strong>closed</strong> formula.<br />
+A <strong>closed</strong> formula is also called a sentence.<br />
+A formula containing free variables is said to be <strong>open</strong>.<br />
+A formula is said to be <strong>ground</strong> if it contains no variables.<br />
+</p>
+<h3 id="second-order">Second Order?</h3>
+<p><strong>Second Order</strong>: The “pair” makes it second order<br />
+<em>Every pair of friends has something in common</em> <span class="math inline">\equiv</span> <span class="math inline">\forall x , y .friend (x , y ) \implies \exists p .p (x ) \land p (y )</span><br />
+<br />
+<br />
+</p>
+<p><br />
+<br />
+<span class="math inline">F</span> is <strong>satisfiable</strong> iff there exists an interpretation I such that <span class="math inline">I \models F</span><br />
+<span class="math inline">F</span> <strong>valid</strong> iff for all interpretations <span class="math inline">I</span> , <span class="math inline">I \models F</span><br />
+<span class="math inline">F</span> is <strong>contingent</strong> if it is satisfiable but not valid<br />
+<span class="math inline">F</span> is <strong>valid</strong> iff <span class="math inline">\neg F</span> is <strong>unsatisfiable</strong><br />
+</p>
+<p>Proof systems are defined as a collection of proof rules, take as input formulas and determine whether they are theorem.</p>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L25.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#background.">Background.</a></li>
+<li><a href="#primary-objective.">Primary Objective.</a></li>
+<li><a href="#secondary-objectives.">Secondary Objective(s).</a></li>
+<li><a href="#starter-code.">Starter Code.</a></li>
+<li><a href="#submitting-your-code.">Submitting Your Code.</a></li>
+<li><a href="#grading.">Grading.</a></li>
+<li><a href="#description-of-behaviour.">Description of Behaviour.</a></li>
+<li><a href="#hints-debugging-guidance.">Hints &amp; Debugging Guidance.</a></li>
+</ul>
+</nav>
+<p>*<span>In Class Exercise: Gallifrey Stands!</span></p>
+<h4 id="background.">Background.</h4>
+<p>It is the last day of the Time War. The Daleks have launched their final assault on the Time Lords’ home planet of Gallifrey. Ten million Dalek ships surround the planet and are bombarding it from orbit and sending landing parties. The War Doctor has stolen an ancient weapon called The Moment. It will wipe out the Daleks – but also Gallifrey, and everyone on it.</p>
+<p>But there’s another way. Through hundreds and hundreds of years’ worth of calculations The Doctor can use stasis technology to freeze the whole planet of Gallifrey in a parallel pocket universe. The Daleks will be obliterated in the crossfire and it would look like they wiped each other out. This takes hundreds and hundreds of years of calculations and the power of every one of the thirteen incarnations’ TARDISes.</p>
+<p>This won’t be easy – the timing has to be just right and the Doctors have to coordinate their actions and timing and work together to save Gallifrey. If their timing is wrong or if things are out of sync or important steps are skipped, the Doctors will fail and Gallifrey falls. If you can find and correct the problems in the program, then Gallifrey stands!</p>
+<h4 id="primary-objective.">Primary Objective.</h4>
+<p>The primary objective of this exercise is to identify and solve memory management and concurrency problems in the provided code.</p>
+<h4 id="secondary-objectives.">Secondary Objective(s).</h4>
+<p>This is an additional opportunity to practice concurrency and synchronization techniques. You may also improve your ability to work with version control (git) and gitlab.</p>
+<h4 id="starter-code.">Starter Code.</h4>
+<p>The starter code can be found at <a href="https://git.uwaterloo.ca/ece252-1195/ece252-e3">https://git.uwaterloo.ca/ece252-1195/ece252-e3</a> – fork this repository to your own space. Set permissions for this repository to be private, but add the course instructor with developer access so your code can be evaluated.</p>
+<h4 id="submitting-your-code.">Submitting Your Code.</h4>
+<p>When you’re done, use the command <code>git commit -a</code> to add all files to your commit and enter a commit message. Then <code>git push</code> to upload your changes to your repository. You can commit and push as many times as you like; we’ll look at whatever was last pushed. And check that you gave the course instructor permissions!</p>
+<h4 id="grading.">Grading.</h4>
+<p>Binary grading: 1 if you have made a meaningful attempt at implementing the code; 0 otherwise.</p>
+<h4 id="description-of-behaviour.">Description of Behaviour.</h4>
+<p>The goal is to analyze and correct the program so that there are no longer any errors (that you can fix in your program) reported by Helgrind, and also no memory leaks/issues (that you can fix in your program) reported by Valgrind.</p>
+<p>When you compile and run the starter code, the program may crash or hang when executed. Those are just two of the symptoms of problems present. There are a total of nine (9) different problems in the code to be resolved. Some will be found by the memcheck tool of Valgrind; others will be found by the Helgrind tool. If you read the error messages carefully, you will be able to identify the causes of the problems and fix them.</p>
+<p>There will be some things reported by both tools that are beyond your ability to fix (because they are in libraries) or otherwise misreported. You’ll need to examine the messages carefully and decide if it is something you can fix or not. If not, just leave it be. Generally speaking, errors reported by memcheck need to be fixed; those reported by Helgrind need to be examined more carefully.</p>
+<p>If something is wrong, you may see "Gallifrey falls" as an output message at the end of your program. If everything goes well you will see the message "Gallifrey Stands!" at the end of the program, but just seeing that that is not enough. You also need a clean bill of health from Valgrind and Helgrind.</p>
+<h4 id="hints-debugging-guidance.">Hints &amp; Debugging Guidance.</h4>
+<p>Some general guidance is below. If you’re having trouble, try running through these steps and it may resolve your problem. If you’re still stuck you can ask a neighbour or the course instructor.</p>
+<ul>
+<li><p>Check the documentation for how functions work if you are unfamiliar with them (google is your friend!)</p></li>
+<li><p>See the docs for Valgrind <span class="citation" data-cites="valgrind:tools"></span>.</p></li>
+<li><p>Read the valgrind error messages carefully: they usually tell you which function (i.e., which doctor) the problem occurs in. This helps you narrow it down</p></li>
+<li><p>It may be helpful to put <code>printf()</code> statements to follow along what the program is doing and it may help you narrow down where the issue is.</p></li>
+<li><p>Don’t be shy about asking for help; the TAs and instructor are here to help you get it done and will help you as much as is reasonable.</p></li>
+</ul>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

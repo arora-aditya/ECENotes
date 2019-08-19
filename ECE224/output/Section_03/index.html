@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 3 - Software, Synchronization, and Device Drivers</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 3 - Software, Synchronization, and Device Drivers<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#software-development">Software Development:</a></li>
+<li><a href="#software-synchronization">Software Synchronization</a></li>
+<li><a href="#performance-latency-and-throughput">Performance: Latency and Throughput</a></li>
+<li><a href="#synchronization-mechanisms">Synchronization Mechanisms</a></li>
+<li><a href="#performance-of-synchronization-mechanisms">Performance of Synchronization Mechanisms</a></li>
+<li><a href="#polling-loop-synchronization---processing-input-data">Polling Loop Synchronization - Processing Input Data</a></li>
+<li><a href="#polling-loop-synchronization---outputting-data">Polling Loop Synchronization - Outputting Data</a></li>
+<li><a href="#interrupt-synchronization">Interrupt Synchronization</a></li>
+<li><a href="#cpu-notification">CPU Notification</a></li>
+<li><a href="#interrupt-service-routine-isr-selection">Interrupt Service Routine (ISR) Selection</a></li>
+<li><a href="#isr-selection">ISR Selection</a></li>
+<li><a href="#interrupt-service-routine-isr">Interrupt Service Routine (ISR)</a></li>
+<li><a href="#interrupt-initialization">Interrupt Initialization</a></li>
+<li><a href="#device-drivers">Device Drivers</a></li>
+</ul>
+</nav>
+<h3 id="software-development">Software Development:</h3>
+<figure>
+<img src="../../attachments/devdrv-software-development.png" alt="devdrv-software-development" class="responsive-img" /><figcaption>devdrv-software-development</figcaption>
+</figure>
+<ul>
+<li>Microprocessor systems require both hardware and software design</li>
+<li>Good software is written in a modular manner</li>
+<li>Low level functions typically interact directly with hardware devices to do the following tasks:
+<ul>
+<li>Initialize device configuration</li>
+<li>Read or write data</li>
+<li>Synchronize using polling or interrupts</li>
+</ul></li>
+</ul>
+<h3 id="software-synchronization">Software Synchronization</h3>
+<figure>
+<img src="../../attachments/devdrv-software-synchronization.png" alt="devdrv-software-synchronization" class="responsive-img" /><figcaption>devdrv-software-synchronization</figcaption>
+</figure>
+<ul>
+<li>When a device completes its task, the device must synchronize with the processor</li>
+<li>Events may be assigned priorities to ensure minimum latency for high priority events</li>
+</ul>
+<p><strong>CPU Latency and Device Latency</strong>: CPU latency is the time between the receipt of a service request and the initiation of service. Latency can involve both hardware and software delays.<br />
+<strong>Real-Time System</strong>: A system that guarantees a worst-case latency for critical events. Note that it does not have to be a very small latency, by definition it only needs to have a worst case</p>
+<h3 id="performance-latency-and-throughput">Performance: Latency and Throughput</h3>
+<p><strong>Latency</strong>: The delay between the arrival of the request and the completion of service. One could also consider the average latency or the maximum latency by considering more results. (Note: On the surface this appears to be slightly different than the definition of CPU Latency defined earlier. However, this difference can be resolved by noting that the system is viewed as completing the request once the ISR has started.)<br />
+<strong>Throughput</strong>: A measure of how many items can be processed per unit of time. For example, a system could have a very high latency (5 years for Waterloo Engineering) but still have a throughput of 900 graduates per year.</p>
+<h3 id="synchronization-mechanisms">Synchronization Mechanisms</h3>
+<p><strong>Blind Cycle</strong>: Software waits for some amount of time and then acts on the data whether
+or not the device is ready.<br />
+<strong>Occasional Polling</strong>: Device status is checked at the convenience of the designer.<br />
+<strong>Periodic Polling</strong>: Device status is checked after a pre-determined amount of time and this repeats until the device is done. This is usually implemented with a timer interrupt.<br />
+<strong>Tight Polling Loop (Gadfly or Busy Waiting)</strong>: Software continuously checks the I/O status, waiting for the device to be done. Although this is often implemented as a very tight loop (i.e., continuously testing one status register and looping until the device is ready), it could be implemented as a sequence of tests (i.e., continuously testing a set of status registers and looping until a device in the set is ready).<br />
+<strong>Interrupt Handling</strong>: Device generates a hardware interrupt to request service immediately.</p>
+<h3 id="performance-of-synchronization-mechanisms">Performance of Synchronization Mechanisms</h3>
+<p>Some synchronization mechanisms are CPU-oriented:</p>
+<ul>
+<li>Device waits for the CPU to initiate synchronization</li>
+<li>Examples include blind cycle, occasional polling, and periodic polling</li>
+</ul>
+<p>Some synchronization mechanisms are device-oriented:</p>
+<ul>
+<li>Device demands immediate service to reduce device latency</li>
+<li>Examples include tight polling and interrupt handling</li>
+</ul>
+<h3 id="polling-loop-synchronization---processing-input-data">Polling Loop Synchronization - Processing Input Data</h3>
+<p>Poll the device, wait until data is available, and then read the input data</p>
+<pre><code>// Loop until data is available
+while (not data_available) loop
+// Read the input data
+read data
+// Clear data_available if not done automatically by hardware
+clear data_available
+// Process the input data
+process data
+// Exit subroutine and return to caller
+return</code></pre>
+<h3 id="polling-loop-synchronization---outputting-data">Polling Loop Synchronization - Outputting Data</h3>
+<ul>
+<li>Conservative Option: Assume the device is not initially ready, poll the device, wait until device is ready, and then output the data</li>
+</ul>
+<pre><code>while (not ready_to_output) loop // Wait for the device to be ready to continue
+clear ready_to_output // Clear manually if required by hardware
+output data // Output the data
+return // Exit subroutine</code></pre>
+<ul>
+<li>Optimistic Option: Assume the device is initially ready, output the data, poll the device, and wait until device is ready</li>
+</ul>
+<pre><code>clear ready_to_output // Clear manually if required by hardware
+output data // Output the data
+while ( not ready_to_output ) loop // Wait for the device to be ready to continue
+return // Exit subroutine</code></pre>
+<h3 id="interrupt-synchronization">Interrupt Synchronization</h3>
+<ol type="1">
+<li>A device notifies the CPU of an interrupt request</li>
+<li>CPU completes execution of the current instruction</li>
+<li>Execution of the main program is suspended</li>
+<li>Interrupts are disabled (processor specific)</li>
+<li>Some internal registers are saved (including the program counter)</li>
+<li>Device may be acknowledged</li>
+<li>Interrupt service routine is selected</li>
+<li>Interrupt service routine is executed (more on this later)</li>
+<li>Registers are restored, if required, including the program counter</li>
+<li>Interrupts are enabled (processor specific)</li>
+<li>Execution of the main program resumes</li>
+</ol>
+<h3 id="cpu-notification">CPU Notification</h3>
+<ul>
+<li>Interrupts must be handled from multiple sources</li>
+<li>Single interrupt request line<br />
+<img src="../../attachments/devdrv-shared-request.png" alt="devdrv-shared-request" class="responsive-img" style="width:40.0%" /><br /></li>
+<li>Multiple interrupt request lines<br />
+<img src="../../attachments/devdrv-separate-requests.png" alt="devdrv-shared-request" class="responsive-img" style="width:30.0%" /></li>
+</ul>
+<h3 id="interrupt-service-routine-isr-selection">Interrupt Service Routine (ISR) Selection</h3>
+<p>Non-vectored interrupts</p>
+<ul>
+<li>Devices are polled to determine source</li>
+<li>Priority must be determined (in software)
+<img src="../../attachments/devdrv-non-vectored-irq.png" alt="devdrv-non-vectored-irq" class="responsive-img" /></li>
+</ul>
+<h3 id="isr-selection">ISR Selection</h3>
+<p>Vectored Interrupts</p>
+<ul>
+<li>Requests are associated with an interrupt vector</li>
+<li>Fixed priority associated with the interrupt vector</li>
+<li>Interrupt service routine (ISR) at vector address is executed
+<img src="../../attachments/devdrv-vectored-irq.png" alt="devdrv-vectored-irq" class="responsive-img" /></li>
+</ul>
+<h3 id="interrupt-service-routine-isr">Interrupt Service Routine (ISR)</h3>
+<ul>
+<li>ISRs should execute as fast as possible since they are interrupting other tasks</li>
+<li>ISRs must avoid blocking (synchronous) I/O functions</li>
+<li>An ISR is typically structured as follows:
+<ol type="1">
+<li>Save any registers modified by the ISR</li>
+<li>Acknowledge the device (if required)</li>
+<li>Re-enable interrupts to allow higher or same priority interrupts (if desired)</li>
+<li>Test for a valid interrupt and/or determine the exact source of the interrupt</li>
+<li>Complete desired action</li>
+<li>Restore registers (interrupts may need to be disabled during this step)</li>
+<li>Return from interrupt</li>
+</ol></li>
+</ul>
+<h3 id="interrupt-initialization">Interrupt Initialization</h3>
+<p>The following steps need to be taken when initializing a software system that uses interrupts:</p>
+<ol type="1">
+<li>Disable all interrupts</li>
+<li>Enable device interface interrupts by setting appropriate device interface registers</li>
+<li>Set interrupt mask to allow interrupts from device</li>
+<li>Initialize interrupt vector with address of ISR</li>
+<li>Enable interrupts as required</li>
+</ol>
+<p>Steps 2, 3, and 4 may be performed in any order provided that all interrupts are disabled.</p>
+<h3 id="device-drivers">Device Drivers</h3>
+<p>A device driver is the software associated with a particular device. The device driver includes:</p>
+<ul>
+<li>Data Structures
+<ul>
+<li>Variables needed to access the device interface registers</li>
+<li>Variables associated with the state of the device</li>
+<li>Data buffers</li>
+</ul></li>
+<li>Initialization Functions
+<ul>
+<li>Device initialization</li>
+<li>Synchronization initialization</li>
+<li>Initialization of driver variables</li>
+</ul></li>
+<li>I/O Functions
+<ul>
+<li>Functions to input from the device and/or output to the device</li>
+</ul></li>
+<li>Interrupt Service Routine(s)</li>
+</ul>
+<p><em>The NIOS system provides data structures and driver functions for its devices as part of the custom Software Development Kit (SDK) created for each embedded system design. This information can be found in nios.h and nios peripherals.h.</em></p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

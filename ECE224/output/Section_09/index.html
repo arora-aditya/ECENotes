@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 9 - Analog Interfaces</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 9 - Analog Interfaces<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#analog-introduction">Analog Introduction</a></li>
+<li><a href="#op-amp-review">Op-Amp Review</a><ul>
+<li><a href="#non-ideal-op-amps">Non-Ideal Op-Amps</a></li>
+<li><a href="#uses-of-operational-amplifiers">Uses of Operational Amplifiers</a></li>
+<li><a href="#op-amp-without-feedback-as-a-comparator">Op-Amp (without feedback) as a Comparator</a></li>
+<li><a href="#op-amp-without-feedback-as-a-comparator---output-characteristics">Op-Amp (without feedback) as a Comparator - Output Characteristics</a></li>
+<li><a href="#note-basic-inverting-amplifier">Note: Basic Inverting Amplifier</a></li>
+<li><a href="#basic-inverting-amplifier">Basic Inverting Amplifier</a></li>
+<li><a href="#simplified-op-amp-analysis">Simplified Op-Amp Analysis</a></li>
+<li><a href="#current-summerinverting-adderweighted-summer">Current Summer/Inverting Adder/Weighted Summer</a></li>
+<li><a href="#basic-non-inverting-amplifier">Basic Non-Inverting Amplifier</a></li>
+<li><a href="#non-inverting-unity-gain-buffer">Non-Inverting (Unity Gain) Buffer</a></li>
+<li><a href="#dynamic-characteristics-of-analog-signals">Dynamic Characteristics of Analog Signals</a></li>
+</ul></li>
+<li><a href="#analog-signal-conversion-issues">Analog Signal Conversion Issues</a></li>
+<li><a href="#digital-to-analog-converters">Digital-to-Analog Converters</a><ul>
+<li><a href="#digital-to-analog-converters-1">Digital-to-Analog Converters</a></li>
+<li><a href="#i---binary-weighted-resistor-ladder">I - Binary Weighted Resistor Ladder</a><ul>
+<li><a href="#i---binary-weighted-resistor-ladder---varying-input-impedance">I - Binary Weighted Resistor Ladder - Varying Input Impedance</a></li>
+<li><a href="#note-how-do-i-attach-one-of-these-to-my-processor">Note: How do I attach one of these to my processor?</a></li>
+<li><a href="#resistor-values">Resistor Values</a></li>
+</ul></li>
+<li><a href="#ii-r---2r-ladders">II R - 2R Ladders</a><ul>
+<li><a href="#note-how-do-r---2r-ladders-work">Note: How Do R - 2R Ladders Work?</a></li>
+<li><a href="#ii-r---2r-ladders-1">II R - 2R Ladders</a></li>
+<li><a href="#r---2r-characteristics">R - 2R Characteristics</a></li>
+</ul></li>
+<li><a href="#multiplying-dacs-m-dacs">Multiplying DACs (M-DACs)</a></li>
+<li><a href="#da-converter-characteristics---specifications">D/A Converter Characteristics - Specifications</a></li>
+<li><a href="#errors">Errors</a><ul>
+<li><a href="#offset-errors">Offset Errors</a></li>
+<li><a href="#gain-errors">Gain Errors</a><ul>
+<li><a href="#note-a-mathematical-model-of-linear-errors-and-calibration">Note: A Mathematical Model of Linear Errors and Calibration</a></li>
+</ul></li>
+<li><a href="#linearity-errors---differential">Linearity Errors - Differential</a></li>
+<li><a href="#monotonicity-error">Monotonicity Error</a></li>
+<li><a href="#linearity-errors---integral">Linearity Errors - Integral</a><ul>
+<li><a href="#note-error-example">Note: Error Example</a></li>
+</ul></li>
+<li><a href="#environmental-errors-and-comments">Environmental Errors and Comments</a></li>
+<li><a href="#dynamic-performance">Dynamic Performance</a></li>
+</ul></li>
+<li><a href="#factors-affecting-conversion-time">Factors Affecting Conversion Time</a><ul>
+<li><a href="#example-tlv5621e-ti">Example TLV5621E (TI)</a><ul>
+<li><a href="#operating-characteristics-from-data-sheet">Operating Characteristics from data sheet</a></li>
+<li><a href="#errors-1">Errors</a></li>
+</ul></li>
+<li><a href="#example-max-529">Example MAX 529</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#analog-to-digital-converters">Analog-to-Digital Converters</a><ul>
+<li><a href="#errors-2">Errors</a><ul>
+<li><a href="#unbiased-error">Unbiased Error</a></li>
+<li><a href="#biased-error">Biased Error</a></li>
+</ul></li>
+<li><a href="#analog-to-digital-converters-1">Analog-to-Digital Converters</a></li>
+<li><a href="#i---binary-ramp-adc">I - Binary Ramp ADC</a><ul>
+<li><a href="#sample-output">Sample Output</a></li>
+<li><a href="#software-version">Software Version</a></li>
+<li><a href="#comments">Comments</a></li>
+</ul></li>
+<li><a href="#ii---successive-approximation-adc">II - Successive Approximation ADC</a><ul>
+<li><a href="#design-philosophy">Design Philosophy</a></li>
+<li><a href="#algorithm">Algorithm</a></li>
+<li><a href="#sample-output-1">Sample Output</a></li>
+<li><a href="#software-version-1">Software Version</a></li>
+<li><a href="#comments-1">Comments</a></li>
+<li><a href="#comparison-of-binary-ramp-adc-vs.-successive-approximation-adc">Comparison of Binary Ramp ADC Vs. Successive Approximation ADC</a></li>
+</ul></li>
+<li><a href="#iii---flash-adc-fast-brute-force-approach">III - Flash ADC (Fast Brute Force Approach)</a><ul>
+<li><a href="#comments-2">Comments</a></li>
+<li><a href="#specific-case---2-bit-case">Specific Case - 2 bit case</a></li>
+<li><a href="#more-comments">More Comments</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#indirect-techniques">Indirect Techniques</a><ul>
+<li><a href="#integrator-from-an-op-amp">Integrator from an Op-Amp</a></li>
+<li><a href="#voltage-integrator-operation">Voltage Integrator Operation</a><ul>
+<li><a href="#voltage-integrator-timing-diagram">Voltage Integrator Timing Diagram</a></li>
+</ul></li>
+<li><a href="#iv---single-slope">IV - Single Slope</a><ul>
+<li><a href="#operation">Operation</a></li>
+<li><a href="#component-selection">Component Selection</a></li>
+<li><a href="#comments-3">Comments</a></li>
+</ul></li>
+<li><a href="#v---dual-slope-adc">V - Dual Slope ADC</a><ul>
+<li><a href="#operation-1">Operation</a></li>
+<li><a href="#comments-4">Comments</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#ad-converter-specifications-and-errors">A/D Converter Specifications and Errors</a></li>
+<li><a href="#time-varying-signals">Time Varying Signals</a></li>
+<li><a href="#time-varying-signals-issues">Time Varying Signals Issues</a><ul>
+<li><a href="#time-varying-signals-issues-1">Time Varying Signals Issues</a></li>
+<li><a href="#sampling-a-time-varying-signal-without-a-sample-and-hold-circuit">Sampling a Time Varying Signal Without a Sample-and-Hold Circuit</a></li>
+<li><a href="#sample-and-hold-overview">Sample-and-Hold Overview</a></li>
+<li><a href="#fixed-sample-rate-block-diagram">Fixed sample rate block diagram</a></li>
+</ul></li>
+<li><a href="#sample-and-hold-circuits">Sample and Hold Circuits</a><ul>
+<li><a href="#errors-3">Errors</a><ul>
+<li><a href="#during-sampling">1. During sampling</a><ul>
+<li><a href="#performance-issues">Performance Issues</a></li>
+</ul></li>
+<li><a href="#during-sample-to-hold-transition">2. During Sample-to-Hold Transition</a><ul>
+<li><a href="#example">Example</a></li>
+</ul></li>
+<li><a href="#errors-during-hold-time">3. Errors During Hold Time</a></li>
+<li><a href="#hold-to-sample-transition">4. Hold to Sample Transition</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<p>Suggest reading these 3:<br />
+http://www.ti.com/lit/an/sboa081/sboa081.pdf<br />
+http://www.ti.com/lit/an/slaa013/slaa013.pdf<br />
+http://www.ti.com/lit/an/sbaa051a/sbaa051a.pdf<br />
+</p>
+<h3 id="analog-introduction">Analog Introduction</h3>
+<figure>
+<img src="../../attachments/analogOverview.png" alt="analogOverview" class="responsive-img" /><figcaption>analogOverview</figcaption>
+</figure>
+<h3 id="op-amp-review">Op-Amp Review</h3>
+<figure>
+<img src="../../attachments/opamp1.png" alt="opamp1" class="responsive-img" /><figcaption>opamp1</figcaption>
+</figure>
+<p>Properties of an ideal Op-Amp:</p>
+<ul>
+<li>Infinite input impedance (<span class="math inline">Z_{in} = \infty</span> and the input current is zero)</li>
+<li>Zero output impedance (<span class="math inline">Z_{out} = 0</span>)</li>
+<li>Infinite open-loop gain (<span class="math inline">A_{V_{ol}} = infty</span> where ol denotes open loop)</li>
+<li>Input/output relationship <span class="math inline">V_{out} = (V^+ - V^-) \times A_{V_{ol}} = V_{in} \times A_{V_{ol}}</span></li>
+<li>Zero internal noise generation</li>
+<li>Infinite bandwidth</li>
+</ul>
+<h4 id="non-ideal-op-amps">Non-Ideal Op-Amps</h4>
+<ul>
+<li>Non-ideal op-amps have a finite gain</li>
+<li><span class="math inline">V_{out}</span> is bounded by <span class="math inline">V_S and V_{S-}</span></li>
+</ul>
+<p><span class="math inline">V_{out} = (V^+ - V^-)\times A_{V_{ol}} =V_{in} \times A_{V_{ol}}</span><br />
+<span class="math inline">\frac{V_{out}}{A_{V_{ol}}} = (V^+ - V^-)</span></p>
+<ul>
+<li>Opamp can basically do comparison</li>
+</ul>
+<h4 id="uses-of-operational-amplifiers">Uses of Operational Amplifiers</h4>
+<figure>
+<img src="../../attachments/rails.png" alt="rails" class="responsive-img" /><figcaption>rails</figcaption>
+</figure>
+<p>Two modes:
+- <strong>Comparator</strong>: An op-amp connected without feedback can be configured to be a
+comparator. In this case, the output values are close to either VS or VS-
+- With feedback path
+- Negative feedback
+- Positive feedback (not this term)</p>
+<h4 id="op-amp-without-feedback-as-a-comparator">Op-Amp (without feedback) as a Comparator</h4>
+<p>Often required for interface between the analog and digital domains.
+Note: if there is no feedback component(s), then the output switches to either VS or VS-.</p>
+<figure>
+<img src="../../attachments/compare1a.png" alt="Open Loop Comparator" class="responsive-img" /><figcaption>Open Loop Comparator</figcaption>
+</figure>
+<h4 id="op-amp-without-feedback-as-a-comparator---output-characteristics">Op-Amp (without feedback) as a Comparator - Output Characteristics</h4>
+<figure>
+<img src="../../attachments/compare1b.png" alt="compare1b" class="responsive-img" /><figcaption>compare1b</figcaption>
+</figure>
+<h4 id="note-basic-inverting-amplifier">Note: Basic Inverting Amplifier</h4>
+<figure>
+<img src="../../attachments/dac1.png" alt="dac1" class="responsive-img" /><figcaption>dac1</figcaption>
+</figure>
+<p><span class="math display">
+V_{-} = V_{Rin} + V_{in} = {(V_{out} - V_{in})}\frac{R_{in}}{R_{in} + R_{f}} + V_{in}
+</span>
+<span class="math display">
+V_{out} = (V_{+} - V_{-}) \times A_{V_{ol}}
+</span>
+But <span class="math inline">V_+ = 0</span>, Therefore
+<span class="math display">
+V_{out} = - V_{-} \times A_{V_{ol}} \implies V_{-} = -\frac{V_{out}}{A_{V_{ol}}}
+</span></p>
+<h4 id="basic-inverting-amplifier">Basic Inverting Amplifier</h4>
+<ul>
+<li>Equating (1) and (2) results in:
+<span class="math display">
+-\frac{V_{out}}{A_{V_{ol}}}= {(V_{out} - V_{in})}\frac{R_{in}}{R_{in} + R_{f}} + V_{in}
+</span>
+<span class="math display">
+\implies V_{out}( \frac{R_{in}}{(R_{in} + R_{f})} + \frac{1}{A_{V_{ol}}})=-V_{in}( \frac{R_{f}}{(Rin+ R_{f} )} )
+</span>
+Therefore, if <span class="math inline">A_{V_{ol}} \rightarrow \infty</span>
+<span class="math display">
+\frac{V_{out}}{V_{in}} = -\frac{R_{f}}{R_{in}} \implies V_{out} = -\frac{R_{f}}{R_{in}} \times V_{in}
+</span>
+(Typical values for <span class="math inline">A_{V_{ol}}</span> are between <span class="math inline">10^5</span> and <span class="math inline">10^6</span>.)</li>
+</ul>
+<h4 id="simplified-op-amp-analysis">Simplified Op-Amp Analysis</h4>
+<figure>
+<img src="../../attachments/dac2.png" alt="dac2" class="responsive-img" /><figcaption>dac2</figcaption>
+</figure>
+<h4 id="current-summerinverting-adderweighted-summer">Current Summer/Inverting Adder/Weighted Summer</h4>
+<figure>
+<img src="../../attachments/dacsumm.png" alt="dacsumm" class="responsive-img" /><figcaption>dacsumm</figcaption>
+</figure>
+<h4 id="basic-non-inverting-amplifier">Basic Non-Inverting Amplifier</h4>
+<figure>
+<img src="../../attachments/dac3.png" alt="dac3" class="responsive-img" /><figcaption>dac3</figcaption>
+</figure>
+<ul>
+<li>Non-Inverting Amplifier: An op-amp configured with a resistor feedback element such that an increase in the input voltage results in an increase in the output voltage</li>
+</ul>
+<h4 id="non-inverting-unity-gain-buffer">Non-Inverting (Unity Gain) Buffer</h4>
+<ul>
+<li>Non-Inverting Buffer: A special case non-inverting amplifier <span class="math inline">R_f = 0; R_{in} = \infty</span>
+<ul>
+<li><span class="math inline">V_{out}=V_{in}</span></li>
+<li>High impedance input</li>
+<li>Low impedance output</li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/dacbuff.png" alt="dacbuff" class="responsive-img" /><figcaption>dacbuff</figcaption>
+</figure>
+<ul>
+<li>In practice, a finite but small value of Rf is used to prevent <span class="math inline">V_{out}</span> from oscillating</li>
+<li>Since <span class="math inline">R_{in}</span> is infinite, the exact value of Rf doesn’t matter</li>
+</ul>
+<h4 id="dynamic-characteristics-of-analog-signals">Dynamic Characteristics of Analog Signals</h4>
+<p>step response when viewed at an analog level (i.e., this is true for all signals)</p>
+<ul>
+<li>Delay
+<ul>
+<li>time from 0 to 10%</li>
+</ul></li>
+<li>Slew
+<ul>
+<li>10% of the value to within 10% of final value, may require ringing before</li>
+</ul></li>
+<li>Ring
+<ul>
+<li>time taken to settle on a value, also called settling time (it may or may not be 10%, and is manufacturer dependent)</li>
+</ul></li>
+</ul>
+<p>The Step response is characterized by</p>
+<ul>
+<li><strong>Settling Time</strong>: The time for the output to settle within a specified range of the final value for a given input.</li>
+<li><strong>Slew Rate</strong>: The rate at which signals change from one value to another.</li>
+</ul>
+<h3 id="analog-signal-conversion-issues">Analog Signal Conversion Issues</h3>
+<ul>
+<li><strong>Quantization</strong>: When an analog signal is reduced from a continuous signal to a set of digital values, a range of analog signals must be assigned a single digital value (quantity). The act of this transformation is quantization.</li>
+<li><strong>LSB</strong>: On the analog side, one LSB is the change in the analog signal that corresponds to a change of the least significantl bit of the digital representation. A more mathematical specification is
+that <span class="math inline">1LSB = \frac{FSAR}{2^n-1}</span>, where <span class="math inline">FSAR</span> is the full-scale analog range and <span class="math inline">n</span> is the number of bits
+used by the digital representation.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Analog</th>
+<th>Digital</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>continuous</td>
+<td>discrete</td>
+</tr>
+<tr class="even">
+<td>real</td>
+<td>integers</td>
+</tr>
+<tr class="odd">
+<td>LSB (voltage or current)</td>
+<td>LSB (bit)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="digital-to-analog-converters">Digital-to-Analog Converters</h3>
+<h4 id="digital-to-analog-converters-1">Digital-to-Analog Converters</h4>
+<figure>
+<img src="../../attachments/dacover.png" alt="dacover" class="responsive-img" /><figcaption>dacover</figcaption>
+</figure>
+<ul>
+<li>D/A Converters (DACs)
+<ul>
+<li>Output voltage (or current) proportional to:
+<ul>
+<li>Analog reference voltage (<span class="math inline">V_{ref}</span>) and</li>
+<li><span class="math inline">n</span> bit binary input</li>
+</ul></li>
+<li><span class="math inline">x=k\cdot V_{ref}\cdot B</span> (<span class="math inline">x</span> is the output, <span class="math inline">k</span> a proportionality constant, <span class="math inline">V_{ref}</span> the reference voltage, and B the binary word).
+<ul>
+<li>the function above is our design goal, for this digital to analog converter</li>
+</ul></li>
+</ul></li>
+<li><strong>It will be shown that</strong>:
+<ul>
+<li>Full-scale: <span class="math inline">V_{Max}=k\cdot V_{ref}(2^n -1)</span></li>
+<li>Often <span class="math inline">|k| \leq \frac{1}{2^n}</span> and thus <span class="math inline">|V_{Max}| \leq |V_{ref}|</span>
+<ul>
+<li>mathematically ensured, since it is 1 LSB less than the total</li>
+</ul></li>
+</ul></li>
+</ul>
+<hr />
+<p><br />
+<br />
+</p>
+<table>
+<thead>
+<tr class="header">
+<th><img src="../../attachments/dacrange.png" alt="dacrange" class="responsive-img" /></th>
+<th><img src="../../attachments/dacrange2.png" alt="dacrange2" class="responsive-img" /></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dacrange</td>
+<td>dacrange2</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>In <code>dacrange</code> we want the patterns to be error free, but it does raise the question of what they should be in between
+<ul>
+<li>so <code>dacrange2</code> uses the approximation as shown
+<ul>
+<li>if <span class="math inline">1LSB = \frac{FSAR}{2^n-1} = \frac{3.75V}{2^2-1} = \frac{3.75}{3} = 1.25V</span></li>
+<li><em>Notice here that this calculation is also equal to</em> <span class="math inline">\frac{V_{ref}}{2^n}</span> where <span class="math inline">V_{ref} = 5V</span></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>Two DAC examples:</strong></p>
+<ul>
+<li><a href="#i-binary-weighted-resistor-ladder">I - Binary weighted resistor ladder</a></li>
+<li><a href="#ii-r---2r-ladders">II - R-2R ladder</a></li>
+</ul>
+<h4 id="i---binary-weighted-resistor-ladder">I - Binary Weighted Resistor Ladder</h4>
+<ul>
+<li><p>Assume that switch <span class="math inline">i</span> is switched (connected) when a ‘1’ is applied to bit <span class="math inline">B_i</span>.
+<img src="../../attachments/weighted.png" alt="weighted" class="responsive-img" /></p></li>
+<li><p>this would get pretty fucking expensive to fabricate since the resistances are either going to be too big or too small depending on what you decide as like the base resistance value</p></li>
+<li><p>moreover if you want to do this with more bits you would need way more resistors</p></li>
+<li><p>the “switches” could be implemented with transistors, and depending on the switches switched on, the resistance changes, and thus the current from the circuit could keep changing<br />
+</p></li>
+<li><p><span class="math inline">I_f = \frac{V_{out}}{0.5 R} =\frac{2V_{out}}{R} = - (\frac{V_{ref}}{8R}B_0+\frac{V_{ref}}{4R}B_1+\frac{V_{ref}}{2R}B_2+\frac{V_{ref}}{R}B_3)</span></p>
+<ul>
+<li>the <span class="math inline">0.5R</span> on the OPAMP is there, because that is what the net resistance of that multiplier should be as shown above i.e. we need 0 gain</li>
+<li>this is why you are only doing this with 4, when you do it with more bits, the resistances would get pretty fucking messy</li>
+</ul></li>
+<li><p><span class="math inline">2V_{out} = - V_{ref}(\frac{B_0}{8}+\frac{B_1}{4}+\frac{B_2}{2}+\frac{B_3}{1})</span></p>
+<ul>
+<li><span class="math inline">V_{out} = -\frac{V_{ref}}{2^n}\sum_{i=0}^{n-1}B_i2^i</span>
+<em>Note:</em> <span class="math inline">V_{out}^{max} = -V_{ref}\frac{2^n-1}{2^n} = FSAR</span><br />
+Notice how this works perfectly for the 3.75/5 example that we just did above where <span class="math inline">n=2</span><br />
+</li>
+</ul></li>
+</ul>
+<p>To get rid of the negative, just supply a negative <span class="math inline">V_{ref}</span> to get a positive output<br />
+<em>Reminder: These derivations are all based on the assumption that the feedback resistor is of size 0.5R. A different value of the feedback resistor will lead to different results and a different value of k.</em><br />
+1LSB works out to be <span class="math display">1LSB = -\frac{V_{ref}}{2^n}</span></p>
+<h5 id="i---binary-weighted-resistor-ladder---varying-input-impedance">I - Binary Weighted Resistor Ladder - Varying Input Impedance</h5>
+<p>Note Input Impedance (w.r.t. <span class="math inline">V_{ref}</span>) varies as n-bits vary.</p>
+<ul>
+<li>Consider the current demands on <span class="math inline">V_{ref}</span> if all of the B values are 1, then compare that to the situation when all of the B values are 0.</li>
+<li>It is easier to make a constant voltage source if you have a constant current load</li>
+</ul>
+<figure>
+<img src="../../attachments/weighta.png" alt="weighta" class="responsive-img" /><figcaption>weighta</figcaption>
+</figure>
+<ul>
+<li>Constant current load from the <span class="math inline">V_{ref}</span> source. However, <strong>this current load is now the same as the maximum current load in the previous version.</strong><br />
+<br />
+You can see how now regardless of where the switch is positioned, as long as it is touching one of the flows then you will have a path for the current to flow.<br />
+<em>NOTE: there will be varying as the switches switch positions from 0 to 1, but that varying would be way lesser.</em> The switching is more complicated, but it is still doable</li>
+</ul>
+<h5 id="note-how-do-i-attach-one-of-these-to-my-processor">Note: How do I attach one of these to my processor?</h5>
+<figure>
+<img src="../../attachments/weighta1.png" alt="weighta1" class="responsive-img" /><figcaption>weighta1</figcaption>
+</figure>
+<p>The register could either be the one associated with the parallel port, or could be the register from some form of serial interface (i.e., SPI).</p>
+<h5 id="resistor-values">Resistor Values</h5>
+<ul>
+<li>For large n very large resistors are needed. Consider the two cases shown to the left.</li>
+<li>100 mA is too large for most/all normal op-amps. (Case 2)</li>
+<li><span class="math inline">4\mu A</span> is down in the noise level of most op-amps. (Case 1)</li>
+<li>Large range of resistors is very hard to fabricate precisely.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Nominal</th>
+<th>Case 1</th>
+<th>Case 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bit</td>
+<td>Resistor</td>
+<td>Resistor</td>
+<td>Resistor</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td><span class="math inline">2^{0} \times R</span></td>
+<td>10 k<span class="math inline">\Omega</span></td>
+<td>100 <span class="math inline">\Omega</span></td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td><span class="math inline">2^{1} \times R</span></td>
+<td>20 k<span class="math inline">\Omega</span></td>
+<td>200 <span class="math inline">\Omega</span></td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td><span class="math inline">2^{n-1} \times R</span></td>
+<td>1.28 M<span class="math inline">\Omega</span></td>
+<td>12.8 k<span class="math inline">\Omega</span></td>
+</tr>
+</tbody>
+</table>
+<p>Corresponding Op-Amp Characteristics<br />
+</p>
+<table>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th></th>
+<th>Case 1</th>
+<th>Case 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vref</td>
+<td><span class="math inline">\;\;</span></td>
+<td>10V</td>
+<td>10V</td>
+</tr>
+<tr class="even">
+<td>IB7</td>
+<td></td>
+<td>1mA</td>
+<td>100 mA</td>
+</tr>
+<tr class="odd">
+<td>IB0</td>
+<td></td>
+<td><span class="math inline">4\mu A</span></td>
+<td>400 <span class="math inline">\mu A</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="ii-r---2r-ladders">II R - 2R Ladders</h4>
+<figure>
+<img src="../../attachments/r2ra.png" alt="r2ra" class="responsive-img" /><figcaption>r2ra</figcaption>
+</figure>
+<ul>
+<li>Input Impedance is fixed at <span class="math inline">Z_{in} = R</span> (Start from the right)</li>
+<li><span class="math inline">I = \frac{V_{ref}}{R}</span></li>
+<li><span class="math inline">I_1=\frac{I}{2}</span></li>
+<li><span class="math inline">I_2=\frac{I_1}{2} =\frac{I}{4}</span> etc.<br />
+<br />
+</li>
+<li>This circuit basically allows us to get those binary weighted circuits</li>
+<li>fucking stupid IIT circuit</li>
+</ul>
+<h5 id="note-how-do-r---2r-ladders-work">Note: How Do R - 2R Ladders Work?</h5>
+<p>Consider the modified version of the figure shown below.</p>
+<p><sub>At the blue points the circuit to the right always looks like two 2R resistors in parallel (when looking to the right).
+The two parallel 2R resistors split any current in half
+The two parallel resistors (effective resistance 1R) are in series with a resistor with a resistance of R.</sub></p>
+<figure>
+<img src="../../attachments/r2ra2.png" alt="r2ra2" class="responsive-img" /><figcaption>r2ra2</figcaption>
+</figure>
+<ul>
+<li>the impedance seen by the power supply is always <span class="math inline">R</span></li>
+<li>at each blue line, the resistance always gets set back to <span class="math inline">R</span></li>
+</ul>
+<h5 id="ii-r---2r-ladders-1">II R - 2R Ladders</h5>
+<figure>
+<img src="../../attachments/r2r1.png" alt="r2r1" class="responsive-img" /><figcaption>r2r1</figcaption>
+</figure>
+<p>Notice that the two grounds are actually connected
+<span class="math display">
+V_{out} = -I_{T}R = -R I_T = -R[{B_0\frac{I}{16} + B_1\frac{I}{8} + B_2\frac{I}{4} + B_3\frac{I}{2}}]
+</span>
+<span class="math display">
+V_{out} = -R[{B_0\frac{V_{ref}}{16R} + B_1\frac{V_{ref}}{8R} + B_2\frac{V_{ref}}{4R} + B_3\frac{V_{ref}}{2R}}]
+</span>
+<span class="math display">
+V_{out} = -\frac{V_{ref}}{16}[{B_0 + 2B_1 + 4B_2 + 8B_3}]
+</span>
+<span class="math display">
+V_{out} = -\frac{V_{ref}}{16}\sum_{i=0}^{3}B_i2^i
+</span>
+or <span class="math inline">x = kV_{ref}B</span> where <span class="math inline">x = -\frac{1}{16}</span></p>
+<ul>
+<li>The feedback resistor is now <span class="math inline">R</span> and not <span class="math inline">0.5R</span></li>
+<li><strong>NOTE</strong> The range and current problem still exists, because if you make the resistance change really long then you still get I/256, which is still within the range of our error.</li>
+</ul>
+<h5 id="r---2r-characteristics">R - 2R Characteristics</h5>
+<ul>
+<li>Easy to fabricate 2 resistors of fixed ratios.
+<ul>
+<li>Exact value not critical.</li>
+<li>You can literally just build one resistance and then just connect 2 of them in series to get the combinational circuit you need.
+<ul>
+<li>although you could do it for 256R too, the effective R chain would be TOO long</li>
+</ul></li>
+<li>even if you manufacture the wrong resistance, <em>ONLY</em> the ratio matters</li>
+</ul></li>
+<li>Consider an n-bit DA <span class="math inline">V_{out} = -\frac{V_{ref}}{2^n}\sum_{i=0}^{n-1}B_i2^i</span></li>
+<li>Full scale output <span class="math inline">B_i =1,\forall i,0\leq i\leq n-1</span></li>
+</ul>
+<h4 id="multiplying-dacs-m-dacs">Multiplying DACs (M-DACs)</h4>
+<ul>
+<li>Most would consider <span class="math inline">V_{ref}</span> to be a fixed value, but</li>
+<li>One could vary <span class="math inline">V_{ref}</span> and at the same time vary the digital control lines.<br />
+Multiplying DAC (M-DAC): A digital-analog-converter configured so that the analog input (voltage) signal (previously referred to as <span class="math inline">V_{ref}</span>) is a time-varying signal. Such a system would have an output analog voltage of: <span class="math inline">V_{out} = k \times B \times V_{in}</span> as shown below.</li>
+</ul>
+<figure>
+<img src="../../attachments/mdac2.png" alt="mdac2" class="responsive-img" /><figcaption>mdac2</figcaption>
+</figure>
+<ul>
+<li>Thus, the M-DAC implements a programmable-gain amplifier for the analog input voltage. If you attach an analog signal to <span class="math inline">V_{in}</span>, then you control the gain with the digital signal (B).
+<ul>
+<li>this way it can be used as a “FUCKING” volume knob</li>
+<li>the numbers you are controlling in the knob is the bit pattern</li>
+</ul></li>
+<li>The <strong>BIGGEST</strong> challenge is the output of the OPAMP, because here we are taking the Opamp to be ideal so there could be delays</li>
+</ul>
+<h4 id="da-converter-characteristics---specifications">D/A Converter Characteristics - Specifications</h4>
+<ul>
+<li><strong>Resolution (DAC and ADC)</strong>: The number of bits in the digital value used for the input to the DAC (or the output from the ADC). (e.g., 12-bits)
+<ul>
+<li>sometimes you might talk about effective DAC, because sometimes the number of bits the device can handle. In a 16 bit DAC, the last bit could literally just be noise, in which case the effective resolution is 15 bits</li>
+</ul></li>
+<li><strong>Precision (DAC and ADC)</strong>: The smallest distinguishable change in output. Ideally 1 LSB. (e.g., for a 12-bit D/A <span class="math inline">\implies</span> 1 in <span class="math inline">2^{12}</span> or 0.024% of full scale.)
+<ul>
+<li>1LSB should be concerning, because there are some manufacturers that do not follow this</li>
+</ul></li>
+<li><strong>Accuracy</strong>: Comparison of the actual output to the expected output.
+<ul>
+<li>A converter with 10V full scale and an accuracy of 0.2% ⇒ max. error of 20 mV <span class="math inline">(10 \times 0.002)</span>.</li>
+<li>Often specified as a fraction of the LSB (e.g., <span class="math inline">\pm 0.5\times LSB</span>).
+<ul>
+<li>For example, since the precision of a 10-bit D/A is 1 in <span class="math inline">2^{10}</span> or 0.1%, the accuracy should ideally be <span class="math inline">\leq\pm 0.05\%</span>.</li>
+</ul></li>
+</ul></li>
+<li><strong>Range</strong>: The maximum output value minus the minimum output value.</li>
+<li><strong>Dynamic Range</strong>: The New Penguin Dictionary of Electronics defines dynamic range as: <em>The range over which an active electronic device can produce a suitable output signal in response to an input signal. It is often quoted as the difference in decibels between the noise level of the system and the level at which the output is saturated (the overload level).</em>
+<ul>
+<li>The noise level is at least 1 LSB. (In decibels <span class="math inline">20 log(kV_{ref} )</span>.)</li>
+<li>saturation is <span class="math inline">2^{n} - 1</span>. (In decibels <span class="math inline">20 log(kV_{ref} \times (2^n - 1))</span>.)</li>
+<li>Dynamic Range (in dB) = <span class="math inline">20 log(2^n - 1)</span> dB.</li>
+<li>For example 4 bits <span class="math inline">\rightarrow 20 log_{10}15 \approx 20</span> db.</li>
+</ul></li>
+<li><strong>Errors</strong>: consider errors in 3 groups:
+<ul>
+<li>gain and offset errors: errors are independent of the applied digital value.</li>
+<li>linearity errors: errors that may be considered to be dependent on the applied B value.</li>
+<li>environmental errors.</li>
+</ul></li>
+</ul>
+<h4 id="errors">Errors</h4>
+<h5 id="offset-errors">Offset Errors</h5>
+<ul>
+<li><p><strong>Offset Error</strong>: An analog shift in the output of a DAC that is constant over the full range of digital input values.</p>
+<ul>
+<li>Sometimes specified as a percentage of the range. <span class="math inline">\frac{offset}{range} \times 100\%</span></li>
+<li>An offset error may be caused by leakage currents in the switches or by some bias current at the input to the op-amp.</li>
+<li>The offset error may also have a temperature coefficient.</li>
+<li>Calibration can reduce the impact of these errors.</li>
+</ul>
+<figure>
+<img src="../../attachments/dacerr1.png" alt="dacerr1" class="responsive-img" /><figcaption>dacerr1</figcaption>
+</figure></li>
+<li><p>the given diagram is actually a step function but has been approximated as a straight line</p></li>
+<li><p>can be solved by simple subtraction in software</p></li>
+</ul>
+<h5 id="gain-errors">Gain Errors</h5>
+<ul>
+<li><strong>Gain Error</strong>: An error in the analog output of the DAC that varies (linearly) with the digital value applied. Errors in gain can often be attributed to errors (or drift) in resistor values. May also be caused by changes in the reference voltage.
+<ul>
+<li>May have a temperature coefficient (i.e., <span class="math inline">q</span> parts per million per degree C)</li>
+<li>Gain errors can also be corrected through calibration (for a given constant temperature). Often compensated for at full-scale.</li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/dacerr2.png" alt="dacerr2" class="responsive-img" /><figcaption>dacerr2</figcaption>
+</figure>
+<ul>
+<li>can be solved by simple multiplication in software</li>
+</ul>
+<h6 id="note-a-mathematical-model-of-linear-errors-and-calibration">Note: A Mathematical Model of Linear Errors and Calibration</h6>
+<p>EVEN IF THERE IS THE GRAPH ON THE LEFT MOST, IF THERE IS A NEGATIVE EXCURSION LOW ENOUGH IT COULD ACTUALLY BLOW UP MY CIRCUIT
+<img src="../../attachments/types_of_gain_errs.jpeg" alt="types_of_gain_errs" class="responsive-img" /></p>
+<h5 id="linearity-errors---differential">Linearity Errors - Differential</h5>
+<ul>
+<li>Differential Non-Linearity (DNL): The differences between the analog values corresponding to consecutive (input) digital values.
+<span class="math display">DNL = Max(|(V_{out}(i + 1) - V_{out}(i)) - (\Delta V)_{ideal}|)</span>
+e.g., DNL = 1 LSB means that moving from <span class="math inline">B = i</span> to <span class="math inline">B = i + 1</span> will result in a change of
+output between 2 LSBs and 0 LSB in magnitude. (<span class="math inline">(\Delta V)_{ideal}</span> is one LSB)</li>
+</ul>
+<figure>
+<img src="../../attachments/dacerr3a2011.png" alt="dacerr3a2011" class="responsive-img" /><figcaption>dacerr3a2011</figcaption>
+</figure>
+<h5 id="monotonicity-error">Monotonicity Error</h5>
+<ul>
+<li><p><strong>Monotonicity Error </strong>: If, for any two consecutive digital values, increasing from <span class="math inline">i</span> to <span class="math inline">i + 1</span> results in a decrease in output (analog) values, there is a monotonicity error. This can occur if DNL &gt; 1LSB.</p></li>
+<li><p><strong>impact of this error</strong>:</p>
+<ul>
+<li>imagine if the more you pressed the gas, the more it slows down</li>
+<li>you go to stop, and it starts speeding up or not slowing down</li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/monotonicity.png" alt="monotonicity" class="responsive-img" /><figcaption>monotonicity</figcaption>
+</figure>
+<h5 id="linearity-errors---integral">Linearity Errors - Integral</h5>
+<ul>
+<li><strong>Integral Linearity</strong>: The maximum deviation between the true output and a straight line representing the ideal output. This calculation/measurement is based on the assumption that all of the linear errors have been eliminated (compensated).</li>
+</ul>
+<figure>
+<img src="../../attachments/dacerr32011.png" alt="dacerr32011" class="responsive-img" /><figcaption>dacerr32011</figcaption>
+</figure>
+<h6 id="note-error-example">Note: Error Example</h6>
+<p>Assume that you have a converter with the following output. In this example, 1 LSB has an analog value of 0.5 V.</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 26%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>DAC Input</th>
+<th>Expected Output EOi</th>
+<th>Actual Output AOi</th>
+<th>INL Component (EOi-AOi)</th>
+<th>DNL Component (See Below)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0V</td>
+<td>0V</td>
+<td>0V</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0.5 V</td>
+<td>0.4 V</td>
+<td>0.1 V</td>
+<td>0.1 V</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>1.0 V</td>
+<td>0.8 V</td>
+<td>0.2 V</td>
+<td>0.1 V</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>1.5 V</td>
+<td>1.2 V</td>
+<td>0.3 V</td>
+<td>0.1 V</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>2.0 V</td>
+<td>1.8 V</td>
+<td>0.2 V</td>
+<td>0.1 V</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>2.5 V</td>
+<td>2.8 V</td>
+<td>0.3 V</td>
+<td>0.5 V</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>3.0 V</td>
+<td>3.3 V</td>
+<td>0.3 V</td>
+<td>0V</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>3.5 V</td>
+<td>3.5 V</td>
+<td>0V</td>
+<td>0.3 V</td>
+</tr>
+</tbody>
+</table>
+<p>DNL Component Entry = <span class="math inline">|AO_i - AO_{i-1} - 0.5 V |</span>
+Result: Worst case INL is 0.3V (or 0.6LSB) and worst case
+DNL is 0.5V or 1LSB
+<img src="../../attachments/DacDNL_INL_ErrorExample.png" alt="DacDNL_INL_ErrorExample" class="responsive-img" /></p>
+<h5 id="environmental-errors-and-comments">Environmental Errors and Comments</h5>
+<p>Power Supply Rejection Ratio: A measure of how sensitive is the converter to changes in the power supply voltage.
+<span class="math display">S = \frac{\text{\%change full scale}}{\text{\%change supply voltage}}</span><br />
+<em>If you have a charge source behind the scenes you might be able to manage the power supply change</em><br />
+</p>
+<p>For example, if decreasing the power supply voltage by 5% (from 5.0 V to 4.75 V) results in a decrease in <span class="math inline">V_{ref}</span> from 2.5 V to 2.0 V (i.e., a 20% decrease), S would be 4 (assuming nothing else changed).<br />
+<br />
+Error Specification:</p>
+<ul>
+<li>As an absolute value (eg. offset ≤ 10 mV),</li>
+<li>As a percentage of full scale</li>
+<li>As a number (or fraction) of LSBs</li>
+<li>Specified independent of each other, and hence the impact of a gain error, an offset error and a linearity error are cumulative.</li>
+</ul>
+<h5 id="dynamic-performance">Dynamic Performance</h5>
+<p>See Settling Time (starting on page 325)</p>
+<ul>
+<li>Mostly of the output Amplifier</li>
+<li>Often specified as time until a certain percentage of the final output has been reached.
+($$1LSB) (Assuming a full scale transition)</li>
+</ul>
+<figure>
+<img src="../../attachments/dacerr4.png" alt="dacerr4" class="responsive-img" /><figcaption>dacerr4</figcaption>
+</figure>
+<ul>
+<li>Manufacturers often leave amplifier off of D/A and provide only a current source. This simple change (make the DAC cheaper AND faster) is a good deal for the sellers. (You will see this in an example shortly.)
+<ul>
+<li>some manufacturers even leave out the amplifier to be able to quote insane settling times but actually they do not include the amplifier at all and you need to add an external one back in to get any current. Makes it appear faster or slower</li>
+<li>We would not like to be off by more than half an LSB - even 5% of the final value might be greater than an LSB unless the DAC has lesser bits</li>
+</ul></li>
+</ul>
+<hr>
+<hr>
+<ul>
+<li><strong>Glitch Impulse</strong>: At the time that the digital value changes from one value to another, the analog output may not change directly from one value to the other. For example not all of the internal switches will change at the same rate and thus some erroneous values may appear at the output. This is also referred to as Glitch impulse area … it is the area in the glitch caused by the different switching times.</li>
+</ul>
+<figure>
+<img src="../../attachments/glitch.png" alt="glitch" class="responsive-img" /><figcaption>glitch</figcaption>
+</figure>
+<ul>
+<li>In this case, it may be that the switch for the current associated with 8 (i.e., <span class="math inline">b_3</span>) turns off slower than the ones (i.e., <span class="math inline">b_0, b_1, b_2</span>) associated with 7 turn on. Thus there is a temporary increase above either value.
+<ul>
+<li>since the bits might take different paths can take it could lead to an error for us</li>
+<li>mitigation: make switches faster, or making amp slower to be of similar response time as the buttons</li>
+</ul></li>
+<li>The paths that we could take when transitioning from one value to another may be different which could lead to our signal to fluctuate
+<img src="../../attachments/glitch_7_8_response.jpg" alt="glitch_7_8_transition" class="responsive-img" /></li>
+</ul>
+<figure>
+<img src="../../attachments/glitch_7_8_transition.jpg" alt="glitch_7_8_response" class="responsive-img" /><figcaption>glitch_7_8_response</figcaption>
+</figure>
+<ul>
+<li>If your amplifier is really fast then you will see the glitch impulse - it could cause to error out even though temporarily</li>
+<li>One way to mitigate - is to ensure that your switches are fast, the other way is to make sure your DAC is proportionaly slow. It’s basically the idea of a drag race car with bicycle wheels.</li>
+</ul>
+<h4 id="factors-affecting-conversion-time">Factors Affecting Conversion Time</h4>
+<ul>
+<li>DAC settling time
+<ul>
+<li>Settling time (Op-Amp) - if its too good then we might get the errors as above</li>
+<li>Switch response times - how quickly can they go from one state to another</li>
+</ul></li>
+<li><strong>Note</strong>: conversion time limits the frequency of operation. If the converter requires <span class="math inline">t \mu s</span> to change values, and the user changes the value at an interval of t μs, the results will not 3 be as expected.</li>
+</ul>
+<h5 id="example-tlv5621e-ti">Example TLV5621E (TI)</h5>
+<ul>
+<li>(Based on 1996 Data Sheet)</li>
+<li>TLV5621E is a low-power, quad 8-bit D/A Converter</li>
+<li>Serial Interface (4 channels, 14-pin DIP Package)
+<ul>
+<li>Data is loaded serially</li>
+<li>Data can be double buffered</li>
+<li>Data (and control) are loaded as 10-bit units
+- data: 2-bit address and 8-bits data
+- control four 2-bit fields as control bits for the 4 DACs (enable/disable and ×1/×2 control) plus two chip level controls (single/double buffering)</li>
+</ul></li>
+<li>Each channel is based on a resistor string (one resistor with 256 taps) Reference voltages are buffered (so the sources see a high impedance) Linearity comes from matching resistors</li>
+</ul>
+<figure>
+<img src="../../attachments/tvl5621.png" alt="tvl5621" class="responsive-img" /><figcaption>tvl5621</figcaption>
+</figure>
+<p>Output Voltage <span class="math display">V_O = V_{ref} \times \text{CODE} \times (1 + \text{Range})</span>
+If range is 0 then we get the formula we’re used to seeing, otherwise we get twice, which is a special feature in this DAC</p>
+<h6 id="operating-characteristics-from-data-sheet">Operating Characteristics from data sheet</h6>
+<ul>
+<li>Output Voltage <span class="math inline">V_O = V_{ref} \times \text{CODE} \times (1 + \text{Range})</span>
+<ul>
+<li>Range = 0/1</li>
+</ul></li>
+<li>Output source current 1 ma (code = 255)</li>
+<li>Output sink current 5 μA (DAC-A) and 20μA Others</li>
+<li>Ref. Current ±10μA</li>
+<li>Output Slew Rate (DAC-A) -
+<ul>
+<li>Rising 0.8<span class="math inline">\frac{V}{\mu s}</span></li>
+<li>Falling 0.5<span class="math inline">\frac{V}{\mu s}</span></li>
+</ul></li>
+<li>Output Slew rate (Others) 1<span class="math inline">\frac{V}{\mu s}</span></li>
+<li>Output Settling Time (to 0.5 LSB) 10 μs (For DAC-A)…75 μs</li>
+</ul>
+<h6 id="errors-1">Errors</h6>
+<ul>
+<li>Integral Linearity ±1 LSB</li>
+<li>Differential Linearity ±0.9 LSB (Max) ±0.1 LSB Typical</li>
+<li>Zero Scale Error (Error when CODE =00 ) <span class="math inline">\leq</span> 30 mV</li>
+<li>Zero Scale Error Temp Coef. 10<span class="math inline">\frac{μV}{^\circ C}</span></li>
+<li>Zero Scale Error Supply Rejection 2 <span class="math inline">\frac{mV}{V}</span></li>
+<li>Full Scale Error (I.e. CODE = FF) ≤ ±60 mV</li>
+<li>Full Scale Error Temp Coef. ±25 <span class="math inline">\frac{μV}{^\circ &gt; C}</span></li>
+<li>Full Scale Error Supply Rejection 2 <span class="math inline">\frac{mV}{V}</span></li>
+</ul>
+<h5 id="example-max-529">Example MAX 529</h5>
+<p>This DAC has the following characteristics.</p>
+<ul>
+<li>8 analog output signals</li>
+<li>Serial interface to processing system (SPI Compliant)</li>
+<li>Single (5 Volt) or dual (± 5-20 Volt) supply</li>
+<li>Each pair of outputs can be placed in to one of the following modes of operation
+<ul>
+<li>Unbuffered: attach directly to the output point of the R -2R Ladder.</li>
+<li>Buffered: a built in buffer is provided with +5 mA (-2 mA) drive (sink) capability</li>
+<li>Half-buffered: lower power than fully buffered, but limited to unipolar output operation.</li>
+</ul></li>
+</ul>
+<p id="static-characteristics">Static Characteristics</p>
+<figure>
+<img src="../../attachments/static_characteristics_table.png" alt="static_characteristics_table" class="responsive-img" /><figcaption>static_characteristics_table</figcaption>
+</figure>
+<p>Operation</p>
+<ul>
+<li>Data shifted in serial into two 8-bit registers A (A7-A0) and D (D7-D0) with A7 in first and D0 last.</li>
+<li><strong>Programming</strong>:
+<ul>
+<li>The bits of A correspond to the DACs. (i.e., A= 0x7 means that the accompanying D value is loaded into DACs 0, 1, and 2.)</li>
+<li>If A= 0 and D7=1 then the rest of D is interpreted as command to select the buffer mode. (An example of in-band signalling.)</li>
+</ul></li>
+</ul>
+<p><strong>THE CHALLENGE HERE IS THE LACK OF CONSISTENCY BETWEEN A DATASHEETS, DISABLING A PROPER COMPARISON. Generally people become lifelong customers of these DACs</strong></p>
+<h3 id="analog-to-digital-converters">Analog-to-Digital Converters</h3>
+<figure>
+<img src="../../attachments/adcover.png" alt="adcover" class="responsive-img" /><figcaption>adcover</figcaption>
+</figure>
+<ul>
+<li><strong>Two Basic Operations</strong>:
+<ul>
+<li>Quantization (starting on page 326)</li>
+<li>Coding - assign a binary code to each discrete range.
+Note: If the digital value of 010 is read, then the applied (analog) voltage is <span class="math inline">1.5 LSBs &lt; V_{analog} &lt; 2.5 LSBs</span></li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/adc1.png" alt="adc1" class="responsive-img" /><figcaption>adc1</figcaption>
+</figure>
+<h4 id="errors-2">Errors</h4>
+<h5 id="unbiased-error">Unbiased Error</h5>
+<figure>
+<img src="../../attachments/adc1a.png" alt="adc1a" class="responsive-img" /><figcaption>adc1a</figcaption>
+</figure>
+<p>You can see how the error is sometimes less sometimes more but in most cases this is surprisingly hard to build</p>
+<h5 id="biased-error">Biased Error</h5>
+<figure>
+<img src="../../attachments/adc1biased.png" alt="adc1biased" class="responsive-img" /><figcaption>adc1biased</figcaption>
+</figure>
+<ul>
+<li>This is what is is genrally used, and although it is hard to see, you actually double the error, <strong>but</strong> its easier to build.</li>
+</ul>
+<p>Is it a big problem from software or hardware? <strong>No</strong> since all you’re doing is shifting by half a bit</p>
+<h4 id="analog-to-digital-converters-1">Analog-to-Digital Converters</h4>
+<p>Some Types of ADCs
+Direct Converters (voltage → binary)</p>
+<ul>
+<li>I - Binary ramp (includes a DAC)</li>
+<li>II - Successive approximation (includes a DAC)</li>
+<li>III - Flash<br />
+</li>
+</ul>
+<p>Indirect Converters (voltage → time → binary)
+- IV - Integrating
+- V - Dual Slope</p>
+<h4 id="i---binary-ramp-adc">I - Binary Ramp ADC</h4>
+<figure>
+<img src="../../attachments/analog-binary-ramp-adc.png" alt="analog-binary-ramp-adc" class="responsive-img" /><figcaption>analog-binary-ramp-adc</figcaption>
+</figure>
+<ol type="1">
+<li>Processor starts a conversion by asserting the start of conversion (SOC) signal</li>
+<li>Start of conversion signal (SOC) resets the counter and flip-flop</li>
+<li>Free-running clock increments counter when enabled</li>
+<li>DAC output is a discretized ramp controlled by the digital value (DV)</li>
+<li>When DAC output exceeds the analog voltage, the comparator clocks a Logic 1 into the flip-flop to complete conversion and assert conversion complete (CC)
+<ul>
+<li>Recall that the comparator outputs 1 if A &lt; B and 0 if A&gt;B</li>
+</ul></li>
+<li>Processor must detect conversion complete (CC) and then read the digital value (DV)</li>
+</ol>
+<figure>
+<img src="../../attachments/analog-commented-binary-ramp-adc.png" alt="analog-commented-binary-ramp-adc" class="responsive-img" /><figcaption>analog-commented-binary-ramp-adc</figcaption>
+</figure>
+<p>When we get conversion complete then we can just read DV out of the counter, and that bit pattern is our best representation of the voltage. You can see that it does bias it the way we expect, where it waits for the value to fully exceed.</p>
+<ul>
+<li><strong>The ramp there is the secret here</strong>: Digital Value increases until it actually exceeds</li>
+</ul>
+<h5 id="sample-output">Sample Output</h5>
+<figure>
+<img src="../../attachments/adc5a.png" alt="adc5a" class="responsive-img" /><figcaption>adc5a</figcaption>
+</figure>
+<p>3BIT DAC with 1V Full Scale output, a weird rounding effect on scale: Bit pattern of 100 is not exactly 0.143 above.</p>
+<h5 id="software-version">Software Version</h5>
+<figure>
+<img src="../../attachments/adc3.png" alt="adc3" class="responsive-img" /><figcaption>adc3</figcaption>
+</figure>
+<pre><code>/* Let n store the resolution of the DAC in bits. */
+/* Let DV memory map to the input of the DAC. */
+/* Let S memory map to the output of the comparator. */
+/* Start with an unsigned value of 0. */
+DV = 0;
+/* Sleep, if necessary. */
+/* Loop while conversion not complete and the */
+/* maximum value has not been reached. */
+while ((S == 0) &amp;&amp; (DV &lt; pow(2,n)-1))
+{
+       DV = DV + 1;
+       /* Sleep, if necessary. */
+}
+/* DV now stores a representation of the */
+/* analog value. */  </code></pre>
+<p><em>you can actually code the DAC in C by just connecting some simple hardware to a parallel port</em>
+if you’re actually writing a function then you would pre-compute <span class="math inline">2^n - 1</span></p>
+<h5 id="comments">Comments</h5>
+<ul>
+<li><strong>Conversion speed is a function of the following</strong>:
+<ul>
+<li>Analog input voltage</li>
+<li>DAC speed</li>
+</ul></li>
+<li>Conversion accuracy depends on the quality of the DAC and the comparator</li>
+<li>Data output is persistent until a new start of conversion pulse is received</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Simple to implement (H/W or S/W)</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Variable conversion time - which is not ideal since you now might have to wait for it to go through all the possible bit pattern</li>
+<li>Conversion slow for large resolutions (Up to <span class="math inline">2^n</span> clock cycles)</li>
+<li>DAC overshoot may cause premature triggering of flip-flop - susceptible to glitch impulse</li>
+<li>Speed limited by DAC settling time</li>
+</ul></li>
+</ul>
+<h4 id="ii---successive-approximation-adc">II - Successive Approximation ADC</h4>
+<h5 id="design-philosophy">Design Philosophy</h5>
+<ul>
+<li><strong>Goal is to improve upon the performance of the binary ramp ADC</strong>:
+<ul>
+<li>Performance is improved by converting the linear search to a binary search</li>
+</ul></li>
+<li>Conversion time is fixed for a given resolution <span class="math inline">n</span> (independent of analog input voltage)</li>
+<li>Conversion time is fast and predictable</li>
+<li>Implementation in hardware or software is relatively straightforward</li>
+</ul>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><em>the counter now has to be replaced with some sort of state machine code</em></li>
+</ul>
+<figure>
+<img src="../../attachments/analog-successive-approximation-ADC.png" alt="analog-successive-approximation-ADC" class="responsive-img" /><figcaption>analog-successive-approximation-ADC</figcaption>
+</figure>
+<h5 id="algorithm">Algorithm</h5>
+<p>Basic Algorithm<br />
+Assume the SAR bits are numbered 0 to n-1 (with n-1 = MSB)</p>
+<ol type="1">
+<li>Clear all bits of digital value in SAR (<span class="math inline">DV_i =0\leq i \leq n-1</span>)</li>
+<li>Set <span class="math inline">X=n-1</span>(MSB)</li>
+<li>Set <span class="math inline">DV_X = 1</span> and wait for DAC to settle</li>
+<li>If Comparator output is high, clear <span class="math inline">DV_X</span> and wait for DAC to settle</li>
+<li>Decrement <span class="math inline">X</span> and if <span class="math inline">X \geq 0</span> go to step 3</li>
+</ol>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><em>The results of this and binary ramp are only differenced in bias i.e. last bit, but that can be fixed by p much adding a bit</em></li>
+</ul>
+<p><strong>THIS IS THE ONLY ONE NOT SUSCEPTIBLE TO GLITCH IMPULSE BECAUSE IT ONLY CHANGES ONE BIT AT A TIME</strong>
+</p>
+<h5 id="sample-output-1">Sample Output</h5>
+<figure>
+<img src="../../attachments/adc5b.png" alt="adc5b" class="responsive-img" /><figcaption>adc5b</figcaption>
+</figure>
+<h5 id="software-version-1">Software Version</h5>
+<figure>
+<img src="../../attachments/adc3aa.png" alt="adc3" class="responsive-img" /><figcaption>adc3</figcaption>
+</figure>
+<pre><code>// Let n store the resolution of the DAC in bits.
+// Let DV memory map to the input of the DAC.
+// Let S memory map to the output of the comparator.
+// Start with an unsigned value of 0.
+int DV = 0;
+// Loop over each bit from largest to smallest.
+for (int i=n-1; i&gt;= 0; i--)
+{
+  // Set the current (ith) bit to a value of 1.
+  DV = DV | (1 &lt;&lt; i);
+  // Sleep, if necessary.
+  // Check if DV is too large.
+  if (S == 1)
+  {
+      // Reset the current (ith) bit to a value of 0.
+      DV = DV &amp; ~(1 &lt;&lt; i);
+  }
+}</code></pre>
+<h5 id="comments-1">Comments</h5>
+<ul>
+<li>Successive approximation ADCs are very popular</li>
+<li>Speed can be improved by observing that the DAC output does not have to change very much as the conversion progresses, thus it may be possible to clock the SAR faster as the bit to be tested changes</li>
+<li><strong>Data output is persistent until a new start of conversion pulse is received Advantages</strong>:
+<ul>
+<li>Simple to implement (H/W or S/W) - not much more diffcult than above</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Still requires multiple clock periods for a conversion</li>
+<li>Slower than a binary ramp ADC for very small analog input voltages - eg: 0V</li>
+</ul></li>
+</ul>
+<p><strong>Worst case is bounded by <span class="math inline">n</span></strong><br />
+</p>
+<p><strong>Note</strong>:</p>
+<ul>
+<li>Industry wise this is what is used - Gaming controller, some medical devices etc</li>
+<li>This is not susceptible to glitch impulse because unlike a binary ramp that can go from 7 to 8, this one never does it i.e. only changes one bit at a time
+<ul>
+<li>curious side effect of the design - useful since you won’t overshoot especially when you’re involved with medical devices</li>
+</ul></li>
+</ul>
+<h5 id="comparison-of-binary-ramp-adc-vs.-successive-approximation-adc">Comparison of Binary Ramp ADC Vs. Successive Approximation ADC</h5>
+<ul>
+<li>Binary ramp ADC biases high (overestimates voltage) while the successive approximation ADC biases low (underestimates voltage)</li>
+<li><strong>Both converters have very similar hardware and software costs</strong>:
+<ul>
+<li>Successive approximation ADC requires fewer clock periods but will require a faster DAC if the same clock period is used for both converters</li>
+</ul></li>
+<li>Conversion time for the successive approximation ADC is fixed (n clock periods) and not affected by the analog input voltage</li>
+<li><strong>Successive approximation ADC may have fewer glitch problems</strong>:
+<ul>
+<li>DAC in the binary ramp ADC must convert bit patterns such as <span class="math inline">(01111111)_2</span> and
+then <span class="math inline">(10000000)_2</span> without tripping the control flip-flop</li>
+<li>DAC in the successive approximation ADC only has 1 bit turned on or turned off per DAC cycle
+__</li>
+</ul></li>
+</ul>
+<h4 id="iii---flash-adc-fast-brute-force-approach">III - Flash ADC (Fast Brute Force Approach)</h4>
+<p>General Case (n-bit converter)</p>
+<figure>
+<img src="../../attachments/adc6a.png" alt="adc6a" class="responsive-img" /><figcaption>adc6a</figcaption>
+</figure>
+<p><strong>Note</strong>:</p>
+<ul>
+<li>It takes every single value from the binary ramp at the <strong>SAME</strong> time in parallel and choose the best one. All the ones that are below the signal are 0, all the ones above are 1, all you need is an encoder and ezpz you’re done</li>
+<li>This can become very expensive - 16 bits will have <span class="math inline">2^{16}</span> comparators and can become VERY VERY EXPENSIVE i.e. 65535 output wires going into one encoder <em>WHICH</em> can become very fucking expensive</li>
+</ul>
+<h5 id="comments-2">Comments</h5>
+<figure>
+<img src="../../attachments/adc6a1.png" alt="adc6a1" class="responsive-img" /><figcaption>adc6a1</figcaption>
+</figure>
+<ul>
+<li>note that there is no register here, i.e. no storage because there is no need for one because the only time constraint it has is the actual time taken for the comparator to turn on or off</li>
+</ul>
+<h5 id="specific-case---2-bit-case">Specific Case - 2 bit case</h5>
+<figure>
+<img src="../../attachments/adc6b.png" alt="adc6b" class="responsive-img" /><figcaption>adc6b</figcaption>
+</figure>
+<table>
+<thead>
+<tr class="header">
+<th>Z</th>
+<th>Y</th>
+<th>X</th>
+<th>Comments</th>
+<th>Encoder Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="math inline">V_{Analog} &gt; \frac{3}{4}V_{ref}</span></td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td><span class="math inline">\frac{3}{4}V_{ref} &gt; V_{Analog} &gt; \frac{1}{2}V_{ref}</span></td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><span class="math inline">\frac{1}{2}V_{ref} &gt; V_{Analog} &gt; \frac{1}{4}V_{ref}</span></td>
+<td>01</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="math inline">\frac{1}{4}V_{ref} &gt; V_{Analog}</span></td>
+<td>00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note</strong></p>
+<ul>
+<li>Note here he has copped out on the actual edge case
+<ul>
+<li>there are no actual edge cases - i.e what happens when it is exactly <span class="math inline">\frac{1}{2}V_{ref}</span> because the boundary points are hard to say</li>
+</ul></li>
+<li>if you have a broken comparator, you can get some values that wouldn’t exist
+<ul>
+<li><strong>Missing Code Error</strong>: what happens if you give ZYX = 101, then you might error out, which is why encoders just look at the leading bit to determine the output, but this might mess up in other cases: if for example Y is stuck at 0, then you will jump from 01 to 11 and not produce the right value</li>
+</ul></li>
+<li>there is no wrapping around here - i.e. there’s no counter and you would cap out</li>
+</ul>
+<h5 id="more-comments">More Comments</h5>
+<ul>
+<li>As shown, the data is transient</li>
+<li>Biased low - it doesn’t switch to the next value unless it exceeds the next value - for a small value close to 0 it gives 0</li>
+<li>There is no need for start/end of conversion. On the other hand there is no way to tell the converter has stabilized.</li>
+<li><strong>Advantage</strong>: Very fast (up to video rates 750 M samples/s - we can get upto 5.4G samples/s and by the time Billy went home, he had an IEEE email about researchers reaching 8G sample/s). It is only limited by the settling time of comparator and encoder.</li>
+<li><strong>Disadvantages</strong>: Many accurate resistors needed, need <span class="math inline">2^n - 1</span> comparators</li>
+</ul>
+<h3 id="indirect-techniques">Indirect Techniques</h3>
+<p>Previous schemes were based on voltage comparisons<br />
+<strong>(Indirect) Integrating ADCs</strong></p>
+<ul>
+<li><strong>Operation</strong>:
+<ul>
+<li>Converts voltage to time then</li>
+<li>Converts time to a number by use of a counter</li>
+</ul></li>
+<li><strong>Versions</strong>:
+<ul>
+<li>Single slope - analog equivalent of the binary ramp
+<ul>
+<li>its gonna ramp up your value in a linear manner but instead of doing it in discrete steps it does it in continuous steps, <strong>AND</strong> it does much faster</li>
+</ul></li>
+<li>Dual slope</li>
+</ul></li>
+</ul>
+<h5 id="integrator-from-an-op-amp">Integrator from an Op-Amp</h5>
+<p><strong>NONE OF THESE DERIVATION ARE GOING TO BE ON THE EXAM</strong>
+<img src="../../attachments/adc7.png" alt="adc7" class="responsive-img" />
+<img src="../../attachments/opamp-integrator.png" alt="opamp-integrator" class="responsive-img" /></p>
+<h5 id="voltage-integrator-operation">Voltage Integrator Operation</h5>
+<figure>
+<img src="../../attachments/voltage-integrator-operation.png" alt="voltage-integrator-operation" class="responsive-img" /><figcaption>voltage-integrator-operation</figcaption>
+</figure>
+<p>If we make the initial time 0, as well as output voltage to be 0, then you can get a multiple expression</p>
+<h6 id="voltage-integrator-timing-diagram">Voltage Integrator Timing Diagram</h6>
+<figure>
+<img src="../../attachments/adc7a.png" alt="adc7a" class="responsive-img" /><figcaption>adc7a</figcaption>
+</figure>
+<p>You can easily handle the negative, by just setting <span class="math inline">V_{in}</span> to a negative value</p>
+<h4 id="iv---single-slope">IV - Single Slope</h4>
+<h5 id="operation">Operation</h5>
+<ul>
+<li>Now using a voltage integrator to convert voltage into time, we can consider the single slope analog-to-digital converter.</li>
+<li>Its operation is based on creating a voltage ramp (with a known slope) and then determining how long the ramp takes to reach the unknown voltage.
+<img src="../../attachments/adc9.png" alt="adc9" class="responsive-img" /></li>
+</ul>
+<figure>
+<img src="../../attachments/adc8.png" alt="adc8" class="responsive-img" /><figcaption>adc8</figcaption>
+</figure>
+<p><img src="../../attachments/adc8_alternative_clock.jpg" alt="adc8_alternative_clock" class="responsive-img" />
+</p>
+<ul>
+<li>The switch is held closed until conversion is started (Thus <span class="math inline">V_{out}(0) = 0</span> and <span class="math inline">V_{out}(T ) = \frac{T}{RC}V_{ref}</span>)</li>
+<li>At start of conversion, control logic opens the switch and resets counter. When the switch is opened, <span class="math inline">V_{out}</span> ramps
+up with a slope of <span class="math inline">V_{ref}</span></li>
+</ul>
+<hr>
+</hr>
+<p>When threshold is reached, the counter is stopped. (Time <span class="math inline">T</span>.)</p>
+<ul>
+<li>Thus <span class="math inline">V_{out}(T) \approx V_{Analog}</span> and</li>
+<li><span class="math inline">T = DV</span> where <span class="math inline">DV</span> =binary value in counter <span class="math inline">f</span> and <span class="math inline">f</span> = clock frequency.</li>
+<li>Thus
+<ul>
+<li><span class="math inline">V_{Analog} \approx \frac{T}{RC}V_{ref} = \frac{V_{ref}}{RCf} DV</span></li>
+<li><span class="math inline">DV \approx \frac{V_{Analog}RCf}{V_{ref}}</span></li>
+<li>Note: The value read (DV) is dependent on values of <span class="math inline">R, C, f</span> and <span class="math inline">V_{ref}</span>.</li>
+</ul></li>
+</ul>
+<p><strong>Notes</strong></p>
+<ul>
+<li>We wanna max out the DV and the max Voltage</li>
+</ul>
+<h5 id="component-selection">Component Selection</h5>
+<p>The values for the components can be selected to simplify the use of the results from the converter. For example to convert values of VAnalog between 0 and <span class="math inline">V_{Max}</span> (and no larger) choose
+<span class="math display">RCf = (2^n - 1)\frac{V_{ref}}{V_{Max}}</span>
+If <span class="math inline">n=8, V_{ref} =5V, V_{Max} \approx 5V</span>,the product <span class="math inline">RCf</span> must have a value of 255.</p>
+<h5 id="comments-3">Comments</h5>
+<ul>
+<li>As shown, this converter produces persistent data.</li>
+<li><strong>Advantages</strong>: Simple idea, reasonably good converter, extremely cheap, reasonably fast</li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Error in clock frequency (<span class="math inline">f</span>) leads to conversion error (stable frequency source needed)</li>
+<li>Error in <span class="math inline">R</span> or <span class="math inline">C</span> (or drift due to temperature or age) leads to conversion errors. - Sensitive to <span class="math inline">V_{ref}</span> errors</li>
+<li>Conversion time proportional to <span class="math inline">V_{Analog}</span>.</li>
+</ul></li>
+</ul>
+<p><span class="math display">V_{Analog} = \frac{T}{RC}V_{ref} = \frac{V_{ref}}{RCf} DV</span></p>
+<p><strong>Notes</strong></p>
+<ul>
+<li>very cheap so used in phones, video game controllers etc. where you do not need to be super exact</li>
+</ul>
+<h4 id="v---dual-slope-adc">V - Dual Slope ADC</h4>
+<p><strong>Basic Idea</strong>: Add RC terms to both sides of the equation (by adding a charging as well as a discharging state) in which way they will essentially cancel out. It will take longer, but its more reliable</p>
+<h5 id="operation-1">Operation</h5>
+<figure>
+<img src="../../attachments/adc10.png" alt="adc10" class="responsive-img" /><figcaption>adc10</figcaption>
+</figure>
+<p><strong>Notes</strong></p>
+<ol type="1">
+<li>the switch logic above allows us to change the voltage between <span class="math inline">-V_{ref}</span> and <span class="math inline">V_{Analog}</span></li>
+<li>In this case we are going to decrease the voltage first using <span class="math inline">V_{Analog}</span> and bring it back to 0 using <span class="math inline">V_{ref}</span></li>
+<li>The comparator is comparing against when it comes back to 0, and is also used to control the switch</li>
+<li>the counter helps us determine the ‘max value’ they care about - we don’t even have to reset it here because it overflows anyways</li>
+<li>the DV here is double buffered in this design<br />
+<br />
+<br />
+<img src="../../attachments/adc11.png" alt="adc11" class="responsive-img" /></li>
+</ol>
+<ul>
+<li>Conversion starts with <span class="math inline">V_o = 0</span>, and counter = 0.
+<span class="math display">V_o(T) = \frac{-1}{RC}\int^T_0V_{Analog}dt = -\frac{V_{Analog}}{RC}T</span></li>
+<li>Since <span class="math inline">V_{Analog}</span> is positive, the initial output voltage has a negative slope.</li>
+</ul>
+<p><strong>Several Voltages</strong><br />
+<img src="../../attachments/adc11a.png" alt="adc11a" class="responsive-img" /></p>
+<p><strong>Notes for above</strong>
+- The slopes on the right hand side are all the same, because its always the same voltage in the second half, and since <span class="math inline">V_{ref}</span> is less than <span class="math inline">V_{analog}</span><br />
+<br />
+<strong>Going back to OPERATION</strong></p>
+<ul>
+<li>When the counter reaches some value <span class="math inline">N</span> (i.e., <span class="math inline">T = N</span> ) the switch position is changed and f
+the counter reset.
+<ul>
+<li>Although not required, a very common value for <span class="math inline">N</span> is <span class="math inline">2^n</span>, where <span class="math inline">n</span> is the number of bits of resolution for the ADC, and the number of bits in the counter. (The remainder of this section uses <span class="math inline">N = 2^n</span>.)</li>
+<li>Note there will be a carry out from the counter when <span class="math inline">2^n</span> clock periods have passed. Now start integrating using <span class="math inline">-V_{ref}</span>
+<span class="math display">V_o(T+\tau)= -\frac{1}{RC}\int_T^{T + \tau}(-V_{ref})dt+V_o(T) = 0</span></li>
+</ul></li>
+<li>When <span class="math inline">V_o(T+\tau) = 0</span> stop the counter, copy the contents of the counter into a register (<span class="math inline">DV</span>) (with the value from the conversion), and then start integrating with <span class="math inline">V_{Analog}</span> as the input again.
+<ul>
+<li>This occurs when <span class="math inline">\frac{V_{ref}}{RC} \tau = \frac{V_{Analog}}{RC}T</span></li>
+<li>When <span class="math inline">V_{Analog} = \frac{\tau}{T}V_{ref}</span>
+<ul>
+<li>Note: <span class="math inline">\tau = \frac{DV}{f}</span>, and <span class="math inline">T = \frac{2^n}{f}</span> therefore
+<span class="math display">V_{Analog} = \frac{V_{ref}}{2^n}DV</span>
+<span class="math display">V_{Analog}^{Max} = V_{ref}\frac{2^n - 1}{2^n}</span></li>
+<li>No <span class="math inline">R, C</span> and <span class="math inline">f</span> as part of the expression. Based on assumption that these values will not change during the conversion.</li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="comments-4">Comments</h5>
+<ul>
+<li>Clocking the DV register may be performed to make the data as transient or persistent. See the questions at the end of this section of the notes. (starting on page 416)</li>
+<li>Output biased low and <span class="math inline">V_{ref} \geq V_{Analog}</span></li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Output does not depend on the precise values of <span class="math inline">R</span> and <span class="math inline">C</span></li>
+<li>Output does not depend on the precise value of <span class="math inline">f</span> (It must be stable during one conversion, but drift between conversions is tolerable)</li>
+<li>Fairly simple to build.</li>
+<li>This is still not slower than the Binary ramp (because you’re in the analog domain where it is still faster to ramp up and ramp down rather than use the ramp) - used in low-end medical devices fairly accurate because it has no RC terms</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Completion time is a function of the fraction <span class="math inline">V_{Analog}</span> as the second slope takes that <span class="math inline">V_{ref}</span>
+long to complete its path to 0V (<span class="math inline">2^n &lt;</span> Completion Time <span class="math inline">\leq 2^{n+1}</span> clock periods)</li>
+<li>The number of clock cycles doubles with each 1-bit increase in resolution.</li>
+</ul></li>
+<li>Popular at low-speed low-cost applications.</li>
+</ul>
+<p><strong>Newer images of single and double slope are in the assignments</strong></p>
+<h3 id="ad-converter-specifications-and-errors">A/D Converter Specifications and Errors</h3>
+<p>More or less the same issues as DACs: DAC specifications <a href="#da-converter-characteristics---specifications">(starting on page 339)</a>.</p>
+<ul>
+<li>Resolution, or quantization error</li>
+<li>Dynamic range - the ratio of the largest value that can be converted to the smallest step size. Eg. 10-bit ADC, with an input range from 0V to 4V. Therefore the quantization step is <span class="math inline">\frac{4V-0 V}{2^{10}-1}</span>. Thus the dynamic range is <span class="math inline">\frac{4V}{3.9062 mV}</span> or 1023. (<span class="math inline">20 log 1023 \approx 60 db</span>)</li>
+<li>Accuracy.
+4.0 V or 3.9062 mV
+<ul>
+<li><a href="#specific-case---2-bit-case">Missing Code</a>: It may be that some digital values can never be generated due to some errors in the ADC. If this is the case, the missing values are referred to as missing codes.</li>
+</ul></li>
+<li>Offset errors, gain errors, linearity errors and</li>
+<li>Conversion time.</li>
+</ul>
+<h3 id="time-varying-signals">Time Varying Signals</h3>
+<p>Seldom do computers have to monitor signals that do not change. A changing signal may cause the converter problems.</p>
+<ul>
+<li><strong>Converter Aperture Time</strong>: The (maximum) time that the converter output (result) is sensitive to changes in the analog signal.</li>
+</ul>
+<figure>
+<img src="../../attachments/adcaperture1.png" alt="adcaperture1" class="responsive-img" /><figcaption>adcaperture1</figcaption>
+</figure>
+<h3 id="time-varying-signals-issues">Time Varying Signals Issues</h3>
+<ul>
+<li>A sample-and-hold circuit is often used to ensure that the ADC input signal does not change during the converter aperture time.</li>
+</ul>
+<h4 id="time-varying-signals-issues-1">Time Varying Signals Issues</h4>
+<ul>
+<li>The frequency of a periodic signal impacts the required sampling rate.
+<ul>
+<li><strong>Nyquist Sampling Rate</strong>: If a time varying signal contains components of significant amplitude only below f Hz, then a sample frequency of greater than <span class="math inline">2\times f</span> Hz will suffice to reconstruct the frequency without generating lower frequency aliasing signals. Or, inverted, if you sample a signal at <span class="math inline">f</span> you will only be able to work with signals below <span class="math inline">f/2</span> in frequency.</li>
+</ul></li>
+</ul>
+<p><strong>Q.</strong> Why can’t you just sample at twice the frequency?<br />
+<strong>A.</strong>
+<img src="../../attachments/nyquist_sampling.jpg" alt="nyquist_sampling" /><br />
+</p>
+<p><br />
+<strong>NOTES</strong></p>
+<ul>
+<li>Why do we sample at 44.1KHz? Its because we are sampling at a rate greater than what humans can actually hear: 22KHz at their peak</li>
+</ul>
+<h4 id="sampling-a-time-varying-signal-without-a-sample-and-hold-circuit">Sampling a Time Varying Signal Without a Sample-and-Hold Circuit</h4>
+<p>What is the maximum frequency (fMax) of a time varying signal that can be sampled without adding a sample-and-hold circuit?</p>
+<ul>
+<li>For simplicity, assume we are sampling a sine wave of a fixed frequency</li>
+<li>The worst case would be at the point of maximum rate of change of the applied signal</li>
+</ul>
+<p><span class="math display">V(t) = V_{peak}sin(2\pi ft)</span>
+<span class="math display">\frac{dV}{dt} = 2\pi f V_{peak} cos(2\pi ft)</span>
+<span class="math display">\text{Max Slope} = 2\pi f V_{peak}</span>
+<img src="../../attachments/SineWave.png" alt="SineWave" class="responsive-img" /></p>
+<ul>
+<li><p>Often it is assumed that the signal will change by no more than 0.25 LSB (0.5 LSB divided by 2 to account for sampling rate - you’ve to sample at twice the frequency) while the conversion is taking place</p></li>
+<li><p>Suppose that a <span class="math inline">12</span>bit converter is used and that it requires <span class="math inline">10\mu s</span> to convert a signal in the range of <span class="math inline">10V</span> peak-to-peak (i.e., <span class="math inline">V_{Peak}</span> = 5 V). The converter aperture time is <span class="math inline">10\mu s</span>. The amount that the input can change in <span class="math inline">10\mu s</span> is 0.25 LSB.</p></li>
+<li><p><span class="math display">\frac{1}{4}LSB = \frac{1}{4} \times \frac{10}{2^{12}-1} \approx 0.6mV</span></p></li>
+<li><p>Thus, there can be at most <span class="math inline">0.6 mV</span> change in <span class="math inline">10 \mu s</span> (at the steepest slope).
+<span class="math display">\frac{\Delta V}{\Delta t}\Bigg|_{Max} = 2\pi f_{Max} V_{peak}</span>
+<span class="math display">\frac{0.6 \times 10^{-3}}{10 \times 10^{-6}}\Bigg|_{Max} = 2\pi f_{Max} V_{peak}</span>
+<span class="math display">f_{Max} = \frac{0.6}{2 \times 5 \times \pi \times 10 \times 10^{-3}} = \frac{6}{\pi} \approx 2Hz</span>
+For this system <strong>without a sample-and-hold circuit</strong>, we are limited to a <span class="math inline">2 Hz</span> input signal, despite a <span class="math inline">100 kHz</span> converter!</p></li>
+</ul>
+<h4 id="sample-and-hold-overview">Sample-and-Hold Overview</h4>
+<figure>
+<img src="../../attachments/shover.png" alt="shover" class="responsive-img" /><figcaption>shover</figcaption>
+</figure>
+<ul>
+<li>When does conversion start? (at the start of start of conversion? at the end of start of conversion? … consider the various designs to date.)</li>
+<li>Note the relationship between the converter aperture (Start of Conversion to CC) and the sample-and-hold aperture time (limited to the duration of the sample signal).</li>
+</ul>
+<figure>
+<img src="../../attachments/shover2.png" alt="shover2" class="responsive-img" /><figcaption>shover2</figcaption>
+</figure>
+<h4 id="fixed-sample-rate-block-diagram">Fixed sample rate block diagram</h4>
+<figure>
+<img src="../../attachments/shover3.png" alt="shover3" class="responsive-img" /><figcaption>shover3</figcaption>
+</figure>
+<p>We only need an ADC if our signal actually changes otherwise its useless.</p>
+<h3 id="sample-and-hold-circuits">Sample and Hold Circuits</h3>
+<ul>
+<li>A/D Converters require a stable input voltage during conversion</li>
+<li>For our purposes, consider stable to mean that the value remains within <span class="math inline">\frac{1}{4}</span> LSB for the time required to perform the conversion
+<img src="../../attachments/adc12.png" alt="adc12" class="responsive-img" /></li>
+</ul>
+<ul>
+<li>A sample-and-hold circuit is used to hold the input voltage constant during conversion (ideally).</li>
+<li>Buffer 1 isolates the analog circuit from <span class="math inline">C</span> when Q is on</li>
+<li>Buffer 2 isolates the converter from <span class="math inline">C</span>.</li>
+<li>When <span class="math inline">Q</span> is on, <span class="math inline">V_c</span> tracks <span class="math inline">V_{in}</span>.</li>
+<li>When <span class="math inline">Q</span> is off, <span class="math inline">V_c</span> retains the most recent <span class="math inline">V_{in}</span> level.</li>
+<li>Therefore <span class="math inline">V_{out}</span> retains the most recent Vin value and can be used as the A/D Converter input signal.</li>
+<li>A sample-and-hold circuit may be included as part of the A/D Converter.</li>
+</ul>
+<h4 id="errors-3">Errors</h4>
+<ol type="1">
+<li>During sampling</li>
+<li>During the sample to hold transition</li>
+<li>During hold</li>
+<li>During the hold to sample transition
+<img src="../../attachments/sample1.png" alt="sample1" class="responsive-img" /></li>
+</ol>
+<h5 id="during-sampling">1. During sampling</h5>
+<p>Errors (in the input buffer)</p>
+<ul>
+<li>Offset - the output for a zero input may not be exactly zero. (<span class="math inline">\frac{1}{2}</span> LSB — for a given temperature.)</li>
+<li>Non-linearity</li>
+<li>Non-unity gain.</li>
+</ul>
+<h6 id="performance-issues">Performance Issues</h6>
+<p>The settling time is the time to attain a good estimate for the final value given a full scale step at the input to within a specified error. In this case, it is the time to couple the voltage across the capacitor (through the two buffers) to the A/D input.</p>
+<p><img src="../../attachments/adc13.png" class="responsive-img" /></p>
+<h5 id="during-sample-to-hold-transition">2. During Sample-to-Hold Transition</h5>
+<ul>
+<li><strong>Sample and Hold Aperture Time</strong>: The time required for Q to turn off once the hold signal is asserted. (<span class="math inline">T_{off}</span>).</li>
+</ul>
+<figure>
+<img src="../../attachments/apertur.png" alt="apertur" class="responsive-img" /><figcaption>apertur</figcaption>
+</figure>
+<ul>
+<li><p>This may contribute to sample-and-hold offset.</p></li>
+<li><p><strong>(Sample and Hold) Aperture Uncertainty</strong>: The change in time between the command to turn Q off and the actual time Q turns off. (Jitter in the figure) Changes in Toff</p>
+<ul>
+<li>Causes:
+<ul>
+<li>Variables in the delay in turning off</li>
+<li>Variation in sample/hold transition</li>
+<li>Variation in either of these caused by changes in temperature</li>
+</ul></li>
+<li>Effect: If sampling a signal at regular intervals (TSample(i) ) then you cannot miss a sample by the time required for the signal to change by more than a fraction of the LSB value.</li>
+</ul></li>
+</ul>
+<h6 id="example">Example</h6>
+<ul>
+<li>If you need to sample a 10kHz signal, using the <span class="math inline">10\mu s</span> converter described above how much (sample and hold) aperture uncertainty could be tolerated?</li>
+<li>Based on Murphy’s Law assume that the uncertainty occurs at the maximum rate of change point. (Recall 1 LSB is 0.6 mV in the example.)</li>
+</ul>
+<p><span class="math display">\frac{\Delta V}{\Delta t} = 2\pi f V_{peak}</span>
+<span class="math display">\frac{0.6 \times 10^{-3}}{T_\text{Aperture uncertainity}} = 2\pi 10^4 5</span>
+<span class="math display">T_\text{Aperture uncertainity} \approx 2\times 10^{-9} = 2ns</span></p>
+<ul>
+<li>Thus, the uncertainty cannot be larger than 2 ns.</li>
+</ul>
+<h5 id="errors-during-hold-time">3. Errors During Hold Time</h5>
+<ul>
+<li><strong>Droop</strong>: A drop in the signal out of the sample and hold circuit. It is caused by discharge of C due to:
+<ul>
+<li>Input bias currents (in the output buffer).</li>
+<li>Leakage back through the switch</li>
+<li>Leakage across C</li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/adc14.png" alt="adc14" class="responsive-img" /><figcaption>adc14</figcaption>
+</figure>
+<ul>
+<li>Feed through - leakage forward through the switch.</li>
+<li>Hold Settling time (<span class="math inline">t_{hs}</span> in earlier figure) … Time to stabilize after hold has started.</li>
+</ul>
+<h5 id="hold-to-sample-transition">4. Hold to Sample Transition</h5>
+<ul>
+<li><strong>Acquisition Time</strong>: The time required before the capacitor voltage is within a specified percentage of the final value (as distinct from the settling time which worries about the voltage into the A/D converter, as opposed to the voltage across the capacitor.) <span class="math inline">t_{acq}</span> shown on figure (starting on page 408) .</li>
+<li>At times the input and stored values may appear to be close but still there may be transients when sample starts — due to stray inductance and capacitance that may be present in the circuit.</li>
+</ul>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 2 - Embedded Systems</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 2 - Embedded Systems<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#embedded-system">Embedded System</a></li>
+<li><a href="#hardware-software-codesign">Hardware / Software Codesign</a></li>
+<li><a href="#definitions">Definitions</a></li>
+<li><a href="#microprocessors">Microprocessors</a></li>
+<li><a href="#micro-controller">Micro-controller</a></li>
+<li><a href="#system-on-a-chip-soc">System-on-a-Chip (SoC)</a></li>
+<li><a href="#programmable-logic-device">Programmable Logic Device</a></li>
+<li><a href="#system-on-a-programmable-chip-sopc">System-on-a-Programmable-Chip (SoPC)</a></li>
+</ul>
+</nav>
+<h3 id="embedded-system">Embedded System</h3>
+<p>A special-purpose computer system designed to perform a task without the user’s knowledge of its existence. The user may provide input to the embedded system via controls and sensors but the user need not be aware of the presence of the embedded system. Applications include consumer electronics, household appliances, automotive and telecommunications devices</p>
+<h3 id="hardware-software-codesign">Hardware / Software Codesign</h3>
+<p>Hardware/software codesign is the term given to the task of simultaneously designing hardware and software components of a combined hardware/software system.</p>
+<h3 id="definitions">Definitions</h3>
+<ul>
+<li><em>Hardware</em>: 3. the mechanical or electronic components of a computer, etc.</li>
+<li><em>Software</em>: 1. the programs or other operating information used by a computer. 2. storage media such as video cassettes, audio tapes, etc. requiring playback on electronic equipment</li>
+</ul>
+<h3 id="microprocessors">Microprocessors</h3>
+<p>A microprocessor (eg:Intel Core i9) consists of a processor only (no main memory and no built-in support for input / output devices). The microprocessor term commonly refers to a general-purpose Central Processing Unit (CPU):</p>
+<ul>
+<li>deliver high performance</li>
+<li>the CPU may include more than one processor core</li>
+<li>suitable for all types of computations</li>
+<li>require off-chip memory and input / output devices to implement a complete computer</li>
+</ul>
+<h3 id="micro-controller">Micro-controller</h3>
+<p>A complete computer on a single chip (eg:Intel Quark D2000) consisting of a processor, memory and some input / output devices. These devices are usually specified in a fairly general manner to permit reuse of the same micro-controller component in many applications. <br> This term commonly refers to a Central Processing Unit (CPU) that has been specialized to control the operation of a mechanical or electronic system:</p>
+<ul>
+<li>Small and cost-effective</li>
+<li>Built-in storage</li>
+<li>Specialized built-in interface support for some of the following:
+<ul>
+<li>High-speed communication</li>
+<li>Parallel devices</li>
+<li>Serial devices</li>
+<li>Analog devices</li>
+</ul></li>
+</ul>
+<h3 id="system-on-a-chip-soc">System-on-a-Chip (SoC)</h3>
+<p>A user-designed fully-functional system implemented on a single chip. This may include processing, memory, input / output devices and other digital logic. A SoC can be used to implement an embedded system or a part of it.</p>
+<ul>
+<li>Typically, a System-on-a-Chip (SoC) incorporates the following hardware components (depending on the application):
+<ul>
+<li>Functionality similar to the microprocessor or a micro-controller defined previously. The implementation may be as either hardware or software.</li>
+<li>Communication port(s)</li>
+<li>Storage:
+<ul>
+<li>Volatile storage (e.g., Random Access Memory <span class="math inline">\implies</span> RAM )</li>
+<li>Non-volatile storage (e.g., Read-Only Memory <span class="math inline">\implies</span> ROM )</li>
+</ul></li>
+<li>Other components could include: timers, parallel interfaces, analog to digital converters and pulse width modulators.</li>
+</ul></li>
+</ul>
+<h3 id="programmable-logic-device">Programmable Logic Device</h3>
+<p>A digital logic chip that permits configuration and interconnection of internal logic blocks. Often this term refers to a computer chip that can be “rewired” to implement a custom digital circuit using primitive building blocks.</p>
+<ul>
+<li>Several types of PLD technologies exist:
+<ul>
+<li>SRAM (Static Random Access Memory)</li>
+<li>EEPROM (Electronically-Erasable Programmable Read-Only Memory)</li>
+<li>NOR Flash</li>
+<li>Antifuse</li>
+</ul></li>
+<li>Primitive building blocks include flip-flops, multiplexers, lookup tables (LUTs), adders, multipliers, and RAM blocks.</li>
+<li>Not all PLDs are created equally:
+<ul>
+<li>In-system programmability vs. external programming hardware</li>
+<li>One-time programmable vs. reconfigurable</li>
+</ul></li>
+</ul>
+<h3 id="system-on-a-programmable-chip-sopc">System-on-a-Programmable-Chip (SoPC)</h3>
+<p>A System-on-a-Programmable Chip is an SoC that is implemented using a high-density, reconfigurable PLD.</p>
+<ul>
+<li><em>Advantages wrt SOC</em>:
+<ol type="1">
+<li>Flexible</li>
+<li>Upgradable</li>
+</ol></li>
+<li><em>Disadvantages wrt SOC</em>:
+<ol type="1">
+<li>Potentially slower</li>
+<li>More expensive</li>
+</ol></li>
+</ul>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

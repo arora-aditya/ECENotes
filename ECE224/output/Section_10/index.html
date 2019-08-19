@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 10 - Buses - Data Transfer</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 10 - Buses - Data Transfer<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#data-transfer-synchronization-techniques">Data Transfer Synchronization Techniques</a></li>
+<li><a href="#bus-terminology">Bus Terminology</a></li>
+<li><a href="#bus-operation-sequence">Bus Operation Sequence</a></li>
+</ul></li>
+<li><a href="#synchronous-bus-transfer">Synchronous Bus Transfer</a><ul>
+<li><a href="#synchronous-bus-read">Synchronous Bus Read</a><ul>
+<li><a href="#block-diagram">Block Diagram</a></li>
+<li><a href="#ladder-diagram">Ladder Diagram</a></li>
+<li><a href="#timing-diagram">Timing Diagram</a></li>
+<li><a href="#factors-limiting-bus-read-clock-rate">Factors Limiting Bus Read Clock Rate</a></li>
+<li><a href="#minimum-bus-cycle-time">Minimum Bus Cycle Time</a></li>
+<li><a href="#clock-timing-alternatives">Clock Timing Alternatives</a></li>
+<li><a href="#two-phase-clocks---ladder-diagram">Two Phase Clocks - Ladder Diagram</a></li>
+</ul></li>
+<li><a href="#synchronous-bus-write">Synchronous Bus Write</a><ul>
+<li><a href="#block-diagram-1">Block Diagram</a></li>
+<li><a href="#ladder-diagram-1">Ladder Diagram</a></li>
+<li><a href="#timing-diagram-1">Timing Diagram</a></li>
+<li><a href="#register-clock-derivation">Register Clock Derivation</a></li>
+<li><a href="#factors-limiting-bus-write-clock-rate">Factors Limiting Bus Write Clock Rate</a></li>
+<li><a href="#minimum-bus-cycle-time-1">Minimum Bus Cycle Time</a></li>
+<li><a href="#two-phase-clocks---ladder-diagram-1">Two Phase Clocks - Ladder Diagram</a></li>
+</ul></li>
+<li><a href="#comments-on-clock-rate">Comments on Clock Rate</a></li>
+</ul></li>
+<li><a href="#asynchronous-bus-transfer">Asynchronous Bus Transfer</a><ul>
+<li><a href="#asynchronous-buses">Asynchronous Buses</a></li>
+<li><a href="#general-read">General Read</a><ul>
+<li><a href="#block-diagram-2">Block Diagram</a></li>
+</ul></li>
+<li><a href="#fully-interlocked-asynchronous-read">Fully Interlocked Asynchronous Read</a><ul>
+<li><a href="#ladder-diagram-2">Ladder Diagram</a></li>
+<li><a href="#transfer">Transfer</a><ul>
+<li><a href="#at-master">At Master</a></li>
+<li><a href="#at-slave">At Slave</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#fully-interlocked-asynchronous-write">Fully Interlocked Asynchronous Write</a><ul>
+<li><a href="#transfer-1">Transfer</a><ul>
+<li><a href="#at-master-1">At Master</a></li>
+<li><a href="#at-slave-1">At Slave</a></li>
+</ul></li>
+<li><a href="#factors-limiting-bus-speed">Factors Limiting Bus Speed</a></li>
+<li><a href="#minimum-read-times-asynchronous-and-synchronous">Minimum Read Times: Asynchronous and Synchronous</a></li>
+<li><a href="#fully-interlocked-asynchronous-transfers-vs-synchronous-transfers">Fully-Interlocked Asynchronous Transfers vs Synchronous Transfers</a></li>
+</ul></li>
+<li><a href="#partially-interlocked-asynchronous-bus-transfers">Partially Interlocked Asynchronous Bus Transfers</a><ul>
+<li><a href="#fully-interlocked-vs-partially-interlocked-asynchronous">Fully Interlocked vs Partially Interlocked Asynchronous</a></li>
+<li><a href="#synchronous-fully-interlocked-asynchronous-and-partially-interlocked-asynchronous">Synchronous, Fully-Interlocked Asynchronous and Partially-Interlocked Asynchronous</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#semi-synchronous-bus-transfer">Semi-Synchronous Bus Transfer</a><ul>
+<li><a href="#read">Read</a><ul>
+<li><a href="#ladder-diagram-3">Ladder Diagram</a></li>
+<li><a href="#timing-diagram-single-clock">Timing Diagram (Single Clock)</a></li>
+</ul></li>
+<li><a href="#write">Write</a><ul>
+<li><a href="#ladder-diagram-4">Ladder Diagram</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#split-cycle-protocols">Split Cycle Protocols</a><ul>
+<li><a href="#ladder-diagram-5">Ladder Diagram</a></li>
+</ul></li>
+<li><a href="#questions-of-interest">Questions of Interest</a><ul>
+<li><a href="#data-transfer-questions">Data Transfer Questions</a></li>
+</ul></li>
+</ul>
+</nav>
+<h2 id="introduction">Introduction</h2>
+<ul>
+<li>Bus Signal Groups
+<ul>
+<li>Data transfer
+<ul>
+<li>address and data (information)</li>
+<li>control: synchronization (time) and direction (There may be other issues to control)</li>
+</ul></li>
+<li>Arbitration (select master)</li>
+<li>Other signals (interrupt)</li>
+</ul></li>
+<li>Special Topics
+<ul>
+<li>Timing of sets of signals (propagation delay, skew time, address decoding time)</li>
+<li>Transmission line effects (later in the course)</li>
+</ul></li>
+</ul>
+<p><strong>Q</strong> What makes a wire part of a bus?<br />
+<strong>Q</strong> Where are buses found in digital systems?</p>
+<h3 id="data-transfer-synchronization-techniques">Data Transfer Synchronization Techniques</h3>
+<ul>
+<li><strong>Synchronous Data Transfer</strong>: The transfer of data between communicating entities with a common view of time. In this case there is a global clock and data is transferred at a specific point in the clock period. Also all transfers are of fixed duration (one clock period. There is no feedback from the consumer to the producer of the data to alter the rate of transfer or to alter the duration that the data is valid.
+<ul>
+<li>we assume that the entire transfer takes place in one cycle - everything takes place on clock edges</li>
+<li>can only be fixed for the worst case i.e. can’t adapt</li>
+</ul></li>
+<li><strong>Asynchronous Data Transfer</strong>: The transfer of data between communicating entities with different views of time. In this case there is no global clock, and there is a mechanism to permit variable transfer times. This mechanism may be either fully or partially interlocked.
+<ul>
+<li>you replace clock signals with control signals - it never gives up until its successful - which is why you need to add some sort of secondary mechanism to force it to terminate</li>
+<li>adapts to the speed of the devices</li>
+</ul></li>
+<li><strong>Semi-Synchronous Data Transfer</strong>: The transfer of data between communicating entities which have a common view of time (a global clock), however permit variable transfer times. The transfer times are an integral number of clock cycles in length where The actual number of clock cycles is somewhat under the control of the slave.
+<ul>
+<li>most popular - essentially designed as synchronous, with some changes</li>
+<li>we introduce a new signal, often called the WAIT signal</li>
+</ul></li>
+</ul>
+<h3 id="bus-terminology">Bus Terminology</h3>
+<p>Bus terminology was introduced in Chapter V of the notes and the slides have not been repeated here, although the material naturally fits here in the flow of the notes.
+The notes are found at bus terminology <a href="../../output/Section_5/#bus-terminology">(starting on page 129)</a> . In bus terminology the following terms were defined:</p>
+<ul>
+<li>Access Time (<span class="math inline">T_{Access}</span>)</li>
+<li>Store Time (<span class="math inline">T_{Store}</span>)</li>
+<li>Skew Time (<span class="math inline">T_{Skew}</span>)</li>
+<li>Margin Time (<span class="math inline">T_{Margin}</span>): you often have two</li>
+<li>Address Propagation delay (<span class="math inline">t_{PA}</span>)</li>
+<li>Data Propagation delay (<span class="math inline">t_{PD}</span> )</li>
+<li>Bus Propagation delay (<span class="math inline">t_{p}</span>)</li>
+<li>Setup Time (<span class="math inline">T_{Setup}</span>)</li>
+<li>Hold Time (<span class="math inline">T_{Hold}</span>)<br />
+</li>
+</ul>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>access time and store times are mutually exclusive, at no point are you doing the two at the same time atleast in the context of the bus</li>
+<li>setup and hold times are involved everywhere because you are always reading or writing to a register which have a setup and hold time</li>
+</ul>
+<h3 id="bus-operation-sequence">Bus Operation Sequence</h3>
+<ul>
+<li>There is more to a bus transfer than simply applying address and data.</li>
+<li>Typical sequence (read):
+<ul>
+<li><em>[MASTER]</em> Get bus (arbitration - see next section): In modern devices there is not just one device controlling the bus any more</li>
+<li><em>[MASTER]</em> Apply address value and direction control signal(s) (read) to address lines</li>
+<li><em>[MASTER]</em> Be sure slave is ready</li>
+<li><em>[SLAVE]</em> Provide data</li>
+<li><em>[MASTER]</em> Accept data</li>
+</ul></li>
+</ul>
+<h2 id="synchronous-bus-transfer">Synchronous Bus Transfer</h2>
+<h3 id="synchronous-bus-read">Synchronous Bus Read</h3>
+<h4 id="block-diagram">Block Diagram</h4>
+<p>Consider the following structure
+- Clock and R/W have been used for signalling in this case</p>
+<figure>
+<img src="../../attachments/structure-bus-read-interface.png" alt="structure-bus-read-interface" class="responsive-img" /><figcaption>structure-bus-read-interface</figcaption>
+</figure>
+<h4 id="ladder-diagram">Ladder Diagram</h4>
+<figure>
+<img src="../../attachments/structure-bus-read-ladder.png" alt="structure-bus-read-ladder" class="responsive-img" /><figcaption>structure-bus-read-ladder</figcaption>
+</figure>
+<h4 id="timing-diagram">Timing Diagram</h4>
+<figure>
+<img src="../../attachments/structure-bus-read-timing-2.png" alt="structure-bus-read-timing-2" class="responsive-img" /><figcaption>structure-bus-read-timing-2</figcaption>
+</figure>
+<h4 id="factors-limiting-bus-read-clock-rate">Factors Limiting Bus Read Clock Rate</h4>
+<p>For a READ operation (assuming a single clock synchronous bus):</p>
+<ul>
+<li>After the Master (Rising) edge of clock:
+<ul>
+<li>Propagation delay for the address going to the slave (<span class="math inline">t_{PA}</span>)</li>
+<li>Bus skew delay (<span class="math inline">t_{Skew}</span>)</li>
+<li><span class="math inline">t^{minimum, Read}_{phase1} = t_{PA} + t_{Skew}</span></li>
+</ul></li>
+<li>After the Slave (Falling) edge of the clock:
+<ul>
+<li>Address decode time at the slave (<span class="math inline">t_{Select}</span>)</li>
+<li>Response time (Read time) of the slave device (<span class="math inline">t_{Access}</span>)</li>
+<li>Propagation delay for the data along the data bus (<span class="math inline">t_{PD}</span> )</li>
+<li>Skew delay (<span class="math inline">t_{Skew}</span>)</li>
+<li>Setup time (<span class="math inline">t_{Setup}</span>) at the master latch</li>
+<li><span class="math inline">t^{minimum, Read}_{phase2} = t_{Select} + t_{Access} + t_{PD} + t_{Skew} + t_{Setup}</span></li>
+</ul></li>
+</ul>
+<p><strong>Notes</strong></p>
+<ul>
+<li>Only if we’re doing one isolated read do we get that minimum time above, as soon as you multiple reads, you need to add <span class="math inline">t_{Hold}</span> back to the calculation</li>
+</ul>
+<h4 id="minimum-bus-cycle-time">Minimum Bus Cycle Time</h4>
+<ul>
+<li>Recall that in the case of consecutive cycles, the second cycle must delay for <span class="math inline">t_{Hold}</span> at the start of phase 1. Thus, the revised upper bound on phase 1 time is:
+<span class="math inline">t^{minimum, Read}_{phase1} = t_{PA} + t_{Skew} + t_{Hold}</span><br />
+<br />
+</li>
+</ul>
+<p>These expressions can be used to derive the minimum time for a synchronous bus read cycle. Assume that the access time for the slowest interface permitted on the bus is <span class="math inline">t_{Access}^{Max}</span></p>
+<p><span class="math display">T^{Optimized, Synchronous, Read}_{bus cycle} = t^{minimum, Read}_{phase 1} + t^{minimum, Read}_{phase 2}</span>
+<span class="math display">=t_{PA} + t_{Skew} + t_{Hold} + t_{Select} + t^{Max}_{Acess} + t_{PD} + t_{Skew} + t_{Setup}</span>
+The optimized clock is unlikely to have a 50% duty cycle.<br />
+if you cancel out the common terms, <span class="math inline">t_{Hold}</span> should equal <span class="math inline">t_{Select} + t^{Max}_{Acess} + t_{Setup}</span> for 50% clock cycle which is pretty much impossible</p>
+<h4 id="clock-timing-alternatives">Clock Timing Alternatives</h4>
+<figure>
+<img src="../../attachments/structure-multiphase-clocks.png" alt="structure-multiphase-clocks" class="responsive-img" /><figcaption>structure-multiphase-clocks</figcaption>
+</figure>
+<h4 id="two-phase-clocks---ladder-diagram">Two Phase Clocks - Ladder Diagram</h4>
+<figure>
+<img src="../../attachments/structure-bus-read-ladder-2clock.png" alt="structure-bus-read-ladder-2clock" class="responsive-img" /><figcaption>structure-bus-read-ladder-2clock</figcaption>
+</figure>
+<h3 id="synchronous-bus-write">Synchronous Bus Write</h3>
+<h4 id="block-diagram-1">Block Diagram</h4>
+<figure>
+<img src="../../attachments/structure-bus-write-interface.png" alt="structure-bus-write-interface" class="responsive-img" /><figcaption>structure-bus-write-interface</figcaption>
+</figure>
+<h4 id="ladder-diagram-1">Ladder Diagram</h4>
+<figure>
+<img src="../../attachments/structure-bus-write-ladder.png" alt="structure-bus-write-ladder" class="responsive-img" /><figcaption>structure-bus-write-ladder</figcaption>
+</figure>
+<h4 id="timing-diagram-1">Timing Diagram</h4>
+<figure>
+<img src="../../attachments/structure-bus-write-timing-2.png" alt="structure-bus-write-timing-2" class="responsive-img" /><figcaption>structure-bus-write-timing-2</figcaption>
+</figure>
+<h4 id="register-clock-derivation">Register Clock Derivation</h4>
+<figure>
+<img src="../../attachments/structure-register-clock-derivation.png" alt="structure-register-clock-derivation" class="responsive-img" /><figcaption>structure-register-clock-derivation</figcaption>
+</figure>
+<p>The expressions for the clock signals are the following:
+<span class="math display">Normal Clock = \overline{Clock} \cdot \text{Address Decoded} \cdot \overline{R/W} </span>
+<span class="math display">Register Clock = \overline{(\overline{Clock} \cdot \text{Address Decoded} \cdot \overline{R/W} )}</span></p>
+<h4 id="factors-limiting-bus-write-clock-rate">Factors Limiting Bus Write Clock Rate</h4>
+<p>For a WRITE operation (assuming a single clock synchronous bus):</p>
+<ul>
+<li>After the Master (Rising) edge of clock:
+<ul>
+<li>Propagation delay for the address and the data going to the slave (<span class="math inline">t_P = max(t_{PA}, t_{PD})</span>)</li>
+<li>Bus skew delay (tSkew)</li>
+<li><span class="math inline">t^{minimum, Write}_{phase1} = t_P + t_{Skew}</span></li>
+</ul></li>
+<li>After the Slave (Falling) edge of the clock:
+<ul>
+<li>Address decode time at the slave (<span class="math inline">t_{Select}</span>)</li>
+<li>Time to initiate storage in the slave device (<span class="math inline">t_{Store}</span>)</li>
+<li>Setup time (<span class="math inline">t_{Setup}</span>) at the slave latch</li>
+<li><span class="math inline">t^{minimum, Write}_{phase2} = t_{Select} + t_{Store} + t_{Setup}</span></li>
+</ul></li>
+</ul>
+<h4 id="minimum-bus-cycle-time-1">Minimum Bus Cycle Time</h4>
+<ul>
+<li><p>Recall that in the case of consecutive cycles, the second cycle must delay for <span class="math inline">t_{Hold}</span> at the start of phase 1. Thus, the revised upper bound on phase 1 time is:</p>
+<p><span class="math inline">t^{minimum, Write}_{phase1} = t_{P} + t_{Skew} + t_{Hold}</span><br />
+<br />
+</p></li>
+</ul>
+<p>These expressions can be used to derive the minimum time for a synchronous bus write cycle. Assume that the store time for the slowest interface permitted on the bus is <span class="math inline">t_{Store}^{Max}</span></p>
+<p><span class="math display">T^{Optimized, Synchronous, Write}_{bus cycle} = t^{minimum, Write}_{phase 1} + t^{minimum, Write}_{phase 2}</span>
+<span class="math display">=t_{P} + t_{Skew} + t_{Hold} + t_{Select} + t^{Max}_{Store} + t_{Setup}</span></p>
+<p>The optimized clock is unlikely to have a 50% duty cycle.<br />
+Using same logic as for <a href="#minimum-bus-cycle-time">reads</a>.</p>
+<h4 id="two-phase-clocks---ladder-diagram-1">Two Phase Clocks - Ladder Diagram</h4>
+<figure>
+<img src="../../attachments/structure-bus-write-ladder-2clock.png" alt="structure-bus-write-ladder-2clock" class="responsive-img" /><figcaption>structure-bus-write-ladder-2clock</figcaption>
+</figure>
+<h3 id="comments-on-clock-rate">Comments on Clock Rate</h3>
+<ul>
+<li>The clock rate for bus reads and bus writes are limited</li>
+<li>A synchronous bus system is constrained to a single clock period and thus, the slower of the two clock rates must be used to determine the optimized time for a bus cycle</li>
+<li>Often but not always, the bus read clock rate will be the slower rate and the one that limits the clock period</li>
+</ul>
+<p><strong>Notes</strong>:<br />
+</p>
+<ul>
+<li>This affected PC architecture for the longest time</li>
+<li>When you’re designing a clock, then you look at the slowest times for each of the phases.</li>
+</ul>
+<h2 id="asynchronous-bus-transfer">Asynchronous Bus Transfer</h2>
+<h3 id="asynchronous-buses">Asynchronous Buses</h3>
+<ul>
+<li>Synchronous buses must run at the speed of the slowest interface/device.</li>
+<li>Asynchronous schemes permit the speed of the bus to be compatible with a wide variety of device/interface speeds.</li>
+</ul>
+<h3 id="general-read">General Read</h3>
+<h4 id="block-diagram-2">Block Diagram</h4>
+<figure>
+<img src="../../attachments/structure-asynchronous-bus-read-interface.png" alt="structure-asynchronous-bus-read-interface" class="responsive-img" /><figcaption>structure-asynchronous-bus-read-interface</figcaption>
+</figure>
+<h3 id="fully-interlocked-asynchronous-read">Fully Interlocked Asynchronous Read</h3>
+<h4 id="ladder-diagram-2">Ladder Diagram</h4>
+<p><img src="../../attachments/structure-full-interlock-read-ladder.png" alt="structure-full-interlock-read-ladder" class="responsive-img" />
+</p>
+<ul>
+<li>If there are few possible masters, then it would also be reasonable to allow for <span class="math inline">t_{Skew}</span> in the masters. It would be possible to place the responsibility for <span class="math inline">t_{Skew}</span> in master and slave as shown.</li>
+<li>If the responsibility for <span class="math inline">t_{Skew}</span> were to be placed at the slave, it would likely increase the complexity of the slave.</li>
+</ul>
+<h4 id="transfer">Transfer</h4>
+<h5 id="at-master">At Master</h5>
+<figure>
+<img src="../../attachments/buses-asynchronous-bus-read-at-master.png" alt="buses-asynchronous-bus-read-at-master" class="responsive-img" /><figcaption>buses-asynchronous-bus-read-at-master</figcaption>
+</figure>
+<p>READ time between D and E is determined within the master.
+</p>
+<h5 id="at-slave">At Slave</h5>
+<figure>
+<img src="../../attachments/buses-asynchronous-bus-read-at-slave.png" alt="buses-asynchronous-bus-read-at-slave" class="responsive-img" /><figcaption>buses-asynchronous-bus-read-at-slave</figcaption>
+</figure>
+<ul>
+<li>Master signal is driven by the master interface. The master allows for all bus skew!!</li>
+<li>Slave signal is driven by the slave interface. A much simpler signal, as it does not use the bus characteristics to constrain the timing of its signals.</li>
+</ul>
+<h3 id="fully-interlocked-asynchronous-write">Fully Interlocked Asynchronous Write</h3>
+<h4 id="transfer-1">Transfer</h4>
+<h5 id="at-master-1">At Master</h5>
+<figure>
+<img src="../../attachments/buses-asynchronous-bus-write-at-master.png" alt="buses-asynchronous-bus-write-at-master" class="responsive-img" /><figcaption>buses-asynchronous-bus-write-at-master</figcaption>
+</figure>
+<p><strong>Notes</strong>
+- There is no hold time here because the data is actually going away at a very later time, i.e. <span class="math inline">t_P + t_{Skew} + t_{M2}</span> are greater than <span class="math inline">t_{Hold}</span></p>
+<h5 id="at-slave-1">At Slave</h5>
+<p>Two options exist for the rising edge of the slave signal:</p>
+<ul>
+<li><strong>Optimistic Slave</strong>: Notify the master as soon as the address is decoded assuming that the data may be saved quickly in a temporary register and stored in its final location later.</li>
+<li><strong>Conservative Slave</strong>: Wait until the data has been stored in its final location prior to notifying the master.</li>
+</ul>
+<figure>
+<img src="../../attachments/buses-asynchronous-bus-write-at-slave.png" alt="buses-asynchronous-bus-write-at-slave" class="responsive-img" /><figcaption>buses-asynchronous-bus-write-at-slave</figcaption>
+</figure>
+<h4 id="factors-limiting-bus-speed">Factors Limiting Bus Speed</h4>
+<ul>
+<li>Skew time: must be known by either master or slave, depending on bus implementation</li>
+<li>Propagation time: unknown … bounds?</li>
+<li>Setup time: may need to be known by master</li>
+<li>Hold times: known by master or slave depending on owner of latch.</li>
+<li>Other device times: access time</li>
+</ul>
+<h4 id="minimum-read-times-asynchronous-and-synchronous">Minimum Read Times: Asynchronous and Synchronous</h4>
+<p>Consider the time for an optimized, fully interlocked, asynchronous bus. See <a href="#at-master">timing diagram</a> for more information.
+<span class="math display">T^{\text{Asynchronous, Fully-Interlocked, Read}}_{Bus\; Cycle} = 2 \times t_{P} +t_{Skew} +t_{Select} +t^{Current\; Transfer}_{Access}  + 2 \times t_{P} +t_{Skew} +t_{Setup}</span></p>
+<p><span class="math display">= 4 \times t_{P} + 2 \times t_{Skew} +t_{Select} +t^{Current\; Transfer}_{Access}  +t_{Setup}</span>
+An average value for <span class="math inline">T^{\text{Asynchronous, Fully-Interlocked, Read}}_{Bus\; Cycle}</span> can be derived using <span class="math inline">t_{Average}</span> as <span class="math inline">t_{Access}</span>
+Recall that the optimized synchronous bus read cycle was:
+<span class="math display">T^\text{Optimized, Synchronous, Read}_{bus\; cycle} = 2 \times  t_P + 2 \times  t_{Skew} + t_{Select} + t^{Maximum}_{Access} + t_{Setup} + t_{Hold}  </span>
+NOTE: <span class="math inline">t_{PA}</span> and <span class="math inline">t_{PD}</span> have been replaced with <span class="math inline">t_P</span> in this expression to allow easy comparison with the previous expression<br />
+<strong>Notes</strong>:</p>
+<ul>
+<li>Synchronous wins if the propagation times are too large, but Asynch wins when you have a larger variery of <span class="math inline">t_{Access}^{\text{Current Transfer}}</span></li>
+</ul>
+<h4 id="fully-interlocked-asynchronous-transfers-vs-synchronous-transfers">Fully-Interlocked Asynchronous Transfers vs Synchronous Transfers</h4>
+<ul>
+<li>Fully-Interlocked Asynchronous Transfers
+<ul>
+<li>Slower than an optimized synchronous bus in situations where all of the interfaces attached to the bus have similar performance characteristics since 1 transfer requires at least <span class="math inline">4 \times t_P</span></li>
+<li>Supports a wide range of device/interface response times</li>
+<li>Verifies real values are being read. In the event of an attempt to access a non-existent location, there is usually a time-out for the bus</li>
+<li>Asynchronous transfers treat the data as persistent</li>
+</ul></li>
+<li>Synchronous Transfers
+<ul>
+<li>Transfer rate is limited by the slowest interface attached to the bus</li>
+<li>Synchronous transfers are faster if all of the attached interfaces have comparable performance characteristics</li>
+<li>Synchronous transfers treat data as transient</li>
+</ul></li>
+</ul>
+<h3 id="partially-interlocked-asynchronous-bus-transfers">Partially Interlocked Asynchronous Bus Transfers</h3>
+<ul>
+<li>Based on constraining slave signals to a fixed duration.</li>
+<li>Non-interlocked transitions must obey timing constraints.</li>
+<li>Reduces the number of bus propagation delays to 2 from 4.</li>
+<li>Consider creating your own ladder diagram for this problem. There are some interesting considerations related to Master and Slave timing relationships.
+<img src="../../attachments/partial.png" alt="partial" class="responsive-img" /></li>
+</ul>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>We’re basically trying to remove the propagation delays at the end of the Slave</li>
+<li>It could potentially reduce the accuracy of your data<br />
+<br />
+</li>
+</ul>
+<p><strong>ANALOGY</strong>: In synchronous it was fixed for phase 1, and fixed for phase 2, for partially we have changing time for phase 1, and then a part of phase 2 is fixed</p>
+<h4 id="fully-interlocked-vs-partially-interlocked-asynchronous">Fully Interlocked vs Partially Interlocked Asynchronous</h4>
+<ul>
+<li>Consider the time for a fully interlocked, asynchronous bus. See previous derivation (starting on page 449) .
+<span class="math display">T^{Asynchronous, Fully-interlocked, Read}_{bus\; cycle} = 2 \times t_{Skew} + 4 \times t_p +t_{Select} + t_{Setup} + t^{\text{Current Transfer}}_{Access}</span>
+as compared to the partially interlocked cycle time (also based on the actual transfer time).
+<span class="math display">T^\text{Asynchronous, Partially-interlocked, Read}_{bus\; cycle} = t_{Skew} + t_{Select} + 2 \times  t_p + t^\text{Current Transfer}_\text{Access} +t_{Delay}</span></li>
+</ul>
+<p>This version assumes that <span class="math inline">t_{Delay}</span> can be set to any value.</p>
+<h4 id="synchronous-fully-interlocked-asynchronous-and-partially-interlocked-asynchronous">Synchronous, Fully-Interlocked Asynchronous and Partially-Interlocked Asynchronous</h4>
+<p>the parameters on the top of the table are common to all</p>
+<table>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Diagram</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="../../attachments/comparison_table_synchasynch.png" alt="comparison_table_synchasynch" class="responsive-img" /></td>
+<td><img src="../../attachments/synchasynch_comparison.png" alt="synchasynch_comparison" class="responsive-img" /></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>synchronous behaves the same, because it is designed for the slowest device</li>
+</ul>
+<h2 id="semi-synchronous-bus-transfer">Semi-Synchronous Bus Transfer</h2>
+<ul>
+<li>Hybrid of synchronous and asynchronous techniques
+<ul>
+<li>Asynchronous transfers require 4 bus propagation delays in addition to any time required by the slave to respond to the request by the master</li>
+<li>Synchronous transfers require all transfers to be at the rate specified by the bus clock</li>
+<li>Semi-synchronous bus data transfers are implemented if most transfers are fast. If a device is slow, it is possible to slow the transfer if the interface can notify the master that the transfer cannot be completed at the time expected.</li>
+</ul></li>
+<li>Transfer timing is based on 2 signals
+<ul>
+<li>Clock from the bus and</li>
+<li>Wait (or Ready or Hold) from the Slave.</li>
+</ul></li>
+<li>Only constraint is that the (slave) interface must be able to remove the Ready (or assert a Wait) in time to stop the master from proceeding to read the data.</li>
+<li>Speed of synchronous transfers and the flexibility of asynchronous transfers</li>
+</ul>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>The signal might be called <code>READY</code> or <code>WAIT</code>, basically means the same thing albeit asserted at different things</li>
+<li>The restriction on completion in one clock cycle is removed
+<ul>
+<li>A judgement needs to be made now to decide whether or not the transaction can be finished in the given clock cycle or not</li>
+<li>We need to still respect setup and hold times, to make sure that we can tell the other side whether or not we are going to finish the transaction or not</li>
+</ul></li>
+<li>Normally the slave only does work in the second half of the clock, and if you <strong>do</strong> use an extra clock cycle then you get the entire clock cycle and not just the first clock cycle</li>
+</ul>
+<h3 id="read">Read</h3>
+<h4 id="ladder-diagram-3">Ladder Diagram</h4>
+<figure>
+<img src="../../attachments/structure-semisynch-read-ladder.png" alt="structure-semisynch-read-ladder" class="responsive-img" /><figcaption>structure-semisynch-read-ladder</figcaption>
+</figure>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>Every transaction takes one cycle, and if you’re using 2 cycles as above, then you have at least one wait</li>
+<li>Generally there might be an upper bound on the number of consecutive waits. For PCI, its <strong>EIGHT</strong>.
+<ul>
+<li>The system will basically assume you’re no longer operational and will basically ignore you.</li>
+</ul></li>
+<li>The Master waits until the WAIT is de-asserted</li>
+</ul>
+<h4 id="timing-diagram-single-clock">Timing Diagram (Single Clock)</h4>
+<figure>
+<img src="../../attachments/structure-semi-synchronous-bus-read-timing.png" alt="structure-semi-synchronous-bus-read-timing" class="responsive-img" /><figcaption>structure-semi-synchronous-bus-read-timing</figcaption>
+</figure>
+<h3 id="write">Write</h3>
+<h4 id="ladder-diagram-4">Ladder Diagram</h4>
+<figure>
+<img src="../../attachments/structure-semisynch-write-ladder.png" alt="structure-semisynch-write-ladder" class="responsive-img" /><figcaption>structure-semisynch-write-ladder</figcaption>
+</figure>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>Here again you have one <code>WAIT</code> cycle</li>
+</ul>
+<h2 id="split-cycle-protocols">Split Cycle Protocols</h2>
+<ul>
+<li>In the bus systems discussed so far, the bus is utilized (held) by the bus master until the current transfer completes or times out.</li>
+<li>Consider an embedded system that supports several possible bus masters and a range of device speeds including very slow devices:
+<ul>
+<li>Instead of holding the bus for several bus cycles, a slow bus read transaction can be split into two operations: transfer initialization and transfer completion</li>
+<li>This is known as a split cycle protocol:
+<ol type="1">
+<li>Master sends address to the slave and requests a read of that location</li>
+<li>Master releases the bus</li>
+<li>Slave requests to become the bus master to write the result of the previous request back to the original master</li>
+</ol></li>
+</ul></li>
+<li>Note a split-cycle protocol can implemented on any bus that supports multiple bus masters</li>
+</ul>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>We do some other work while the SLAVE is ready. The device needs some way to TAKE control of the bus to force the data to the other side</li>
+<li>When you have a DMA controller, it could be initiating the transaction, it could give up control when its “working”, and then return its result once the device is done.
+<ul>
+<li>DMA controllers are generally designed for both read and write to registers</li>
+<li>The CPU does not have support for memory mapped IO generally.</li>
+</ul></li>
+<li>Essentially you’re splitting it into one read cycle, and one write cycle. OR if you really look at it, it’s basically 2 write cycles.</li>
+<li><strong>THIS COULD BE IMPLEMENTED ON ANY BUS CASE, NOT JUST SEMI-SYNCHRONOUS</strong>
+<ul>
+<li>it doesn’t make sense to do this for a WRITE, because you are providing all the data at the same time, but it makes more sense for a READ because you have the <span class="math inline">t_{access}</span> time</li>
+</ul></li>
+</ul>
+<h4 id="ladder-diagram-5">Ladder Diagram</h4>
+<figure>
+<img src="../../attachments/split_ladder.png" alt="split_ladder" class="responsive-img" /><figcaption>split_ladder</figcaption>
+</figure>
+<h2 id="questions-of-interest">Questions of Interest</h2>
+<h3 id="data-transfer-questions">Data Transfer Questions</h3>
+<ul>
+<li><p>Terms and times discussed in this section include: Synchronous Data Transfer, Asynchronous Data Transfer, Semi-synchronous Data Transfer, Split-cycle Data Transfer, Address propagation delay, Data propagation delay, Bus propagation delay, Setup Time, Hold Time, Select Time, Margin Time, Access Time, Store Time and Skew Time.</p></li>
+<li><p>Engineering Questions.</p>
+<ul>
+<li><p>Select any two of the bus structures and determine under which circumstances each of them would be preferred.</p></li>
+<li><p>Either the Master or the Slave in a fully interlocked asynchronous bus could be responsible for de-skewing, that is allowing for the skew time.</p>
+<p>Give circumstances when the slave should also be responsible for dealing with skew. Give circumstances when it should be only the responsibility for the bus master.</p></li>
+</ul></li>
+<li><p>Draw a timing diagram for a semi-synchronous bus write transaction and label all timing constraints. List all signal dependencies in a fully-interlocked asynchronous bus.</p></li>
+<li><p>Under what circumstances might a split cycle protocol be beneficial?</p></li>
+<li><p>Why is it unlikely for semi-synchronous buses to support split cycle protocols?</p></li>
+<li><p><strong>(or)</strong> In the notes it was mentioned that a split-cycle bus can be constructed from: Synchronous, Asynchronous or Semi-Synchronous buses.</p></li>
+<li><p>Why is an implementation based on synchronous synchronization the most reasonable?</p></li>
+<li><p>Can a single wire have skew?<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</p></li>
+</ul>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

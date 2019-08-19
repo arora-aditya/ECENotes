@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>inclass.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#ece-252-in-class-exercises-guide">ECE 252 In-Class Exercises Guide</a><ul>
+<li><a href="#starting-with-gitlab">Starting with Gitlab</a></li>
+<li><a href="#connecting-to-eceubuntu">Connecting to <code>eceubuntu</code></a></li>
+<li><a href="#forking-the-repository">Forking the Repository</a></li>
+<li><a href="#use-of-git">Use of <code>git</code></a></li>
+<li><a href="#compiling-and-running-the-exercise">Compiling and Running the Exercise</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="ece-252-in-class-exercises-guide" class="unnumbered">ECE 252 In-Class Exercises Guide</h1>
+<p>The exercises are designed and tested using the <code>eceubuntu</code> servers (connection and setup guide below). Although you can develop and test the code on your own laptop, course staff will only support running on <code>eceubuntu</code>, so if you’re having problems on your laptop we’ll say try it there.</p>
+<p>Preferably in advance of the actual first exercise for the term, you should do the following things:</p>
+<ul>
+<li><p>Set up and configure your <a href="git.uwaterloo.ca">git.uwaterloo.ca</a> account.</p></li>
+<li><p>Test if you can log in via ssh to <code>eceubuntu</code> servers. If you can’t, please contact Eric Praetzel, part of the ECE lab staff, at <code>praetzel@uwaterloo.ca</code> .</p></li>
+</ul>
+<h2 id="starting-with-gitlab" class="unnumbered">Starting with Gitlab</h2>
+<p>Gitlab is a web-based software product for managing source control repositories. The University of Waterloo runs this as a service at <a href="git.uwaterloo.ca">git.uwaterloo.ca</a>. If you navigate there, you’ll be presented with this login screen, where you can log in with your Central Authentication Service credentials (same ones for Quest, etc.).</p>
+<p><img src="images/gitlab-login.png" alt="image" style="width:60.0%" /></p>
+<p>If you haven’t logged in before and haven’t set up your account before, then you need to do some one-time setup. If you’ve done that already, you can skip to the next section.</p>
+<p>When logged in, you can set up your profile (to whatever detail you wish). But most importantly you will need to generate an secure shell key. Under “profile settings”, click on SSH Keys, as shown below. In the image, a red box surrounds the the link you can click on for instructions about how to generate a new SSH Key, or find yours if you already have one. If you have an SSH Key already, you should also put it on <code>eceubuntu</code> as well; if you don’t then you can generate yours on the server so you don’t have to copy it.</p>
+<p><img src="images/gitlab-sshkey.png" alt="image" style="width:90.0%" /></p>
+<p>You need to add this key to your gitlab account so that when you want to interact with the git repository, the key is used to identify you.</p>
+<h2 id="connecting-to-eceubuntu" class="unnumbered">Connecting to <code>eceubuntu</code></h2>
+<p>The <code>eceubuntu</code> name refers to a grouping of servers (<code>eceubuntu1</code>, <code>eceubuntu2</code>,...). Although the servers have some hardware differences, they are not relevant for the purposes of the exercise. They also share a file system, so any one is as good as any others, and if you find that one server is particularly busy you can move to another one and pick up where you left off. Even if you are not an ECE student, being registered in an ECE course should grant you access to the server.</p>
+<p>Your login credentials (i.e., username and password) are the same as your WatIAM ones. The server full name is <code>eceubuntu.uwaterloo.ca</code> and most of the other options like port, etc. can be left as the defaults.</p>
+<p>If you’re using Linux or macOS, open a terminal and connect by typing <code>ssh USERID@eceubuntu.uwaterloo.ca</code>, obviously replacing USERID with your actual userid. To connect to <code>eceubuntu</code> you need to be inside the campus firewall, except <code>ecelinux4.uwaterloo.ca</code> (and from there you should follow the message and connect to another server). And then you are connected.</p>
+<p>If you’re using Windows 10, you can set up Powershell to be able to use <code>ssh</code> directly. Instructions are at <a href="https://www.howtogeek.com/336775/how-to-enable-and-use-windows-10s-built-in-ssh-commands/">https://www.howtogeek.com/336775/how-to-enable-and-use-windows-10s-built-in-ssh-commands/</a> . If that’s all set up and working then you just connect using the same command as in Linux/macOS.</p>
+<p>You can also use a third party client to connect such as PuTTY or MobaXterm or anything else that you like. For space reasons I won’t repeat exactly how to configure them, but they are relatively self-explanatory. You can use any client you want to connect.</p>
+<p>If you want to transfer files between your local machine and the <code>eceubuntu</code> servers you can use a SFTP (SSH File Transfer Protocol, or Secure File Transfer Protocol) client. If you do the whole exercise on <code>eceubuntu</code> then you don’t have to move files.</p>
+<p>If you have everything set up correctly, when you log in you will be presented with a little login message (news and updates and information from the lab staff, which you should read) and be presented with the command prompt. Ready to go!</p>
+<h2 id="forking-the-repository" class="unnumbered">Forking the Repository</h2>
+<p>In the in-class exercise you’ll be provided the URL of that exercise. Navigate to that page and look for the “Fork” button. Click it.</p>
+<p><img src="images/gitlab-fork.png" alt="image" style="width:30.0%" /></p>
+<p>As the gitlab description says: a fork is a copy of a project; forking a repository allows you to make changes without affecting the original project. Fork it into your personal space. This takes a moment, but you should quickly get the message “The project was successfully forked.” Then you have your own copy of the project and this is the one that you interact with.</p>
+<p>Now you need to update the security settings so nobody else can see your repository, outside of the course staff. Go to your project settings (top right menu, gear icon) and click edit project:</p>
+<p><img src="images/gitlab-settings.png" alt="image" style="width:25.0%" /></p>
+<p>Choose the private setting “Private” as below:</p>
+<p><img src="images/gitlab-private.png" alt="image" style="width:80.0%" /></p>
+<p>Then you need to add the course account to the repository so that course staff can review your code after you’re finished. So once again open settings (gear icon) menu and this time choose Members:</p>
+<p><img src="images/gitlab-members.png" alt="image" style="width:25.0%" /></p>
+<p>And add the course instructor (jzarnett) in the area labelled 1, then choose role “Developer” (box labelled 2), then click “Add To Project”:</p>
+<p><img src="images/gitlab-member-add.png" alt="image" /></p>
+<p>After that you are ready to check the code out and begin working on it.</p>
+<h2 id="use-of-git" class="unnumbered">Use of <code>git</code></h2>
+<p>If you would like to learn more about <code>git</code> or are just interested in the full reference you can use <a href="https://git-scm.com/book/en/v1/Getting-Started">https://git-scm.com/book/en/v1/Getting-Started</a> (or just search the particular command you would like to use). The commands shown here are the absolute bare minimum you need to know for a scenario where (1) you’ve never used <code>git</code> before, and (2) you work only on <code>eceubuntu</code> and don’t incorporate changes from anywhere else or any other users.</p>
+<p>If you haven’t used git before, you need to set your name and email. So use these commands, obviously replacing FIRSTNAME, LASTNAME, and USERID with the actual values.</p>
+<pre><code>git config --global user.name &quot;FIRSTNAME LASTNAME&quot;
+git config --global user.email &quot;USERID@edu.uwaterloo.ca&quot;</code></pre>
+<p>When checking out a repository for the first time, use <code>git clone</code>, which takes as an argument the URL of the repository to clone. The URL for your repository is found in gitlab:</p>
+<p><img src="images/gitlab-clone.png" alt="image" style="width:90.0%" /></p>
+<p>Make sure you choose the one from YOUR repository and not the one from the course instructor, otherwise you won’t be able to submit!</p>
+<p>Copy the value from the highlighted box. It takes a moment to clone the repository. If it’s not going well, make sure you have your ssh key set up.</p>
+<p>Then you’re ready to start working on the code. When you have made some changes you can add those changes to a “commit” using the command <code>git add</code>, such as <code>git add example.c</code>. To actually save those changes to your local repository, use the command <code>git commit</code>. This will tell you which files are being committed, and ask you for a commit message. You should write some meaningful message describing the work done.</p>
+<p>You need to send any commits you have made back to gitlab using <code>git push</code>. Make sure your commits include all changes that you want to submit; if you’ve modified files since your last commit those changes do not get pushed unless they are part of a commit. You can push as many times as you like.</p>
+<p>You can verify your changes were successfully pushed using the <a href="git.uwaterloo.ca">git.uwaterloo.ca</a> web UI. Check to make sure the files you’ve changed are up to date there. The course staff sees what is in gitlab so make sure it’s correct!</p>
+<h2 id="compiling-and-running-the-exercise" class="unnumbered">Compiling and Running the Exercise</h2>
+<p>The code that has been provided comes with a <code>Makefile</code>. This means that to compile the code all you need to do is run the command <code>make</code> in the directory where the code is checked out. This runs the compiler (<code>gcc</code>) with the correct arguments so that you don’t have to type them every time, for your convenience. You don’t need to modify the <code>Makefile</code> (most likely).</p>
+<p>When compiling with <code>make</code> it still runs the compiler and you still see the compiler output on the console. If all goes well, an executable file is generated. If there are errors, then no executable file is generated (and the old one might still exist, if any). If there are warnings but no errors, the executable is still generated, but it is worthwhile to try to resolve the warnings. A quick internet search for the error you’re having will help in resolving it.</p>
+<p>To run the code, if the executable file is called <code>example</code>, then you start it with <code>./example</code>. The <code>./</code> is important because it means you explicitly indicate you want to run the executable file in the current directory. Without intending to get too far off track, this is a security measure – it means that if someone also called their program <code>ls</code> then you might run that one accidentally. Whoops. If the program takes arguments, then they follow on the same line: <code>./example argument1 argument2</code>.</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

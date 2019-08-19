@@ -1,0 +1,30 @@
+<link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+<link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-137390799-2');
+
+
+  window.onload = function(){
+    let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+    if(parseInt(num) >= 11){
+    document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+    }
+  }
+
+  function next(){
+    let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+    let next = String(parseInt(num)+1);
+    if(next.length < 2){
+      next = "0" + next
+    }
+    if(parseInt(num) < 11){
+      window.location.pathname = window.location.pathname.replace(num, next);
+    }
+  }
+</script>

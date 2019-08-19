@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L16.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#producer-consumer-example">Producer-Consumer Example</a></li>
+<li><a href="#mutex-syntax">Mutex Syntax</a></li>
+<li><a href="#parallelizing-the-producer-consumer-solution">Parallelizing the Producer-Consumer Solution</a></li>
+</ul>
+</nav>
+<p>*<span>Classical Synchronization Problems: Producer-Consumer</span></p>
+<p>Various operating systems textbooks provide a few “classical problems”: some scenarios that are phrased in real-world terms but meant to be an analogy for a problem that operating systems will deal with. These standard or classic problems are used to test any newly-proposed synchronization or coordination scheme. The solutions make use of semaphores as the basis for mutual exclusion. We are going to examine three of them in-depth: the producer-consumer problem, the readers-writers problem, and the dining philosophers problem.</p>
+<p>The most common synchronization problem is the producer-consumer problem, also sometimes called the bounded-buffer-problem. Two processes share a common buffer that is of fixed size. One process is the producer: it generates data and puts it in the buffer. The other is the consumer: it takes data out of the buffer. This problem can be generalized to have <span class="math inline">p</span> producers and <span class="math inline">c</span> consumers, but for the sake of keeping the explanation simple, for now we will have just one of each <span class="citation" data-cites="mos"></span>.</p>
+<p>There are a couple of rules to be aware of. It is not possible to write into a buffer that is already full; if the buffer has capacity <span class="math inline">N</span> and there are currently <span class="math inline">N</span> items in it, the producer cannot write into the buffer and must wait until there is space. It is similarly not possible to read from an empty buffer; if the buffer has zero elements in it, the consumer cannot read from the buffer and must wait until there is something in there.</p>
+<p>To keep track of the number of items in the buffer, we will have some variable <code>count</code>. This is a variable shared between more than one thread, and therefore access to this should be controlled with mutual exclusion. Let us assume the maximum number of elements in the buffer is defined as <code>BUFFER_SIZE</code>.</p>
+<p>If busy-waiting is permitted, that is, we do not care if we are wasting CPU time, we can get away with one mutex, which we can call <code>mutex</code>. Each of the producer and consumer threads very likely run in an infinite loop on their own, but the code below is the sufficient to explain one iteration.</p>
+<p><span>2</span>
+<strong>Producer</strong></p>
+<pre><code>     1. [produce item]
+     2. added = false
+     3. while added is false
+     4.    wait( mutex )
+     5.    if count &lt; BUFFER_SIZE
+     6.        [add item to buffer]
+     7.        count++
+     8.        added = true
+     9.    end if
+    10.    post( mutex )
+    11. end while</code></pre>
+<p><strong>Consumer</strong></p>
+<pre><code>     1. removed = false
+     2. while removed is false
+     3.    wait( mutex )
+     4.    if count &gt; 0
+     5.        [remove item from buffer]
+     6.        count--
+     7.        removed = true
+     8.    end if
+     9.    post( mutex )
+    10. end while
+    11. [consume item]</code></pre>
+<p>While this accomplishes what we want, it is inefficient. Let’s add a new rule that says we want to avoid busy-waiting. Thus, when the producer is waiting for space it will be blocked and just as the consumer will be when the consumer is waiting for an element. To accomplish this, we will need two general semaphores, each with maximum value of <code>BUFFER_SIZE</code>. The first is called <code>items</code>: it starts at 0 and represents how many spaces in the buffer are full. The second is the mirror image <code>spaces</code>; it starts at <code>BUFFER_SIZE</code> and represents the number of spaces in the buffer that are currently empty.</p>
+<p><span>2</span>
+<strong>Producer</strong></p>
+<pre><code>     1. [produce item]
+     2. wait( spaces )
+     3. [add item to buffer]
+     4. post( items )</code></pre>
+<p><strong>Consumer</strong></p>
+<pre><code>     1. wait( items )
+     2. [remove item from buffer]
+     3. post( spaces )
+     4. [consume item]</code></pre>
+<p>The producer can continue to produce items until the buffer is full and the consumer can continue to consume items until the buffer is empty. This solution works okay, given two assumptions: (1) that the actions of adding an item to the buffer and removing an item from the buffer add to and remove from the “next” space; and (2) that there is exactly one producer and one consumer in the system. If we have two producers, for example, they might be trying to write into the same space at the same time, and this would be a problem.</p>
+<p>To generalize this solution to allow multiple producers and multiple consumers, what we need to do is add another binary semaphore, <code>mutex</code> (initialized to 1), effectively combining the previous solution with the one before it:</p>
+<p><span>2</span>
+<strong>Producer</strong></p>
+<pre><code>     1. [produce item]
+     2. wait( spaces )
+     3. wait( mutex )
+     4. [add item to buffer]
+     5. post( mutex )
+     6. post( items )</code></pre>
+<p><strong>Consumer</strong></p>
+<pre><code>     1. wait( items )
+     2. wait( mutex )
+     3. [remove item from buffer]
+     4. post( mutex )
+     5. post( spaces )
+     6. [consume item]</code></pre>
+<p>This situation should be setting off some alarm bells in your mind. In the synchronization patterns examined earlier, we mentioned the possibility of deadlock: all threads getting stuck. The hint that we might have a problem is one <code>wait</code> statement inside another. Unfortunately, seeing this pattern is not necessarily a guarantee that deadlock is going to happen (that would be too easy). This is, however, a sign that we need to analyze the code to determine if there is a problem.</p>
+<p>Reading through the psuedocode above, you should be able to reason that this solution will not get stuck. You may choose a strategy along the lines of “proof by contradiction” and try to come up with a scenario that leads to deadlock. If you are unable to find one, then you may have a suitable solution (though it might be best to have someone else check to be sure). This is not a substitute for a formal mathematical proof, but the logic in your analysis should be convincing. Consider an alternate solution:</p>
+<p><span>2</span>
+<strong>Producer</strong></p>
+<pre><code>     1. [produce item]
+     2. wait( mutex )
+     3. wait( spaces )
+     4. [add item to buffer]
+     5. post( items )
+     6. post( mutex )</code></pre>
+<p><strong>Consumer</strong></p>
+<pre><code>     1. wait( mutex )
+     2. wait( items )
+     3. [remove item from buffer]
+     4. post( spaces )
+     5. post( mutex )
+     6. [consume item]</code></pre>
+<p>This solution is very much like the one we are certain works, except we have swapped the order of the <code>wait</code> statements. As before, we need to analyze this code to determine if there is a problem. This solution does have the deadlock problem. Imagine at the start of execution, when the buffer is empty, the consumer thread runs first. It will wait on <code>mutex</code>, be allowed to proceed, and then will be blocked on <code>items</code> because the buffer is initially empty. The thread is blocked. When the producer thread runs, it waits on <code>mutex</code> and cannot proceed because the consumer thread is in the critical section there. So the producer is blocked and can never produce any items. Thus, we have deadlock. This situation could occur any time the buffer is empty.</p>
+<p>If the above pseudocode were implemented it is not a certainty that there will be a deadlock every time. In fact, the code will probably work fine most of the time. Once, however, we have found one scenario that can lead to deadlock, there is no need to look for other failure cases; we can write off this solution and replace it with a better one.</p>
+<p>But let’s get to doing an actual example! We will take some time to analyze this solution and understand how we got from the psuedocode above to the actual code below.</p>
+<h2 id="producer-consumer-example" class="unnumbered">Producer-Consumer Example</h2>
+<div class="sourceCode" id="cb9" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="pp">#include </span><span class="im">&lt;pthread.h&gt;</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="pp">#include </span><span class="im">&lt;semaphore.h&gt;</span></a>
+<a class="sourceLine" id="cb9-6" title="6"></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="pp">#define BUFFER_SIZE 20</span></a>
+<a class="sourceLine" id="cb9-8" title="8">sem_t spaces;</a>
+<a class="sourceLine" id="cb9-9" title="9">sem_t items;</a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="dt">int</span> counter = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="dt">int</span>* buffer;</a>
+<a class="sourceLine" id="cb9-12" title="12"></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="dt">int</span> produce() {</a>
+<a class="sourceLine" id="cb9-14" title="14">  ++counter;</a>
+<a class="sourceLine" id="cb9-15" title="15">  <span class="cf">return</span> counter;</a>
+<a class="sourceLine" id="cb9-16" title="16">} </a>
+<a class="sourceLine" id="cb9-17" title="17"></a>
+<a class="sourceLine" id="cb9-18" title="18"><span class="dt">void</span> consume( <span class="dt">int</span> value ) {</a>
+<a class="sourceLine" id="cb9-19" title="19">  printf(<span class="st">&quot;Consumed %d.</span><span class="sc">\n</span><span class="st">&quot;</span>, value);</a>
+<a class="sourceLine" id="cb9-20" title="20">}</a>
+<a class="sourceLine" id="cb9-21" title="21"></a>
+<a class="sourceLine" id="cb9-22" title="22"><span class="dt">void</span>* producer( <span class="dt">void</span>* arg ) {</a>
+<a class="sourceLine" id="cb9-23" title="23">  <span class="dt">int</span> pindex = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb9-24" title="24">  <span class="cf">while</span>( counter &lt; <span class="dv">10000</span> ) {</a>
+<a class="sourceLine" id="cb9-25" title="25">    <span class="dt">int</span> v = produce();</a>
+<a class="sourceLine" id="cb9-26" title="26">    sem_wait( &amp;spaces );</a>
+<a class="sourceLine" id="cb9-27" title="27">    buffer[pindex] = v;</a>
+<a class="sourceLine" id="cb9-28" title="28">    pindex = (pindex + <span class="dv">1</span>) % BUFFER_SIZE;</a>
+<a class="sourceLine" id="cb9-29" title="29">    sem_post( &amp;items );</a>
+<a class="sourceLine" id="cb9-30" title="30">  }</a>
+<a class="sourceLine" id="cb9-31" title="31">  pthread_exit( NULL );</a>
+<a class="sourceLine" id="cb9-32" title="32">}</a>
+<a class="sourceLine" id="cb9-33" title="33"></a>
+<a class="sourceLine" id="cb9-34" title="34"><span class="dt">void</span>* consumer( <span class="dt">void</span>* arg ) {</a>
+<a class="sourceLine" id="cb9-35" title="35">  <span class="dt">int</span> cindex = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb9-36" title="36">  <span class="dt">int</span> ctotal = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb9-37" title="37">  <span class="cf">while</span>( ctotal &lt; <span class="dv">10000</span> ) {</a>
+<a class="sourceLine" id="cb9-38" title="38">    sem_wait( &amp;items );</a>
+<a class="sourceLine" id="cb9-39" title="39">    <span class="dt">int</span> temp = buffer[cindex];</a>
+<a class="sourceLine" id="cb9-40" title="40">    buffer[cindex] = -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb9-41" title="41">    cindex = (cindex + <span class="dv">1</span>) % BUFFER_SIZE;</a>
+<a class="sourceLine" id="cb9-42" title="42">    sem_post( &amp;spaces );</a>
+<a class="sourceLine" id="cb9-43" title="43">    consume( temp );</a>
+<a class="sourceLine" id="cb9-44" title="44">    ++ctotal;</a>
+<a class="sourceLine" id="cb9-45" title="45">  }</a>
+<a class="sourceLine" id="cb9-46" title="46">  pthread_exit( NULL );</a>
+<a class="sourceLine" id="cb9-47" title="47">}</a>
+<a class="sourceLine" id="cb9-48" title="48"></a>
+<a class="sourceLine" id="cb9-49" title="49"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb9-50" title="50">  buffer = malloc( BUFFER_SIZE * <span class="kw">sizeof</span>( <span class="dt">int</span> ) );</a>
+<a class="sourceLine" id="cb9-51" title="51">  <span class="cf">for</span> ( <span class="dt">int</span> i = <span class="dv">0</span>; i &lt; BUFFER_SIZE; i++ ) {</a>
+<a class="sourceLine" id="cb9-52" title="52">    buffer[i] = -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb9-53" title="53">  }  </a>
+<a class="sourceLine" id="cb9-54" title="54">  sem_init( &amp;spaces, <span class="dv">0</span>, BUFFER_SIZE );</a>
+<a class="sourceLine" id="cb9-55" title="55">  sem_init( &amp;items, <span class="dv">0</span>, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb9-56" title="56"></a>
+<a class="sourceLine" id="cb9-57" title="57">  pthread_t prod;</a>
+<a class="sourceLine" id="cb9-58" title="58">  pthread_t con;</a>
+<a class="sourceLine" id="cb9-59" title="59"></a>
+<a class="sourceLine" id="cb9-60" title="60">  pthread_create( &amp;prod, NULL, producer, NULL );</a>
+<a class="sourceLine" id="cb9-61" title="61">  pthread_create( &amp;con, NULL, consumer, NULL );</a>
+<a class="sourceLine" id="cb9-62" title="62">  pthread_join( prod, NULL );</a>
+<a class="sourceLine" id="cb9-63" title="63">  pthread_join( con, NULL );</a>
+<a class="sourceLine" id="cb9-64" title="64"></a>
+<a class="sourceLine" id="cb9-65" title="65">  free( buffer );</a>
+<a class="sourceLine" id="cb9-66" title="66">  sem_destroy( &amp;spaces );</a>
+<a class="sourceLine" id="cb9-67" title="67">  sem_destroy( &amp;items );</a>
+<a class="sourceLine" id="cb9-68" title="68">  pthread_exit( <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb9-69" title="69">}</a></code></pre></div>
+<h2 id="mutex-syntax" class="unnumbered">Mutex Syntax</h2>
+<p>Before we go on to the the next code example, we should take a moment to learn about the syntax of the pthread mutex. While it is possible, of course, to use a semaphore as a mutex, frequently we will use the more specialized tool for this task.</p>
+<p>The structure representing the mutex is of type <code>pthread_mutex_t</code>. We don’t care about the internals or what the struct is made of; it is either locked or unlocked and that’s all that matters to us.</p>
+<div class="sourceCode" id="cb10" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1">pthread_mutex_init( pthread_mutex_t *mutex, pthread_mutexattr_t *attributes )</a>
+<a class="sourceLine" id="cb10-2" title="2">pthread_mutex_lock( pthread_mutex_t *mutex )</a>
+<a class="sourceLine" id="cb10-3" title="3">pthread_mutex_trylock( pthread_mutex_t *mutex ) <span class="co">/* Returns 0 on success */</span></a>
+<a class="sourceLine" id="cb10-4" title="4">pthread_mutex_unlock( pthread_mutex_t *mutex )</a>
+<a class="sourceLine" id="cb10-5" title="5">pthread_mutex_destroy( pthread_mutex_t *mutex )</a></code></pre></div>
+<p>The first function of note is <code>pthread_mutex_init</code> which is used to create a new mutex variable and returns it, with type <code>pthread_mutex_t</code>. It takes an optional parameter, the attributes (the details of which are not important at the moment, but relate mostly to priorities). We can initialize it using <code>NULL</code> and that is sufficient. There is also a syntactic shortcut to do static initialization if you do not want to set attributes <span class="citation" data-cites="pthreads"></span>:</p>
+<div class="sourceCode" id="cb11" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb11-1" title="1">pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;</a></code></pre></div>
+<p>When created, by default, the mutex is unlocked. There are three methods related to using the mutex; two to lock it and one to unlock it, all of which take as a parameter the mutex to (un)lock. The unlock method, <code>pthread_mutex_unlock</code> is self-explanatory. As expected, attempting to unlock a mutex that is not currently locked is an error, but it is also an error if one thread attempts to unlock a mutex owned by another thread <span class="citation" data-cites="pthreads"></span>.</p>
+<p>The two kinds of lock are <code>pthread_mutex_lock</code>, which is blocking, and <code>pthread_mutex_trylock</code>, which is nonblocking. The lock function works as you would expect: if the mutex is currently locked, the calling function is blocked until its turn to enter the critical section; if the mutex is unlocked then it changes to being locked and the current thread enters the critical section. Trylock is more complicated and not necessary for understanding the producer-consumer example, but will come up again soon when we look at another classical synchronization problem.</p>
+<p>To destroy a mutex, there is a method <code>pthread_mutex_destroy</code>. As expected, it cleans up a mutex and should be used when finished with it. If attributes were created with <code>pthread_mutexattr_init</code> they should be destroyed with <code>pthread_mutexattr_destroy</code>.</p>
+<p>An attempt to destroy the mutex may fail if the mutex is currently locked. The specification says that destroying an unlocked mutex is okay, but attempting to destroy a locked one results in undefined behaviour. Undefined behaviour is, in the words of the internet, the worst thing ever: it means code might work some of the time or on some systems, but not others, or could work fine for a while and then break suddenly later when something else is changed<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<h2 id="parallelizing-the-producer-consumer-solution" class="unnumbered">Parallelizing the Producer-Consumer Solution</h2>
+<p>Now suppose that we wanted to have ten producers and ten consumers. How do we get there from here?</p>
+<div class="sourceCode" id="cb12" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb12-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="pp">#include </span><span class="im">&lt;pthread.h&gt;</span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="pp">#include </span><span class="im">&lt;math.h&gt;</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="pp">#include </span><span class="im">&lt;semaphore.h&gt;</span></a>
+<a class="sourceLine" id="cb12-6" title="6"></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="pp">#define BUFFER_SIZE 100</span></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="dt">int</span> buffer[BUFFER_SIZE];</a>
+<a class="sourceLine" id="cb12-9" title="9"><span class="dt">int</span> pindex = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb12-10" title="10"><span class="dt">int</span> cindex = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb12-11" title="11">sem_t spaces;</a>
+<a class="sourceLine" id="cb12-12" title="12">sem_t items;</a>
+<a class="sourceLine" id="cb12-13" title="13">pthread_mutex_t mutex;</a>
+<a class="sourceLine" id="cb12-14" title="14"></a>
+<a class="sourceLine" id="cb12-15" title="15"><span class="dt">int</span> produce( <span class="dt">int</span> id ) {</a>
+<a class="sourceLine" id="cb12-16" title="16">  <span class="dt">int</span> r = rand();</a>
+<a class="sourceLine" id="cb12-17" title="17">  printf(<span class="st">&quot;Producer %d produced %d.</span><span class="sc">\n</span><span class="st">&quot;</span>, id, r);</a>
+<a class="sourceLine" id="cb12-18" title="18">  <span class="cf">return</span> r;</a>
+<a class="sourceLine" id="cb12-19" title="19">}</a>
+<a class="sourceLine" id="cb12-20" title="20"></a>
+<a class="sourceLine" id="cb12-21" title="21"><span class="dt">void</span> consume( <span class="dt">int</span> id, <span class="dt">int</span> number ) {</a>
+<a class="sourceLine" id="cb12-22" title="22">  printf(<span class="st">&quot;Consumer %d consumed %d.</span><span class="sc">\n</span><span class="st">&quot;</span>, id, number);</a>
+<a class="sourceLine" id="cb12-23" title="23">}</a>
+<a class="sourceLine" id="cb12-24" title="24"></a>
+<a class="sourceLine" id="cb12-25" title="25"><span class="dt">void</span>* producer( <span class="dt">void</span>* arg ) {</a>
+<a class="sourceLine" id="cb12-26" title="26">  <span class="dt">int</span>* id = (<span class="dt">int</span>*) arg;</a>
+<a class="sourceLine" id="cb12-27" title="27">  <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10000</span>; ++i) {</a>
+<a class="sourceLine" id="cb12-28" title="28">    <span class="dt">int</span> num = produce(*id); </a>
+<a class="sourceLine" id="cb12-29" title="29">    sem_wait( &amp;spaces );</a>
+<a class="sourceLine" id="cb12-30" title="30">    pthread_mutex_lock( &amp;mutex );</a>
+<a class="sourceLine" id="cb12-31" title="31">    buffer[pindex] = num;</a>
+<a class="sourceLine" id="cb12-32" title="32">    pindex = (pindex + <span class="dv">1</span>) % BUFFER_SIZE;</a>
+<a class="sourceLine" id="cb12-33" title="33">    pthread_mutex_unlock( &amp;mutex );</a>
+<a class="sourceLine" id="cb12-34" title="34">    sem_post( &amp;items );</a>
+<a class="sourceLine" id="cb12-35" title="35">  }</a>
+<a class="sourceLine" id="cb12-36" title="36">  free( arg );</a>
+<a class="sourceLine" id="cb12-37" title="37">  pthread_exit( NULL );</a>
+<a class="sourceLine" id="cb12-38" title="38">}</a>
+<a class="sourceLine" id="cb12-39" title="39"></a>
+<a class="sourceLine" id="cb12-40" title="40"><span class="dt">void</span>* consumer( <span class="dt">void</span>* arg ) {</a>
+<a class="sourceLine" id="cb12-41" title="41">  <span class="dt">int</span>* id = (<span class="dt">int</span>*) arg;</a>
+<a class="sourceLine" id="cb12-42" title="42">  <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10000</span>; ++i) {</a>
+<a class="sourceLine" id="cb12-43" title="43">    sem_wait( &amp;items );</a>
+<a class="sourceLine" id="cb12-44" title="44">    pthread_mutex_lock( &amp;mutex );</a>
+<a class="sourceLine" id="cb12-45" title="45">    <span class="dt">int</span> num = buffer[cindex];</a>
+<a class="sourceLine" id="cb12-46" title="46">    buffer[cindex] = -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb12-47" title="47">    cindex = (cindex + <span class="dv">1</span>) % BUFFER_SIZE;</a>
+<a class="sourceLine" id="cb12-48" title="48">    pthread_mutex_unlock( &amp;mutex );</a>
+<a class="sourceLine" id="cb12-49" title="49">    sem_post( &amp;spaces );</a>
+<a class="sourceLine" id="cb12-50" title="50">    consume( *id, num );</a>
+<a class="sourceLine" id="cb12-51" title="51">  }</a>
+<a class="sourceLine" id="cb12-52" title="52">  free( id );</a>
+<a class="sourceLine" id="cb12-53" title="53">  pthread_exit( NULL );</a>
+<a class="sourceLine" id="cb12-54" title="54">}</a>
+<a class="sourceLine" id="cb12-55" title="55"></a>
+<a class="sourceLine" id="cb12-56" title="56"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb12-57" title="57">  sem_init( &amp;spaces, <span class="dv">0</span>, BUFFER_SIZE );</a>
+<a class="sourceLine" id="cb12-58" title="58">  sem_init( &amp;items, <span class="dv">0</span>, <span class="dv">0</span> );  </a>
+<a class="sourceLine" id="cb12-59" title="59">  pthread_mutex_init( &amp;mutex, NULL );</a>
+<a class="sourceLine" id="cb12-60" title="60"></a>
+<a class="sourceLine" id="cb12-61" title="61">  pthread_t threads[<span class="dv">20</span>];</a>
+<a class="sourceLine" id="cb12-62" title="62"></a>
+<a class="sourceLine" id="cb12-63" title="63">  <span class="cf">for</span>( <span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">10</span>; i++ ) {</a>
+<a class="sourceLine" id="cb12-64" title="64">    <span class="dt">int</span>* id = malloc(<span class="kw">sizeof</span>(<span class="dt">int</span>));</a>
+<a class="sourceLine" id="cb12-65" title="65">    *id = i;</a>
+<a class="sourceLine" id="cb12-66" title="66">    pthread_create(&amp;threads[i], NULL, producer, id);</a>
+<a class="sourceLine" id="cb12-67" title="67">  }</a>
+<a class="sourceLine" id="cb12-68" title="68">  <span class="cf">for</span>( <span class="dt">int</span> j = <span class="dv">10</span>; j &lt; <span class="dv">20</span>; j++ ) {</a>
+<a class="sourceLine" id="cb12-69" title="69">    <span class="dt">int</span>* jd = malloc(<span class="kw">sizeof</span>(<span class="dt">int</span>));</a>
+<a class="sourceLine" id="cb12-70" title="70">    *jd = j-<span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb12-71" title="71">    pthread_create(&amp;threads[j], NULL, consumer, jd);</a>
+<a class="sourceLine" id="cb12-72" title="72">  }</a>
+<a class="sourceLine" id="cb12-73" title="73">  <span class="cf">for</span>( <span class="dt">int</span> k = <span class="dv">0</span>; k &lt; <span class="dv">20</span>; k++ ){  </a>
+<a class="sourceLine" id="cb12-74" title="74">    pthread_join(threads[k], NULL);</a>
+<a class="sourceLine" id="cb12-75" title="75">  }</a>
+<a class="sourceLine" id="cb12-76" title="76">  sem_destroy( &amp;spaces );</a>
+<a class="sourceLine" id="cb12-77" title="77">  sem_destroy( &amp;items );</a>
+<a class="sourceLine" id="cb12-78" title="78">  pthread_mutex_destroy( &amp;mutex );</a>
+<a class="sourceLine" id="cb12-79" title="79">  pthread_exit( <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb12-80" title="80">}</a></code></pre></div>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Sadly, the specifications for C and POSIX and many other things are riddled with these “undefined behaviour” situations and it causes programmers everywhere a great deal of stress and difficulty. Another example: reading from an uninitialized variable in C produces undefined behaviour too.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩</a></p></li>
+</ol>
+</section>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 1 - Course Introduction</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 1 - Course Introduction<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#computer-interfacing">Computer Interfacing</a></li>
+<li><a href="#sensors-and-actuators">Sensors and Actuators</a></li>
+<li><a href="#interfaces">Interfaces</a></li>
+</ul>
+</nav>
+<p>This course is about some of the challenges faced by computer hardware designers. Up until now everything works as specified, but in real life, a computer may misbehave due to environmental factors etc that result in things like race conditions etc.</p>
+<h3 id="computer-interfacing">Computer Interfacing</h3>
+<p>Designing the hardware and software necessary to connect a peripheral to a computer.</p>
+<ul>
+<li>analogous to designing a way to put a square peg in a round hole</li>
+<li>when most people think interfacing they think hardware but this course is a mix of both</li>
+</ul>
+<h3 id="sensors-and-actuators">Sensors and Actuators</h3>
+<ul>
+<li>Sensors: Convert physical information to electrical information
+<ul>
+<li>Chemical:Electrical - pH meters</li>
+<li>Mechanical:Electrical - switches, strain gauges</li>
+</ul></li>
+<li>Actuators: Convert electric information to physical changes
+<ul>
+<li>Electrical:Thermal - Pelletier devices (cool and heat both)</li>
+</ul></li>
+</ul>
+<h3 id="interfaces">Interfaces</h3>
+<p>Connect the computer to the outside world, i.e. convert signals to appropriate levels and timing to permit interaction with the processor</p>
+<ol type="1">
+<li><em>Signal Issues</em>:
+<ul>
+<li>Analog (range of values, offset calibrations, scaling errors), Digital (number of bits, interpretation of the bits)</li>
+<li>Noise (both transient and permanent), Timing (repeated sampling causes to loose charge), Signal Levels (ground reference)</li>
+</ul></li>
+<li><em>Data Flow Issues</em>:
+<ul>
+<li>Information transferred: Occurrence of event, Data+Occurrence of event, Just data(asking someone the temperature, we barely ever care about why/how/when we reached that temperature)</li>
+<li>Unidirectional or Bidirectional</li>
+<li>Who is the controller of data flow + when do we know data is ready?</li>
+</ul></li>
+<li><em>Synchronization Issues</em>:
+<ul>
+<li>Level of Synchronization: Active Synchronization - demand oriented (interrupt when service required) or Passive Synchronization - request oriented (poll when service required)</li>
+<li>Methods:
+<ol type="1">
+<li>Non maskable Interrupts</li>
+<li>Maskable Interrupts</li>
+<li>Tight Polling Loops (do nothing but poll)</li>
+<li>Periodic Polling (Do work, then wait, i.e. poll every 5seconds)</li>
+<li>Occasional polling (randomly unpredictably)</li>
+<li>Blind synchronization (reading temp when it might be changing)</li>
+</ol></li>
+<li>Data may generated by source all the time/spontaneously or only when stimulated by the destination</li>
+</ul></li>
+</ol>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

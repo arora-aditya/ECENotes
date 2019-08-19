@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L02.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#the-processor">The Processor</a></li>
+<li><a href="#interrupts">Interrupts</a><ul>
+<li><a href="#storing-and-restoring-state.">Storing and Restoring State.</a></li>
+<li><a href="#multiprogramming.">Multiprogramming.</a></li>
+</ul></li>
+<li><a href="#its-a-trap">It’s a Trap!</a><ul>
+<li><a href="#motivation-for-dual-mode-operation">Motivation for Dual Mode Operation</a></li>
+<li><a href="#example-reading-from-disk">Example: Reading from Disk</a></li>
+<li><a href="#summary-invoking-a-system-call">Summary: Invoking a System Call</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>Computer Organization</span>
+Although a regular program like a word processor need not be concerned with the underlying hardware of the computer, this abstraction does not come for free: the operating system must be aware of these details and manage them for everyone. What is a program, anyway? You will know from your programming experience that a program is just a sequence of instructions and some data. Thus, to execute a program, we will need a few things:</p>
+<ol>
+<li><p><strong>Main Memory</strong> – a place where the instructions and data are stored;</p></li>
+<li><p><strong>System Bus</strong> – a way for instructions and data to travel between memory and the processor; and</p></li>
+<li><p><strong>Processor</strong> – that critical element of the system that actually executes the instructions.</p></li>
+</ol>
+<p>For our purposes we are really only interested in talking about the processor, because it matters in the context of interrupts, which is our real goal.</p>
+<h2 id="the-processor" class="unnumbered">The Processor</h2>
+<p>The Processor (or <em>CPU</em>, central processing unit) is the brain of the computer. It fetches instructions from memory, via the bus, decodes the instruction, then executes it. This fetch-decode-execute cycle will be repeated until the program finishes (... if the program finishes). The different steps may be executed in parallel: while one instruction is being executed, the next is being decoded, and the one after that is being fetched. We call this a <em>pipeline</em>, and the length and complexity of the pipeline is something we will not examine here, but is an interesting subject all its own. A processor’s largest unit on which it operates is called a <em>word</em>. A 32-bit processor has a word size of 32 bits and a 64-bit processor has a word size of 64 bits.</p>
+<p>CPU instructions are, obviously, specific to the processor. If you have any experience in writing assembly code, you have probably used some books that tell you all the instructions that can be issued and what operands, if any, those instructions take. In some CPU architectures, some operations are available only in “supervisor mode” and not in “user mode”. An instruction that disables interrupts is an example of an instruction that would be available only in supervisor mode. Attempting to run it in user mode will be an error.</p>
+<p>In addition to the hardware to decode and execute the different instructions, the CPU has some storage locations called <em>registers</em>. They may store data or instructions (they are both, after all, just a bunch of bits). Registers are a key concept in CPUs and management of those registers is partly the responsibility of the operating system. Registers are used to hold key variables and temporary results. Registers are often, but not always, word-sized.</p>
+<h2 id="interrupts" class="unnumbered">Interrupts</h2>
+<p>The CPU frequently needs data to continue its operations, but it can take a variable amount of time to get it, depending on where it’s coming from. An analogy to put it in perspective: imagine I am the CPU and a particular book is the piece of data needed. If the data is in the cache, it is as if the book is on a bookshelf in my office. Thus, I can retrieve the book very quickly. If the data for the CPU on a magnetic hard disk, it is as if I would have to get the book from Library and Archives Canada in Ottawa (about 550 km away, according to Google Maps). And I would have to walk. Of course, the analogy is slightly tortured because the CPU doesn’t go get the data; instead it must wait for it to arrive. If I ordered a book from Library and Archives Canada and someone had to walk it over, I would spend a lot of time waiting. What might I do in the meantime...?</p>
+<p>It seems logical that I should do something else. There are two options for dealing with this situation. One is polling: that I can check periodically if the book has arrived. This approach is fairly wasteful (how often do I check? How much time will I spend checking?). The other solution is that I can receive a notification when the poor fellow who has walked the 550 km to my office has arrived. If he knocks on my office door, it will cause me to suspend what I am doing and collect the book. Or, to put it in one word: interrupts.</p>
+<p>In that analogy I played the part of the CPU, and was interrupted and had to deal with that interruption. We have the same in computer systems. When an interrupt happens, the normal sequencing of the processor does not continue. Interrupts can come from many sources <span class="citation" data-cites="osi"></span>:</p>
+<ol>
+<li><p><strong>Program:</strong> Something happens in the program (e.g., a division by zero).</p></li>
+<li><p><strong>Timer:</strong> A configured timer within the processor’s time expires (e.g., to update the system clock).</p></li>
+<li><p><strong>Input/Output:</strong> An I/O controller signals (un)successful completion of an operation (e.g., read from disk).</p></li>
+<li><p><strong>Hardware Failure:</strong> Something happens in hardware (e.g., power failure).</p></li>
+</ol>
+<p>Interrupts are primarily a way to improve processor utilization (i.e., the fraction of the time the CPU is doing useful work). CPU time is valuable and the CPU can and should do something else while it is awaiting the results of some other operation. Thus, the CPU might issue a read from memory instruction, work on something else, and then be interrupted when the data has arrived from memory.</p>
+<p>When an interrupt takes place, the processor might choose to ignore it, but this is rare. Interruptions usually contain important information. Almost always, we will want to <em>handle</em> (deal with) the interrupt in some way.</p>
+<p>Consider an analogy with which you are surely familiar: a professor is at the front of the lecture hall droning on about some subject. A student raises her hand to ask a question. The professor can ignore this, but that is generally a bad idea. The professor should pause what he is doing (pause execution), remembering where he was (save state), take the question and answer it (handle the interrupt), and then resume from where he left off (restore the saved state and continue execution).</p>
+<p>The operating system is responsible for storing the state of the program being interrupted, handling the interrupt, and then restoring the state of the program that was interrupted.</p>
+<p>Sometimes the CPU is in the middle of something where an interruption would be bad. Thus, interrupts can be disabled. This is like the professor saying that all questions should be saved until the end of the lecture. Once interrupts are enabled again, the interruptions can be handled. So all the questions that students have saved can be answered. Interrupts tend to have a priority, so if multiple interrupts are pending, the highest priority one will be dealt with first.</p>
+<p>There can also be multiple interrupts happening in a short period of time: suppose interrupt 1 occurs and then interrupt 2 occurs while interrupt 1 is still being handled. Often, but not always, interrupt handlers themselves disable interrupts so a subsequent interrupt will be handled after the current one is dealt with. Or, interrupt 2 may itself interrupt the first. Consider the diagrams below:</p>
+<p><img src="images/interrupts.png" alt="image" style="width:45.0%" /><br />
+Top: Sequential interrupt handling. Bottom: Nested interrupt handling. <span class="citation" data-cites="osi"></span></p>
+<p>A combination of these different techniques may be used. A low priority interrupt handler may be suspended to deal with a high priority interrupt. Suppose while the high priority interrupt is being handled, a medium priority interrupt occurs. The high priority interrupt handler will be allowed to complete its work before the medium priority interrupt is dealt with.</p>
+<h4 id="storing-and-restoring-state.">Storing and Restoring State.</h4>
+<p>We mentioned already that the operating system is responsible for storing the state of the program (or interrupt handler) being interrupted when an interrupt occurs. To do so, the state of the CPU is what must be stored. The values of the various registers (e.g., program counter, instruction register, etc.) are stored by pushing them onto the stack. When the interrupt is finished, those values are popped off the stack and loaded into the registers again. After that, program execution continues (almost) as if the interruption never took place.</p>
+<h4 id="multiprogramming.">Multiprogramming.</h4>
+<p>Thus far we have assumed that there is a program running and that same program is the one that resumes at the end of the interrupt handling. This is, however, not always the case. Given that we have stored the state of the interrupted program, the OS can resume it any time we like, and run a different program now instead. But which program should run next? This is a matter of scheduling and from our view in application programming, out of our control (mostly but not entirely).</p>
+<h1 id="its-a-trap" class="unnumbered">It’s a Trap!</h1>
+<p>Operating systems run, as previously discussed, on interrupts. In addition to the interrupts that will be generated by hardware and devices (e.g., a keyboard signalling that the F1 key has been pressed), there are also interrupts generated in software. These are often referred to as a <em>trap</em> (or, sometimes, an exception). The trap is usually generated either by an error like an invalid instruction or from a user program request.</p>
+<p>If it is simply an error the operating system will decide how to deal with it, and in desktop/laptop OSes, the usual strategy is sending the exception to the program that caused it, and this is usually fatal to the offending program. Your programming experience will tell you that you can sometimes deal with an exception (perhaps through the language equivalent of the Java/C# <code>try-catch-finally</code> syntax), but often an exception is unhandled and terminates the program.</p>
+<p>The more interesting case is the intentional use of the trap: this is how a user program gets the operating system’s attention. When a user program is running, the operating system is not; we might even say it is “sleeping”. If the program running needs the operating system to do something, it needs to wake up the OS: interrupt its sleep. When the trap occurs, the interrupt handler (part of the OS) is going to run to deal with the request.</p>
+<p>Already we saw the concept of user mode vs. supervisor mode instructions: some instructions are not available in user mode. Supervisor mode, also called kernel mode, allows all instructions and operations. Even something seemingly simple like reading from disk or writing to console output requires privileged instructions. These are common operations, but they involve the operating system every time.</p>
+<p>Modern processors keep track of what mode they are in with the mode bit. This was not the case for some older processors and some current processors have more than two modes, but we will restrict ourselves to dual-mode operation with a mode bit. Thus we can see at a glance which mode the system is in. At boot up, the computer starts up in kernel mode as the operating system is started and loaded. User programs are always started in user mode. When a trap or interrupt occurs, and the operating system takes over, the mode bit is set to kernel mode; when it is finished the system goes back to user mode before the user program resumes <span class="citation" data-cites="osc"></span>.</p>
+<p>Suppose a text editor wants to output data to a printer. Management of I/O devices like printers is the job of the OS, so to send the data, the text editor must ask the OS to step in, as in the diagram below:</p>
+<p><img src="images/trap.png" alt="image" style="width:75.0%" /><br />
+Transition from user to supervisor (kernel) mode <span class="citation" data-cites="osc"></span>.</p>
+<p>So to print out the data, the program will prepare the data for printing. Then it calls the system call. You may think of this as being just like a normal function call, except it involves the operating system. This triggers the operating system (with a trap). The operating system responds and executes the system call and dispatches that data to the printer. When this job is done, operation goes back to user mode and the program returns from the system call.</p>
+<h2 id="motivation-for-dual-mode-operation" class="unnumbered">Motivation for Dual Mode Operation</h2>
+<p>Why do we have user and supervisor modes, anyway? As Uncle Ben told Spiderman, “with great power comes great responsibility”. Many of the reasons are the same as why we have user accounts and administrator accounts: we want to protect the system and its integrity against errant and malicious users.</p>
+<p>An example: multiple programs might be trying to use the same I/O device at once. If Program 1 tries to read from disk, it will take time for that request to be serviced. During that time, if Program 2 wants to read from the same disk, the operating system will force Program 2 to wait its turn. Without the OS to enforce this, it would be up to the author(s) of Program 2 to check if the disk is currently in use and to wait patiently for it to become available. That may work if everybody plays nicely, but without someone to enforce the rules, sooner or later there will be a program that does something nasty, like cancel another program’s read request and perform its read first.</p>
+<p>This doesn’t come for free, of course: there is a definite performance trade-off. Switching from user mode to kernel mode requires some instructions and some time. It would be faster if everything ran in kernel mode because we would spend no time switching. Despite this, the performance hit for the mode switch is judged worthwhile for the security and integrity benefits it provides.</p>
+<h2 id="example-reading-from-disk" class="unnumbered">Example: Reading from Disk</h2>
+<p>Let us examine in some more detail what is actually happening in a
+system call. This example is from <span class="citation" data-cites="mos"></span> and will use C code to
+perform a read on a UNIX system. The specification says the function
+<code>read</code> takes three parameters: (1) the file (a file
+descriptor, from a previous call to <code>open</code>); (2) where to read
+the data to; and (3) how many bytes to read. Here is an example:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> bytesRead = read( file, buffer, numBytes );</a></code></pre></div>
+<p>(The <code>read</code> function returns the number of bytes successfully read; it is normally equal to <code>numBytes</code> but might be smaller if the end of the file is reached. Here we are storing it in a variable <code>bytesRead</code>.)</p>
+<p>In preparation for invocation of <code>read</code> the parameters are pushed on the stack. This is the normal way in which a procedure is called in C(++). Then the <code>read</code> procedure is called and this is just the normal instruction to enter another function. The <code>read</code> function will put its identifier (the system call number) in a predefined location (typically a register). Then it executes the <code>trap</code> instruction, activating the OS.</p>
+<p>When the <code>trap</code> occurs, the OS takes over and control switches from user mode to kernel mode. Control transfers to a predefined memory location within the kernel (the trap handler). The trap handler then runs and examines the request: it checks the identifier that was put in the register earlier. Based on that, it knows what system call request handler should execute: the one to read from a file. That routine executes. When it is finished, control will be returned to the <code>read</code> function; we exit the kernel and return to user mode.</p>
+<p>Back in user mode, the <code>read</code> call finishes and returns, and control goes back to the user program.</p>
+<p>Let’s consider a more complex example. This uses some Linux specific items, but is a quick example of a program that reads a file and prints it out:</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></a>
+<a class="sourceLine" id="cb2-6" title="6"></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="dt">void</span> readfile( <span class="dt">int</span> fd );</a>
+<a class="sourceLine" id="cb2-8" title="8"></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb2-10" title="10">    <span class="cf">if</span> ( argc != <span class="dv">2</span> ) {</a>
+<a class="sourceLine" id="cb2-11" title="11">        printf(<span class="st">&quot;Usage: %s &lt;filename&gt;</span><span class="sc">\n</span><span class="st">&quot;</span>, argv[<span class="dv">0</span>]);</a>
+<a class="sourceLine" id="cb2-12" title="12">        <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb2-13" title="13">    }</a>
+<a class="sourceLine" id="cb2-14" title="14">    <span class="dt">int</span> fd = open( argv[<span class="dv">1</span>], O_RDONLY );</a>
+<a class="sourceLine" id="cb2-15" title="15">    <span class="cf">if</span> ( fd == -<span class="dv">1</span> ) {</a>
+<a class="sourceLine" id="cb2-16" title="16">        printf(<span class="st">&quot;Unable to open file! %s is invalid name?</span><span class="sc">\n</span><span class="st">&quot;</span>, argv[<span class="dv">1</span>] );</a>
+<a class="sourceLine" id="cb2-17" title="17">        <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb2-18" title="18">    }</a>
+<a class="sourceLine" id="cb2-19" title="19">    readfile( fd );</a>
+<a class="sourceLine" id="cb2-20" title="20">    close( fd );</a>
+<a class="sourceLine" id="cb2-21" title="21">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb2-22" title="22">}</a>
+<a class="sourceLine" id="cb2-23" title="23"></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="dt">void</span> readfile( <span class="dt">int</span> fd ) {</a>
+<a class="sourceLine" id="cb2-25" title="25">    <span class="dt">int</span> buf_size = <span class="dv">256</span>;</a>
+<a class="sourceLine" id="cb2-26" title="26">    <span class="dt">char</span>* buffer = malloc( buf_size );</a>
+<a class="sourceLine" id="cb2-27" title="27">    <span class="cf">while</span> ( <span class="dv">1</span> ) {</a>
+<a class="sourceLine" id="cb2-28" title="28">        memset( buffer, <span class="dv">0</span>, buf_size );</a>
+<a class="sourceLine" id="cb2-29" title="29">        <span class="dt">int</span> bytes_read = read( fd, buffer, buf_size  - <span class="dv">1</span>);  </a>
+<a class="sourceLine" id="cb2-30" title="30">        <span class="cf">if</span> ( bytes_read == <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb2-31" title="31">            <span class="cf">break</span>; </a>
+<a class="sourceLine" id="cb2-32" title="32">        }     </a>
+<a class="sourceLine" id="cb2-33" title="33">        printf(<span class="st">&quot;%s&quot;</span>, buffer);</a>
+<a class="sourceLine" id="cb2-34" title="34">    }</a>
+<a class="sourceLine" id="cb2-35" title="35">    printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">End of File.</span><span class="sc">\n</span><span class="st">&quot;</span>);</a>
+<a class="sourceLine" id="cb2-36" title="36">    free( buffer );</a>
+<a class="sourceLine" id="cb2-37" title="37">}</a></code></pre></div>
+<h2 id="summary-invoking-a-system-call" class="unnumbered">Summary: Invoking a System Call</h2>
+<p>To summarize, the steps, arranged chronologically, when invoking a system call are:</p>
+<ol>
+<li><p>The user program pushes arguments onto the stack.</p></li>
+<li><p>The user program invokes the system call.</p></li>
+<li><p>The system call puts its identifier in the designated location.</p></li>
+<li><p>The system call issues the <code>trap</code> instruction.</p></li>
+<li><p>The OS responds to the interrupt and examines the identifier in the designated location.</p></li>
+<li><p>The OS runs the system call handler that matches the identifier.</p></li>
+<li><p>When the handler is finished, control exits the kernel and goes back to the system call (in user mode).</p></li>
+<li><p>The system call returns control to the user program.</p></li>
+</ol>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

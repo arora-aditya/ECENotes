@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L07.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#sockets">Sockets</a><ul>
+<li><a href="#check-the-boot-of-the-car-for-your-jumper">Check the Boot of the Car for your Jumper!</a></li>
+<li><a href="#addresses.">Addresses.</a></li>
+<li><a href="#looking-up-the-address.">Looking Up the Address.</a></li>
+<li><a href="#client-connect.">Client: Connect.</a></li>
+<li><a href="#server-bind-listen-and-accept.">Server: Bind, Listen, and Accept.</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>Network Communication</span></p>
+<p>Another form of inter-process communication is of course the idea of network communication. If two processes are not running on the same machine in the same environment, then to get them to communicate we can’t use pipes or shared memory... instead, we must communicate over the network. But not only that: we can actually use the network as a method of communication if the two processes are on the same machine (as we will see).</p>
+<p>A diagram describing network communication frequently represents the network as just a mysterious cloud or blob, and for the moment we will just pretend that is how it is. There is a whole course on how computer networks function and behave and what the various layers are. For the sake of simplicity we will focus just on how we use the network, and not how the network is implemented.</p>
+<h2 id="sockets" class="unnumbered">Sockets</h2>
+<p>The <em>socket</em> API is a standard dating back many years, describing how to communicate over the network in a standard way. The socket is the concept for how to establish a communication channel between two processes. There are really two ways that we can communicate: datagrams and connection streams.</p>
+<p>A datagram is a lot like sending a letter in the mail (you know, snail mail): you can mail out letters but they can be delivered in any order, might get lost along the way, and are unidirectional <span class="citation" data-cites="apunix"></span>. The recipient of a letter can write one back if desired but it may not be. There’s no “connection” to be established, it’s just message delivery.</p>
+<p>The stream is like making a telephone call. When you dial a number, the other side has to be available (i.e., not on the phone or away from their phone) and if they answer then a line of communication is established to allow exchange of data (talking). Then at some point one party or the other will hang up and that’s the end of the call. The telephone network has to do quite a bit to get your data from one end to the other in a timely manner, but that’s not really your concern at the time that you want to make the phone call.</p>
+<p>Much like everything else in UNIX, a socket is handled like a file. It just so happens that when you open a socket, the data to be read or written from the “file” is being routed over the network somehow. To create a socket, we need the <code>sys/socket.h</code> header included and the call is <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> socket( <span class="dt">int</span> domain, <span class="dt">int</span> type, <span class="dt">int</span> protocol )</a></code></pre></div>
+<p>The arguments require some explanation. The <code>domain</code> value defines the address format (amongst other things) and is how we would choose between, for example, IPv4 and IPv6 (or other more things...). For the purposes of this course, we’ll use IPv4 and the constant for that is defined as <code>AF_INET</code> (address family: internet!).</p>
+<p>The <code>type</code> argument gives what kind of information we are going to be sending. <code>SOCK_DGRAM</code> is for datagrams and <code>SOCK_STREAM</code> is for a bidirectional byte stream <span class="citation" data-cites="apunix"></span>.</p>
+<p>The <code>protocol</code> argument is about how the data is to be transported over the connection, and we will just use 0 for the default. If we chose a stream, the default is TCP/IP. Without going into too much detail, TCP/IP is the way a lot of data is transported over the internet. This is a (generally) reliable method of transport that makes sure your data gets to where it needs to go, with all the pieces in the correct order. If we chose a datagram, the default is UDP, which is not a reliable method of communication: data packets might get there or they might not.</p>
+<p>Notice that the return type is an integer. Why is that? Well, a file descriptor is really just an integer, as we already saw with the pipe examples. So as long as we remember that’s what the integer represents, we will not have any problems.</p>
+<p>And just like a file that is opened, a socket that is opened needs to be closed when we are finished with it. For that we can just use <code>close</code>. You have probably noticed some asymmetry: there are different calls to open things (<code>open</code>, <code>pipe</code>, <code>socket</code>). That’s because when we want to open something we have to say what kind of thing we want to open. When we want to close something, we already know what type it is.</p>
+<h4 id="check-the-boot-of-the-car-for-your-jumper">Check the Boot of the Car for your Jumper!</h4>
+<p>When we are going to communicate over the network we have to make sure that we speak the same language. More than that, we have to speak the same dialect (British English, for example, contains phrases and terms that you might not know if you only know Canadian or American English).</p>
+<p>Normally this is not something that we need to think about, but when communicating over the network, the system on the other side might have a different idea of how data is organized. Consider, if you will, a four byte (32 bit) integer. There are two possible (reasonable) orders for how its bytes can be stored: smallest to largest or largest to smallest. These are shown below as big-endian and little-endian respectively:</p>
+<p><img src="images/endian" alt="image" style="width:25.0%" /><br />
+Byte order for a 4-byte (32 bit) integer <span class="citation" data-cites="apunix"></span>.</p>
+<p>You might think that little-endian makes no sense. This is because you are a human reading a language left to right in a case where we put lower memory addresses on the left and higher ones on the right. The computer does not care about the convention. But anyway, x86 architecture is little-endian, but others (PowerPC) are not, so we can make no assumptions about what the architecture of the other side is. For this reason, network protocols specify a particular byte ordering so that everyone agrees on the meaning of the material. And this means that we need to translate the values to the big-endian format.</p>
+<p>Included in the <code>arpa/inet.h</code> header are some functions to help us out. They translate from whatever system byte order you have to the network byte order, and vice versa. Their use is advisable even if you’re sure the system you are using is big-endian, because of portability of your code. They come in 32-bit and 16-bit variants depending on what you need.</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">uint32_t</span> htonl( <span class="dt">uint32_t</span> hostint32 ) <span class="co">/* Translate 4 byte int to network format */</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="dt">uint16_t</span> htons( <span class="dt">uint16_t</span> hostint16 ) <span class="co">/* Translate 2 byte int to network format */</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="dt">uint32_t</span> ntohl( <span class="dt">uint32_t</span> netint32 )  <span class="co">/* Translate 4 byte int to host format */</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="dt">uint16_t</span> ntohs( <span class="dt">uint16_t</span> netint16 ) <span class="co">/* Translate 2 byte int to host format */</span></a></code></pre></div>
+<p>Wait, these don’t look like integers, or unsigned integers, do they? Well, sometimes we want to be very specific about the size of the integer. As you can imagine, this routine doesn’t work if you don’t know how big of an integer you’re dealing with. And sometimes we will need to be specific about sizes.</p>
+<h4 id="addresses.">Addresses.</h4>
+<p>Right, so keeping this in mind, when we want to call someone, we have to put in their phone number. And if we want someone to call us, we need a phone number and we need to be ready to receive calls. This number has to be translated to the right format, sure, but we’re able to do this using those functions above. The structure for a socket address is <code>struct sockaddr_in</code>. The structure has three fields, and below is a sample initialization <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">struct</span> sockaddr_in {</a>
+<a class="sourceLine" id="cb3-2" title="2">  sa_family_t sin_family; <span class="co">/* Address family */</span></a>
+<a class="sourceLine" id="cb3-3" title="3">  in_port_t sin_port; <span class="co">/* Port number */</span></a>
+<a class="sourceLine" id="cb3-4" title="4">  <span class="kw">struct</span> in_addr sin_addr; <span class="co">/* IPv4 Address */</span></a>
+<a class="sourceLine" id="cb3-5" title="5">};</a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="kw">struct</span> sockaddr_in addr;</a>
+<a class="sourceLine" id="cb3-8" title="8">addr.sin_family = AF_INET;</a>
+<a class="sourceLine" id="cb3-9" title="9">addr.sin_port = htons( <span class="dv">2520</span> );</a>
+<a class="sourceLine" id="cb3-10" title="10">addr.sin_addr.s_addr = htonl( INADDR_ANY );</a></code></pre></div>
+<p>As expected, if we want an IPv4 address then we use the matching family type of <code>AF_INET</code>. Then there are the IP address and port fields.</p>
+<p>You’re almost certainly familiar with IPv4 addresses... they take the format of <code>XXX.XXX.XXX.XXX</code> where each grouping of <code>XXX</code> is a number between 0 and 255. If you want to connect to your router, for example, you might type in <code>192.168.0.1</code> in the address bar of your browser. When you type in a name, like <code>uwaterloo.ca</code> there is a translation process that occurs that transforms this into an IP address, like <code>129.97.208.23</code>. The computer uses the number; names are nice for humans, though. But here we chose a constant value, <code>INADDR_ANY</code>. This says, choose the current IP address of the current computer (and it could have several if it has more than one network connection). We aren’t trying to use any specific address; we just want one the computer has.</p>
+<p>And what about ports? If you want to think about your computer’s address as being like a street address, imagine that it’s then an apartment building and the port number is which apartment the connection is made with. Different services (processes) are communicating over different ports. No two processes can be using the same port at the same time. By convention, ports with numbers below 1024 considered to be reserved for system services (and requiring superuser access to make use of). For our purposes, we will always choose ports above 1024.</p>
+<p>When you log in to a server with <code>ssh</code>, for example, the default port for that is 22. This is a “well known” port, in that everyone agrees up front this port is the one for this service. Thus when a server starts up the daemon, it knows to listen for connections on port 22 and when you’re ready to connect to that server, the <code>ssh</code> client chooses that port by default.</p>
+<h4 id="looking-up-the-address.">Looking Up the Address.</h4>
+<p>In real life, we probably only rarely use IP addresses directly when trying to connect to services. If you already know it, that’s fine, but more likely you use a human-friendly name. For example, you use <code>ssh username@ecelinux.uwaterloo.ca</code> and don’t need to manually look up the IP address for the server. You can, of course (the command line tool is <code>nslookup</code>), but why should you have to? The computer can do this for you.</p>
+<p>Looking up hostnames and the like is somewhat complex (and not the focus), so we will just learn one method for doing this. Many examples and older texts use the function <code>gethostbyname()</code>, but this is now deprecated and has been replaced with the <code>getaddrinfo()</code> function instead. You might still see it in the wild but we should learn the new way.</p>
+<p>The function is prototyped in in <code>netdb.h</code> and looks like this <span class="citation" data-cites="getaddrinfo"></span>:</p>
+<div class="sourceCode" id="cb4" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> getaddrinfo(<span class="dt">const</span> <span class="dt">char</span> *node,     <span class="co">// e.g. &quot;www.example.com&quot; or IP</span></a>
+<a class="sourceLine" id="cb4-2" title="2">                <span class="dt">const</span> <span class="dt">char</span> *service,  <span class="co">// e.g. &quot;http&quot; or port number</span></a>
+<a class="sourceLine" id="cb4-3" title="3">                <span class="dt">const</span> <span class="kw">struct</span> addrinfo *hints,</a>
+<a class="sourceLine" id="cb4-4" title="4">                <span class="kw">struct</span> addrinfo **res);</a></code></pre></div>
+<p>The <code>node</code> parameter is the hostname to connect to but can also be an IP address. The <code>service</code> parameter can be things like “http” to get the defined port for that protocol, but I really recommend you use explicit port number such as “80” for HTTP. The <code>hints</code> parameter is used (optionally) to restrict what kind of connection you want, such as saying you want IPv4, TCP Stream sockets, and letting the function fill in the IP address (see example below). And then there is a pointer to a <code>struct addrinfo *</code> (pointer to a pointer); that structure will be updated when the function is done. And the function does have a return value of an int, whereby 0 indicates success.</p>
+<p>Okay, so let’s try it out <span class="citation" data-cites="getaddrinfo"></span>:</p>
+<div class="sourceCode" id="cb5" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">struct</span> addrinfo hints;</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">struct</span> addrinfo *serverinfo;  <span class="co">// will point to the results</span></a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4">memset(&amp;hints, <span class="dv">0</span>, <span class="kw">sizeof</span> hints); <span class="co">// make sure the struct is empty</span></a>
+<a class="sourceLine" id="cb5-5" title="5">hints.ai_family = AF_INET;     <span class="co">// Choose IPv4</span></a>
+<a class="sourceLine" id="cb5-6" title="6">hints.ai_socktype = SOCK_STREAM; <span class="co">// TCP stream sockets</span></a>
+<a class="sourceLine" id="cb5-7" title="7">hints.ai_flags = AI_PASSIVE;     <span class="co">// fill in my IP for me</span></a>
+<a class="sourceLine" id="cb5-8" title="8"></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="dt">int</span> result = getaddrinfo(<span class="st">&quot;www.example.com&quot;</span>, <span class="st">&quot;2520&quot;</span>, &amp;hints, &amp;serverinfo);</a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="cf">if</span> (result != <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb5-11" title="11">  <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb5-12" title="12">}</a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="kw">struct</span> sockaddr_in * sain = (<span class="kw">struct</span> sockaddr_in*) serverinfo-&gt;ai_addr;</a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">/* Do things with this */</span></a>
+<a class="sourceLine" id="cb5-15" title="15"></a>
+<a class="sourceLine" id="cb5-16" title="16">freeaddrinfo( serverinfo );</a></code></pre></div>
+<p>Assuming that all went well, the <code>serverinfo</code> pointer is now pointing to a linked list of <code>struct sockaddr</code> (the generic form of <code>sockaddr_in</code>) which gives us the information we need: the IP address for the server we want to communicate with. The actual info struct is in the linked list node’s <code>ai_addr</code> attribute and the pointer to the next one is <code>ai_next</code>. Most of the time we just need the first result, though. The <code>struct sockaddr</code> structure we got out of this can be used in future calls (although we might need to cast the result to the type we need).</p>
+<p>If we are interested in getting the structure for the local computer, we can manually initialize the <code>struct sockaddr_in</code> as we did before learning about how <code>getaddrinfo()</code> works. Or we can call <code>getaddrinfo()</code> with <code>NULL</code> as the <code>node</code> parameter.</p>
+<p>As some further notes, it’s possible to use <code>NULL</code> for the hints if you are willing to accept the defaults (we usually are if we’re sure about the type of result we will get). To deallocate the information that has been allocated, the call is <code>freeaddrinfo()</code> as shown above.</p>
+<h4 id="client-connect.">Client: Connect.</h4>
+<p>Up until now, the tools we’ve learned about, <code>socket</code> and creating the <code>struct sockaddr</code> (one way or another) apply to both the client and server side in network communication. Now the paths diverge depending on whether the code we are running is the client or the server.</p>
+<p>If we are the client, we’d like to connect to a server. This is the easier workflow. We just call <code>connect()</code>. This is done with <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb6" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb6-1" title="1"><span class="dt">int</span> connect( <span class="dt">int</span> sockfd, <span class="kw">struct</span> sockaddr *addr, socklen_t len); </a></code></pre></div>
+<p>The parameters are simple enough: the first argument <code>sockfd</code> is the socket file descriptor (the <code>int</code> we got back from the call to <code>socket</code>). The second parameter is a pointer to the <code>struct sockaddr</code> that we have, whether manually created or a returned value from <code>getaddrinfo</code>). The last parameter is about the size of the second parameter. If we manually created the structure, we just use <code>sizeof</code>; if it was returned from <code>getaddrinfo()</code> then there is also an attribute <code>ai_addrlen</code> provided. Consider an example using <code>getaddrinfo</code> <span class="citation" data-cites="getaddrinfo"></span>:</p>
+<div class="sourceCode" id="cb7" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">struct</span> addrinfo hints;</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw">struct</span> addrinfo *res;</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="dt">int</span> sockfd;</a>
+<a class="sourceLine" id="cb7-4" title="4"></a>
+<a class="sourceLine" id="cb7-5" title="5">memset(&amp;hints, <span class="dv">0</span>, <span class="kw">sizeof</span>( hints ));</a>
+<a class="sourceLine" id="cb7-6" title="6">hints.ai_family = AF_INET;</a>
+<a class="sourceLine" id="cb7-7" title="7">hints.ai_socktype = SOCK_STREAM;</a>
+<a class="sourceLine" id="cb7-8" title="8"></a>
+<a class="sourceLine" id="cb7-9" title="9">getaddrinfo(<span class="st">&quot;www.uwaterloo.ca&quot;</span>, <span class="st">&quot;80&quot;</span>, &amp;hints, &amp;res);</a>
+<a class="sourceLine" id="cb7-10" title="10">sockfd = socket(res-&gt;ai_family, res-&gt;ai_socktype, res-&gt;ai_protocol);</a>
+<a class="sourceLine" id="cb7-11" title="11"></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="dt">int</span> status = connect(sockfd, res-&gt;ai_addr, res-&gt;ai_addrlen);</a></code></pre></div>
+<p>The return value of <code>connect</code> determines whether we successfully connected or not. Zero means we were successful, anything else indicates an error. The man pages (i.e., manual pages) describing this function will tell you about specific error codes. For example, a quick search turns up <a href="http://man7.org/linux/man-pages/man2/connect.2.html">http://man7.org/linux/man-pages/man2/connect.2.html</a>. So if you are working with a system call and you get back a nonzero value, it’s worth checking the man pages to see what it means. Printing out an error code directly isn’t super helpful, but you can compare it against the constants defined in the man page. So if you check and see the status variable equals <code>ETIMEDOUT</code>, then you know the connection attempt timed out – you know what went wrong. The specifications don’t always associate a specific number with a specific error (e.g., -7 means X) so you have to check against the constants in the implementation you have.</p>
+<p>Assuming that you connected successfully, you’re now ready to start using the connection. But before we do that, let’s see what happens on the server side.</p>
+<h4 id="server-bind-listen-and-accept.">Server: Bind, Listen, and Accept.</h4>
+<p>The overview of what steps the server is going to do is bind, listen, and accept. The bind step is how we choose what port we are going to connect to. The listen step is the part where we wait for connections from a client. Then the last step is accept, that is, establish the connection so we can start talking.</p>
+<p>Step one is <code>bind()</code>: this is how we associate the socket with whatever port we want to use. When the <code>ssh</code> daemon is available for connection, it’s because it has bound itself to the port 22 using <code>bind</code>.</p>
+<p>So a quick example of using <code>bind</code> then, done without using <code>getaddrinfo</code>:</p>
+<div class="sourceCode" id="cb8" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb8-1" title="1"><span class="dt">int</span> socketfd = socket( AF_INET, SOCK_STREAM, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw">struct</span> sockaddr_in addr;</a>
+<a class="sourceLine" id="cb8-3" title="3">addr.sin_family = AF_INET;</a>
+<a class="sourceLine" id="cb8-4" title="4">addr.sin_port = htons( <span class="dv">2520</span> );</a>
+<a class="sourceLine" id="cb8-5" title="5">addr.sin_addr.s_addr = htonl( INADDR_ANY );</a>
+<a class="sourceLine" id="cb8-6" title="6"></a>
+<a class="sourceLine" id="cb8-7" title="7">bind( socketfd, (<span class="kw">struct</span> sockaddr*) &amp;addr, <span class="kw">sizeof</span>( addr ));</a></code></pre></div>
+<p>With that done, we’ve acquired the resource of port 2520 for our use. We haven’t done anything with it yet, but we’ve taken it for ourselves. You’ll notice also this did not happen on the client side. This is because we don’t care (usually) on the client side what the outgoing port number is. So we can just skip that step, unless we have a reason to care what the outgoing port is.</p>
+<p>Step two is <code>listen()</code>: int this step we wait for incoming connections. This is the simplest step and you just call:</p>
+<div class="sourceCode" id="cb9" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1"><span class="dt">int</span> listen(<span class="dt">int</span> sockfd, <span class="dt">int</span> backlog); </a></code></pre></div>
+<p>We listen on a socket that has been bound with <code>bind</code> and we’ll allow a backlog up to <code>backlog</code> connections (which usually is limited to 20 or so, it depends on your system). If the queue is full the server system will reject additional requests.</p>
+<p>So we’ve chosen a socket (got a phone number), we’ve said we’re ready to listen (our phone is turned on), and then the next step is to <code>accept()</code> incoming <code>connect</code> requests (press the green icon). The <code>accept</code> call looks like this <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb10" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1"><span class="dt">int</span> accept( <span class="dt">int</span> sockfd, <span class="kw">struct</span> sockaddr *addr, socklen_t *len ); </a></code></pre></div>
+<p>The first parameter is, of course, the socket that we are listening to. The second and third parameters are the information about the client. We allocate these, pass them in, and they are updated by the call to <code>accept</code>. If we don’t care at all about who the client is you can give in <code>NULL</code> for the second and third parameters. We don’t strictly speaking need those values for communication in both directions, but it might be helpful in many contexts to know who the client is.</p>
+<p>The return value is a new file descriptor which describes a new socket. Further communication takes places over that socket (and not the original one). The original socket is still used for accepting connections, and the new one is the socket used for communication with the client.</p>
+<p>If <code>accept</code> is called and no requests are in the queue, the server is blocked until a request arrives. We simply wait for the connection.</p>
+<p>Let’s see a quick example of how to put all the pieces together now, skipping the error checking for compactness <span class="citation" data-cites="getaddrinfo"></span>:</p>
+<div class="sourceCode" id="cb11" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">struct</span> sockaddr_in client_addr;</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="dt">int</span> client_addr_size = <span class="kw">sizeof</span>( <span class="kw">struct</span> sockaddr_in );</a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="dt">int</span> newsockfd;</a>
+<a class="sourceLine" id="cb11-4" title="4"></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="dt">int</span> socketfd = socket( AF_INET, SOCK_STREAM, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="kw">struct</span> sockaddr_in server_addr;</a>
+<a class="sourceLine" id="cb11-7" title="7">server_addr.sin_family = AF_INET;</a>
+<a class="sourceLine" id="cb11-8" title="8">server_addr.sin_port = htons( <span class="dv">2520</span> );</a>
+<a class="sourceLine" id="cb11-9" title="9">server_addr.sin_addr.s_addr = htonl( INADDR_ANY );</a>
+<a class="sourceLine" id="cb11-10" title="10"></a>
+<a class="sourceLine" id="cb11-11" title="11">bind( socketfd, (<span class="kw">struct</span> sockaddr*) &amp;server_addr, <span class="kw">sizeof</span>( server_addr ));</a>
+<a class="sourceLine" id="cb11-12" title="12">listen( socketfd, <span class="dv">5</span> );</a>
+<a class="sourceLine" id="cb11-13" title="13">newsockfd = accept( socktfd, (<span class="kw">struct</span> sockaddr*) &amp;client_addr, &amp;client_addr_size );</a>
+<a class="sourceLine" id="cb11-14" title="14"></a>
+<a class="sourceLine" id="cb11-15" title="15"><span class="co">/* Do something useful */</span></a>
+<a class="sourceLine" id="cb11-16" title="16"></a>
+<a class="sourceLine" id="cb11-17" title="17">close( newsockfd );</a>
+<a class="sourceLine" id="cb11-18" title="18"></a>
+<a class="sourceLine" id="cb11-19" title="19"><span class="co">/* Later when all is done */</span></a>
+<a class="sourceLine" id="cb11-20" title="20">close( socketfd );</a></code></pre></div>
+<p>Unless communication is a one-time thing, we probably call <code>accept</code> in some sort of loop, constantly accepting new connections and doing something useful with each, before going on to the next.</p>
+<p>We could save ourselves some trouble by not caring about the client address:</p>
+<div class="sourceCode" id="cb12" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb12-1" title="1"><span class="dt">int</span> newsockfd;</a>
+<a class="sourceLine" id="cb12-2" title="2"></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="dt">int</span> socketfd = socket( AF_INET, SOCK_STREAM, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="kw">struct</span> sockaddr_in server_addr;</a>
+<a class="sourceLine" id="cb12-5" title="5">server_addr.sin_family = AF_INET;</a>
+<a class="sourceLine" id="cb12-6" title="6">server_addr.sin_port = htons( <span class="dv">2520</span> );</a>
+<a class="sourceLine" id="cb12-7" title="7">server_addr.sin_addr.s_addr = htonl( INADDR_ANY );</a>
+<a class="sourceLine" id="cb12-8" title="8"></a>
+<a class="sourceLine" id="cb12-9" title="9">bind( socketfd, (<span class="kw">struct</span> sockaddr*) &amp;server_addr, <span class="kw">sizeof</span>( server_addr ));</a>
+<a class="sourceLine" id="cb12-10" title="10">listen( socketfd, <span class="dv">5</span> );</a>
+<a class="sourceLine" id="cb12-11" title="11">newsockfd = accept( socktfd, NULL, NULL );</a>
+<a class="sourceLine" id="cb12-12" title="12"><span class="co">/* Do something useful */</span></a>
+<a class="sourceLine" id="cb12-13" title="13"></a>
+<a class="sourceLine" id="cb12-14" title="14">close( newsockfd );</a>
+<a class="sourceLine" id="cb12-15" title="15"></a>
+<a class="sourceLine" id="cb12-16" title="16"><span class="co">/* Later when all is done */</span></a>
+<a class="sourceLine" id="cb12-17" title="17">close( socketfd );</a></code></pre></div>
+<p>And then we are finally ready for the client and server to communicate (the client using its original socket file descriptor, and the server using the new file descriptor). As we’ve seen, there’s a lot of setup when we learn about sockets for the first time. It is likely that in a program that does a lot with sockets, some of the lines of boilerplate code will be put into functions which can be invoked with just a few parameters. For example, you might write a client side function like this:</p>
+<div class="sourceCode" id="cb13" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb13-1" title="1"><span class="dt">int</span> connect_to( <span class="dt">const</span> <span class="dt">char</span>* host, <span class="dt">const</span> <span class="dt">char</span>* port ); </a></code></pre></div>
+<p>This function does all the initialization, gets the address info, creates the socket, calls <code>connect</code>, checks for errors, and then returns the file descriptor for writing. Convenient! But we had to learn a bit about how the magic works before we could use it...</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

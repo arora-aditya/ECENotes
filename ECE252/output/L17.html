@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L17.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#background.">Background.</a></li>
+<li><a href="#primary-objective.">Primary Objective.</a></li>
+<li><a href="#secondary-objectives.">Secondary Objective(s).</a></li>
+<li><a href="#starter-code.">Starter Code.</a></li>
+<li><a href="#submitting-your-code.">Submitting Your Code.</a></li>
+<li><a href="#grading.">Grading.</a></li>
+<li><a href="#description-of-behaviour.">Description of Behaviour.</a></li>
+<li><a href="#sample-output.">Sample Output.</a></li>
+<li><a href="#hints-debugging-guidance.">Hints &amp; Debugging Guidance.</a></li>
+</ul>
+</nav>
+<p>*<span>In Class Exercise: Harry Potter and the pthread House Elves</span></p>
+<h4 id="background.">Background.</h4>
+<p>At Hogwarts School of Witchcraft and Wizardry, undesirable tasks are done by House
+Elves, magical creatures who apparently are not covered under any sort of employment
+standards or workers rights legislation. They work as a team under the direction of
+Dobby, who is a free elf. At the beginning of the day, the headmaster, Dumbledore, tells Dobby how many tasks there are to do today. Dobby will communicate with Dumbledore about what the specific tasks to do are, and posts a partial list of items for the other elves to do. The elves take tasks from the list and do them. When the list is empty, Dobby asks for more directions and posts more tasks. This continues until the house elves have finished all the tasks for the day.</p>
+<h4 id="primary-objective.">Primary Objective.</h4>
+<p>The primary objective of this exercise is to practice using synchronization constructs such as semaphores and mutexes in a simple C program.</p>
+<h4 id="secondary-objectives.">Secondary Objective(s).</h4>
+<p>You will gain some experience in designing and debugging a multithreaded program. You may also improve your ability to work with version control (git) and gitlab.</p>
+<h4 id="starter-code.">Starter Code.</h4>
+<p>The starter code can be found at <a href="https://git.uwaterloo.ca/ece252-1195/ece252-e2">https://git.uwaterloo.ca/ece252-1195/ece252-e2</a> – fork this repository to your own space. Set permissions for this repository to be private, but add the group for the course staff with read access so your code can be evaluated.</p>
+<h4 id="submitting-your-code.">Submitting Your Code.</h4>
+<p>When you’re done, use the command <code>git commit -a</code> to add all files to your commit and enter a commit message. Then <code>git push</code> to upload your changes to your repository. You can commit and push as many times as you like; we’ll look at whatever was last pushed. And check that you gave the course staff permissions!</p>
+<h4 id="grading.">Grading.</h4>
+<p>Binary grading: 1 if you have made a meaningful attempt at implementing the code; 0 otherwise.</p>
+<h4 id="description-of-behaviour.">Description of Behaviour.</h4>
+<p>The goal is to implement the program so that the following behaviour occurs:</p>
+<ul>
+<li><p>At program start, the first argument provided to the program represents the total number of tasks to do today. So if, for example, the program is invoked with <code>./hogwarts 100</code>, there are 100 tasks to be done today (total tasks).</p></li>
+<li><p>The <code>main</code> function should initialize and clean up, respectively, any global variables.</p></li>
+<li><p>Your program should create five (5) house elves (<code>house_elf()</code>) and one (1) Dobby thread (<code>dobby()</code>).</p></li>
+<li><p>Worker elves take tasks using the function
+<code>take_task()</code> (which cannot be safely run in parallel) and then do the work by
+calling <code>do_work()</code> (which can be done in parallel). If the list of tasks is
+empty, an elf cannot call <code>take_task()</code> and must instead wake up Dobby, who will then post the next 10 tasks before going to sleep again; meanwhile the elf is blocked until the next group of tasks is ready.</p></li>
+<li><p>When woken up, Dobby posts (up to) 10 tasks to do by calling <code>post_tasks()</code> and updates the number of available tasks (active tasks). After that, Dobby sleeps (is blocked). If there are fewer than 10 tasks remaining for the day then Dobby cannot post 10, but instead posts however many remain.</p></li>
+<li><p>Note that Dobby and the elves are responsible for managing the number of active tasks.</p></li>
+<li><p>House elves don’t know that their day is over until they are told so using <code>pthread_cancel</code>. Dobby must dismiss the other elves using this function, if Dobby gets woken up and the remaining tasks for the day is zero. After cancelling the other threads, Dobby should use <code>pthread_join</code> to wait for each of them to finish before he can go home for the day (exit).</p></li>
+<li><p>Your program should not leak memory; be sure to destroy/deallocate anything initialized/allocated.</p></li>
+<li><p>There should not be any race conditions in your program either.</p></li>
+</ul>
+<h4 id="sample-output.">Sample Output.</h4>
+<p>Below is some sample output. The actual order of task completion will vary.</p>
+<pre><code>jzarnett@ecetesla0:~/ece252$ ./hogwarts 5
+There are 5 tasks to do today.
+Adding 5 tasks to the list of active tasks.
+Task 5 was completed!
+Task 3 was completed!
+Task 4 was completed!
+Task 2 was completed!
+Task 1 was completed!
+jzarnett@ecetesla0:~/ece252$ ./hogwarts 0
+There are 0 tasks to do today.
+jzarnett@ecetesla0:~/ece252$ ./hogwarts 20
+There are 20 tasks to do today.
+Adding 10 tasks to the list of active tasks.
+Task 10 was completed!
+Task 9 was completed!
+Task 8 was completed!
+Task 7 was completed!
+Task 6 was completed!
+Task 4 was completed!
+Task 5 was completed!
+Task 1 was completed!
+Task 3 was completed!
+Adding 10 tasks to the list of active tasks.
+Task 2 was completed!
+Task 20 was completed!
+Task 19 was completed!
+Task 17 was completed!
+Task 15 was completed!
+Task 13 was completed!
+Task 11 was completed!
+Task 16 was completed!
+Task 12 was completed!
+Task 18 was completed!
+Task 14 was completed!
+jzarnett@ecetesla0:~/ece252$ ./hogwarts 12
+There are 12 tasks to do today.
+Adding 10 tasks to the list of active tasks.
+Task 10 was completed!
+Task 9 was completed!
+Task 8 was completed!
+Task 7 was completed!
+Task 6 was completed!
+Task 2 was completed!
+Task 1 was completed!
+Task 4 was completed!
+Adding 2 tasks to the list of active tasks.
+Task 5 was completed!
+Task 3 was completed!
+Task 11 was completed!
+Task 12 was completed!</code></pre>
+<h4 id="hints-debugging-guidance.">Hints &amp; Debugging Guidance.</h4>
+<p>This problem is very similar to what is called the “Dining Savages Problem” <span class="citation" data-cites="lbs"></span>, but is probably less offensive. Because who does not like Harry Potter themed material? Also, I really hope J. K. Rowling does not sue me. I don’t have time for that...</p>
+<p>Some general guidance is below. If you’re having trouble, try running through these steps and it may resolve your problem. If you’re still stuck you can ask a neighbour or the course staff.</p>
+<ul>
+<li><p>Check the documentation for how functions work if you are unfamiliar with them (google is your friend!)</p></li>
+<li><p>Have you initialized all variables? It is easy to forget; <code>malloc</code> does not initialize the value...</p></li>
+<li><p>If a variable is going to be used in more than one function, make sure it is allocated on the heap (ie with <code>malloc</code>) and not on the stack.</p></li>
+<li><p>Is there a missing or extra <code>*</code> (dereference) on a pointer somewhere?</p></li>
+<li><p>Check carefully what values semaphores are initialized to.</p></li>
+<li><p>Is the number of <code>wait</code> and <code>post</code> statements on a given semaphore balanced?</p></li>
+<li><p>Does every memory allocation have a matching deallocation?</p></li>
+<li><p>Does every code path in a critical section protected by a mutex lead to an unlock statement?</p></li>
+<li><p>Are accesses to shared variables protected by a mutex or semaphore appropriately?</p></li>
+<li><p>Remember that both reads and writes of shared variables need to be inside critical sections.</p></li>
+<li><p>It may be helpful to put <code>printf()</code> statements to follow along what the program is doing and it may help you narrow down where the issue is.</p></li>
+<li><p>Don’t be shy about asking for help; the TAs and instructor are here to help you get it done and will help you as much as is reasonable.</p></li>
+</ul>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

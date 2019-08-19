@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L05.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#show-me-the-code">Show Me The Code!</a><ul>
+<li><a href="#use-of-fork-design-problem.">Use of Fork Design Problem. </a></li>
+<li><a href="#use-of-fork-design-solution">Use of Fork Design Solution</a></li>
+</ul></li>
+<li><a href="#the-fork-bomb">The Fork Bomb</a></li>
+<li><a href="#signals">Signals</a></li>
+</ul>
+</nav>
+<p>*<span>The Process in UNIX</span></p>
+<p>Earlier on, we mentioned that in UNIX, a process may create other processes. The creating process is the parent and the newly-created process(es) is (are) its child(ren). Every process has a parent, stretching back to the <code>init</code> process (or <code>launchd</code>) at the root of the tree.</p>
+<p>Each process has a unique identifier in its process control block, and in UNIX we call this the <code>pid</code> (process ID). For the most part, users will not need to know or think about the ID of a process except when trying to terminate one that’s gotten stuck (<code>kill -9 24601</code>). The <code>init</code> process always gets a pid of 1. I don’t recommend trying to kill <code>init</code>. In most cases, <code>init</code> will just laugh off your attempt (“’tis but a scratch!”) but you might end up rebooting the system or causing a crash.</p>
+<p><embed src="images/linux-process-tree.pdf" style="width:50.0%" /><br />
+A tree of processes in a Linux system.</p>
+<p>In a UNIX system, we can obtain a list of processes at any time with the <code>ps</code> command. The diagram illustrates that each user, when logging in, spawns a <code>login</code> process (and an administrator can log people out by killing their <code>login</code> process... not that this is necessarily a good way to do it). The user’s shell (these days, almost always <code>bash</code>, the Bourne Again Shell) is then spawned from <code>login</code>. That shell provides the command line interface where the user can enter a command.</p>
+<p>When you issue a command, like <code>ls</code> or <code>top</code> (table of processes), the new process is created and the shell will <code>wait</code> on that process to finish (in the case of <code>ls</code>) or for the user to tell it to exit (<code>top</code>); when it does, control goes back to the shell and you get presented with the prompt again (e.g., <code>jz@Loki:~/$</code>). This would, on its face, seem kind of limiting – do I have to log in to the system in a second terminal window to run two things at a time? The answer is no, and there are two ways to get around it.</p>
+<p>The first thing we can do is tell the shell we want the task to run in the background. To do that, add to the command the <code>&amp;</code> symbol, like so:</p>
+<p><code>gcc fork.c &amp;</code></p>
+<p>This will return control almost immediately to the shell (as it will not be waiting for the <code>gcc</code> command to finish). You may see some output like <code>[1] 34429</code> which is the shell saying the child has been created and it has process ID 34429. When the process is finished, there is another update, looking something like:</p>
+<p><code>[1]+ Done gcc fork.c</code></p>
+<p>Notably, any console output that the <code>gcc</code> command would generate will still appear on the console where the background task was created. Maybe you want that but maybe you want to put the output in a log file, with a command like <code>cat fork.c &gt; logfile.txt &amp;</code>. (Telling <code>gcc</code> to be silent is a somewhat more complex operation.)</p>
+<p>A common example of a command I use involving the <code>&amp;</code>:<br />
+<code> sudo service xyz start &amp; </code><br />
+This will (with super user permissions - that’s the purpose of <code>sudo</code>) start up the service <code>xyz</code> but return control to the console so I don’t have to wait for the <code>xyz</code> service to be started to enter my next command. This is good, because the next thing I’d like to do is <code>tail -f /var/log/xyz/console.log</code> which will allow me to watch the console log of the <code>xyz</code> service as it starts up to see if there are any errors.</p>
+<p>The other alternative to get something to run in the background is with the <code>screen</code> command. While having something run in the background is nice, it does not work for interactive processes. Suppose you are working on some code in <code>vi</code> and you would like to pause that for a minute and write an e-mail (with <code>pine</code> or whatever the cool kids use for command line e-mail these days). One approach is to save and exit <code>vi</code> and open up <code>pine</code>. The other would be to start up each of these in <code>screen</code> and switch between them.</p>
+<p>Thus instead of just opening <code>vi fork.c</code> I can issue the command <code>screen vi fork.c</code> and this spawns <code>screen</code> and takes me right to editing the file. The key difference is that I can “detach” from this screen and go back to the command line that spawned it. And if I log out, <code>screen</code> keeps running with the <code>vi</code> inside it. If I have multiple screens running, I can just “reattach” to the one I want to use next. To get a full understanding of <code>screen</code>, try the command <code>man screen</code> and the user manual will appear to give you some information and instructions about how to use this. Or you can use Google.</p>
+<h2 id="show-me-the-code" class="unnumbered">Show Me The Code!</h2>
+<p>The workflow in UNIX is as follows. First, the parent spawns the child process with the <code>fork</code> system call. If it is interested in waiting for the child process to finish, it will use the system call <code>wait</code>, in which case the parent will be awaiting the completion of the child process. When the child process is finished, it returns a value with the <code>exit</code> system call. The parent process will then get this as the return value of the <code>wait</code> call and may proceed.</p>
+<p>What does <code>fork</code> do? It creates a new process; it makes a copy of itself. The parent and child continue execution after the <code>fork</code> statement. If <code>fork</code> returns a negative number, the <code>fork</code> system call failed. If it returns 0, the process that got the 0 back is the child. If it returns a positive value, that is the process ID of the child.</p>
+<p>After the <code>fork</code>, one of the processes may use the <code>exec</code> system call, or one of its variants, to replace its memory space with a new program. There’s no rule that says this must happen; a child can continue to be a clone of its parent if it wishes. The <code>exec</code> invocation loads the binary file into memory and starts execution <span class="citation" data-cites="osc"></span>. At this point, the programs can go their separate ways, or the parent might want to wait for the child to finish. The parent is then blocked, waiting for the child process to execute.</p>
+<p>Let’s put this all together in an actual C-code example adapted from <span class="citation" data-cites="osc"></span>:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="pp">#include </span><span class="im">&lt;sys/types.h&gt;</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp"> </span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb1-6" title="6">  pid_t pid;</a>
+<a class="sourceLine" id="cb1-7" title="7">  <span class="dt">int</span> childStatus;</a>
+<a class="sourceLine" id="cb1-8" title="8"></a>
+<a class="sourceLine" id="cb1-9" title="9">  <span class="co">/* fork a child process */</span></a>
+<a class="sourceLine" id="cb1-10" title="10">  pid = fork();</a>
+<a class="sourceLine" id="cb1-11" title="11">  </a>
+<a class="sourceLine" id="cb1-12" title="12">  <span class="cf">if</span> (pid &lt; <span class="dv">0</span>) { </a>
+<a class="sourceLine" id="cb1-13" title="13">    <span class="co">/* error occurred */</span> </a>
+<a class="sourceLine" id="cb1-14" title="14">    fprintf(stderr, <span class="st">&quot;Fork Failed&quot;</span>); </a>
+<a class="sourceLine" id="cb1-15" title="15">    <span class="cf">return</span> <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-16" title="16">  </a>
+<a class="sourceLine" id="cb1-17" title="17"> } <span class="cf">else</span> <span class="cf">if</span> (pid == <span class="dv">0</span>) {    </a>
+<a class="sourceLine" id="cb1-18" title="18">    <span class="co">/* child process */</span></a>
+<a class="sourceLine" id="cb1-19" title="19">    execlp(<span class="st">&quot;/bin/ls&quot;</span>,<span class="st">&quot;ls&quot;</span>,NULL);</a>
+<a class="sourceLine" id="cb1-20" title="20">    </a>
+<a class="sourceLine" id="cb1-21" title="21">  } <span class="cf">else</span> {    </a>
+<a class="sourceLine" id="cb1-22" title="22">    <span class="co">/* parent process */</span></a>
+<a class="sourceLine" id="cb1-23" title="23">    <span class="co">/* parent will wait for the child to complete */</span></a>
+<a class="sourceLine" id="cb1-24" title="24">    wait(&amp;childStatus);</a>
+<a class="sourceLine" id="cb1-25" title="25">    printf(<span class="st">&quot;Child Complete with status: %i </span><span class="sc">\n</span><span class="st">&quot;</span>, childStatus);</a>
+<a class="sourceLine" id="cb1-26" title="26">    </a>
+<a class="sourceLine" id="cb1-27" title="27">  }</a>
+<a class="sourceLine" id="cb1-28" title="28">    </a>
+<a class="sourceLine" id="cb1-29" title="29">  <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-30" title="30">}</a></code></pre></div>
+<p>When executed, this code starts up and attempts to spawn a child process. Let us assume that the <code>fork</code> command succeeds and we do not enter the error-occurred block. After the fork there are now two processes at the statement <code> if ( pid &lt; 0 ) </code> . The child process calls <code>execlp</code>, replacing itself with the <code>ls</code> (list directory contents) command. The parent process will go to the <code>wait</code> statement and wait for the child process to complete. The child process runs <code>ls</code>, listing the contents of the directory. Then it finishes. The parent process, finally, prints “Child Complete” to the console.</p>
+<p>Thus, the output is:</p>
+<pre><code>jz@Freyja:~/fork$ ./fork 
+fork   fork.c
+Child Complete with status: 0
+jz@Freyja:~/fork$ </code></pre>
+<p>Or, to represent this visually:</p>
+<p><img src="images/fork-syscall.png" alt="image" style="width:85.0%" /><br />
+Process creation with the <code>fork</code> system call <span class="citation" data-cites="osc"></span>.</p>
+<p>What about termination? On the assumption that the process is terminating normally and not being killed, the system call for that is <code>exit</code>. If the program itself has no explicit call to <code>exit</code>, the <code>return</code> statement at the end of <code>main</code> will have the same effect.</p>
+<h4 id="use-of-fork-design-problem.">Use of Fork Design Problem. </h4>
+<p>It’s not necessary for a child to replace itself with another one. Let us do an example of how we might write a program where both parts are in the same source file.</p>
+<p>There is a task that can be split into parts ’A’ and ’B’. You may assume there are implementations for the functions <code>int execute_A()</code> and <code>int execute_B()</code> that work correctly (and are not shown). If either of the execution functions returns a non-zero value, this indicates an error.</p>
+<p>Use <code>fork()</code> to create a child process. The child process should call function <code>execute_B()</code> and return the result to the parent. The parent process should call <code>execute_A()</code> and collect its result. The parent should then collect the result of the child using <code>wait()</code> and then produce the console output described in the next paragraph. If no errors occurred, <code>main</code> should return 0; otherwise it should return -1.</p>
+<p>If an error occurs, it should be reported to the console including the error number (e.g., “Error 7 Occurred.”). If more than one error occurs, report both errors. If both functions return zero, it means all is well and the program should print “Completed.” to the console.</p>
+<h4 id="use-of-fork-design-solution">Use of Fork Design Solution</h4>
+<p>The solution:</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3">  pid_t pid;</a>
+<a class="sourceLine" id="cb3-4" title="4">  <span class="dt">int</span> child_result;</a>
+<a class="sourceLine" id="cb3-5" title="5">  <span class="dt">int</span> parent_result;</a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7">  pid = fork();</a>
+<a class="sourceLine" id="cb3-8" title="8">  </a>
+<a class="sourceLine" id="cb3-9" title="9">  <span class="cf">if</span> ( pid &lt; <span class="dv">0</span> ) { <span class="co">/* Fork Failed */</span></a>
+<a class="sourceLine" id="cb3-10" title="10">    <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-11" title="11">  } <span class="cf">else</span> <span class="cf">if</span> ( pid == <span class="dv">0</span> ) { <span class="co">/* Child */</span></a>
+<a class="sourceLine" id="cb3-12" title="12">    <span class="cf">return</span> execute_B();</a>
+<a class="sourceLine" id="cb3-13" title="13">  } <span class="cf">else</span> { <span class="co">/* Parent */</span> </a>
+<a class="sourceLine" id="cb3-14" title="14">    parent_result = execute_A();</a>
+<a class="sourceLine" id="cb3-15" title="15">    wait( &amp;child_result );</a>
+<a class="sourceLine" id="cb3-16" title="16">  }</a>
+<a class="sourceLine" id="cb3-17" title="17">  </a>
+<a class="sourceLine" id="cb3-18" title="18">  <span class="cf">if</span> ( child_result == <span class="dv">0</span> &amp;&amp; parent_result == <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb3-19" title="19">    printf( <span class="st">&quot;Completed.</span><span class="sc">\n</span><span class="st">&quot;</span> );</a>
+<a class="sourceLine" id="cb3-20" title="20">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb3-21" title="21">  }</a>
+<a class="sourceLine" id="cb3-22" title="22">  </a>
+<a class="sourceLine" id="cb3-23" title="23">  <span class="cf">if</span> ( child_result != <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb3-24" title="24">    printf( <span class="st">&quot;Error %d Occurred.</span><span class="sc">\n</span><span class="st">&quot;</span>, child_result);</a>
+<a class="sourceLine" id="cb3-25" title="25">  }</a>
+<a class="sourceLine" id="cb3-26" title="26">  <span class="cf">if</span> ( parent_result != <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb3-27" title="27">    printf( <span class="st">&quot;Error %d Occurred.</span><span class="sc">\n</span><span class="st">&quot;</span>, parent_result);</a>
+<a class="sourceLine" id="cb3-28" title="28">  }</a>
+<a class="sourceLine" id="cb3-29" title="29">  </a>
+<a class="sourceLine" id="cb3-30" title="30">  <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-31" title="31">}</a></code></pre></div>
+<h1 id="the-fork-bomb" class="unnumbered">The Fork Bomb</h1>
+<p>We will take a slight digression from the general topic of processes to discuss a denial-of-service attack against UNIX systems that is called the “Fork Bomb”. The idea behind the attack is to call <code>fork</code> repeatedly until the number of processes spawned is too high for the system to manage and it either crashes or is so slow that no useful work can get done. As you can imagine, this is caused by repeatedly calling <code>fork</code>. Each time a program does so, there are now two processes running, each of which calls <code>fork</code>. There are then <span class="math inline">2^{n}</span> processes after each of <span class="math inline">n</span> invocations and this exponential growth will soon crash up against the limits of the system.</p>
+<p>A system configured to defend against this may impose limits on (1) the total number of processes a user may create; and (2) the rate at which a user may spawn a new process.</p>
+<p>Note: do not attempt this on anything other than your personal computer at home. It is a denial of service attack and would certainly count as misuse of resources on any system. Accordingly, trying to do it will very likely result in a ban. Getting banned from using university computer resources is not conducive to completing your degree.</p>
+<h1 id="signals" class="unnumbered">Signals</h1>
+<p>UNIX systems use signals to indicate events (e.g., the <code>Ctrl-C</code> on the console). Signals also are things like exceptions (division by zero, segmentation fault), etc. A signal may be <em>synchronous</em> if the signal occurs as a result of the program execution (e.g., dividing by zero); it is <em>asynchronous</em> if it comes from outside the process (e.g., the user pressing <code>Ctrl-C</code> or one process or thread sending a signal to another). Signals are, in the end, interrupts with a certain integer ID.</p>
+<p>By default, the kernel will handle any signal that is sent to a process with the default handler. The behaviour of the default handler may be to ignore the signal, but some signals (segmentation fault) will result in termination of the process.</p>
+<p>Here are some of the many signals described in the POSIX.1-1990 standard:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Signal</strong></th>
+<th style="text-align: left;"><strong>Comment</strong></th>
+<th style="text-align: left;"><strong>Value</strong></th>
+<th style="text-align: left;"><strong>Default Action</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>SIGHUP</code></td>
+<td style="text-align: left;">Hangup detected</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Terminate process</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>SIGINT</code></td>
+<td style="text-align: left;">Keyboard interrupt (<code>Ctrl-C</code>)</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Terminate process</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>SIGQUIT</code></td>
+<td style="text-align: left;">Quit from keyboard</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Terminate process, dump debug info</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>SIGILL</code></td>
+<td style="text-align: left;">Illegal instruction</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Terminate process, dump debug info</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>SIGKILL</code></td>
+<td style="text-align: left;">Kill signal</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">Terminate process</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>SIGSEGV</code></td>
+<td style="text-align: left;">Segmentation fault (invalid memory reference)</td>
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">Terminate process, dump debug info</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>SIGTERM</code></td>
+<td style="text-align: left;">Termination signal</td>
+<td style="text-align: left;">15</td>
+<td style="text-align: left;">Terminate process</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>SIGCHLD</code></td>
+<td style="text-align: left;">Child stopped or terminated</td>
+<td style="text-align: left;">20,17,18</td>
+<td style="text-align: left;">Ignore</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>SIGCONT</code></td>
+<td style="text-align: left;">Continue if stopped</td>
+<td style="text-align: left;">19,18,25</td>
+<td style="text-align: left;">Continue the process if stopped</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>SIGSTOP</code></td>
+<td style="text-align: left;">Stop process</td>
+<td style="text-align: left;">18,20,24</td>
+<td style="text-align: left;">Stop process</td>
+</tr>
+</tbody>
+</table>
+<p>Alternatively, a process may inform the operating system it is prepared to handle the signal itself (such as doing some cleanup when the <code>Ctrl-C</code> is received instead of just dying). In any event, a signal needs to be handled, even if the handling is to ignore it. Note that the signals <code>SIGKILL</code> and <code>SIGSTOP</code> cannot be caught, blocked, or ignored.</p>
+<p>On the command line, the command to send a signal is also<code>kill</code> followed by a process ID. Normally a command like <code>kill 24601</code> will send <code>SIGHUP</code> to a process, which will, by default, kill the process. The process has an opportunity to clean things up if it wants to. If the process is still stuck, you can “force” kill the process by sending <code>SIGKILL</code> with the command <code>kill -9 24601</code>. The <code>-9</code> parameter says to send signal 9 (<code>SIGKILL</code>) rather than the default 1 (<code>SIGHUP</code>). Some users are eager to jump to <code>kill -9</code> whenever a process is stuck, but it’s usually worthwhile to attempt a less severe killing (<code>SIGHUP</code> or <code>Ctrl-C</code>) so that the process can at least try to clean up.</p>
+<p>A signal is, interestingly, a form of inter-process communication: you are sending a signal from one process to another, even if it’s your terminal doing the sending. When we have more than one process, we might want them to communicate, so we should look into how to make that happen.</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

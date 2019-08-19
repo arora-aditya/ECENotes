@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 7 - Error Detection and Correction</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 7 - Error Detection and Correction<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#errors-in-digital-systems">Errors in Digital Systems</a></li>
+<li><a href="#communication-structure">Communication Structure</a></li>
+<li><a href="#issues-and-more-terminology">Issues and More Terminology</a></li>
+<li><a href="#data-words-and-code-words">Data Words and Code Words</a></li>
+<li><a href="#communication-structure-1">Communication Structure</a><ul>
+<li><a href="#interpretation">Interpretation</a></li>
+</ul></li>
+<li><a href="#limitations-of-error-detection-and-correction">Limitations of Error Detection and Correction</a></li>
+<li><a href="#parity">Parity</a><ul>
+<li><a href="#parity-codes">Parity Codes</a></li>
+</ul></li>
+<li><a href="#improving-error-detection-by-increasing-distance">Improving Error Detection by Increasing Distance</a></li>
+<li><a href="#achieving-error-correction">Achieving Error Correction</a></li>
+<li><a href="#levels-of-error-detection-error-correction">Levels of Error Detection / Error Correction</a></li>
+<li><a href="#hamming-code-introduction">Hamming Code Introduction</a><ul>
+<li><a href="#hamming-code-using-a-venn-diagram">Hamming Code Using a Venn Diagram</a></li>
+<li><a href="#bit-placement">Bit Placement</a></li>
+<li><a href="#possible-error-conditions">Possible Error Conditions</a></li>
+</ul></li>
+<li><a href="#code-word-size">Code Word Size</a></li>
+<li><a href="#maximum-word-length-vs-number-of-check-bits">Maximum Word Length vs Number of Check Bits</a></li>
+<li><a href="#code-word-size-typical-values">Code Word Size Typical Values</a></li>
+<li><a href="#systematic-implementation-of-a-hamming-code">Systematic Implementation of a Hamming Code</a></li>
+<li><a href="#syndrome">Syndrome</a></li>
+<li><a href="#how-to-fill-the-table">How to fill the table</a><ul>
+<li><a href="#questions-of-interest-error-correction">Questions of Interest: Error Correction</a></li>
+</ul></li>
+</ul>
+</nav>
+<h3 id="errors-in-digital-systems">Errors in Digital Systems</h3>
+<ul>
+<li>Errors may occur in any environment where data is either stored or transferred from one device to another:
+<ul>
+<li>Registers</li>
+<li>Memory</li>
+<li>Mass storage devices</li>
+<li>Wired communication channels</li>
+<li>Wireless communication channels</li>
+</ul></li>
+<li>Errors may be classified as follows:
+<ul>
+<li><em>Hard Errors</em> : A hard error is a persistent (repeatable) error (e.g., a memory bit stuck at 0 will always return a 0)
+<ul>
+<li>surprisingly easy to solve, just ignore if you know whats wrong and don’t use it</li>
+</ul></li>
+<li><em>Soft Errors</em> : A soft error is a transient (non-repeatable) error (e.g., the 4th bit of a transmission failed due to noise but the 4th bit of a subsequent transmission may be received correctly)</li>
+</ul></li>
+</ul>
+<h3 id="communication-structure">Communication Structure</h3>
+<figure>
+<img src="../../attachments/errors-channel-with-noise.png" alt="errors-channel-with-noise" class="responsive-img" /><figcaption>errors-channel-with-noise</figcaption>
+</figure>
+<ul>
+<li>The following are the goals of error detection and error correction:
+<ul>
+<li><strong>Error Detection(ED)</strong> : Given information to be transferred, sufficient (redundant) in- formation is added (at the data source) to make it possible to determine (at the data destination) that the received data is not the same as the original information</li>
+<li><strong>Error Correction(EC)</strong> : Given information to be transferred, sufficient (redundant) information is added (at the data source) to make it possible to recover (at the data destination) the original information</li>
+</ul></li>
+<li>The received data may be: correct; incorrect, but correctable; incorrect but detectably received in error; or incorrect but not able to detect or correct the error(s).</li>
+</ul>
+<h3 id="issues-and-more-terminology">Issues and More Terminology</h3>
+<ul>
+<li>Error rates and the overhead to detect errors are two issues to be considered:
+<ul>
+<li><strong>Error Rate</strong>: The rate of errors on the channel. This may be specified as a probability. For example, <span class="math inline">10^{-6}</span> indicates that, on average, one bit in a million is in error. The errors may (or may not) be correlated. (i.e., the occurrence of an error may increase the likelihood that the next bit will be in error.)</li>
+<li><strong>Overhead</strong>: For our purposes we define overhead as the number of non-data bits divided by the total number of bits transferred.</li>
+</ul></li>
+<li>There is a tradeoff between block recovery and byte / word recovery:
+<ul>
+<li>If recovery is at the smallest unit level (e.g., byte level), the system may be very responsive – the fewest bits to re-transmit, but there may be many extra bits to transmit</li>
+<li>If recovery is done on a large group of bits – a re-transmission requires the entire group to be resent, but the number of bits transmitted in the initial transmission is smaller</li>
+<li>In this context, a block of information may be treated as a group of bits for the purpose of error handling</li>
+</ul></li>
+</ul>
+<p><strong>TRIPLE MODULAR REDUNDANCY</strong>: 3 computers do the same calculation, and choose the same 2 (Used on the moon lander. 3 times the hardware required)</p>
+<h3 id="data-words-and-code-words">Data Words and Code Words</h3>
+<ul>
+<li>Let <span class="math inline">B</span> be the number of bits of data and <span class="math inline">C</span> be the number of check bits required to handle the errors (correction or detection at the required level)</li>
+<li>Data Word: The information bits that are to be transferred over a channel. The data word has <span class="math inline">B</span> bits of data. The data word is the smallest unit for error correction or detection.</li>
+<li>Code Word: The combination of the <span class="math inline">B</span> data bits and the <span class="math inline">C</span> check bits used by an error handling algorithm. The exact order of the bits is specific to the error handling algorithm.</li>
+<li>The number of bits actually transmitted is <span class="math inline">B + C</span> bits. The overhead is expressed as:<br />
+<span class="math display">
+OVERHEAD = \frac{C}{B+C}
+</span></li>
+<li>In the event of an uncorrectable error, all <span class="math inline">B + C</span> bits must be retransmitted</li>
+</ul>
+<h3 id="communication-structure-1">Communication Structure</h3>
+<p>Consider a system that uses a code word consisting of B data bits and C check bits:
+<img src="../../attachments/errors-communication-channel-implementation.png" alt="errors-communication-channel-implementation" class="responsive-img" /></p>
+<p>Since the data bits and check bits are both being transmitted on the same channel, they both have equal probability of getting bad</p>
+<h4 id="interpretation">Interpretation</h4>
+<p>Consider an arbitrary check bit calculation function of <span class="math inline">F (x)</span>:</p>
+<ul>
+<li>If <span class="math inline">F (B_{in}) = F (B_{Out})</span> there has been no (detectable) error</li>
+<li>If <span class="math inline">F (B_{in}) \neq F (B_{Out})</span> then F (x) allows for the following:
+<ul>
+<li><span class="math inline">F(x)</span> may provide sufficient information to detect some errors (ED only)</li>
+<li><span class="math inline">F(x)</span> may provide sufficient information to correct some errors (EC only)</li>
+<li><span class="math inline">F(x)</span> may provide sufficient information to correct some errors and detect but not correct other errors (EC-ED)</li>
+</ul></li>
+</ul>
+<h3 id="limitations-of-error-detection-and-correction">Limitations of Error Detection and Correction</h3>
+<p>Some errors can be neither detected nor corrected:</p>
+<ul>
+<li>If the error handling algorithm was designed to handle fewer errors than actually observed:
+<ul>
+<li>Errors could convert a valid code word into a different valid code word and thus, the (erroneous) received data would be indistinguishable from the error-free reception of another valid code word</li>
+<li>Errors could convert a valid code word into an invalid code word that would then be corrected into another valid code word</li>
+</ul></li>
+<li>There could also be timing or signaling errors that prevent the recovery of sufficient information to successfully handle an error</li>
+</ul>
+<h3 id="parity">Parity</h3>
+<ul>
+<li>The most common first level of defense (<span class="math inline">C = 1</span>)</li>
+<li>Add 1 check bit to the B data bits so that the code word always has the following property:
+<ul>
+<li><strong>Even Parity</strong>: An even number of code word bits set to a 1 value.
+<ul>
+<li>even parity for 0101 is 0</li>
+<li>even parity for 0111 is 1</li>
+</ul></li>
+<li><strong>Odd Parity</strong>: An odd number of code word bits set to a 1 value.
+<ul>
+<li>odd parity for 0101 is 1</li>
+<li>odd parity for 0111 is 0</li>
+</ul></li>
+<li><strong>Space Parity</strong>: The parity bit is always set to a value of 0.
+<ul>
+<li>useful for detecting timing errors in serial interfacing where if you know that the signal should be zero at a particular time and if isn’t, an error has occurred</li>
+</ul></li>
+<li><strong>Mark Parity</strong>: The parity bit is always set to a value of 1.</li>
+</ul></li>
+<li>Even parity and odd parity detect an odd number of errors in a code word (e.g., single bit errors, triple bit errors, etc.)</li>
+<li>Space parity and mark parity detect timing issues (e.g., bit shifting, time delays, etc.)</li>
+<li>The minimum distance between valid code words is 2:
+<ul>
+<li><strong>(Hamming) Distance</strong>: The minimum number of bits that must change to go from one valid code word to another valid code word.
+<ul>
+<li>To detect single bit errors, a distance of at least 2 is required</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="parity-codes">Parity Codes</h4>
+<p>Consider a 4 bit code word (3 data bits, 1 parity bit) (bbbc) with even parity:</p>
+<p><img src="../../attachments/errors-distance-map.png" alt="errors-distance-map" class="responsive-img" />
+Note that the diagram above also wraps around; Triple Bit errors are un-catchable because you land on a valid block once again<br />
+Code words shown in red are valid (even parity) and Code words shown in black are invalid (odd parity)<br />
+</p>
+<h3 id="improving-error-detection-by-increasing-distance">Improving Error Detection by Increasing Distance</h3>
+<p>By increasing the distance between valid code words, error detection capabilities can be improved, and this can be intuited because as we increase the distance between valid code words we can allow for margin of correction between the words.<br />
+</p>
+<p><strong>Amount of error correction = Distance - 1</strong>
+<img src="../../attachments/errors-distance-detection-capability.png" alt="errors-distance-detection-capability" class="responsive-img" /></p>
+<h3 id="achieving-error-correction">Achieving Error Correction</h3>
+<p>Error correction can be achieved by assuming that the probability of a small number of errors is higher than the probability of a large number of errors
+<img src="../../attachments/errors-distance-correction-capability.png" alt="errors-distance-correction-capability" class="responsive-img" />
+You’re not only stuck between 2 valid code words but actually 4 valid code words because there’s the vertical axis not shown here<br />
+<strong>SED</strong>: Single Bit Error Detection<br />
+<strong>SEC-SED</strong>: Single Error Correction - Single Bit Error Detection<br />
+<strong>SEC-DED</strong>: Single Error Correction - Double Bit Error Detection <em>(most popular on the market)</em><br />
+<strong>DEC-DED</strong>: Double Error Correction - Double Bit Error Detection<br />
+<strong>DEC-TED</strong>: Double Error Correction - Triple Bit Error Detection, <em>can just change DEC-DED code and add a parity bit</em><br />
+</p>
+<h3 id="levels-of-error-detection-error-correction">Levels of Error Detection / Error Correction</h3>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 31%" />
+<col style="width: 58%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Distance</th>
+<th style="text-align: center;">No Error Correction Attempted</th>
+<th style="text-align: center;">Error Correction Attempted</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">N/A</td>
+<td style="text-align: center;">N/A</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">Single Bit Error Detection</td>
+<td style="text-align: center;">N/A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">Double Bit Error Detection</td>
+<td style="text-align: center;">Single Bit Error Correction</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">Triple Bit Error Detection</td>
+<td style="text-align: center;">Single Bit Error Correction / Double Bit Error Detection</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">Quadruple Bit Error Detection</td>
+<td style="text-align: center;">Double Bit Error Correction / Double Bit Error Detection</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hamming-code-introduction">Hamming Code Introduction</h3>
+<ul>
+<li>Consider the case of 4 data bits (<span class="math inline">B = 4</span>).</li>
+<li>Three overlapping sets (<span class="math inline">P</span>, <span class="math inline">Q</span>, and <span class="math inline">R</span>) are required to construct the code word.</li>
+<li>Each set uses <span class="math inline">1</span> check bit (i.e., 3 check bits for 4 data bits).</li>
+<li>Each check bit is set so that the combination of the data bits and check bits in the set results in an even number of <span class="math inline">1</span>’s (i.e., each set has even parity initially).</li>
+<li>After storage or transmission, sets have either even parity or odd parity.
+<ul>
+<li>There are <span class="math inline">2^3 - 1</span> code words that indicate a single bit error condition.</li>
+<li>Only <span class="math inline">1</span> correct code word (<span class="math inline">P</span>, <span class="math inline">Q</span>, and <span class="math inline">R</span> have even parity after storage or transmission).</li>
+</ul></li>
+</ul>
+<h4 id="hamming-code-using-a-venn-diagram">Hamming Code Using a Venn Diagram</h4>
+<figure>
+<img src="../../attachments/errors-venn-diagram-example.png" alt="errors-venn-diagram-example" class="responsive-img" /><figcaption>errors-venn-diagram-example</figcaption>
+</figure>
+<h4 id="bit-placement">Bit Placement</h4>
+<p>In the previous example, the data and check bits have been included in very specific locations.
+The bit layout can vary but the transmitter and the receiver must agree on the bit positions. Later in this set of notes (See Hamming Code Implementation (starting on page 208) ), an algorithm for bit placement is described. This algorithm results in the following bit placements:
+Each check bit is in exactly one set as follows:</p>
+<ul>
+<li><span class="math inline">C_0</span> is in SetP</li>
+<li><span class="math inline">C_1</span> is in Set Q</li>
+<li><span class="math inline">C_2</span> is in Set R</li>
+</ul>
+<p>The data bits are in one or more sets as follows:</p>
+<ul>
+<li><span class="math inline">D_0</span> is in Set P and Set Q</li>
+<li><span class="math inline">D_1</span> is in Set P and Set R</li>
+<li><span class="math inline">D_2</span> is in Set R and Set Q</li>
+<li><span class="math inline">D_3</span> is in Set P, Set Q, and Set R</li>
+</ul>
+<h4 id="possible-error-conditions">Possible Error Conditions</h4>
+<p>Assume that the data bits and check bits are arranged as shown in the figure.
+The bit layout agrees with a typical Hamming Code implementation.</p>
+<p><img src="../../attachments/errors-venn-diagram.png" alt="errors-venn-diagram" class="responsive-img" />
+- If the 7 bits (4 data bits and 3 check bits) shown in the figure above were to be transmitted, and we assume that there is at most 1 bit with an erroneous value, there will be 8 possible error conditions to consider
+- The table on the next page lists the expected parity for the 3 sets of values at the receiver for every possible error condition</p>
+<h3 id="code-word-size">Code Word Size</h3>
+<ul>
+<li>What is the minimum length of the code word for <span class="math inline">B</span> bits of data?
+<span class="math display">B \leq 2^C- 1- C</span></li>
+<li>Given <span class="math inline">C</span> bits of check information, there are <span class="math inline">2^C- 1</span> error representations (in the <span class="math inline">C</span> bits) and 1 correct representation
+<ul>
+<li>Thus, to correct 1 erroneous bit out of B + C bits of information, requires that
+<span class="math display">2^C -1 \geq B+C</span></li>
+<li>Given C check bits, this relation can be rearranged to solve for the maximum number of data bits B that can be processed
+<span class="math display">B \leq 2^C- 1- C</span></li>
+</ul></li>
+</ul>
+<h3 id="maximum-word-length-vs-number-of-check-bits">Maximum Word Length vs Number of Check Bits</h3>
+<p><img src="../../attachments/errors-check-bits-chart.png" alt="errors-check-bits-chart" class="responsive-img" />
+As the size increases, the odds of a single bit changing increase, therefore there is a higher chance of non zerod double bit errors</p>
+<h3 id="code-word-size-typical-values">Code Word Size Typical Values</h3>
+<p>The following table shows the value of C that is required to correct single bit errors for some common values of B along with the corresponding overhead.
+</p>
+<h3 id="systematic-implementation-of-a-hamming-code">Systematic Implementation of a Hamming Code</h3>
+<p>A systematic implementation is necessary when working with more than 4 data bits
+Assume that bit positions are numbered from 1 to B + C</p>
+<figure>
+<img src="../../attachments/syndrome.png" alt="syndrome" class="responsive-img" /><figcaption>syndrome</figcaption>
+</figure>
+<h3 id="syndrome">Syndrome</h3>
+<p><strong>Syndrome</strong>: A syndrome combines the check bit values received with the check bit values calculated at the receiver to determine the location of a single bit error in a received code word.
+The <span class="math inline">i</span>th bit of the syndrome (<span class="math inline">S_i</span>) is calculated as <span class="math inline">S_i = C_i^{rec} \bigoplus C_i^{calc}</span> for <span class="math inline">0 \leq i \leq C-1</span></p>
+<ul>
+<li>If <span class="math inline">S=0</span> the code word is correct (<span class="math inline">C_i^{rec} = C_i^{calc} \forall i</span>)</li>
+<li>If <span class="math inline">S</span> has only one 1, a check bit is in error</li>
+<li>If <span class="math inline">S</span> has more than one 1, a data bit is in error</li>
+<li>The syndrome value indicates the position of the bit in error</li>
+</ul>
+<p>all expressions in error correction are actually XOR’s:</p>
+<ul>
+<li>all check bits are XOR’s of specific data bits</li>
+<li>syndrome is also XOR of check bits</li>
+</ul>
+<h3 id="how-to-fill-the-table">How to fill the table</h3>
+<blockquote>
+<p><strong>YOU HAVE TO RESERVE 000 FOR ALL CORRECT AND THUS YOU SHOULD START FROM 1 WHEN YOU ARE DRAWING THE TABLE</strong></p>
+</blockquote>
+<ul>
+<li>Fill the check bits first:
+<ul>
+<li>0001: C0</li>
+<li>0010: C1</li>
+<li>0100: C2</li>
+<li>1000: C3</li>
+</ul></li>
+<li>Rest are data bits one by one</li>
+<li>The corresponding data bits for each check bit calculation WILL occur after the check bit in the table i.e. below it</li>
+<li>If you wanna look just at D-0 to D-3, then just literally remove those bits and the formula still works because of the way the table is designed
+To correct: Invert the bit that the syndrome points you to using a XOR gate or a NOT gate</li>
+</ul>
+<p>If bit <span class="math inline">D_2</span> is incorrect it won’t affect <span class="math inline">S_0</span>, or <span class="math inline">S_3</span>, i.e. it will only affect the Syndrome bits whose formula it is a part of<br />
+<br />
+<strong>Q: Is it possible to get a syndrome that isn’t in the table:</strong><br />
+<strong>A</strong>: 13/14/15 they would represent some sort of error, that is not a single bit error, i.e. 2 bits change then we could have an <em>invalid</em> syndrome
+it’s not easy to say what double bit error occurred, but we might be able to catch certain double bit errors. Sometimes double bit errors might lead to us thinking that there is a single bit error on a bit that <strong>actually</strong> wasn’t wrong</p>
+<h5 id="questions-of-interest-error-correction">Questions of Interest: Error Correction</h5>
+<p>Last year’s midterm, 15 marks on the EC section, and average was 13/14<br />
+EC is mostly Q3 on the midterm</p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

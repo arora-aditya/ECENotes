@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L22.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#the-barbershop-problem">The Barbershop Problem</a><ul>
+<li><a href="#chemistry-building-h_2o">Chemistry: Building H<span class="math inline">_{2}</span>O</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>Get a Pizza This!</span>
+Let’s consider a more advanced concurrency problem. In <span class="citation" data-cites="lbs"></span> it’s called the “Cigarette Smokers Problem”, but smoking is bad for you so it’s going to be the “Pizza Makers Problem”. Pizza, while not exactly health food, is amazing. Delicious, delicious pizza.</p>
+<p>A new show to be hosted by some famous TV chef personality is being pitched, and you’re going to write a simulation of it. The show is about making pizza. A pizza requires three ingredients: dough, sauce, and cheese. All three ingredients are necessary to make a pizza (otherwise it does not meet the definition of a pizza).</p>
+<p>Each contestant has an unlimited supply of one ingredient. Contestant A has an unlimited supply of dough, Contestant B has an unlimited supply of sauce, and Contestant C has an unlimited supply of cheese. Each contestant needs to get the two ingredients they do not have and then can make a pizza. They will continue to (try to) make pizza in a loop until time is up. At the beginning of the episode, the host places two different random ingredients out. Contestants can signal the host to ask for more ingredients, but they should not do so unless they actually need some. Each time the host is woken up (signalled), he again places two different random ingredients out. When an ingredient is placed on the table, the host posts on the associated semaphore. For example, if the host puts out cheese and sauce, then the host posts on both <code>cheese</code> and <code>sauce</code>.</p>
+<p>In this scenario, there are resources provided by some external system and the contestants are processes that want resources. But we shouldn’t be wasteful: resources should only be requested when they are needed and processes should take only what they need. Applications should only wake up if they can do something useful.</p>
+<p>There are some restrictions, though, and they could make the problem either impossible or trivial. In the impossible version, you can’t modify what the host does (which is sensible, because you don’t control the other system) but you also cannot use conditional (if) statements, which is pretty ridiculous. In the trivial version, the host tells which contestants whose turn it is, which is boring but also unrealistic, because again it requires the host system to know too much about the contestants. The interesting version has just the restriction that we can’t control the host behaviour <span class="citation" data-cites="lbs"></span>. And he is a TV chef personality, after all, they do wacky things.</p>
+<p>Consider the following solution. All semaphores start at 0, except for <code>host</code> which starts as 1 (so the host will run the first time). Does this work?</p>
+<p><span>3</span>
+<strong>Contestant A</strong></p>
+<pre><code>wait( sauce )
+get_sauce()
+wait( cheese )
+get_cheese()
+make_pizza( )
+post( host )</code></pre>
+<p><strong>Contestant B</strong></p>
+<pre><code>wait( dough )
+get_dough()
+wait( cheese )
+get_cheese()
+make_pizza( )
+post( host )</code></pre>
+<p><strong>Contestant C</strong></p>
+<pre><code>wait( sauce )
+get_sauce()
+wait( dough )
+get_dough()
+make_pizza( )
+post( host )</code></pre>
+<p>No. Deadlock can easily occur. Suppose the host puts out sauce and dough. If contestant B takes the dough and contestant A takes the sauce, then both of them are blocked and nobody can proceed and nobody gets pizza.</p>
+<p>Part of the problem here is that a contestant doesn’t have a good way to assess what the ingredients are before going up there. And once there, if it finds that the ingredients match someone else’s needs, we don’t call that contestant over. That would be clever, but to make this work we would need a way to “check” what ingredients are there and semaphores don’t let us do that. If we want to do that, we’d have to break the rule about not modifying the host’s behaviour. Can we work with what we have?</p>
+<p>Imagine now that each contestant gets a helper. The job of the helper is to, well, help their contestant to make pizza by figuring out whose turn it is. For this there are boolean variables <code>dough_present</code>, <code>sauce_present</code>, and <code>cheese_present</code> that are all initialized to <code>false</code>. They are protected by a semaphore (called <code>mutex</code>). The helpers update that variable, and based on the information available, signal which contestant should come up to the table and take ingredients. Each contestant now has a semaphore (such as <code>contestantA</code> for contestant A) which the helpers will post on. Contestants are still responsible for telling the host to put out more ingredients.</p>
+<p><span>3</span>
+<strong>Helper 1</strong></p>
+<pre><code>wait( sauce )
+wait( mutex )
+if dough_present  
+  dough_present = false;
+  post( contestantC )
+else if cheese_present
+  cheese_present = false;
+  post( contestantA )
+else
+  sauce_present = true;
+end if  
+post( mutex )</code></pre>
+<p><strong>Helper 2</strong></p>
+<pre><code>wait( dough )
+wait( mutex )
+if sauce_present  
+  sauce_present = false;
+  post( contestantC )
+else if cheese_present
+  cheese_present = false;
+  post( contestantB )
+else
+  dough_present = true;
+end if  
+post( mutex )</code></pre>
+<p><strong>Helper 3</strong></p>
+<pre><code>wait( cheese )
+wait( mutex )
+if dough_present  
+  dough_present = false;
+  post( contestantB )
+else if sauce_present
+  sauce_present = false;
+  post( contestantA )
+else
+  cheese_present = true;
+end if  
+post( mutex )</code></pre>
+<p>So let’s analyze Helper 1. Each of the other helpers does the same thing but for a different ingredient. In this case, the helper is woken up when sauce is placed on the table. It then locks the mutex so that it can manipulate the shared variables of what ingredients are present. Now we decide what to do here. If the current helper is the first one to run, then all the variables will be false, so we’ll end up at the else block and just set <code>sauce_present</code> to true and then let the next helper run. If <code>dough_present</code> is true, then Helper 2 has already run and we know that dough is present on the table. With both sauce and dough present, we know that the ingredients present match the needs of Contestant C. If <code>cheese_present</code> is true then Helper 3 has already run and the ingredients present match the needs of Contestant A.</p>
+<p>Obviously, each of the other helpers will signal the appropriate contestant based on its assessment of the state of the ingredients.</p>
+<p><span>3</span>
+<strong>Contestant A</strong></p>
+<pre><code>wait( contestantA )
+get_sauce()
+get_cheese()
+make_pizza( )
+post( host )</code></pre>
+<p><strong>Contestant B</strong></p>
+<pre><code>wait( contestantB )
+get_dough()
+get_cheese()
+make_pizza( )
+post( host )</code></pre>
+<p><strong>Contestant C</strong></p>
+<pre><code>wait( contestantC )
+get_sauce()
+get_dough()
+make_pizza( )
+post( host )</code></pre>
+<p>The contestant code is pretty much trivial now: wait until a helper signals, then go take your ingredients and make a pizza. Once the pizza is in the oven, indicate that you are ready for more ingredients.</p>
+<p>The generalized version of the problem is what happens when the host puts out ingredients periodically, without a need to be signalled to ask for more. How do we modify the solution to deal with that?</p>
+<p>Obviously if there is no longer a need for the contestants to signal that they want more resources then the <code>post( host )</code> statements in the contestant code has to be removed. But what about the helpers?</p>
+<p>Instead of boolean variables to indicate the presence or absence of an ingredient what we need instead is an integer counter to know how many there are. So let’s call them <code>num_dough</code>, <code>num_sauce</code>, and <code>num_cheese</code>, and they all start as zero.</p>
+<p><span>3</span>
+<strong>Helper 1</strong></p>
+<pre><code>wait( sauce )
+wait( mutex )
+if num_dough &gt; 0  
+  num_dough--
+  post( contestantC )
+else if num_cheese &gt; 0
+  num_cheese--
+  post( contestantA )
+else
+  num_sauce++
+end if  
+post( mutex )</code></pre>
+<p><strong>Helper 2</strong></p>
+<pre><code>wait( dough )
+wait( mutex )
+if num_sauce &gt; 0  
+  num_sauce--
+  post( contestantC )
+else if num_cheese &gt; 0
+  num_cheese--
+  post( contestantB )
+else
+  num_dough++
+end if  
+post( mutex )</code></pre>
+<p><strong>Helper 3</strong></p>
+<pre><code>wait( cheese )
+wait( mutex )
+if num_dough &gt; 0 
+  num_dough--
+  post( contestantB )
+else if num_sauce &gt; 0
+  num_sauce--
+  post( contestantA )
+else
+  num_cheese++
+end if  
+post( mutex )</code></pre>
+<p>Now instead of setting the variables to true and false, the variables tracking the ingredients are incremented and decremented. Otherwise not much has changed. This pattern is referred to as the “scoreboard” <span class="citation" data-cites="lbs"></span> – there are variables keeping track of the state of the system which are viewable from all threads. As threads go about their actions, they take a look at the current state (the scoreboard) and decide how to act based on that.</p>
+<h1 id="the-barbershop-problem" class="unnumbered">The Barbershop Problem</h1>
+<p>Consider the “Barbershop Problem”, originally proposed by Dijkstra. A variant of this appears in <span class="citation" data-cites="osc"></span>. A barbershop is a place where customers get their hair cut. A barbershop consists of a waiting area with <span class="math inline">n</span> chairs, and a barber chair.</p>
+<p>If there are no customers to be served, the barber goes to sleep. If a customer enters the barbershop and all chairs are occupied, then the customer leaves the shop. If the barber is busy, but chairs are available, then the customer sits in one of the free chairs. If the barber is asleep, the customer wakes up the barber.</p>
+<p>Customer threads should call <code>get_hair_cut()</code> when it is their turn. If the shop is full, the customer should <code>return</code> (exit/leave). The barber thread will call <code>cut_hair</code>. The barber can cut only one person’s hair at a time, so there should be exactly one thread calling <code>get_hair_cut()</code> concurrently. You can assume that external forces cause customers to appear and the barber to keep working (so you do not need to write any loops). Assume <code>n</code> is initialized to an appropriate value.</p>
+<p>We need an integer counter for customers waiting called <code>customers</code> that starts at 0. We will also have a mutex for controlling access to <code>customers</code> called <code>mutex</code> (it obviously starts at 1). Finally, two semaphores, <code>customer</code> and <code>barber</code> that both start at 0.</p>
+<p>As for the solution:</p>
+<p><span>2</span>
+<strong>Customer</strong></p>
+<pre><code>wait( mutex )
+if customers == n
+    signal( mutex )
+    return
+end if
+customers++
+signal( mutex )
+
+signal( customer )
+wait( barber )
+get_hair_cut()
+
+wait( mutex )
+customers--
+signal( mutex )</code></pre>
+<p><strong>Barber</strong></p>
+<pre><code>wait( customer )
+signal( barber )
+cut_hair()</code></pre>
+<p>The barber code is much simpler, so let’s start there. The barber waits for there to be a customer. When there is one, the barber calls the customer forward by signalling on <code>barber</code>, and then cuts hair. Simple enough.</p>
+<p>As for the customer, <code>customers</code> is shared data, so its access should be protected by <code>mutex</code>. If we find that the number of customers is already <span class="math inline">n</span> – that is, the waiting area is full, the customer should leave. But not without unlocking <code>mutex</code>! If the customer forgot to do that then no more customers could enter. That’s a problem. Otherwise the count of customers is increased and the customer signals the semaphore <code>customer</code>. This will wake up the barber, if the barber is sleeping, but also indicates the number of customers waiting. Then the customer must wait for the barber. When the customer gets called forward by the barber, the customer can get their hair cut. Finally, when leaving, the customer decrements the number of customers counter.</p>
+<p>Let’s look over this for a risk of deadlock. We don’t see anywhere, really, the nested-waits pattern that usually indicates trouble. There isn’t really any scenario where a customer can get blocked waiting for another customer or the barber, and the barber code is very simple.</p>
+<p>As for starvation, it also won’t happen. Assuming there are actually customers, the barber will have work to do. And the customers will wait for a finite period before they get their hair cut. The size of the waiting area is limited so we expect that a customer doesn’t get delayed indefinitely. It is possible for them to wait quite a while, though, but they will eventually get a turn.</p>
+<p>We can maybe say that customers who give up in frustration are disappointed but that’s better than making them wait forever. If they are told they won’t get service today, they can go to a different barbershop or come again some other time. That’s why there’s the limit on the waiting area at all. In the scenario, the barber is only human and can only cut so many people’s hair in a day. The exact number will vary based on how long each hair cut takes, which depends on the person whose hair is being cut. But there is a limit of some sort: at some point the barber will go home. And only so many people can fit into the waiting room anyway: if there are too many, then nobody can move around (and this violates fire code!).</p>
+<p>This is actually a good lesson for services in general. They have a certain capacity, and when things are overloaded it’s helpful to tell clients that they are unable to take any more requests right now. Clients can then choose what to do (and it’s usually either “wait a while and try again” or “go to a different service”). And you can! If the game that you want to play requires a server and all servers are busy, you can play a different game (or go outside, or who knows what!).</p>
+<h2 id="chemistry-building-h_2o" class="unnumbered">Chemistry: Building H<span class="math inline">_{2}</span>O</h2>
+<p>There are two kinds of thread, <code>oxygen()</code> and <code>hydrogen()</code>. As you will recall from basic chemistry, water, H<span class="math inline">_{2}</span>O, requires two hydrogen modules and one oxygen module. To assemble the desired molecule (water) a group rendezvous pattern is needed to make each thread wait until all ingredients are present in the correct amounts. As each thread passes the barrier, it should call the function <code>bond()</code> which makes the water. Our solution must function so that all threads for one molecule invoke <code>bond()</code> before any of the threads from the next molecule do.</p>
+<p>To clarify, if an oxygen thread arrives at the barrier when no hydrogen threads are present, it has to wait for two hydrogen threads to arrive. If a hydrogen thread arrives a the barrier when no other threads are waiting, it has to wait for an oxygen thread and another hydrogen thread. It is not necessary for the threads to know what other threads they are matched with, as long as the correct elements are present in the correct proportions.</p>
+<p>In the example, we’ll assume the <code>oxygen</code> and <code>hydrogen</code> threads are created and started correctly and in the correct proportions. The code for the creation of those two types of threads is not shown for space reasons. The reusable two-phase barrier from earlier has also been converted into C code.</p>
+<p>The oxygen queue and hydrogen queue start as “locked” so we’ll only signal the threads when they are going to proceed. Before that we have a scoreboard pattern, where threads take a look at the state of the system and decide what to do.</p>
+<p><span>2</span></p>
+<div class="sourceCode" id="cb15" data-firstline="0" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb15-1" title="1"><span class="dt">int</span> oxygen;</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="dt">int</span> hydrogen;</a>
+<a class="sourceLine" id="cb15-3" title="3">pthread_mutex_t barrier_mutex;</a>
+<a class="sourceLine" id="cb15-4" title="4">sem_t turnstile;</a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="dt">int</span> barrier_count;</a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="dt">int</span> barrier_N;</a>
+<a class="sourceLine" id="cb15-7" title="7">sem_t bond;</a>
+<a class="sourceLine" id="cb15-8" title="8">sem_t oxygen_queue;</a>
+<a class="sourceLine" id="cb15-9" title="9">sem_t hydrogen_queue;</a>
+<a class="sourceLine" id="cb15-10" title="10"></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="dt">void</span> barrier_enter( ) {</a>
+<a class="sourceLine" id="cb15-12" title="12">  pthread_mutex_lock( &amp;barrier_mutex );</a>
+<a class="sourceLine" id="cb15-13" title="13">  barrier_count++;</a>
+<a class="sourceLine" id="cb15-14" title="14">  <span class="cf">if</span> ( barrier_count == barrier_N ) {</a>
+<a class="sourceLine" id="cb15-15" title="15">    sem_post( &amp;turnstile );</a>
+<a class="sourceLine" id="cb15-16" title="16">  }</a>
+<a class="sourceLine" id="cb15-17" title="17">  pthread_mutex_unlock( &amp;barrier_mutex );</a>
+<a class="sourceLine" id="cb15-18" title="18">  sem_wait( &amp;turnstile );</a>
+<a class="sourceLine" id="cb15-19" title="19">  sem_post( &amp;turnstile );            </a>
+<a class="sourceLine" id="cb15-20" title="20">}</a>
+<a class="sourceLine" id="cb15-21" title="21"></a>
+<a class="sourceLine" id="cb15-22" title="22"><span class="dt">void</span> barrier_exit( ) {</a>
+<a class="sourceLine" id="cb15-23" title="23">  pthread_mutex_lock( &amp;barrier_mutex );</a>
+<a class="sourceLine" id="cb15-24" title="24">  barrier_count--;</a>
+<a class="sourceLine" id="cb15-25" title="25">  <span class="cf">if</span> ( barrier_count == <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb15-26" title="26">    sem_wait( &amp;turnstile );</a>
+<a class="sourceLine" id="cb15-27" title="27">  }</a>
+<a class="sourceLine" id="cb15-28" title="28">  pthread_mutex_unlock( &amp;barrier_mutex );</a>
+<a class="sourceLine" id="cb15-29" title="29">}</a>
+<a class="sourceLine" id="cb15-30" title="30"></a></code></pre></div>
+<div class="sourceCode" id="cb16" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb16-1" title="1"><span class="dt">int</span> main( <span class="dt">void</span> ) {</a>
+<a class="sourceLine" id="cb16-2" title="2">  oxygen = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb16-3" title="3">  hydrogen = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb16-4" title="4">  barrier_count = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb16-5" title="5">  barrier_N = <span class="dv">3</span>;</a>
+<a class="sourceLine" id="cb16-6" title="6"></a>
+<a class="sourceLine" id="cb16-7" title="7">  pthread_mutex_init( &amp;barrier_mutex, NULL );</a>
+<a class="sourceLine" id="cb16-8" title="8">  sem_init( &amp;barrier_turnstile, <span class="dv">0</span>, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb16-9" title="9">  </a>
+<a class="sourceLine" id="cb16-10" title="10">  sem_init( &amp;bond, <span class="dv">0</span>, <span class="dv">1</span> );</a>
+<a class="sourceLine" id="cb16-11" title="11">  sem_init( &amp;oxygen_queue, <span class="dv">0</span>, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb16-12" title="12">  sem_init( &amp;hydrogen_queue, <span class="dv">0</span>, <span class="dv">0</span> ); </a>
+<a class="sourceLine" id="cb16-13" title="13"></a>
+<a class="sourceLine" id="cb16-14" title="14">  <span class="co">/* Creation of oxygen and hydrogen threads</span></a>
+<a class="sourceLine" id="cb16-15" title="15"><span class="co">   not shown for space reasons */</span></a>
+<a class="sourceLine" id="cb16-16" title="16"></a>
+<a class="sourceLine" id="cb16-17" title="17">  pthread_mutex_destroy( &amp;barrier_mutex );</a>
+<a class="sourceLine" id="cb16-18" title="18">  sem_destroy( &amp;barrier_turnstile );</a>
+<a class="sourceLine" id="cb16-19" title="19">  sem_destroy( &amp;bond );</a>
+<a class="sourceLine" id="cb16-20" title="20">  sem_destroy( &amp;oxygen_queue );</a>
+<a class="sourceLine" id="cb16-21" title="21">  sem_destroy( &amp;hydrogen_queue );   </a>
+<a class="sourceLine" id="cb16-22" title="22"></a>
+<a class="sourceLine" id="cb16-23" title="23">  pthread_exit( <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb16-24" title="24">}</a></code></pre></div>
+<p><span>2</span></p>
+<div class="sourceCode" id="cb17" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb17-1" title="1"><span class="dt">void</span>* oxygen( <span class="dt">void</span>* ignore ) {</a>
+<a class="sourceLine" id="cb17-2" title="2">  sem_wait( &amp;bond );</a>
+<a class="sourceLine" id="cb17-3" title="3">  oxygen++;</a>
+<a class="sourceLine" id="cb17-4" title="4">  </a>
+<a class="sourceLine" id="cb17-5" title="5">  <span class="cf">if</span>( hydrogen &gt;= <span class="dv">2</span> ){</a>
+<a class="sourceLine" id="cb17-6" title="6">    sem_post( &amp;hydrogen_queue );</a>
+<a class="sourceLine" id="cb17-7" title="7">    sem_post( &amp;hydrogen_queue );</a>
+<a class="sourceLine" id="cb17-8" title="8">    hydrogen -= <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb17-9" title="9">    sem_post( &amp;oxygen_queue );</a>
+<a class="sourceLine" id="cb17-10" title="10">    oxygen--;</a>
+<a class="sourceLine" id="cb17-11" title="11">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb17-12" title="12">    sem_post( &amp;bond );</a>
+<a class="sourceLine" id="cb17-13" title="13">  }</a>
+<a class="sourceLine" id="cb17-14" title="14">  </a>
+<a class="sourceLine" id="cb17-15" title="15">  sem_wait( &amp;oxygen_queue );</a>
+<a class="sourceLine" id="cb17-16" title="16">  bond();</a>
+<a class="sourceLine" id="cb17-17" title="17"></a>
+<a class="sourceLine" id="cb17-18" title="18">  barrier_enter();</a>
+<a class="sourceLine" id="cb17-19" title="19">  barrier_exit();</a>
+<a class="sourceLine" id="cb17-20" title="20"></a>
+<a class="sourceLine" id="cb17-21" title="21">  sem_post( &amp;bond );</a>
+<a class="sourceLine" id="cb17-22" title="22">  </a>
+<a class="sourceLine" id="cb17-23" title="23">  pthread_exit( NULL )</a>
+<a class="sourceLine" id="cb17-24" title="24">}</a></code></pre></div>
+<div class="sourceCode" id="cb18" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb18-1" title="1"><span class="dt">void</span>* hydrogen( <span class="dt">void</span>* ignore ) {</a>
+<a class="sourceLine" id="cb18-2" title="2">  sem_wait( &amp;bond );</a>
+<a class="sourceLine" id="cb18-3" title="3">  hydrogen++;</a>
+<a class="sourceLine" id="cb18-4" title="4">  </a>
+<a class="sourceLine" id="cb18-5" title="5">  <span class="cf">if</span>( hydrogen &gt;= <span class="dv">2</span> &amp;&amp; oxygen &gt;= <span class="dv">1</span> )</a>
+<a class="sourceLine" id="cb18-6" title="6">    sem_post( &amp;hydrogen_queue );</a>
+<a class="sourceLine" id="cb18-7" title="7">    sem_post( &amp;hydrogen_queue );</a>
+<a class="sourceLine" id="cb18-8" title="8">    hydrogen -= <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb18-9" title="9">    sem_post( &amp;oxygen_queue );</a>
+<a class="sourceLine" id="cb18-10" title="10">    oxygen--;</a>
+<a class="sourceLine" id="cb18-11" title="11">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb18-12" title="12">    sem_post( &amp;bond );</a>
+<a class="sourceLine" id="cb18-13" title="13">  }</a>
+<a class="sourceLine" id="cb18-14" title="14">  </a>
+<a class="sourceLine" id="cb18-15" title="15">  sem_wait( &amp;hydrogen_queue );</a>
+<a class="sourceLine" id="cb18-16" title="16">  bond();</a>
+<a class="sourceLine" id="cb18-17" title="17">  </a>
+<a class="sourceLine" id="cb18-18" title="18">  barrier_enter();</a>
+<a class="sourceLine" id="cb18-19" title="19">  barrier_exit();</a>
+<a class="sourceLine" id="cb18-20" title="20">  </a>
+<a class="sourceLine" id="cb18-21" title="21">  pthread_exit( NULL )</a>
+<a class="sourceLine" id="cb18-22" title="22">}</a></code></pre></div>
+<p>Let’s analyze the solution then, starting with oxygen threads. When it enters, it waits on the <code>bond</code> semaphore, which in this case is used somewhat like a mutex. If there are at least two hydrogen threads waiting, then, we can unblock two of them, signal the oxygen queue, and update the counters. If there are not two hydrogens waiting, then we just signal <code>bond</code> so that the next thread will arrive. Then the thread can get in line at the oxygen queue.</p>
+<p>The hydrogen code is more or less the same, but the if-condition is different since it’s not enough for 1 hydrogen to be present (we need at least two). If we have what we need, signal the queues to release the needed molecules, and we are ready to go. If not, get in line.</p>
+<p>When threads are released from the oxygen queue and hydrogen queue respectively, they proceed forward to the <code>bond()</code> step, and afterwards there is a barrier enter followed by exit to wait for all of them to be finished. All we really need is for all three threads to be done with <code>bond()</code> before they can exit so the barrier enter and exit happen one after the other.</p>
+<p>Now it may be that when a thread arrives it unblocks some thread ahead of it in line. So if the oxygen that arrives is the 2nd oxygen and there is already one waiting ahead of it, that first one proceeds. That’s okay – one molecule of water is as good as any other so we don’t really care which oxygen ends up in its composition.</p>
+<p>It is a little strange that the hydrogen threads don’t post on <code>bond</code>. Isn’t this a problem? It turns out no, because the oxygen threads post on it unconditionally. The reasoning on this is not too complicated. When a thread arrives but the water molecule cannot be formed, whether it is oxygen or hydrogen, a post on <code>bond</code> takes place. If, however, the thread arriving is the last one necessary for bonding to take place, then one oxygen and two hydrogen proceed. Whoever waited on <code>bond</code> does not matter, as long as one of the threads that went into the water molecule posts on it before leaving. As the chemical composition of water has one oxygen, the job is assigned to this molecule. If we put it in hydrogen we might post on it twice.</p>
+<p>These are by no means all the concurrency problems in the world. There are many more in <span class="citation" data-cites="lbs"></span> that could be considered. But for now we will leave it here, before we get into really obscure problems...</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

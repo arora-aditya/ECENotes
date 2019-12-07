@@ -1,0 +1,20 @@
+---
+title: 'Assignment 4<br />'
+author: 'Aditya Arora'
+tags: [Notebooks/ECE224]
+header-includes: |
+  \usepackage{mathtools}
+---
+
+1.
+2.
+3.
+4.
+5. Noise margin is lesser, higher voltage between logical 0 and logical 1 might arise, we might need a decoder that would take in the threshold and output the bit pattern
+6. ETB is not included in part B, because you don't really need it (SOH implies the previous one ended) {it would be needed if the checksum was of variable size}
+  b. SYNC | (SOH + 3 HEADER BYTES + STX + 150 BYTES OF DATA + ETX + 2 BYTES CHECKSUM + ETB) | SYNC = SYNC | 1 + 3 + 1 + 150 + 1 + 2 + 1 | SYNC = 159bytes
+  c. The entire data could double because of escaping everyting 309bytes
+7. SYNC is 0x16 so that they could get more edges [0x45 is E, 0x43 is C, thus its ECE]
+8. Control is also variable in HDLC - 8 or 16 {Bit stuffing in principle should also occur on the address or control even though we know the size, because we still need to maintain SYNCHRONIZATION}
+9.
+10. He likes true and false for evaluating

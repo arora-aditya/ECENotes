@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 11 - Buses - Arbitration</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 11 - Buses - Arbitration<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#purpose-of-arbitration">Purpose of Arbitration</a></li>
+<li><a href="#terminology-for-distributed-arbitration">Terminology for Distributed Arbitration</a></li>
+<li><a href="#interconnection-with-the-other-interface-components">Interconnection with the Other Interface Components</a></li>
+</ul></li>
+<li><a href="#wire-daisy-chain">2-Wire Daisy-Chain</a><ul>
+<li><a href="#arbitration-system">Arbitration System</a></li>
+<li><a href="#central-arbiter">Central Arbiter</a></li>
+<li><a href="#distributed-arbiter">Distributed Arbiter</a></li>
+<li><a href="#design-of-a-2-wire-daisy-chain-distributed-arbiter">Design of a 2-Wire Daisy-Chain Distributed Arbiter</a><ul>
+<li><a href="#case-b">Case B</a></li>
+<li><a href="#case-c-remote-request-only---propagate-grant">Case C: Remote Request Only - Propagate Grant</a></li>
+<li><a href="#case-d1-remote-request-during-bus-use---propagate-grant">Case D1: Remote Request During Bus Use - Propagate Grant</a></li>
+<li><a href="#case-d2-remote-request-during-bus-use---re-arbitrate">Case D2: Remote Request During Bus Use - Re-Arbitrate</a></li>
+<li><a href="#simultaneous-requests-with-2-wire-arbitration-cases-e1-and-e2">Simultaneous Requests with 2-Wire Arbitration (Cases E1 and E2)</a></li>
+</ul></li>
+<li><a href="#simultaneously-pending-request-signals-during-2-wire-arbitration">Simultaneously Pending Request Signals During 2-Wire Arbitration</a><ul>
+<li><a href="#case-e1-remote-request-first-local-shortly-after">Case E1: Remote Request First, Local Shortly After</a></li>
+</ul></li>
+<li><a href="#some-alternative-designs">Some Alternative Designs</a></li>
+</ul></li>
+<li><a href="#wire-daisy-chain-arbitration-system">3-Wire Daisy-Chain Arbitration System</a><ul>
+<li><a href="#wire-daisy-chain-central-arbiter">3-Wire Daisy-Chain Central Arbiter</a></li>
+<li><a href="#wire-daisy-chain-distributed-arbiter">3-Wire Daisy-Chain Distributed Arbiter</a></li>
+<li><a href="#design-of-a-3-wire-daisy-chain-distributed-arbiter">Design of a 3-Wire Daisy-Chain Distributed Arbiter</a></li>
+<li><a href="#wire-daisy-chain-arbitration">3-Wire Daisy Chain Arbitration</a></li>
+<li><a href="#wire-daisy-chain-arbitration---ladder-diagram">3-Wire Daisy Chain Arbitration - Ladder Diagram</a></li>
+<li><a href="#wire-daisy-chain-arbitration---example-1-with-dependencies">3-Wire Daisy Chain Arbitration - Example 1 with Dependencies</a><ul>
+<li><a href="#wire-daisy-chain-arbitration---example-1-with-arbitration-and-bus-usage">3-Wire Daisy Chain Arbitration - Example 1 with Arbitration and Bus Usage</a></li>
+</ul></li>
+<li><a href="#wire-daisy-chain-arbitration---example-2">3-Wire Daisy Chain Arbitration - Example 2</a><ul>
+<li><a href="#wire-daisy-chain-arbitration---example-2-with-dependencies">3-Wire Daisy Chain Arbitration - Example 2 with Dependencies</a></li>
+</ul></li>
+<li><a href="#note-3-wire-daisy-chain-arbitration-bus-busy---timing-diagram">Note: 3-Wire Daisy Chain Arbitration, Bus Busy - Timing Diagram</a></li>
+</ul></li>
+<li><a href="#wire-distributed-bus-arbitration">4-Wire Distributed Bus Arbitration</a><ul>
+<li><a href="#wire-daisy-chain-arbitration---example-1">4-Wire Daisy Chain Arbitration - Example 1</a></li>
+</ul></li>
+<li><a href="#summary-of-the-operational-characteristics-of-daisy-chained-bus-arbitration">Summary of the Operational Characteristics of Daisy-Chained Bus Arbitration</a><ul>
+<li><a href="#monolithic-arbitration-system">Monolithic Arbitration System</a></li>
+<li><a href="#modelling-the-performance-of-daisy-chain-bus-arbitration-systems">Modelling the Performance of Daisy Chain Bus Arbitration Systems</a><ul>
+<li><a href="#bus-idle">Bus Idle</a><ul>
+<li><a href="#arbitration-delay">Arbitration Delay</a></li>
+<li><a href="#priority">Priority</a></li>
+<li><a href="#priority-uncertainty">Priority Uncertainty</a></li>
+<li><a href="#note">Note</a></li>
+</ul></li>
+<li><a href="#bus-busy">Bus Busy</a><ul>
+<li><a href="#arbitration-delay-1">Arbitration delay</a></li>
+<li><a href="#priority-1">Priority</a></li>
+<li><a href="#priority-uncertainty-1">Priority Uncertainty</a></li>
+</ul></li>
+<li><a href="#summary-of-daisy-chain-arbitration-performance">Summary of Daisy Chain Arbitration Performance</a></li>
+<li><a href="#non-daisy-chained-bus-arbitration-systems">Non-Daisy-Chained Bus Arbitration Systems</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#questions-of-interest-bus-arbitration-questions">Questions of Interest: Bus Arbitration Questions</a></li>
+<li><a href="#mini-note-on-dmas">MINI NOTE ON DMAs</a></li>
+</ul>
+</nav>
+<h2 id="introduction">Introduction</h2>
+<ul>
+<li>Previous discussions have assumed the CPU is always the bus master and all other devices are bus slaves.</li>
+<li>Sometimes, systems have several devices requesting to be the bus master:
+<ul>
+<li>Systems with multiple processing units</li>
+<li>Systems supporting direct memory access (DMA)</li>
+</ul></li>
+<li><strong>Bus Arbitration</strong>: A process that selects exactly 1 bus master from one or more devices requesting to be the bus master.</li>
+<li>The following arbitration systems are introduced:
+<ul>
+<li>2-Wire Daisy-Chain Distributed Arbitration,</li>
+<li>3-Wire Daisy-Chain Distributed Arbitration,</li>
+<li>4-Wire Daisy-Chain Distributed Arbitration, and</li>
+<li>Non-Daisy-Chain Bus Arbitration</li>
+</ul></li>
+</ul>
+<p><strong>NOTES</strong></p>
+<ul>
+<li>We need this to determine basically to determine who is in control of the device lines</li>
+<li>We often talk about it in context of the bus master, but it is implied in the slaves in the form of addressing</li>
+<li>It is vital that only one device think that its the master</li>
+</ul>
+<h3 id="purpose-of-arbitration">Purpose of Arbitration</h3>
+<p>Primary goal of arbitration is Unique Selection of a bus master</p>
+<ul>
+<li>Possible secondary goals:
+<ul>
+<li>Fair (round robin, rotating priority, first-come first-serve)</li>
+<li>Unfair (fixed priority) ∗ Cheap</li>
+</ul></li>
+<li><strong>Non-Pre-Emptive Arbitration</strong>: Once a master has started using the bus it will continue to use the bus until completion. Specific bus structures may place limits on the maximum number of cycles or the maximum time that a master may keep control of the bus.
+<ul>
+<li>this is because it comes with its drawbacks</li>
+<li>if you give conrol once, you assume that the device won’t take too long and that all will be fine soon</li>
+</ul></li>
+<li>Pre-emptive arbitration is not considered in this course.</li>
+</ul>
+<h3 id="terminology-for-distributed-arbitration">Terminology for Distributed Arbitration</h3>
+<ul>
+<li><strong>Central Arbiter (CA)</strong>: The component of the arbitration system responsible for detecting that there is a bus request and causing a grant to be issued, if appropriate.</li>
+<li><strong>Distributed Arbiter (DA)</strong>: The component of the arbitration system that is repeated in each device interface that has a requirement to become a bus master at some time.</li>
+<li>The remainder of this section examines the interconnection of these components.</li>
+</ul>
+<h3 id="interconnection-with-the-other-interface-components">Interconnection with the Other Interface Components</h3>
+<figure>
+<img src="../../attachments/interface1.png" alt="interface1" class="responsive-img" /><figcaption>interface1</figcaption>
+</figure>
+<h2 id="wire-daisy-chain">2-Wire Daisy-Chain</h2>
+<p>A daisy chain signal is one where you connect devices through other devices.</p>
+<p>This was popular for connecting peripherals before CPU’s had many ports. You have to assume here that the Distributed Arbiters are working otherwise your devices won’t be able to work</p>
+<h3 id="arbitration-system">Arbitration System</h3>
+<p>Cheap, easy design concept but difficult to make it work well
+<img src="../../attachments/arbitration-2wire-system.png" alt="arbitration-2wire-system" class="responsive-img" /></p>
+<h3 id="central-arbiter">Central Arbiter</h3>
+<figure>
+<img src="../../attachments/arbitration-2wire-central-arbiter.png" alt="arbitration-2wire-central-arbiter" class="responsive-img" /><figcaption>arbitration-2wire-central-arbiter</figcaption>
+</figure>
+<ul>
+<li>Asserts <span class="math inline">BusGrant_0</span> whenever <span class="math inline">BusRequest_0</span> is asserted</li>
+<li>Implemented as a simple wire</li>
+<li>Approximately zero delay through the central arbiter (<span class="math inline">t_{CA} \approx 0ns</span>)</li>
+</ul>
+<h3 id="distributed-arbiter">Distributed Arbiter</h3>
+<figure>
+<img src="../../attachments/arbitration-2wire-distributed-arbiter.png" alt="arbitration-2wire-distributed-arbiter" class="responsive-img" /><figcaption>arbitration-2wire-distributed-arbiter</figcaption>
+</figure>
+<h3 id="design-of-a-2-wire-daisy-chain-distributed-arbiter">Design of a 2-Wire Daisy-Chain Distributed Arbiter</h3>
+<blockquote>
+<p><strong>Straightforward Cases</strong> - At most one request <span class="math inline">\rightarrow</span> no arbitration required.</p>
+</blockquote>
+<ul>
+<li><strong>Case A</strong>: The local device interface (i) is not requesting service and no lower priority device interfaces are requesting service. The system is idle.
+<ul>
+<li>All inputs are 0 (<span class="math inline">Request_i = 0, BR_{in} = 0, and BG_{in} = 0</span>)</li>
+<li>All outputs are 0 (<span class="math inline">Grant_i = 0, BR_{out} = 0, and BG_{out} = 0</span>)
+<img src="../../attachments/2_wire_distributed_case_A.jpg" alt="2_wire_distributed_case_A.jpg" class="responsive-img" /></li>
+</ul></li>
+<li><strong>Case B</strong>: Only the local device interface (i) requests service.
+<ul>
+<li><span class="math inline">Request_i</span> transitions from <span class="math inline">0\to 1</span> causing <span class="math inline">BR_{out}</span> to transition from <span class="math inline">0\to 1</span></li>
+<li><span class="math inline">BG_{in}</span> transitions from <span class="math inline">0\to 1</span> causing <span class="math inline">Grant_i</span> to transition from <span class="math inline">0\to 1</span></li>
+<li><span class="math inline">BR_{in} =0</span> and <span class="math inline">BG_{out} =0</span>
+<img src="../../attachments/2_wire_distributed_case_B.jpg" alt="2_wire_distributed_case_B.jpg" class="responsive-img" /></li>
+</ul></li>
+<li><strong>Case C</strong>: Only one or more lower priority device interfaces request service.
+<ul>
+<li><span class="math inline">BR_{out}=BR_{in}</span></li>
+<li><span class="math inline">BG_{out}=BG_{in}</span></li>
+<li><span class="math inline">Request_i = 0</span> and <span class="math inline">Grant_i = 0</span>
+<img src="../../attachments/2_wire_distributed_case_C.jpg" alt="2_wire_distributed_case_C.jpg" class="responsive-img" /></li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Cases Requiring Arbitration</strong> - Two or more simultaneous requests.</p>
+</blockquote>
+<ul>
+<li><strong>Case D</strong>: One or more lower priority device interfaces request service while the local device interface (i) is using the bus:
+<ul>
+<li>When the local device interface is finished, what should happen?</li>
+<li><strong>Case D1</strong>: Forward grant immediately (<em>Quick solution</em>)<br />
+<span class="math inline">Grant_{i}</span> transitions from <span class="math inline">1 \to 0</span> and <span class="math inline">BG_{out}</span> transitions from <span class="math inline">0\to 1</span></li>
+<li><strong>Case D2</strong>: Re-arbitration cycle (<em>Best solution</em>)<br />
+<span class="math inline">Grant_{i}</span> transitions from <span class="math inline">1\to 0</span>, <span class="math inline">BR_{out}</span> transitions from <span class="math inline">1\to 0</span> (regardless of <span class="math inline">BR_{in}</span>), and arbiter waits for <span class="math inline">BG_{in}</span> to transition from <span class="math inline">1\to 0</span> prior to reasserting <span class="math inline">BR_{out}</span></li>
+</ul></li>
+<li><strong>Case E</strong>: The local device interface (i) requests service after a lower priority device interface has requested service:
+<ul>
+<li><strong>Case E1</strong>: If <span class="math inline">BG_{in}</span> transition from <span class="math inline">0\to 1</span> has not yet occurred, grant locally</li>
+<li><strong>Case E2</strong>: If <span class="math inline">BG_{in}</span> transition from <span class="math inline">0\to 1</span> has occurred, too late to grant locally</li>
+</ul></li>
+</ul>
+<p><strong>Notes</strong><br />
+</p>
+<ul>
+<li>Sometimes in Computer Science the cost of doing things fast outweighs doing them the best way.
+<ul>
+<li>If you do manage to service he lower priority quick enough then its fine</li>
+</ul></li>
+<li><strong>Case E</strong>: there is a region of uncertainty, where there is a window of time in which we may disobey priority, because of the fact that the distributed arbiter lacks global knowledge of the system.</li>
+</ul>
+<h4 id="case-b">Case B</h4>
+<p><strong>Case B</strong>: Only the local device interface (i) requests service.</p>
+<ul>
+<li><span class="math inline">Request_i</span> transitions from <span class="math inline">0\to 1</span> causing <span class="math inline">BR_{out}</span> to transition from <span class="math inline">0\to 1</span></li>
+<li><span class="math inline">BG_{in}</span> transitions from <span class="math inline">0\to 1</span> causing <span class="math inline">Grant_i</span> to transition from <span class="math inline">0\to 1</span></li>
+<li><span class="math inline">BR_{in} =0</span> and <span class="math inline">BG_{out} =0</span></li>
+</ul>
+<figure>
+<img src="../../attachments/arbitration-2wire-system-caseB.png" alt="arbitration-2wire-system-caseB" class="responsive-img" /><figcaption>arbitration-2wire-system-caseB</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/arbitration-2wire-caseB-ladder.png" alt="arbitration-2wire-caseB-ladder" class="responsive-img" /><figcaption>arbitration-2wire-caseB-ladder</figcaption>
+</figure>
+<p>The delay through distributed arbiter is shown as <span class="math inline">t_{DA}</span>, and the central arbiter is shown as <span class="math inline">t_{CA}</span></p>
+<figure>
+<img src="../../attachments/2wire4_1.png" alt="2wire4_1" class="responsive-img" /><figcaption>2wire4_1</figcaption>
+</figure>
+<ul>
+<li><span class="math inline">Request_1</span> is asserted as long as <span class="math inline">Device\; 1</span> wishes to use the bus</li>
+<li>No arbitration decision is required since there is only one device requesting</li>
+<li>Deassertion of <span class="math inline">Request_1</span> results in deassertion of <span class="math inline">Grant_1</span>
+<img src="../../attachments/2wire4_1a.png" alt="2wire4_1a" class="responsive-img" /></li>
+</ul>
+<h4 id="case-c-remote-request-only---propagate-grant">Case C: Remote Request Only - Propagate Grant</h4>
+<p><strong>Case C</strong>: Only one or more lower priority device interfaces request service.</p>
+<ul>
+<li><span class="math inline">BR_{out}=BR_{in}</span></li>
+<li><span class="math inline">BG_{out}=BG_{in}</span></li>
+<li><span class="math inline">Request_i = 0</span> and <span class="math inline">Grant_i = 0</span></li>
+</ul>
+<figure>
+<img src="../../attachments/arbitration-2wire-system-caseC.png" alt="arbitration-2wire-system-caseC" class="responsive-img" /><figcaption>arbitration-2wire-system-caseC</figcaption>
+</figure>
+<p>Waterfall type timings in the diagram
+<img src="../../attachments/arbitration-2wire-caseC-ladder.png" alt="arbitration-2wire-caseC-ladder" class="responsive-img" /></p>
+<figure>
+<img src="../../attachments/2wire4_2.png" alt="2wire4_2" class="responsive-img" /><figcaption>2wire4_2</figcaption>
+</figure>
+<p><strong>The request path should always increase, and grant paths should always decrease</strong></p>
+<figure>
+<img src="../../attachments/2wire4_2a.png" alt="2wire4_2a" class="responsive-img" /><figcaption>2wire4_2a</figcaption>
+</figure>
+<ul>
+<li>Request is passed through daisy chain</li>
+<li>No arbitration decision is required since there is only one device requesting</li>
+</ul>
+<h4 id="case-d1-remote-request-during-bus-use---propagate-grant">Case D1: Remote Request During Bus Use - Propagate Grant</h4>
+<p>If you propagate the grant, and you only have 2 devices you still obey priority</p>
+<ul>
+<li><strong>Case D</strong>: One or more lower priority device interfaces request service while the local device interface (i) is using the bus:
+<ul>
+<li>When the local device interface is finished, what should happen?</li>
+<li><strong>Case D1</strong>: Forward grant immediately (<em>Quick solution</em>)<br />
+<span class="math inline">Grant_{i}</span> transitions from <span class="math inline">1 \to 0</span> and <span class="math inline">BG_{out}</span> transitions from <span class="math inline">0\to 1</span></li>
+<li><strong>Case D2</strong>: Re-arbitration cycle (<em>Best solution</em>)<br />
+<span class="math inline">Grant_{i}</span> transitions from <span class="math inline">1\to 0</span>, <span class="math inline">BR_{out}</span> transitions from <span class="math inline">1\to 0</span> (regardless of <span class="math inline">BR_{in}</span>), and arbiter waits for <span class="math inline">BG_{in}</span> to transition from <span class="math inline">1\to 0</span> prior to reasserting <span class="math inline">BR_{out}</span></li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/arbitration-2wire-system-caseD1.png" alt="arbitration-2wire-system-caseD1" class="responsive-img" /><figcaption>arbitration-2wire-system-caseD1</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/arbitration-2wire-caseD1-ladder.png" alt="arbitration-2wire-caseD1-ladder" class="responsive-img" /><figcaption>arbitration-2wire-caseD1-ladder</figcaption>
+</figure>
+<p><strong>Don’t try to memorise, try to understand so that you can extend if he actually changes the <span class="math inline">t_{DA}</span> or other things</strong></p>
+<figure>
+<img src="../../attachments/2wire4_3.png" alt="2wire4_3" class="responsive-img" /><figcaption>2wire4_3</figcaption>
+</figure>
+<p>Remote is the device further down the chain, while local is the device currently using</p>
+<figure>
+<img src="../../attachments/2wire4_3a.png" alt="2wire4_3a" class="responsive-img" /><figcaption>2wire4_3a</figcaption>
+</figure>
+<h4 id="case-d2-remote-request-during-bus-use---re-arbitrate">Case D2: Remote Request During Bus Use - Re-Arbitrate</h4>
+<figure>
+<img src="../../attachments/arbitration-2wire-system-caseD2.png" alt="arbitration-2wire-system-caseD2" class="responsive-img" /><figcaption>arbitration-2wire-system-caseD2</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/arbitration-2wire-caseD2-ladder.png" alt="arbitration-2wire-caseD2-ladder" class="responsive-img" /><figcaption>arbitration-2wire-caseD2-ladder</figcaption>
+</figure>
+<p>If you have more devices in this range, then you sorta see funnel type behaviour in the timing diagram
+<img src="../../attachments/2wire4_4.png" alt="2wire4_4" class="responsive-img" /></p>
+<ul>
+<li>Despite having a pending remote request, <span class="math inline">BusRequest_0</span> is de-asserted when <span class="math inline">Request_1</span> is de-asserted to force rearbitration</li>
+<li><span class="math inline">BusRequest_0</span> is reasserted when <span class="math inline">BusGrant_0</span> is de-asserted</li>
+<li>Re-arbitration forces a distributed arbiter to wait for all higher priority devices to return to an idle state
+<img src="../../attachments/2wire4_4a.png" alt="2wire4_4a" class="responsive-img" /></li>
+</ul>
+<h4 id="simultaneous-requests-with-2-wire-arbitration-cases-e1-and-e2">Simultaneous Requests with 2-Wire Arbitration (Cases E1 and E2)</h4>
+<p>What happens when DA 1 requests the bus shortly after DA 2 has requested the bus?</p>
+<figure>
+<img src="../../attachments/arbitration-2wire-system-caseE.png" alt="arbitration-2wire-system-caseE" class="responsive-img" /><figcaption>arbitration-2wire-system-caseE</figcaption>
+</figure>
+<h3 id="simultaneously-pending-request-signals-during-2-wire-arbitration">Simultaneously Pending Request Signals During 2-Wire Arbitration</h3>
+<ul>
+<li>Case E1, <span class="math inline">Request_1</span> occurs early enough that device 1 gets the bus as if it were the first
+to request the bus</li>
+<li>Case E2, <span class="math inline">Request_2</span> precedes <span class="math inline">Request_1</span> by sufficient time that Device 2 gets the bus first. This situation means that <span class="math inline">Grant_i</span> cannot be a simple combinational function of <span class="math inline">Request_i</span>, <span class="math inline">BusRequest_i</span>, and <span class="math inline">BusGrant_{i-1}</span>.</li>
+<li>For Case E2 there are two options to consider:
+<ul>
+<li>Case E2A: Once <span class="math inline">BusRequest_1</span> is removed, <span class="math inline">Grant_1</span> is issued without further arbitration by the Central Arbiter (CA). DA 1 would be designed to assume that DA 2 would release the bus quickly enough for DA 1 to immediately use the bus. This approach (like propagating a grant) does not necessarily obey priority order.</li>
+<li>Case E2B: Once <span class="math inline">BusRequest_1</span> is removed by DA 2’s distributed arbiter, a re-arbitration cycle is initiated.</li>
+<li>Note: Assuming non-preemptive service, the arrival of <span class="math inline">Request_1</span> does not terminate DA 2’s use of the bus.</li>
+</ul></li>
+</ul>
+<h4 id="case-e1-remote-request-first-local-shortly-after">Case E1: Remote Request First, Local Shortly After</h4>
+<p><img src="../../attachments/arbitration-2wire-system-caseE1.png" alt="arbitration-2wire-system-caseE1" class="responsive-img" />
+<img src="../../attachments/arbitration-2wire-caseE1-ladder.png" alt="arbitration-2wire-caseE1-ladder" class="responsive-img" /></p>
+<h3 id="some-alternative-designs">Some Alternative Designs</h3>
+<ul>
+<li>Re-Arbitrate for every use of the bus. Option B would require the local unit to ignore all bus grants except if there were a rising edge on the <span class="math inline">BusGrant_{i-1}</span> signal … as shown in cases E1B and E2B</li>
+<li>Permit the local arbiter unit to claim bus if all remote (lower priority) devices have no bus request pending<br />
+<strong>What happens if the local device changes its mind?</strong>
+<ul>
+<li>If the arbiter releases <span class="math inline">BusRequest_{i-1}</span>, but before <span class="math inline">BusGrant_{i-1}</span> is removed and it quickly reasserts <span class="math inline">BusRequest_{i-1}</span>, there could be 2 bus masters in the system</li>
+</ul></li>
+</ul>
+<h2 id="wire-daisy-chain-arbitration-system">3-Wire Daisy-Chain Arbitration System</h2>
+<ul>
+<li>System uses two passive pull-up bus lines and one daisy-chained signal</li>
+<li>Devices may request bus usage quicker</li>
+</ul>
+<figure>
+<img src="../../attachments/arbitration-3wire-system.png" alt="arbitration-3wire-system" class="responsive-img" /><figcaption>arbitration-3wire-system</figcaption>
+</figure>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>The device asserts request to use, and keeps asserting while you’re still using, and when you’re done you can de-assert</li>
+<li>BUT here the requesting is way faster because you are not passing through Distributed signal</li>
+</ul>
+<h3 id="wire-daisy-chain-central-arbiter">3-Wire Daisy-Chain Central Arbiter</h3>
+<figure>
+<img src="../../attachments/arbitration-3wire-central-arbiter.png" alt="arbitration-3wire-central-arbiter" class="responsive-img" /><figcaption>arbitration-3wire-central-arbiter</figcaption>
+</figure>
+<ul>
+<li>Assert <span class="math inline">BusGrant_0</span> whenever <span class="math inline">\overline{BusBusy}</span> is not asserted and <span class="math inline">\overline{BusRequest}</span> is asserted</li>
+<li><span class="math inline">BusGrant_0</span> is computed as follows:
+<ul>
+<li><span class="math inline">BusGrant_0 = \overline{BusBusy} \cdot \overline{\overline{BusRequest}}</span></li>
+<li>Basically what the signal is saying is that we have <span class="math inline">BusRequest</span> and we don’t have the <span class="math inline">BusBusy</span></li>
+<li>The 2 bars on the signals themselves are because of the active-low signals and there is in fact just one inversion required</li>
+</ul></li>
+<li>Implemented using an AND gate and a NOT gate</li>
+<li>Finite delay through the central arbiter (<span class="math inline">t_{CA} \neq 0 ns</span>)</li>
+</ul>
+<h3 id="wire-daisy-chain-distributed-arbiter">3-Wire Daisy-Chain Distributed Arbiter</h3>
+<figure>
+<img src="../../attachments/arbitration-3wire-distributed-arbiter.png" alt="arbitration-3wire-distributed-arbiter" class="responsive-img" /><figcaption>arbitration-3wire-distributed-arbiter</figcaption>
+</figure>
+<ul>
+<li>Outputs are a function of both inputs and state</li>
+<li>Arbiter circuit is implemented as an asynchronous (fundamental mode) design</li>
+<li>Finite delay through the distributed arbiter (<span class="math inline">t_{DA}\neq 0 ns</span>)</li>
+</ul>
+<h3 id="design-of-a-3-wire-daisy-chain-distributed-arbiter">Design of a 3-Wire Daisy-Chain Distributed Arbiter</h3>
+<p>A Distributed Arbiter (DA) associated with any interface wanting to use the bus pulls BusRequest low to request service</p>
+<ul>
+<li>A Distributed Arbiter (DA) may take control of the bus whenever it sees a rising edge on the daisy-chain bus grant signal (<span class="math inline">BusGrant_{i-1}</span>), the bus is not busy (<span class="math inline">BusBusy = 1</span>), and
+the distributed arbiter has a local request (<span class="math inline">Request_i = 1</span>)</li>
+<li>The Distributed Arbiter (DA) associated with the interface using the bus pulls BusBusy low to indicate the bus is in use</li>
+</ul>
+<h3 id="wire-daisy-chain-arbitration">3-Wire Daisy Chain Arbitration</h3>
+<figure>
+<img src="../../attachments/arbitration-3wire-priority.png" alt="arbitration-3wire-priority" class="responsive-img" /><figcaption>arbitration-3wire-priority</figcaption>
+</figure>
+<h3 id="wire-daisy-chain-arbitration---ladder-diagram">3-Wire Daisy Chain Arbitration - Ladder Diagram</h3>
+<figure>
+<img src="../../attachments/arbitration-3wire-ladder.png" alt="arbitration-3wire-ladder" class="responsive-img" /><figcaption>arbitration-3wire-ladder</figcaption>
+</figure>
+<p>CASE B</p>
+<h3 id="wire-daisy-chain-arbitration---example-1-with-dependencies">3-Wire Daisy Chain Arbitration - Example 1 with Dependencies</h3>
+<figure>
+<img src="../../attachments/3wire-example1-dependencies.png" alt="3wire-example1-dependencies" class="responsive-img" /><figcaption>3wire-example1-dependencies</figcaption>
+</figure>
+<p>One of the key performance benefits, once the bus busy signal goes back to idle, we can quickly assert the next grant.<br />
+The Open Collector fundamentally changes the way the arbiter works.</p>
+<h4 id="wire-daisy-chain-arbitration---example-1-with-arbitration-and-bus-usage">3-Wire Daisy Chain Arbitration - Example 1 with Arbitration and Bus Usage</h4>
+<p>Same picture as above, but with different layers</p>
+<figure>
+<img src="../../attachments/3wire-example1-usage.png" alt="3wire-example1-usage" class="responsive-img" /><figcaption>3wire-example1-usage</figcaption>
+</figure>
+<p>While one device is using the bus we can significantly start the arbitration process.
+In this particular arbitration, once we take control of the bus the bus request goes away, we hold the bus using the bus busy line<br />
+<br />
+BUT we still cannot get full overlap of the arbitration, <em>but</em> if there was an extra wire we could imagine acknowledging the request to allow for overlap (i.e. lead to the 4 wire design)</p>
+<h3 id="wire-daisy-chain-arbitration---example-2">3-Wire Daisy Chain Arbitration - Example 2</h3>
+<figure>
+<img src="../../attachments/3wire-example2.png" alt="3wire-example2" class="responsive-img" /><figcaption>3wire-example2</figcaption>
+</figure>
+<h4 id="wire-daisy-chain-arbitration---example-2-with-dependencies">3-Wire Daisy Chain Arbitration - Example 2 with Dependencies</h4>
+<figure>
+<img src="../../attachments/3wire-example2-dependencies.png" alt="3wire-example2-dependencies" class="responsive-img" /><figcaption>3wire-example2-dependencies</figcaption>
+</figure>
+<h3 id="note-3-wire-daisy-chain-arbitration-bus-busy---timing-diagram">Note: 3-Wire Daisy Chain Arbitration, Bus Busy - Timing Diagram</h3>
+<ul>
+<li>Three devices</li>
+<li>Initially used by interface for device 2</li>
+<li>Requests by interface for de- vice 3 then interface for de- vice 1</li>
+<li>Use by interface for device 1 then interface for device 2</li>
+</ul>
+<figure>
+<img src="../../attachments/3wire3_2.png" alt="3wire3_2" class="responsive-img" /><figcaption>3wire3_2</figcaption>
+</figure>
+<p><strong>NOTES</strong>:</p>
+<ul>
+<li>Wherever you have a grant signal the BUS_BUSY signal should be low
+<ul>
+<li>if you take all the grant signal, and superimpose that, and invert that, you will see the BUS_BUSY signal</li>
+</ul></li>
+</ul>
+<h2 id="wire-distributed-bus-arbitration">4-Wire Distributed Bus Arbitration</h2>
+<ul>
+<li>Arbitration and bus usage may be overlapped by introducing a third open-collector bus signal (<span class="math inline">\overline{BusAck}</span>)</li>
+</ul>
+<figure>
+<img src="../../attachments/arbitration-4wire-system.png" alt="arbitration-4wire-system" class="responsive-img" /><figcaption>arbitration-4wire-system</figcaption>
+</figure>
+<ul>
+<li><span class="math inline">\overline{BusAck}</span> is asserted when the next DA to use the bus receives a <span class="math inline">BusGrant</span></li>
+</ul>
+<p><strong>NOTES</strong></p>
+<ul>
+<li>Central arbiter still remains the same</li>
+</ul>
+<h3 id="wire-daisy-chain-arbitration---example-1">4-Wire Daisy Chain Arbitration - Example 1</h3>
+<figure>
+<img src="../../attachments/4wire-example1.png" alt="4wire-example1" class="responsive-img" /><figcaption>4wire-example1</figcaption>
+</figure>
+<p><strong>NOTES</strong></p>
+<ul>
+<li>3 device behaviour is interesting</li>
+</ul>
+<figure>
+<img src="../../attachments/4wire-example1-dependencies.png" alt="4wire-example1-dependencies" class="responsive-img" /><figcaption>4wire-example1-dependencies</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/4wire-example1-usage.png" alt="4wire-example1-usage" class="responsive-img" /><figcaption>4wire-example1-usage</figcaption>
+</figure>
+<p>If the system is not idle it will take much longer to figure out which device. The device runs better the more you push it</p>
+<h2 id="summary-of-the-operational-characteristics-of-daisy-chained-bus-arbitration">Summary of the Operational Characteristics of Daisy-Chained Bus Arbitration</h2>
+<h3 id="monolithic-arbitration-system">Monolithic Arbitration System</h3>
+<ul>
+<li>A monolithic arbitration system can be built by encapsulating any arbitration system</li>
+</ul>
+<figure>
+<img src="../../attachments/arbitration-distributed-vs-monolithic.png" alt="arbitration-distributed-vs-monolithic" class="responsive-img" /><figcaption>arbitration-distributed-vs-monolithic</figcaption>
+</figure>
+<ul>
+<li>Only the bus requests and bus grants are exposed by the arbitration system</li>
+<li>The number of supported devices is fixed</li>
+</ul>
+<p><strong>NOTES</strong></p>
+<ul>
+<li>You can embed/abstract the logic of the bus arbitration inside of a computer chip</li>
+<li>if DA1 fails then all corresponding devices fails
+<ul>
+<li>BUT the thing to note is that even a simple AND gate could fail</li>
+</ul></li>
+</ul>
+<h3 id="modelling-the-performance-of-daisy-chain-bus-arbitration-systems">Modelling the Performance of Daisy Chain Bus Arbitration Systems</h3>
+<ul>
+<li>To model the performance of daisy chain bus arbitration systems, we will consider the following for 2-wire, 3-wire, and 4-wire systems:
+<ol type="1">
+<li>Arbitration delay for both bus idle and bus busy situations</li>
+<li>Priority for both bus idle and bus busy situations</li>
+<li>Priority uncertainty for both bus idle and bus busy situations</li>
+</ol></li>
+<li>The following timing parameters are used by the model:
+<ul>
+<li><strong>Distributed Arbiter Delay (<span class="math inline">t_{DA}</span>)</strong> The delay between a change in an input to the dis- tributed arbiter and a change in one or more outputs. All distributed arbiter delays are treated the same.</li>
+<li><strong>Bus Line Delay (<span class="math inline">t_{BL}</span>)</strong>. The delay associated with asserting or de-asserting a shared bus line. This model assumes that if a bus line is to be driven, it requires <span class="math inline">t_{BL}</span> time in addition to any other time, most notably <span class="math inline">t_{DA}</span>.</li>
+<li><strong>Central Arbiter Delay (<span class="math inline">t_{CA}</span>)</strong>. The delay between a change in an input to the central arbiter and a change in one or more outputs. This delay has been modelled as a constant. For a 2-wire system where the central arbiter is a wire, <span class="math inline">t_{CA} = 0</span>.</li>
+</ul></li>
+<li>The mathematical model presented is only an approximation</li>
+</ul>
+<p><strong>NOTES</strong></p>
+<ul>
+<li>Sets up an approximation model to allow for comparison of all of these arbitration devices.</li>
+<li>Makes consistent assumptions across the board</li>
+</ul>
+<h4 id="bus-idle">Bus Idle</h4>
+<h5 id="arbitration-delay">Arbitration Delay</h5>
+<ul>
+<li>Consider a request by the <span class="math inline">n^{th}</span> distributed arbiter in a daisy chain</li>
+<li>Assume the bus is idle so the delay between Request and Grant depends only on the
+time to decide on the next user</li>
+<li>The delay depends upon the daisy chain arbitration system used:
+<ul>
+<li><strong>2-wire</strong>: Delay through n distributed arbiters in the request chain, and the delay through <span class="math inline">n</span> distributed arbiters in the grant chain (<span class="math inline">2 \cdot n \cdot t_{DA}</span>)</li>
+<li><strong>3-wire</strong>: Delay to assert the <span class="math inline">BusRequest</span> signal, delay through the central arbiter, delay through <span class="math inline">n</span> distributed arbiters in the grant chain, and the delay to assert the <span class="math inline">BusBusy</span> signal (<span class="math inline">n \cdot t_{DA} + 2 \cdot t_{BL} \cdot + t_{CA}</span>)</li>
+<li><strong>4-wire</strong>: Delay to assert the <span class="math inline">BusRequest</span> signal, delay through the central arbiter, delay through <span class="math inline">n</span> distributed arbiters in the grant chain, delay to assert the <span class="math inline">BusAck</span> signal, and the delay to assert the <span class="math inline">BusBusy</span> signal (<span class="math inline">n \cdot t_{DA} + 3 \cdot t_{BL} + t_{CA}</span>)</li>
+</ul></li>
+<li>For 3-wire and 4-wire, the BusGrant signal is deasserted during bus usage so the time associated with this activity is ignored</li>
+</ul>
+<h5 id="priority">Priority</h5>
+<ul>
+<li>Priority is fixed when the bus is idle:
+<ul>
+<li>2-wire: fixed priority starting from the CA</li>
+<li>3-wire: fixed priority starting from the CA</li>
+<li>4-wire: fixed priority starting from the CA</li>
+</ul></li>
+<li>When the bus is idle, all systems behave similarly in terms of prioritizing requests</li>
+<li>Since the bus is initially idle, there is no need to consider the potential implications of grant forwarding</li>
+</ul>
+<h5 id="priority-uncertainty">Priority Uncertainty</h5>
+<p><strong>Priority Uncertainty</strong>:
+Consider the situation when the bus is idle and there are 2 or more requests:<br />
+If device <span class="math inline">n</span> initially requests the bus and then device <span class="math inline">i</span> requests the bus more than <span class="math inline">t_{uncertainty}</span> before device n should receive the bus grant where <span class="math inline">i \leq n</span>, device <span class="math inline">i</span> is granted the bus and priority is obeyed</p>
+<figure>
+<img src="../../attachments/idle1.png" alt="idle1" class="responsive-img" /><figcaption>idle1</figcaption>
+</figure>
+<p>When the bus is idle, all daisy chain bus arbitration systems exhibit the same uncertainty:</p>
+<ul>
+<li>2-wire: <span class="math inline">t^{2-wire}_{uncertainty,\; bus\; idle} = (n - i) \cdot t_{DA}</span></li>
+<li>3-wire: <span class="math inline">t^{3-wire}_{uncertainty,\; bus\; idle} = (n - i) \cdot t_{DA}</span></li>
+<li>4-wire: <span class="math inline">t^{4-wire}_{uncertainty,\; bus\; idle} = (n - i) \cdot t_{DA}</span></li>
+</ul>
+<p><strong>NOTES</strong></p>
+<ul>
+<li>When we have already forwarded grant, and we do get a request on device <span class="math inline">i</span> before actually granting to device <span class="math inline">i+k</span> then you’re actually granting to the <em>wrong</em> device</li>
+</ul>
+<h5 id="note">Note</h5>
+<figure>
+<img src="../../attachments/idle1a.png" alt="idle1a" class="responsive-img" /><figcaption>idle1a</figcaption>
+</figure>
+<ul>
+<li>Consider the ladder diagram shown for a 2-wire daisy chained bus arbitration system:
+<ul>
+<li>Assume the bus is idle, and has been idle for sufficient time to stabilize (i.e., no signal changes are propagating through any of the distributed arbiters)</li>
+<li>Assume the nth interface makes a bus request at time trequest n</li>
+<li>Interface i can make a request at any time:
+<ul>
+<li>If the request is prior to the time marked as CT in
+the figure, interface i will become the bus master</li>
+<li>If the request arrives after CT, interface n will
+become the bus master:
+<ul>
+<li>It is important to note that when the request
+from device i arrives the bus is idle</li>
+<li>It is also important to note that i is the highest
+priority interface requesting the use of the bus</li>
+<li>In this window of uncertainty, n gets the bus</li>
+<li>The natural daisy chain priority may be violated</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="bus-busy">Bus Busy</h4>
+<h5 id="arbitration-delay-1">Arbitration delay</h5>
+<p>Consider a request by the <span class="math inline">n^{th}</span> distributed arbiter in a daisy chain:</p>
+<ul>
+<li>Assume that the current user is the <span class="math inline">c^{th}</span> distributed arbiter where <span class="math inline">c</span> may be larger or smaller than <span class="math inline">n</span></li>
+<li>Assume that the bus is busy, so the delay (following the completion of the current operation) is related to the time to decide on the next user</li>
+<li>What is the delay between the completion of one user and the start of the next user <span class="math inline">(t_{arbitration,\; bus\; busy})</span>, assuming that the request by the next user was already present at the DA when the current user finished as bus master?</li>
+</ul>
+<figure>
+<img src="../../attachments/busy1.png" alt="busy1" class="responsive-img" /><figcaption>busy1</figcaption>
+</figure>
+<p>Arbitration delay if the bus is busy:</p>
+<ul>
+<li><p>2-wire: <span class="math inline">(t^{2-wire}_{arbitration,\; bus\; busy} =(3\cdot c+n)\cdot t_{DA}</span> or <span class="math inline">(c+3\cdot n)\cdot t_{DA})</span></p></li>
+<li><p>3-wire: (<span class="math inline">t^{3-wire}_{arbitration,\; bus\; busy}</span> ) delay to deassert <span class="math inline">BusBusy</span>, delay through CA, delay through n links in the grant chain including the delay to assert <span class="math inline">Grant_i</span> and then to assert <span class="math inline">BusBusy</span>. (delays to deassert the <span class="math inline">BusRequest</span> and <span class="math inline">BusGrant</span> signals are within the bus usage time and can be ignored here.) (<span class="math inline">n \cdot tDA + 2 \cdot t_{BL} + t_{CA}</span>)</p></li>
+<li><p>4-wire: Assume request is greater than <span class="math inline">t^{4-wire}_{arbitration,\; bus\; idle}</span> before the bus becomes so that arbitration selection process is complete before the previous user has finished using the bus. Thus, <span class="math inline">t^{4-wire}_{arbitration,\; bus\; busy}</span> is just the time to assert <span class="math inline">Grant</span> and <span class="math inline">BusBusy</span> (<span class="math inline">t_{BL}</span>)</p></li>
+</ul>
+<p><br />
+<strong>NOTES</strong></p>
+<ul>
+<li>we see a good improvement from 3 to 4 is because we can actually arbitrate during the time the bus line is busy</li>
+</ul>
+<h5 id="priority-1">Priority</h5>
+<ul>
+<li>Priority is fixed when the bus is busy:
+<ul>
+<li>2-wire: fixed priority starting from the CA when bus usage completes</li>
+<li>3-wire: fixed priority starting from the CA when bus usage completes</li>
+<li>4-wire: fixed priority starting from the CA when bus usage starts</li>
+</ul></li>
+<li>The time at which arbitration occurs is potentially different:
+<ul>
+<li>When the bus is busy, 4-wire daisy chain bus arbitration systems have greater priority uncertainty since arbitration is fully overlapped with bus usage</li>
+<li>A 4-wire arbitration system may commit to a lower priority device and then receive a request from a higher priority device while the bus is still busy</li>
+</ul></li>
+</ul>
+<p><strong>NOTES</strong></p>
+<ul>
+<li>Notice how 4 wire looks at it from when it starts, while 3 wire looks at when it completes</li>
+</ul>
+<h5 id="priority-uncertainty-1">Priority Uncertainty</h5>
+<p>Priority Uncertainty:
+Consider the situation when the bus is busy and there are 2 or more requests:</p>
+<ul>
+<li>If device n initially requests the bus and then device i requests the bus more than <span class="math inline">t_{uncertainty}</span> before device n should receive the bus grant where <span class="math inline">i \leq n</span>, device i is granted the bus and priority is obeyed. However, in a 4-wire system, the uncertainty window is increased by the time of current user usage since arbitration occurs earlier.</li>
+<li>When the bus is idle, the type of daisy chain bus arbitration system affects the uncertainty:
+<ul>
+<li>2-wire: <span class="math inline">t^{2-wire}_{uncertainty,\; bus\; idle} = (n - i) \cdot t_{DA}</span></li>
+<li>3-wire: <span class="math inline">t^{3-wire}_{uncertainty,\; bus\; idle} = (n - i) \cdot t_{DA}</span></li>
+<li>4-wire: <span class="math inline">t^{4-wire}_{uncertainty,\; bus\; idle} = (n - i) \cdot t_{DA} + t^{current\; user}_{usage}</span></li>
+</ul></li>
+</ul>
+<h4 id="summary-of-daisy-chain-arbitration-performance">Summary of Daisy Chain Arbitration Performance</h4>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 20%" />
+<col style="width: 11%" />
+<col style="width: 27%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Bus Idle</th>
+<th>Bus Idle</th>
+<th>Bus Busy</th>
+<th>Bus Busy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Parameter</td>
+<td><span class="math inline">t_{arbitration,\; bus\; idle}</span></td>
+<td><span class="math inline">t_{uncertainty}</span></td>
+<td><span class="math inline">t_{tarbitration,\; bus\; busy}</span></td>
+<td><span class="math inline">t_{uncertainty}</span></td>
+</tr>
+<tr class="even">
+<td>2-wire</td>
+<td><span class="math inline">2\cdot n\cdot t_{DA}</span></td>
+<td><span class="math inline">(n-i)\cdot t_{DA}</span></td>
+<td><span class="math inline">(3\cdot c+n)\cdot t_{DA}</span> or <span class="math inline">(c+3\cdot n)\cdot t_{DA}</span></td>
+<td><span class="math inline">(n-i)\cdot t_{DA}</span></td>
+</tr>
+<tr class="odd">
+<td>3-wire</td>
+<td><span class="math inline">n\cdot t_{DA} +2\cdot t_{BL} +t_{CA}</span></td>
+<td><span class="math inline">(n-i)\cdot t_{DA}</span></td>
+<td><span class="math inline">n\cdot t_{DA} +2\cdot t_{BL} +t_{CA}</span></td>
+<td><span class="math inline">(n-i)\cdot t_{DA}</span></td>
+</tr>
+<tr class="even">
+<td>4-wire</td>
+<td><span class="math inline">n\cdot t_{DA} +3\cdot t_{BL} +t_{CA}</span></td>
+<td><span class="math inline">(n-i)\cdot t_{DA}</span></td>
+<td><span class="math inline">t_{BL}</span> assuming selection complete</td>
+<td><span class="math inline">(n - i) \cdot t_{DA} + t_{current\; user\; usage}</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">n, i</span>, and <span class="math inline">c</span> are defined as follows:</p>
+<ul>
+<li><span class="math inline">n</span> is the device ID of the first DA to request the bus</li>
+<li><span class="math inline">i</span> is the device ID of the second DA to request the bus</li>
+<li><span class="math inline">c</span> is the device ID of the current bus user</li>
+</ul>
+<p>Assume <span class="math inline">n &gt; i</span> without a loss of generality</p>
+<h4 id="non-daisy-chained-bus-arbitration-systems">Non-Daisy-Chained Bus Arbitration Systems</h4>
+<p><strong>NOT ON THE EXAM</strong></p>
+<p>A daisy-chained bus grant signal is not a requirement of a bus arbitration system<br />
+A non-daisy-chained bus arbitration system can be built as a monolithic arbiter:</p>
+<p><img src="../../attachments/arbitration-ndc-monolithic-arbiter.png" alt="arbitration-ndc-monolithic-arbiter" class="responsive-img" />
+</p>
+<ul>
+<li>At any given time, only one bus grant signal is asserted</li>
+<li>Once a device has been granted use of the bus, it cannot be pre-empted</li>
+<li>A fixed number of devices are supported by the system</li>
+</ul>
+<p><strong>NOTE TO SELF, you stopped listening at this point</strong></p>
+<h2 id="questions-of-interest-bus-arbitration-questions">Questions of Interest: Bus Arbitration Questions</h2>
+<p>Most questions rely on timing diagram + ladder diagram<br />
+</p>
+<ul>
+<li>Terms discussed in this section include: Bus Arbitration and Non-pre-emptive arbitration Priorities in daisy chained bus arbiters.</li>
+<li>What is the key feature of daisy chained arbitration techniques? How is this feature replaced in the non-daisy-chained structure?</li>
+<li>Assume that the delay through a DA is 9ns and that there is a system with 5 devices that may be bus master. Compare and contrast the <span class="math inline">t_{uncertainty}</span> among the various arbiters for various bus conditions.</li>
+<li>Engineering Questions.
+<ul>
+<li>A two-wire arbitration scheme requires the fewest connections and is the best for all uses.</li>
+<li>Since 4-wire bus arbiters use more of the available bus time, they are the preferred solution.</li>
+<li>The non-daisy-chained bus arbiter is faster than the 3-wire bus arbiter.</li>
+</ul></li>
+</ul>
+<h2 id="mini-note-on-dmas">MINI NOTE ON DMAs</h2>
+<p><strong>Q</strong> Why do we use DMA?<br />
+<strong>A</strong> We use it so that the CPU does not do dumb work. If you want to transfer a lot data from device to memory, it has to do 2 BUS transactions, which is stupid, so you should design an architecture that allows you to transfer data from device interface and put into memory without CPU intervention or vice versa<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

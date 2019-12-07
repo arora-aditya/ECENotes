@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 5 - Computer Structure</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 5 - Computer Structure<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#computer-organization">Computer Organization</a></li>
+<li><a href="#system-bus">System Bus</a></li>
+<li><a href="#memory-mapped-io">Memory Mapped I/O</a></li>
+<li><a href="#dedicated-io-buses">Dedicated I/O Buses</a></li>
+<li><a href="#memory">Memory</a></li>
+<li><a href="#central-processing-unit-cpu">Central Processing Unit (CPU)</a></li>
+<li><a href="#single-wire-signal-representations">Single Wire Signal Representations</a></li>
+<li><a href="#multiple-wire-signal-representations">Multiple Wire Signal Representations</a></li>
+<li><a href="#control-signals">Control Signals</a></li>
+<li><a href="#clock-signals">Clock Signals</a></li>
+<li><a href="#multiphase-clock-signals">Multiphase Clock Signals</a></li>
+<li><a href="#a-simple-32-bit-cpu">A Simple 32 Bit CPU</a><ul>
+<li><a href="#an-example-of-an-instruction-execution-sequence">An Example of an Instruction Execution Sequence</a></li>
+</ul></li>
+<li><a href="#the-cpu-memory-interface">The CPU / Memory Interface</a><ul>
+<li><a href="#mdr-bus-connections">MDR Bus Connections</a></li>
+<li><a href="#interfacing-a-cpu-with-memory">Interfacing a CPU with Memory</a></li>
+<li><a href="#timing-interactions">Timing Interactions</a><ul>
+<li><a href="#synchronous-option">Synchronous Option</a></li>
+<li><a href="#asynchronous-option">Asynchronous Option</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#connecting-to-two-or-more-memory-devices">Connecting to Two or More Memory Devices</a><ul>
+<li><a href="#the-challenge-of-sharing-a-bus-line">The Challenge of Sharing a Bus Line</a></li>
+<li><a href="#sharing-a-bus-line">Sharing a Bus Line</a></li>
+</ul></li>
+<li><a href="#types-of-output-drivers">Types of Output Drivers</a><ul>
+<li><a href="#sourcing-and-sinking-current">Sourcing and Sinking Current</a></li>
+<li><a href="#simplified-transistor-theory---bjt-inverter-circuit">Simplified Transistor Theory - BJT Inverter Circuit</a></li>
+<li><a href="#simplified-transistor-theory---nmos-inverter-circuit">Simplified Transistor Theory - nMOS Inverter Circuit</a></li>
+<li><a href="#simplified-transistor-theory---pmos-inverter-circuit">Simplified Transistor Theory - pMOS Inverter Circuit</a></li>
+<li><a href="#simplified-transistor-theory---cmos-inverter-circuit">Simplified Transistor Theory - CMOS Inverter Circuit</a></li>
+</ul></li>
+<li><a href="#totem-pole-output-driver">Totem Pole Output Driver</a><ul>
+<li><a href="#two-input-and-gate-with-a-totem-pole-output-driver">Two Input AND Gate with a Totem Pole Output Driver</a></li>
+<li><a href="#a-totem-pole-bus-conflict">A Totem Pole Bus Conflict</a></li>
+<li><a href="#approaches-to-avoiding-large-current-flows">Approaches to Avoiding Large Current Flows</a></li>
+</ul></li>
+<li><a href="#open-collector-output-driver">Open-Collector Output Driver</a></li>
+<li><a href="#bus-terminology">Bus Terminology</a></li>
+</ul>
+</nav>
+<h3 id="computer-organization">Computer Organization</h3>
+<figure>
+<img src="../../attachments/structure-computer-structure.png" alt="structure-computer-structure" class="responsive-img" /><figcaption>structure-computer-structure</figcaption>
+</figure>
+<h3 id="system-bus">System Bus</h3>
+<p>A system bus connects components that need to communicate with each other</p>
+<ul>
+<li>What is a bus?
+<ul>
+<li>A bus is a set of wires that are shared by several components</li>
+<li>Buses exchange information using a standardized protocol</li>
+</ul></li>
+<li>Why is a bus used?
+<ul>
+<li>Buses reduce the total number of wires required by the system</li>
+<li>Buses allow for easy expansion</li>
+</ul></li>
+<li>What are the essential building blocks of a system bus?
+<ul>
+<li>A technique for selecting two (or more) communicating entities</li>
+<li>A set of wires/signals to transfer data</li>
+<li>A set of wires/signals to control the transfer</li>
+</ul></li>
+</ul>
+<h3 id="memory-mapped-io">Memory Mapped I/O</h3>
+<p>I/O devices can be connected to the system in a manner similar to memory:
+<img src="../../attachments/structure-memory-mapped-io.png" alt="structure-computer-structure" class="responsive-img" /></p>
+<h3 id="dedicated-io-buses">Dedicated I/O Buses</h3>
+<ul>
+<li>I/O devices can be connected to the system using a separate I/O bus that does not connect to main memory</li>
+<li>The bus can be physically or logically separate
+<img src="../../attachments/structure-dedicated-io.png" alt="structure-computer-structure" class="responsive-img" /></li>
+</ul>
+<h3 id="memory">Memory</h3>
+<ul>
+<li>Memory connects to a CPU using one (or more) buses</li>
+<li>Both instructions and data are stored in memory:
+<ul>
+<li>Instructions can only be distinguished from data by context</li>
+</ul></li>
+<li>Stored memory values are accessed using their address</li>
+<li>ROM (Read Only Memory) usually contains the sequence of instructions necessary to place the processor in a known startup state:
+<ul>
+<li>The known startup state may be the final state or simply a starting point for booting a more functional operating system</li>
+</ul></li>
+<li>RAM (Random Access Memory) is used to store values and programs that may change</li>
+<li>There is no obvious distinction between ROM and RAM addresses</li>
+</ul>
+<h3 id="central-processing-unit-cpu">Central Processing Unit (CPU)</h3>
+<p>A Central Processing Unit (CPU) is composed of the following:</p>
+<ul>
+<li><strong>Arithmetic and Logic Unit</strong>: Performs operations required by the instruction sequence</li>
+<li><strong>Control Unit</strong>: Interprets instructions and generates a sequence of operations</li>
+<li><strong>Registers</strong>: Store the state of the system:
+<ul>
+<li><em>General Purpose Registers</em> : Provide internal storage for intermediate results</li>
+<li><em>Special Purpose Registers</em> : Store control/status information
+<ul>
+<li><em><strong>Program Counter (PC)</strong></em>: Stores the address of the next instruction to read</li>
+<li><em><strong>Instruction Register (IR)</strong></em>: Stores the current instruction</li>
+<li><em><strong>Program Status Register (PSW)</strong></em>: Stores the processor status (flags, etc.)</li>
+<li><em><strong>Stack Pointer (SP)</strong></em>: Stores the address of the top of the stack</li>
+<li><em><strong>Memory Address Register (MAR) and Memory Data Register (MDR)</strong></em>: Buffer data between the CPU and memory via the system bus.</li>
+</ul></li>
+</ul></li>
+<li>NOTE: The IR, MAR, and MDR registers are not directly accessible to a programmer</li>
+</ul>
+<h3 id="single-wire-signal-representations">Single Wire Signal Representations</h3>
+<figure>
+<img src="../../attachments/structure-single-wire-representations.png" alt="structure-single-wire-representations" class="responsive-img" /><figcaption>structure-single-wire-representations</figcaption>
+</figure>
+<h3 id="multiple-wire-signal-representations">Multiple Wire Signal Representations</h3>
+<figure>
+<img src="../../attachments/structure-multiple-wire-representations.png" alt="structure-multiple-wire-representations" class="responsive-img" /><figcaption>structure-multiple-wire-representations</figcaption>
+</figure>
+<h3 id="control-signals">Control Signals</h3>
+<ul>
+<li>Many operations are triggered by one or more control signals</li>
+<li>Control signals may be either active high or active low level triggered:
+<ul>
+<li>An active high control signal indicates a certain condition when it has a value of 1</li>
+<li>An active low control signal indicates a certain condition when it has a value of 0</li>
+</ul></li>
+<li>Control signals may be rising or falling edge triggered:
+<ul>
+<li>A rising-edge signal changes from a low voltage to a high voltage</li>
+<li>A falling-edge signal changes from a high voltage to a low voltage</li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/structure-control-signals.png" alt="structure-control-signals" class="responsive-img" /><figcaption>structure-control-signals</figcaption>
+</figure>
+<h3 id="clock-signals">Clock Signals</h3>
+<ul>
+<li>A clock signal is a special type of control signal that synchronizes two or more devices</li>
+<li>Clock signals typically have the following characteristics:
+<ul>
+<li>Clock signals are edge-triggered (either rising edge or falling edge)</li>
+<li>Clock signals are periodic with a fixed duty cycle (ratio of high time to low time)</li>
+</ul></li>
+<li>System clock signals are typically periodic with duty cycles approaching 50%:
+<ul>
+<li>Input signals are sampled at a predictable time with respect to the system clock</li>
+<li>Output signals change at a predictable time with respect to the system clock</li>
+</ul></li>
+<li>Some clock signals are not periodic:
+<ul>
+<li>Register clock signals are often not periodic</li>
+<li>Active edges only occur when needed to trigger an event</li>
+</ul></li>
+</ul>
+<h3 id="multiphase-clock-signals">Multiphase Clock Signals</h3>
+<p>Alternative clocking schemes have been proposed to increase opportunities for synchronization:
+<img src="../../attachments/structure-multiphase-clocks.png" alt="structure-multiphase-clocks" class="responsive-img" /></p>
+<h3 id="a-simple-32-bit-cpu">A Simple 32 Bit CPU</h3>
+<figure>
+<img src="../../attachments/structure-single-bus-cpu.png" alt="structure-single-bus-cpu" class="responsive-img" /><figcaption>structure-single-bus-cpu</figcaption>
+</figure>
+<h4 id="an-example-of-an-instruction-execution-sequence">An Example of an Instruction Execution Sequence</h4>
+<p><code>R1←R1+[R3]</code>
+<span class="math display">
+\begin{aligned}
+\text{Step} &amp;\;\;\;\;\text{Action} \\
+\;\;\;\;1\;\;&amp;\;\;\;PC_{out},\;\;MAR_{in},\;\;READ,\;\;Select\;\;Const\;\;4,\;\;Add,\;\;Z_{in}\\
+\;\;\;\;2\;\;&amp;\;\;\;Z_{out},\;\;PC_{in},\;\;WMFC\\
+\;\;\;\;3\;\;&amp;\;\;\;MDR_{out},\;\;IR_{in}\\
+\;\;\;\;4\;\;&amp;\;\;\;R3_{out},\;\;MAR_{in},\;\;READ\\
+\;\;\;\;5\;\;&amp;\;\;\;R1_{out},\;\;Y_{in},\;\;WMFC\\
+\;\;\;\;6\;\;&amp;\;\;\;MDR_{out},\;\;Select\;\;Y,\;\;Add,\;\;Z_{in}\\
+\;\;\;\;7\;\;&amp;\;\;\;Z_{out},\;\;R1_{in},\;\;END\\
+\end{aligned}
+</span></p>
+<h3 id="the-cpu-memory-interface">The CPU / Memory Interface</h3>
+<ul>
+<li>Note the signals involved in Memory Interface operations:
+<ul>
+<li>Clock enable signals (<span class="math inline">MDR_{in}</span>, <span class="math inline">MAR_{in}</span>)</li>
+<li>Tri-state enable signals (<span class="math inline">MDR_{out}</span>)</li>
+<li>Direction control signals (READ, WRITE)</li>
+<li>Acknowledgement signals (MFC)</li>
+</ul></li>
+<li>What does WMFC do?<br>
+Wait for Memory Fetch/Flow Complete</li>
+<li>Some of these signals may be virtual signals. For example, the MFC logically exists but may not physically exist in all designs.</li>
+</ul>
+<h4 id="mdr-bus-connections">MDR Bus Connections</h4>
+<figure>
+<img src="../../attachments/structure-mdr-connections.png" alt="structure-mdr-connections" class="responsive-img" /><figcaption>structure-mdr-connections</figcaption>
+</figure>
+<h4 id="interfacing-a-cpu-with-memory">Interfacing a CPU with Memory</h4>
+<ul>
+<li><p>Which entity generates these signals?</p>
+<ul>
+<li><span class="math inline">MAR_{in}</span>?</li>
+<li><span class="math inline">MDR_{in}</span>?</li>
+<li><span class="math inline">MDR_{out}</span>?</li>
+<li>READ?</li>
+<li>WRITE?</li>
+<li>MFC?</li>
+</ul></li>
+<li><p>How can the clocks be synchronized, if at all?</p></li>
+<li><p>How is the MFC signal used?
+When doing a read, when is a data value returned by the memory?
+<img src="../../attachments/structure-memory-read-operation.png" alt="structure-memory-read-operation" class="responsive-img" /></p></li>
+</ul>
+<h4 id="timing-interactions">Timing Interactions</h4>
+<ul>
+<li>A CPU and memory often differ significantly in performance
+<ul>
+<li>In the previous example, a factor of 5 performance difference existed assuming the nominal 50 ns access time for memory</li>
+</ul></li>
+<li>During a normal read operation, the CPU asserts the address value causing the memory to eventually respond with the corresponding data value
+<img src="../../attachments/structure-read-operation-timing.png" alt="structure-read-operation-timing" class="responsive-img" /></li>
+</ul>
+<h5 id="synchronous-option">Synchronous Option</h5>
+<ul>
+<li>Consider a situation where a memory requires 6 clock periods to respond to a CPU’s request to read data</li>
+<li>Using a synchronous option, the CPU would assume that data is valid after 6 clock periods</li>
+<li>The CPU indicates the start of a new memory operation using a synchronization pulse</li>
+<li>Memory must provide valid data prior to the end of the 6th clock period
+<img src="../../attachments/structure-synchronous-memory-read.png" alt="structure-synchronous-memory-read" class="responsive-img" /></li>
+</ul>
+<h5 id="asynchronous-option">Asynchronous Option</h5>
+<ul>
+<li>Consider a situation where a memory requires 6 clock periods to respond to a CPU’s request to read data</li>
+<li>Using an asynchronous option, the CPU and memory would exchange timing synchronization signals</li>
+<li>The CPU indicates the start of a new memory operation using a synchronization pulse</li>
+<li>The memory responds to the CPU with a synchronization pulse when data is valid
+<img src="../../attachments/structure-asynchronous-memory-read.png" alt="structure-asynchronous-memory-read" class="responsive-img" /></li>
+</ul>
+<h3 id="connecting-to-two-or-more-memory-devices">Connecting to Two or More Memory Devices</h3>
+<p>Consider the design challenge of connecting two different memory devices to a CPU:</p>
+<ul>
+<li>If synchronous, how does the CPU know how long to wait for memory to respond?</li>
+<li>How do the shared data and control lines avoid conflicts
+<img src="../../attachments/structure-two-memories.png" alt="structure-two-memories" class="responsive-img" />
+In earlier designs you had to be aware of the order you connected the 2 memories to the CPU in, otherwise more often than not you would get significantly worse performance because the CPI relied on memory 1 being faster than memory 2</li>
+</ul>
+<h4 id="the-challenge-of-sharing-a-bus-line">The Challenge of Sharing a Bus Line</h4>
+<p>Consider the circuit shown below where the outputs of two AND gates are directly connected and fed into an input of a third AND gate:
+- What would happen if <span class="math inline">i_1 =1</span>, <span class="math inline">i_2 =1</span>, <span class="math inline">i_3 =0</span> and <span class="math inline">i_4 =0</span>?
+- How must the circuit be redesigned to safely and reliably share the bus line?
+<img src="../../attachments/structure-multiple-drivers.png" alt="structure-multiple-drivers" class="responsive-img" /></p>
+<h4 id="sharing-a-bus-line">Sharing a Bus Line</h4>
+<p>To share a bus line, the following steps are typically taken:</p>
+<ol type="1">
+<li>Uniquely select at most one output driver to output at a time
+<br>⇒ Use addressing, arbitration, or time-multiplexing to select one driver</li>
+<li>Connect the output drivers such that conflicts do not result in large current flows
+<br>⇒ Use resistances to limit current</li>
+</ol>
+<h3 id="types-of-output-drivers">Types of Output Drivers</h3>
+<ul>
+<li>Totem pole output drivers are used by all digital logic gates, unless otherwise stated:
+<ul>
+<li>A totem pole output is capable of actively driving a value of 1 or 0</li>
+<li>Totem pole outputs are not capable of a high impedance state so these outputs are not suitable for bus sharing</li>
+</ul></li>
+<li>Open-collector output drivers are denoted by the letters o/c on a gate:
+<ul>
+<li>An open collector output driver is capable of actively driving a value of 0</li>
+<li>When not driving a value of 0, the output driver is in a high impedance state</li>
+<li>A high impedance state can be passively driven to a value of 1 using a pull-up resistor tied to a voltage supply</li>
+</ul></li>
+<li>Tri-state output drivers are denoted by the presence of an enable signal on a gate:
+<ul>
+<li>A tri-state output driver can actively drive a value of 1 or 0 when enabled</li>
+<li>When not enabled, the output driver is in a high impedance state</li>
+<li>Tri-state output drivers are ideal for bus sharing</li>
+</ul></li>
+<li>Other types of output drivers (open-emitter, open-drain, open-source, etc.) exist but are used less often</li>
+</ul>
+<h4 id="sourcing-and-sinking-current">Sourcing and Sinking Current</h4>
+<p>Output drivers source and sink current to change the voltage on a bus line:</p>
+<ul>
+<li>When sourcing current, the output driver connects a voltage source</li>
+<li>When sinking current, the output driver connects to a voltage sink</li>
+<li>When in a high impedance state, no connection to a voltage source or voltage sink exists
+<img src="../../attachments/structure-sourcing-and-sinking.png" alt="structure-sourcing-and-sinking" class="responsive-img" /></li>
+</ul>
+<h4 id="simplified-transistor-theory---bjt-inverter-circuit">Simplified Transistor Theory - BJT Inverter Circuit</h4>
+<p>A simplified model of a BJT working as a digital switch to implement an inverter is shown below:
+<img src="../../attachments/structure-bjt-npn-transistor.png" alt="structure-bjt-npn-transistor" class="responsive-img" /></p>
+<h4 id="simplified-transistor-theory---nmos-inverter-circuit">Simplified Transistor Theory - nMOS Inverter Circuit</h4>
+<p>A simplified model of a nMOS transistor working as a digital switch to implement an inverter is shown below:</p>
+<figure>
+<img src="../../attachments/structure-nmos-transistor.png" alt="structure-nmos-transistor" class="responsive-img" /><figcaption>structure-nmos-transistor</figcaption>
+</figure>
+<h4 id="simplified-transistor-theory---pmos-inverter-circuit">Simplified Transistor Theory - pMOS Inverter Circuit</h4>
+<figure>
+<img src="../../attachments/structure-pmos-transistor.png" alt="structure-pmos-transistor" class="responsive-img" /><figcaption>structure-pmos-transistor</figcaption>
+</figure>
+<h4 id="simplified-transistor-theory---cmos-inverter-circuit">Simplified Transistor Theory - CMOS Inverter Circuit</h4>
+<p>A simplified model of a CMOS inverter is shown below:
+<img src="../../attachments/structure-cmos-inverter.png" alt="structure-cmos-inverter" class="responsive-img" /></p>
+<h3 id="totem-pole-output-driver">Totem Pole Output Driver</h3>
+<p>Totem pole output drivers actively drive either a value of 1 or 0 onto a bus line
+<img src="../../attachments/structure-totem-pole-output-drive.png" alt="structure-totem-pole-output-drive" class="responsive-img" />
+<span class="math display">
+\begin{aligned}
+\text{i} &amp;\;\;\;\;\text{o} \\
+\;\;\;\;\;1&amp;\;\;\;\;1\\
+\;\;\;\;\;0&amp;\;\;\;\;0\\
+\end{aligned}
+</span></p>
+<h5 id="two-input-and-gate-with-a-totem-pole-output-driver">Two Input AND Gate with a Totem Pole Output Driver</h5>
+<p>Consider the following conceptual design of a two input AND Gate with a totem-pole output driver consisting of BJTs:
+<img src="../../attachments/structure-totem-pole-AND-gate.png" alt="structure-totem-pole-AND-gate" class="responsive-img" /></p>
+<h4 id="a-totem-pole-bus-conflict">A Totem Pole Bus Conflict</h4>
+<p>The following circuit illustrates why two totem pole output drivers cannot share a bus line:
+<img src="../../attachments/structure-two-totem-poles-conflict.png" alt="structure-two-totem-poles-conflict" class="responsive-img" /></p>
+<h4 id="approaches-to-avoiding-large-current-flows">Approaches to Avoiding Large Current Flows</h4>
+<ul>
+<li>Logic must be designed to prevent active connections to both the power supply voltage and the ground reference at the same time</li>
+<li>This can be achieved in two different ways:
+<ul>
+<li><strong>Permanently</strong> –
+Use a passive pull-up resistor or a passive pull-down resistor to limit the current flow
+in all possible paths</li>
+<li><strong>Temporarily</strong> –
+Disable a device by turning off all of its transistor-controlled connections to the power
+supply voltage and the ground reference</li>
+</ul></li>
+</ul>
+<h3 id="open-collector-output-driver">Open-Collector Output Driver</h3>
+<p>The output of Z represents a high-impedance state
+<img src="../../attachments/structure-open-collector-output-driver.png" alt="structure-open-collector-output-driver" class="responsive-img" />
+<span class="math display">
+\begin{aligned}
+\text{i} &amp;\;\;\;\;\text{o} \\
+\;\;\;\;\;1&amp;\;\;\;\;Z\\
+\;\;\;\;\;0&amp;\;\;\;\;0\\
+\end{aligned}
+</span>
+An output of high impedance can be pulled high using a passive pull- up resistor tied to the power supply voltage or pulled low using a passive pull-down resistor tied to the ground reference</p>
+<h3 id="bus-terminology">Bus Terminology</h3>
+<ul>
+<li>Address propagation delay (<span class="math inline">t_{PA}</span>): The time for the address to propagate from the bus master to all of the potential slaves.<br />
+</li>
+<li>Data propagation delay (<span class="math inline">t_{PD}</span>): The time for the data to propagate from the data source to all of the potential data receivers.<br />
+</li>
+<li>Bus Propagation delay (<span class="math inline">t_{P}</span> ): The maximum of the propagation delays for all bus signals. <span class="math inline">t_P</span> = Maximum propagation delay for all signals
+<span class="math inline">= Max(t_{PA},t_{PD})</span><br />
+</li>
+<li>Setup Time (<span class="math inline">t_{Setup}</span>): The minimum time that a signal has to be available at the input to the buffer before the active clock edge arrives. Specified at the slave for a write and at the master for a read.</li>
+<li>Hold Time (<span class="math inline">t_{Hold}</span>): The minimum time that data has to be held stable after the clock edge that triggers the transfer. Specified at the slave during a write and at the master during a read.</li>
+<li>Select Time (<span class="math inline">t_S</span> or <span class="math inline">t_{Select}</span>): The time required for a device interface attached to a bus to detect that the current transfer involves the device interface. This does not include the time required by the device interface to perform register selection.</li>
+<li>Access Time (<span class="math inline">t_{Access}</span>): The time required for the device interface to access the requested information after the device interface has been selected.</li>
+<li>Store Time (<span class="math inline">t_{Store}</span>): The time required for the device interface to capture and store data after the device interface has been selected.</li>
+<li>Skew Time (<span class="math inline">t_{Skew}</span>): The maximum difference in signal propagation times. Although
+various sets of signals could have different values of skew time (e.g., the address bus signals or the data bus signals), the largest measure of skew is used. A more general definition (from the JEDEC dictionary) would be the magnitude of the difference between two events that ideally would occur simultaneously. This definition allows for skew on a single signal with multiple endpoints.</li>
+<li>Margin Time: The time reserved to allow for unexpected variations in performance. Some examples of margin time include <span class="math inline">t_{M1}</span> (or <span class="math inline">t_{Margin1}</span>) and <span class="math inline">t_{M2}</span> (or <span class="math inline">t_{Margin2}</span>). A margin time is an amount of extra time that a designer includes to ensure reliable operation.
+<img src="../../attachments/structure-bus-read-timing-2.png" alt="structure-bus-read-timing-2" class="responsive-img" />
+<img src="../../attachments/structure-bus-write-timing-2.png" alt="structure-bus-write-timing-2" class="responsive-img" /></li>
+</ul>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

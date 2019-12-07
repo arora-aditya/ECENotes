@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L18.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#readers-writers-example">Readers Writers Example</a></li>
+<li><a href="#seek-and-destroy-the-search-insert-delete-problem">Seek and Destroy: the Search-Insert-Delete Problem</a></li>
+</ul>
+</nav>
+<p>*<span>The Readers-Writers Problem</span></p>
+<p>This problem is about concurrent reading and modification of a data structure or record by more than one thread. A writer will modify the data; a reader will read it only without modification. Unlike the producer-consumer problem, some concurrency is allowed:</p>
+<ol>
+<li><p>Any number of readers may be in the critical section simultaneously.</p></li>
+<li><p>Only one writer may be in the critical section (and when it is, no readers are allowed).</p></li>
+</ol>
+<p>Or, to sum that up, a writer cannot enter the critical section while any other thread (whether reader or writer) is there. While a writer is in the critical section, neither readers nor writers may enter the critical section <span class="citation" data-cites="lbs"></span>. This is very often how file systems work: a file may be read concurrently by any number of threads, but only one thread may write to it at a time (and to prevent reading of inconsistent data, no thread may read during the write).</p>
+<p>This is similar to, but distinct from, the general mutual exclusion problem and the producer-consumer problem. In the readers-writers problem, readers do not modify the data (consumers do take things out of the buffer, modifying it). If any thread could read or write the shared data structure, we would have to use the general mutual exclusion solution. Although the general mutual exclusion routine would work in that it would prevent errors, it is a serious performance reduction versus allowing multiple readers concurrently <span class="citation" data-cites="osi"></span>. Thus, this situation is worth examining in its own right.</p>
+<p>Let us keep track of the number of readers at any given time with a variable <code>readers</code>. We will need a way of protecting this variable from concurrent modifications, so there will have to be a binary semaphore <code>mutex</code>. We will also need one further semaphore, <code>roomEmpty</code>, as a way of indicating that the room is empty. A writer has to wait for the room to be empty (i.e., <code>wait</code> on the <code>roomEmpty</code> semaphore) before it can enter. The solution comes from <span class="citation" data-cites="lbs"></span>:</p>
+<p><span>2</span>
+<strong>Writer</strong></p>
+<pre><code>     1. wait( roomEmpty )
+     2. [write data]
+     3. post( roomEmpty )
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     </code></pre>
+<p><strong>Reader</strong></p>
+<pre><code>     1. wait( mutex )
+     2. readers++
+     3. if readers == 1
+     4.     wait( roomEmpty )
+     5. end if
+     6. post( mutex )
+     7. [read data]
+     8. wait( mutex )
+     9. readers--
+    10. if readers == 0
+    11.     post( roomEmpty )
+    12. end if
+    13. post( mutex )</code></pre>
+<p>The code for the writer is much simpler than that of the readers. The writer may only enter into the critical section if the room is empty. When it has finished, it signals that the room is empty. The writer can be certain that when it exits the critical section that there are no other threads in the room, because no thread may enter the room while the writer was there.</p>
+<p>The reader code is somewhat more complicated. The first reader that arrives encounters the situation that the room is empty, so it “locks” the room (waiting on the <code>roomEmpty</code> semaphore), and that will prevent writers from entering the room. Additional readers do not check if the room is empty; they just proceed to enter. When the last reader leaves the room, it signals that the room is empty (“unlocking it” to allow a writer in). This pattern is sometimes called the <em>light switch</em>, as in <span class="citation" data-cites="mte241"></span>: the first one into the room turns on the lights and the last one out turns them off again.</p>
+<p>The reader code has that situation that makes us concerned about the possibility of deadlock: a wait on <code>roomEmpty</code> inside a critical section controlled by <code>mutex</code>. With a bit of reasoning, we can convince ourselves that there is no risk: the only situation in which a thread waits on <code>roomEmpty</code> is that a writer is currently in its critical section. No other reader thread can get the <code>mutex</code> lock. As long as the write operation takes finite time, eventually the writer will post the <code>roomEmpty</code> semaphore and the threads can continue. Deadlock is not a problem.</p>
+<p>There is, however, a second problem that we need to be concerned about. Suppose some readers are in the room, and a writer arrives. The writer must wait until all the readers have left the room. When each of the readers is finished, it exits the room. In the meantime, more readers arrive and enter the room. So even though each reader is in the room for only a finite amount of time, there is never a moment when the room has no readers in it. This undesirable situation is not deadlock, because the reader threads are not stuck, but the writer (and any subsequent writers) is (are) going to wait forever. This is a situation called <em>starvation</em>: a thread never gets a chance to run.</p>
+<p>Recall criterion 3 of the list of properties we want in any mutual exclusion solution: it must not be possible for a thread requiring access to the critical section to be delayed indefinitely. This problem is just as bad as deadlock in that if it is discovered, it eliminates a proposed solution as an acceptable option, even though starvation might only be an unlikely event. We must therefore improve on this solution such that there is no longer the possibility that a writer starves.</p>
+<p>Conceptually, the solution that accomplishes the goal looks something like this: when a writer arrives, any readers currently reading should be permitted to finish their read, but no new readers should be allowed to start reading. Thus, eventually, all the readers currently in the critical section will finish, the writer will get a turn, because the room is empty, and when the writer is done, all the readers that arrived after the writer will be able to enter.</p>
+<p>A new binary semaphore is needed here, called <code>turnstile</code>.</p>
+<p><span>2</span>
+<strong>Writer</strong></p>
+<pre><code>     1. wait( turnstile )
+     2. wait( roomEmpty )
+     3. [write data]
+     4. post( turnstile )
+     5. post( roomEmpty )
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     </code></pre>
+<p><strong>Reader</strong></p>
+<pre><code>     1. wait( turnstile )
+     2. post( turnstile )
+     3. wait( mutex )
+     4. readers++
+     5. if readers == 1
+     6.     wait( roomEmpty )
+     7. end if
+     8. post( mutex )
+     9. [read data]
+    10. wait( mutex )
+    11. readers--
+    12. if readers == 0
+    13.     post( roomEmpty )
+    14. end if
+    15. post( mutex )</code></pre>
+<p>As before, the writer code is simpler, so we will examine it first. When the writer arrives, it will wait on the turnstile. If it is not the first writer, subsequent writers will queue up there, but if proceeds then it will wait for the room to be empty. Because the writer has locked the turnstile, no new readers can enter. There may be an arbitrary number of readers currently in the room, but each is there for only a finite amount of time. These existing-readers will be allowed to finish and leave the room. Then the writer gets a turn. When the writer is done, it posts the turnstile, which might unblock a reader or another writer.</p>
+<p>Readers first get to the turnstile, and if they find it is locked, a writer is in its critical section. Thus, readers will queue at the turnstile if necessary, otherwise proceed. After that, the code is the same as we saw before: keep track of the number of readers and post if the room is empty or not empty.</p>
+<p>Does this solution satisfy our goals of avoidance of deadlock and starvation? Starvation is fairly easy to assess: the first attempt at the solution had one scenario leading to starvation and this solution addresses it. Problem solved. You should be able to convince yourself that the solution as described cannot starve the writers or readers.</p>
+<p>On to deadlock: the reader code is minimally changed from before; we have identified the turnstile code as not being a problem on its own (though its interactions with other threads need to be examined). The more dangerous block of code is on the side of the writer, because it has that pattern: two waits. If the writer is blocked on the <code>roomEmpty</code> semaphore, no readers or writers could advance past the turnstile and no writers. If the writer is blocked on that semaphore, it means there are readers in the room, and the readers will individually finish and leave (their progress is not impeded). Given that, the room will eventually become empty and the writer will be unblocked.</p>
+<p>Note that this solution does not give writers any particular priority: when a writer exits it posts <code>turnstile</code> and that may unblock a reader or a writer. If it unblocks a reader, a whole bunch of readers may enter before the next writer is unblocked and locks the turnstile again. That may or may not be desirable, depending on the application. In any event, it does mean it is possible for readers to proceed even if a writer is queued. If there is a need to give writers priority, there are several techniques for doing so <span class="citation" data-cites="lbs"></span>.</p>
+<p>Let’s modify the solution so that writers have priority over readers. Giving writers priority may potentially cause readers to starve, but you may ignore this. We will probably want to break up the <code>roomEmpty</code> semaphore into <code>noReaders</code> and <code>noWriters</code>. A reader in the critical section should hold the <code>noReaders</code> semaphore and a writer should hold <code>noWriters</code> and <code>noReaders</code>.</p>
+<p><span>2</span>
+<strong>Writer</strong></p>
+<pre><code>     1. wait( writeMutex )
+     2. writers++
+     3. if writers == 1
+     4.     wait( noReaders )
+     5. end if
+     6. post( writeMutex )
+     7. wait ( noWriters )
+     8. [write data]
+     9. post( noWriters ) 
+    10. wait( writeMutex )
+    11. writers--
+    12. if writers == 0
+    13.    post( noReaders )
+    14. end if
+    15. post( writeMutex )     </code></pre>
+<p><strong>Reader</strong></p>
+<pre><code>     1. wait( noReaders )
+     2. wait( readMutex )
+     3. readers++
+     4. if readers == 1
+     5.    wait( noWriters )
+     6. end if
+     7. post( readMutex )
+     8. post( noReaders )
+     9. [read data]
+    10. wait( readMutex )
+    11. readers--
+    12. if readers == 0
+    13.     post( noWriters )
+    14. end if
+    15. post( readMutex )</code></pre>
+<p>Yikes! The complexity for the writer increased dramatically. The reader is not all that different than it was before, however, and the writer now is to some extent the mirror image of the reader.</p>
+<h2 id="readers-writers-example" class="unnumbered">Readers Writers Example</h2>
+<p>Using the pseudocode as above, we can implement the readers-writers behaviour in a given program using only semaphores (optionally using a mutex to replace a semaphore). But in the pthread library there is support for readers-writers lock types, meaning we don’t have to reinvent the wheel. We can probably well imagine the actual complexity of the previous solution, so it’s our hope that the readers-writers lock would make our code simpler to read and harder to make mistakes.</p>
+<p>The type for the lock is <code>pthread_rwlock_t</code>. It is analogous, obviously, to the mutex type <code>pthread_mutex_t</code>. Let’s consider the functions that we have:</p>
+<div class="sourceCode" id="cb7" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb7-1" title="1">pthread_rwlock_init( pthread_rwlock_t * rwlock, pthread_rwlockattr_t * attr )</a>
+<a class="sourceLine" id="cb7-2" title="2">pthread_rwlock_rdlock( pthread_rwlock_t * rwlock )</a>
+<a class="sourceLine" id="cb7-3" title="3">pthread_rwlock_tryrdlock( pthread_rwlock_t * rwlock )</a>
+<a class="sourceLine" id="cb7-4" title="4">pthread_rwlock_wrlock( pthread_rwlock_t * rwlock )</a>
+<a class="sourceLine" id="cb7-5" title="5">pthread_rwlock_trywrlock( pthread_rwlock_t  *  rwlock )</a>
+<a class="sourceLine" id="cb7-6" title="6">pthread_rwlock_unlock( pthread_rwlock_t * rwlock )</a>
+<a class="sourceLine" id="cb7-7" title="7">pthread_rwlock_destroy( pthread_rwlock_t * rwlock )</a></code></pre></div>
+<p>In general our syntax very much resembles that of the mutex (attribute initialization and destruction not shown but they do exist). There are some small noteworthy differences, other than obviously the different type of the structure passed. Whereas before we had functions for lock and trylock, we now have those split into readlock and writelock (each of which has its own trylock function). As before, we will return to the subject of how trylock works soon.</p>
+<p>In theory, the same thread may lock the same rwlock <span class="math inline">n</span> times; just remember to unlock it <span class="math inline">n</span> times as well.</p>
+<p>And speaking of unlock, there’s no specifying whether you are releasing a read or write lock. This is because it is unnecessary; the implementation unlocks whatever type the calling thread was holding. Much like <code>close()</code>, if we can figure out what we’re closing we don’t need the caller of the function to specify what to do.</p>
+<p>As for whether readers or writers get priority, the specification says this is implementation defined. If possible, for threads of equal priority, a writer takes precedence over a reader. But your system may vary.</p>
+<p>Consider the following example of the simple readers-writers (without writer priority and with risk of starvation) using the “old” way:</p>
+<p><span>2</span></p>
+<div class="sourceCode" id="cb8" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb8-1" title="1"><span class="dt">int</span> readers;</a>
+<a class="sourceLine" id="cb8-2" title="2">pthread_mutex_t mutex;</a>
+<a class="sourceLine" id="cb8-3" title="3">sem_t roomEmpty;</a>
+<a class="sourceLine" id="cb8-4" title="4"></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="dt">void</span> init( ) {</a>
+<a class="sourceLine" id="cb8-6" title="6">  readers = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb8-7" title="7">  pthread_mutex_init( &amp;mutex, NULL );</a>
+<a class="sourceLine" id="cb8-8" title="8">  sem_init( &amp;roomEmpty, <span class="dv">0</span>, <span class="dv">1</span> );</a>
+<a class="sourceLine" id="cb8-9" title="9">}</a>
+<a class="sourceLine" id="cb8-10" title="10"></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="dt">void</span> cleanup( ) {</a>
+<a class="sourceLine" id="cb8-12" title="12">  pthread_mutex_destroy( &amp;mutex );</a>
+<a class="sourceLine" id="cb8-13" title="13">  sem_destroy( &amp;roomEmpty );</a>
+<a class="sourceLine" id="cb8-14" title="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb9" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1"><span class="dt">void</span>* writer( <span class="dt">void</span>* arg ) {</a>
+<a class="sourceLine" id="cb9-2" title="2">  sem_wait( &amp;roomEmpty );</a>
+<a class="sourceLine" id="cb9-3" title="3">  write_data( arg );</a>
+<a class="sourceLine" id="cb9-4" title="4">  sem_post( &amp;roomEmpty );</a>
+<a class="sourceLine" id="cb9-5" title="5">}</a>
+<a class="sourceLine" id="cb9-6" title="6"></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="dt">void</span>* reader( <span class="dt">void</span>* read ) {</a>
+<a class="sourceLine" id="cb9-8" title="8">  pthread_mutex_lock( &amp;mutex );</a>
+<a class="sourceLine" id="cb9-9" title="9">  readers++;</a>
+<a class="sourceLine" id="cb9-10" title="10">  <span class="cf">if</span> ( readers == <span class="dv">1</span> ) {</a>
+<a class="sourceLine" id="cb9-11" title="11">    sem_wait( &amp;roomEmpty );</a>
+<a class="sourceLine" id="cb9-12" title="12">  }</a>
+<a class="sourceLine" id="cb9-13" title="13">  pthread_mutex_unlock( &amp;mutex );</a>
+<a class="sourceLine" id="cb9-14" title="14">  read_data( arg );</a>
+<a class="sourceLine" id="cb9-15" title="15">  pthread_mutex_lock( &amp;mutex );</a>
+<a class="sourceLine" id="cb9-16" title="16">  readers--;</a>
+<a class="sourceLine" id="cb9-17" title="17">  <span class="cf">if</span> ( readers == <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb9-18" title="18">    sem_post( &amp;roomEmpty );</a>
+<a class="sourceLine" id="cb9-19" title="19">  }</a>
+<a class="sourceLine" id="cb9-20" title="20">  pthread_mutex_unlock( &amp;mutex );</a>
+<a class="sourceLine" id="cb9-21" title="21">}</a></code></pre></div>
+<p>Now see it as it would be with the use of a rwlock!</p>
+<p><span>2</span></p>
+<div class="sourceCode" id="cb10" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1">pthread_rwlock_t rwlock;</a>
+<a class="sourceLine" id="cb10-2" title="2"></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="dt">void</span> init( ) {</a>
+<a class="sourceLine" id="cb10-4" title="4">  pthread_rwlock_init( &amp;rwlock, NULL );</a>
+<a class="sourceLine" id="cb10-5" title="5">}</a>
+<a class="sourceLine" id="cb10-6" title="6"></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="dt">void</span> cleanup( ) {</a>
+<a class="sourceLine" id="cb10-8" title="8">  pthread_rwlock_destroy( &amp;rwlock );</a>
+<a class="sourceLine" id="cb10-9" title="9">}</a></code></pre></div>
+<div class="sourceCode" id="cb11" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb11-1" title="1"><span class="dt">void</span>* writer( <span class="dt">void</span>* arg ) {</a>
+<a class="sourceLine" id="cb11-2" title="2">  pthread_rwlock_wrlock( &amp;rwlock );</a>
+<a class="sourceLine" id="cb11-3" title="3">  write_data( arg );</a>
+<a class="sourceLine" id="cb11-4" title="4">  pthread_rwlock_unlock( &amp;rwlock );</a>
+<a class="sourceLine" id="cb11-5" title="5">}</a>
+<a class="sourceLine" id="cb11-6" title="6"></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="dt">void</span>* reader( <span class="dt">void</span>* read ) {</a>
+<a class="sourceLine" id="cb11-8" title="8">  pthread_rwlock_rdlock( &amp;rwlock );</a>
+<a class="sourceLine" id="cb11-9" title="9">  read_data( arg );</a>
+<a class="sourceLine" id="cb11-10" title="10">  pthread_rwlock_unlock( &amp;rwlock );</a>
+<a class="sourceLine" id="cb11-11" title="11">}</a></code></pre></div>
+<h2 id="seek-and-destroy-the-search-insert-delete-problem" class="unnumbered">Seek and Destroy: the Search-Insert-Delete Problem</h2>
+<p>This is an extension of the readers-writers problem called the search-insert-delete problem. Instead of two types of thread, reader and writer, there are three types of thread: searchers, inserters, deleters. They operate on a shared linked list of data.</p>
+<p><em>Searchers</em> merely examine the list; hence they can execute concurrently with each other. Searcher threads must call <code>void search( void* target )</code> where the argument to the searcher thread is the element to be found. These most closely resemble readers in the readers-writers problem.</p>
+<p><em>Inserters</em> add new items to the end of the list; only one insertion may take place at a time. However, one insert can proceed in parallel with any number of searches. Inserter threads call <code>node* find_insert_loc()</code> to find where to do the insertion; then <code>void insert( void* to_insert, node* after )</code> where the arguments are the location and the element to be inserted. Assume <code>insert</code> is written so the insertion can be done in parallel with the searches. Inserters resemble readers with an additional rule that only one of them can manipulate the list at a time.</p>
+<p><em>Deleters</em> remove items from anywhere in the list. At most one deleter process can access the list at a time, and when the deleter is accessing the list, no inserters and no searchers may be accessing the list. Deleter threads call <code>void delete( void* to_delete )</code> where the argument to the deleter thread is the element to be deleted. These most closely resemble writers in the readers-writers problem.</p>
+<p>It turns out we don’t need to modify things too much to allow for this third kind of thread. We need to keep track of when there are “no inserters” and “no searchers” (some hints for our semaphores) and another mutex to go around the actual insertion... See the code implementation below.</p>
+<p><span>2</span></p>
+<div class="sourceCode" id="cb12" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb12-1" title="1">pthread_mutex_t searcher_mutex;</a>
+<a class="sourceLine" id="cb12-2" title="2">pthread_mutex_t inserter_mutex;</a>
+<a class="sourceLine" id="cb12-3" title="3">pthread_mutex_t perform_insert;</a>
+<a class="sourceLine" id="cb12-4" title="4">sem_t no_searchers;</a>
+<a class="sourceLine" id="cb12-5" title="5">sem_t no_inserters;</a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="dt">int</span> searchers;</a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="dt">int</span> inserters;</a>
+<a class="sourceLine" id="cb12-8" title="8"></a>
+<a class="sourceLine" id="cb12-9" title="9"></a>
+<a class="sourceLine" id="cb12-10" title="10"><span class="dt">void</span> init( ) {</a>
+<a class="sourceLine" id="cb12-11" title="11">  pthread_mutex_init( &amp;searcher_mutex, NULL );</a>
+<a class="sourceLine" id="cb12-12" title="12">  pthread_mutex_init( &amp;inserter_mutex, NULL );</a>
+<a class="sourceLine" id="cb12-13" title="13">  pthread_mutex_init( &amp;perform_insert, NULL );</a>
+<a class="sourceLine" id="cb12-14" title="14">  sem_init( &amp;no_inserters, <span class="dv">0</span>, <span class="dv">1</span> );</a>
+<a class="sourceLine" id="cb12-15" title="15">  sem_init( &amp;no_searchers, <span class="dv">0</span>, <span class="dv">1</span> );</a>
+<a class="sourceLine" id="cb12-16" title="16">  searchers = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb12-17" title="17">  inserters = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb12-18" title="18">}</a>
+<a class="sourceLine" id="cb12-19" title="19"></a>
+<a class="sourceLine" id="cb12-20" title="20"><span class="dt">void</span>* searcher_thread( <span class="dt">void</span> *target ) {</a>
+<a class="sourceLine" id="cb12-21" title="21">  pthread_mutex_lock( &amp;searcher_mutex );</a>
+<a class="sourceLine" id="cb12-22" title="22">  searchers++;</a>
+<a class="sourceLine" id="cb12-23" title="23">  <span class="cf">if</span> ( searchers == <span class="dv">1</span> ) {</a>
+<a class="sourceLine" id="cb12-24" title="24">    sem_wait( &amp;no_searchers );</a>
+<a class="sourceLine" id="cb12-25" title="25">  }</a>
+<a class="sourceLine" id="cb12-26" title="26">  pthread_mutex_unlock( &amp;searcher_mutex );</a>
+<a class="sourceLine" id="cb12-27" title="27">  </a>
+<a class="sourceLine" id="cb12-28" title="28">  search( target );</a>
+<a class="sourceLine" id="cb12-29" title="29">  </a>
+<a class="sourceLine" id="cb12-30" title="30">  pthread_mutex_lock( &amp;searcher_mutex );</a>
+<a class="sourceLine" id="cb12-31" title="31">  searchers--;</a>
+<a class="sourceLine" id="cb12-32" title="32">  <span class="cf">if</span> ( searchers == <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb12-33" title="33">    sem_post( &amp;no_searchers );</a>
+<a class="sourceLine" id="cb12-34" title="34">  }</a>
+<a class="sourceLine" id="cb12-35" title="35">  pthread_mutex_unlock( &amp;searcher_mutex );</a>
+<a class="sourceLine" id="cb12-36" title="36">}</a></code></pre></div>
+<div class="sourceCode" id="cb13" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb13-1" title="1"><span class="dt">void</span>* deleter_thread( <span class="dt">void</span>* to_delete ) {</a>
+<a class="sourceLine" id="cb13-2" title="2">  sem_wait( &amp;no_searchers );</a>
+<a class="sourceLine" id="cb13-3" title="3">  sem_wait( &amp;no_inserters );</a>
+<a class="sourceLine" id="cb13-4" title="4">  </a>
+<a class="sourceLine" id="cb13-5" title="5">  delete( to_delete );</a>
+<a class="sourceLine" id="cb13-6" title="6">  </a>
+<a class="sourceLine" id="cb13-7" title="7">  sem_post( &amp;no_inserters );</a>
+<a class="sourceLine" id="cb13-8" title="8">  sem_post( &amp;no_searchers );</a>
+<a class="sourceLine" id="cb13-9" title="9">}</a>
+<a class="sourceLine" id="cb13-10" title="10"></a>
+<a class="sourceLine" id="cb13-11" title="11"></a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="dt">void</span>* inserter_thread( <span class="dt">void</span> *to_insert ) {</a>
+<a class="sourceLine" id="cb13-13" title="13">  pthread_mutex_lock( &amp;inserter_mutex );</a>
+<a class="sourceLine" id="cb13-14" title="14">  inserters++;</a>
+<a class="sourceLine" id="cb13-15" title="15">  <span class="cf">if</span> ( inserters == <span class="dv">1</span> ) {</a>
+<a class="sourceLine" id="cb13-16" title="16">    sem_wait( &amp;no_inserters );</a>
+<a class="sourceLine" id="cb13-17" title="17">  }</a>
+<a class="sourceLine" id="cb13-18" title="18">  pthread_mutex_unlock( &amp;inserter_mutex );</a>
+<a class="sourceLine" id="cb13-19" title="19">  </a>
+<a class="sourceLine" id="cb13-20" title="20">  pthread_mutex_lock( &amp;perform_insert );</a>
+<a class="sourceLine" id="cb13-21" title="21">  node * insert_after = find_insert_location( );</a>
+<a class="sourceLine" id="cb13-22" title="22">  insert( to_insert, insert_after );</a>
+<a class="sourceLine" id="cb13-23" title="23">  pthread_mutex_unlock( &amp;perform_insert );</a>
+<a class="sourceLine" id="cb13-24" title="24">  </a>
+<a class="sourceLine" id="cb13-25" title="25">  pthread_mutex_lock( &amp;inserter_mutex );</a>
+<a class="sourceLine" id="cb13-26" title="26">  inserters--;</a>
+<a class="sourceLine" id="cb13-27" title="27">  <span class="cf">if</span> ( inserters == <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb13-28" title="28">    sem_post( &amp;no_inserters );</a>
+<a class="sourceLine" id="cb13-29" title="29">  }</a>
+<a class="sourceLine" id="cb13-30" title="30">  pthread_mutex_unlock( &amp;inserter_mutex );</a>
+<a class="sourceLine" id="cb13-31" title="31">}</a></code></pre></div>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

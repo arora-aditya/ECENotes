@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L10.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#unix-pipes">UNIX Pipes</a><ul>
+<li><a href="#unix-pipes-code-example">UNIX Pipes: Code Example</a></li>
+</ul></li>
+<li><a href="#shared-memory">Shared Memory</a><ul>
+<li><a href="#alternatively-mmap.">Alternatively: <code>mmap</code>.</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>IPC: Same System</span></p>
+<p>In addition to the message-passing mechanisms thus far seen (signals, network), we can also use pipes and shared memory. Pipes share some significant similarity with both message-passing and shared memory, so it makes for a nice way to transition from one to the other.</p>
+<h2 id="unix-pipes" class="unnumbered">UNIX Pipes</h2>
+<p>In UNIX, we can create a <em>pipe</em> to set up communication between a producer and consumer. The producer writes in one end of the pipe and the consumer receives it on the other. This is unidirectional, so if bidirectional communication is desired, two pipes must be used (going in different directions). The UNIX method for creating a pipe is <code>pipe</code> and it is constructed with the call <code>pipe( int fileDescriptors[])</code> where <code>fileDescriptors[0]</code> is the read-end and <code>fileDescriptors[1]</code> is the write-end <span class="citation" data-cites="osc"></span>. Yes, <code>fileDescriptors</code> means that UNIX thinks of a pipe as a file (UNIX thinks <em>everything</em> is a file...) even though it is in memory.</p>
+<p><img src="images/unix-pipe.png" alt="image" style="width:50.0%" /><br />
+A UNIX Pipe <span class="citation" data-cites="osc"></span>.</p>
+<p>The pipe itself is a block of main memory that is interpreted as a circular queue, and each entry in the queue is fixed in size and usually one character. The sender may place the message into the queue in small chunks, but the receiver gets data one character at a time. Thus, the sender and receiver need to know when the message is finished. This may be through the use of a designated termination character (e.g., the line feed or null character), or the message may begin with an explicit value of the number of characters the message will be <span class="citation" data-cites="mte241"></span>.</p>
+<p>A UNIX pipe may be stored on disk. When this happens, we call it a <em>named pipe</em>. Unless we make it a named pipe, a pipe exists only as long as the processes are communicating. Furthermore, regular pipes depend on file descriptors, so a parent-child relationship is required to get the descriptors from one process to another. The named pipe, however, might be used by any process and will persist even after the creating process has terminated. Another nice bonus of named pipes is that they can be bidirectional, so we do not need two pipes for communication to go in both directions. With that said, communication can only go in one direction at a time; if concurrent communication is required, a second pipe is needed after all.</p>
+<p>You may have worked with pipes on the UNIX command line. A command like <code> cat fork.c | less </code> creates a pipe that takes the output of the <code>cat</code> program and delivers it as input to the program <code>less</code> which allows for scrolling and pagination of that data.</p>
+<h4 id="unix-pipes-code-example">UNIX Pipes: Code Example</h4>
+<p>Let’s consider an example from <span class="citation" data-cites="osc"></span> that combines the pipe concept with what we’ve seen before: using <code>fork</code> to spawn a new child process and then setting up a communication pipe between the parent and child. We will send a message “Greetings” from the parent to the child.</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="pp">#include </span><span class="im">&lt;sys/types.h&gt;</span><span class="pp"> </span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp"> </span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span><span class="pp"> </span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb1-5" title="5"></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="pp">#define BUFFER_SIZE 25</span></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="pp">#define READ_END 0 </span></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="pp">#define WRITE_END 1</span></a>
+<a class="sourceLine" id="cb1-9" title="9"></a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb1-11" title="11">  <span class="dt">char</span> write_msg[BUFFER_SIZE] = <span class="st">&quot;Greetings&quot;</span>; </a>
+<a class="sourceLine" id="cb1-12" title="12">  <span class="dt">char</span> read_msg[BUFFER_SIZE];</a>
+<a class="sourceLine" id="cb1-13" title="13">  <span class="dt">int</span> fd[<span class="dv">2</span>];</a>
+<a class="sourceLine" id="cb1-14" title="14">  pid_t pid;</a>
+<a class="sourceLine" id="cb1-15" title="15"></a>
+<a class="sourceLine" id="cb1-16" title="16">  <span class="cf">if</span> (pipe(fd) == -<span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb1-17" title="17">    fprintf(stderr,<span class="st">&quot;Pipe failed&quot;</span>);</a>
+<a class="sourceLine" id="cb1-18" title="18">    <span class="cf">return</span> <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-19" title="19">  }</a>
+<a class="sourceLine" id="cb1-20" title="20">  </a>
+<a class="sourceLine" id="cb1-21" title="21">  pid = fork();</a>
+<a class="sourceLine" id="cb1-22" title="22">  <span class="cf">if</span> (pid &lt; <span class="dv">0</span>) { <span class="co">/* error occurred */</span> </a>
+<a class="sourceLine" id="cb1-23" title="23">    fprintf(stderr, <span class="st">&quot;Fork Failed&quot;</span>); </a>
+<a class="sourceLine" id="cb1-24" title="24">    <span class="cf">return</span> <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-25" title="25">  }</a>
+<a class="sourceLine" id="cb1-26" title="26"></a>
+<a class="sourceLine" id="cb1-27" title="27">  <span class="cf">if</span> (pid &gt; <span class="dv">0</span>) { <span class="co">/* parent process */</span></a>
+<a class="sourceLine" id="cb1-28" title="28">    <span class="co">/* close the unused end of the pipe */</span> </a>
+<a class="sourceLine" id="cb1-29" title="29">    close(fd[READ_END]);</a>
+<a class="sourceLine" id="cb1-30" title="30">    </a>
+<a class="sourceLine" id="cb1-31" title="31">    <span class="co">/* write to the pipe */</span></a>
+<a class="sourceLine" id="cb1-32" title="32">    write(fd[WRITE_END], write_msg, strlen(write_msg)+<span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb1-33" title="33">    </a>
+<a class="sourceLine" id="cb1-34" title="34">    <span class="co">/* close the write end of the pipe */</span></a>
+<a class="sourceLine" id="cb1-35" title="35">    close(fd[WRITE_END]);</a>
+<a class="sourceLine" id="cb1-36" title="36">    </a>
+<a class="sourceLine" id="cb1-37" title="37">  } <span class="cf">else</span> { <span class="co">/* child process */</span></a>
+<a class="sourceLine" id="cb1-38" title="38">    <span class="co">/* close the unused end of the pipe */</span> </a>
+<a class="sourceLine" id="cb1-39" title="39">    close(fd[WRITE_END]);</a>
+<a class="sourceLine" id="cb1-40" title="40">    </a>
+<a class="sourceLine" id="cb1-41" title="41">    <span class="co">/* read from the pipe */</span></a>
+<a class="sourceLine" id="cb1-42" title="42">    read(fd[READ_END], read_msg, BUFFER_SIZE); </a>
+<a class="sourceLine" id="cb1-43" title="43">    printf(<span class="st">&quot;read %s&quot;</span>,read_msg);</a>
+<a class="sourceLine" id="cb1-44" title="44">     <span class="co">/* close the write end of the pipe */</span></a>
+<a class="sourceLine" id="cb1-45" title="45">     close(fd[READ_END]);</a>
+<a class="sourceLine" id="cb1-46" title="46">  }</a>
+<a class="sourceLine" id="cb1-47" title="47">  <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-48" title="48">}</a></code></pre></div>
+<p>In some of the runs of this program we sometimes get a random character after the “Greetings” message. What gives? Remember that in C a string is NULL terminated. So a <code>printf</code> routine with a <code>%s</code> qualifier will just keep going until it gets to a 0-byte somewhere. We are supposed to put the null terminator where it belongs, but this may not suffice. When we have a buffer (as we do here), it makes sense to initialize the buffer to 0. So, in this code, we should add a call to <code>memset</code> to initialize the <code>read_msg</code> variable to 0s.</p>
+<p>If we wanted to create a named pipe, the system call for that is <code>mkfifo</code> (make first-in-first-out) because sometimes a named pipe is called a FIFO. As it is a file, it can be manipulated with the usual UNIX file system calls: <code>open</code>, <code>read</code>, <code>write</code>, and <code>close</code> <span class="citation" data-cites="osc"></span>.</p>
+<h2 id="shared-memory" class="unnumbered">Shared Memory</h2>
+<p>Conceptually, the idea of shared memory is very simple. A particular region of memory is designated as being shared between multiple processes, all of whom may read and write to that location. To share an area of memory, the OS must be notified.</p>
+<p>Normally, a region of memory is associated with exactly one process (its owner) and that process may read and write that location, but other processes may not. If a second process attempts to do so, the operating system will intervene and that will be an error. If a process wants to designate memory as shared, it needs to tell the operating system it is okay for the other process to have access to that area. Furthermore, the OS needs to know that the memory is referenced by two processes: if the first one terminates and is reaped, the memory may still be in use by the second process, so that previously-shared region should not be considered free as long as the second process is still using it. Once the area of memory is shared, when either process attempts to access it, it is just a normal memory access. The kernel is only involved in the setup and cleanup of that shared area.</p>
+<p>This situation is shown in the diagram below.</p>
+<p><img src="images/shared-memory.png" alt="image" style="width:20.0%" /><br />
+A view of memory when a block is designated as shared <span class="citation" data-cites="osc"></span>.</p>
+<p>Note that in the diagram the shared memory area appears in between the memory for processes <span class="math inline">A</span> and <span class="math inline">B</span>; this is not necessarily the case (the shared block could be anywhere). It tends to be in the block for the process that creates the shared memory in the first place. This makes sense, because Process <span class="math inline">A</span> will request the memory from the operating system and then ask the OS to consider a particular block <span class="math inline">A</span> already owns to be shared.</p>
+<p>When a section of memory is shared, there exists the possibility that one process will overwrite another’s changes. To prevent this sort of problem, we will need a mechanism for co-ordination... a subject we will return to later.</p>
+<p>Suppose we want to share a section of memory. We need to obtain a <em>key</em> that identifies a specific memory segment. Keys are just integer values, so we would like them to be unique (or at least close to it).</p>
+<p>One method is to generate the key with the “file to key” function found in <code>sys/ipc.h</code> <span class="citation" data-cites="lpi"></span>:</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1">key_t ftok( <span class="dt">char</span> *pathname, <span class="dt">int</span> proj )</a></code></pre></div>
+<p>The key is generated from the given file name (<code>pathname</code>) and the value <code>proj</code>. The file does have to exist, because the function uses a given inode. And the integer argument allows generating multiple IPC objects based off the same file. There is a very small risk of duplicate numbers if we are unlucky, but the risk is small enough that we consider it acceptable.</p>
+<p>Another way we can get a key is using the constant <code>IPC_PRIVATE</code>. If we give the constant in where a <code>key_t</code> is expected then a guaranteed unique key is returned.</p>
+<p>The functions we need are in <code>sys/shm.h</code>. The workflow for using shared memory is as follows (with details obviously after)  <span class="citation" data-cites="lpi"></span>:</p>
+<ul>
+<li><p>Create a new shared memory segment – <code>shmget</code>.</p></li>
+<li><p>Attach the shared memory segment (add the shared segment to the process calling attach) – <code>shmat</code>.</p></li>
+<li><p>Then the process can use the shared memory.</p></li>
+<li><p>Detach, from the shared memory segment (like deallocation, if forgotten then it will happen automatically when a process ends) – <code>shmdt</code>.</p></li>
+<li><p>Delete the shared memory segment (after all currently attached processes have detached), done by one process only – <code>shmctl</code>.</p></li>
+</ul>
+<p>The functions are:</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">int</span> shmget( key_t key, <span class="dt">size_t</span> size, <span class="dt">int</span> shmflg );</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="dt">void</span>* shmat( <span class="dt">int</span> shmid, <span class="dt">const</span> <span class="dt">void</span>* shmaddr, <span class="dt">int</span> shmflg );</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="dt">int</span> shmdt( <span class="dt">const</span> <span class="dt">void</span>* shmaddr );</a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="dt">int</span> shmctl( <span class="dt">int</span> shmid, <span class="dt">int</span> cmd, <span class="kw">struct</span> shmid_ds *buf )</a></code></pre></div>
+<p>To create a shared memory segment, or get a reference to an existing one, we use <code>shmget</code>. The first argument is the key, which can be either the result of a <code>ftok()</code> call or the constant <code>IPC_PRIVATE</code>. The second argument is obviously the number of bytes the shared memory should be. The third argument is the access permissions that follow the UNIX permission standards, e.g. <code>0600</code>.</p>
+<p>The flags can also add <code>IPC_CREAT</code> (if no segment with the given key exists, create it) and <code>IPC_EXCL</code> (if “create” was used, fail if a segment with the given key exists). These are be combined with the permissions, and each other, with bitwise OR operator, like opening a file.</p>
+<p>The return value of the function is the integer identifier of the shared memory segment. Given this identifier, it’s possible to then attach that segment: add the shared memory to the running process.</p>
+<p>When calling <code>shmat</code>, the first argument is the ID of the shared memory returned by <code>shmget</code>. The second parameter is where to put the memory, but in this case you should always use NULL and let the kernel decide where to put it. If you don’t, your program may not work as expected on different machines (or even at different times!) because that memory might be in use. As for flags, we could use <code>SHM_RDONLY</code> which would prevent writing (actually an attempt would result in a segmentation fault) <span class="citation" data-cites="lpi"></span>.</p>
+<p>The return value of the call to <code>shmat</code> is a standard C pointer, containing the address of the shared memory. That’s how we know where it is. Now we can read or write (if allowed) the data. At this point we are able to use the shared memory just like any other memory. Nothing special is needed – no read or write calls – just read and assign variables like any other memory.</p>
+<p>Of course, a process that wants to attach to the memory has to know the key (or ID) to find it. If we created the segment ourselves, we obviously know where it is. But presumably you want some other process to have it as well. If two processes use the same input values for <code>ftok()</code> they will get the same result, so that’s one method. Or, if a parent attaches a shared memory segment and then calls <code>fork()</code>, the child inherits the shared memory segments, so it’s is already set up.</p>
+<p>When we are done with a segment we can detach from it with <code>shmdt</code>, and it takes as an argument the value returned by <code>shmat</code>. It could have been the ID value, in my opinion, but this works as well. If we forget to do this, then it will happen automatically at process termination, but it is good programming practice to deallocate memory when you no longer need it, and similarly to detach from a shared memory segment when we are done.</p>
+<p>To delete a shared memory segment, we use <code>shmctl</code>. This function can do a lot more than delete it, such as modify properties of the data structure that is used to control shared memory. But we just need to, at a minimum, delete the segment. To do so, call the function with the shared memory ID, and the command is <code>IPC_RMID</code> (“remove ID”). We must leave the last argument as <code>NULL</code> for this deletion.</p>
+<p>Using the <code>shmctl</code> function with the deletion command doesn’t (immediately) the segment. As long as it’s still attached somewhere, the memory can’t be cleaned up. In this respect, it’s like a file in UNIX – if it’s open then it can’t be removed until the last process closes it. In Linux it’s possible to attach to a still-existing segment if it’s been marked for deletion, but this is not consistent behaviour across all UNIX systems and should not be done <span class="citation" data-cites="lpi"></span>.</p>
+<p>Consider a minimal (working) example where shared memory is employed to deliver a message from a child process to a parent.</p>
+<div class="sourceCode" id="cb4" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1"><span class="pp">#define _XOPEN_SOURCE</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="pp">#include </span><span class="im">&lt;sys/shm.h&gt;</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="pp">#include </span><span class="im">&lt;sys/wait.h&gt;</span></a>
+<a class="sourceLine" id="cb4-8" title="8"></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) { </a>
+<a class="sourceLine" id="cb4-10" title="10"></a>
+<a class="sourceLine" id="cb4-11" title="11">    <span class="dt">int</span> shmid = shmget( IPC_PRIVATE, <span class="dv">32</span>, IPC_CREAT | <span class="bn">0666</span>  );  </a>
+<a class="sourceLine" id="cb4-12" title="12"></a>
+<a class="sourceLine" id="cb4-13" title="13">    <span class="dt">int</span> pid = fork();</a>
+<a class="sourceLine" id="cb4-14" title="14">    <span class="cf">if</span> ( pid &gt; <span class="dv">0</span> ) { <span class="co">/* Parent */</span></a>
+<a class="sourceLine" id="cb4-15" title="15">        waitpid( pid, NULL, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb4-16" title="16">        <span class="dt">void</span>* mem = shmat( shmid, NULL, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb4-17" title="17">        printf(<span class="st">&quot;The message the parent received from the child is %s.</span><span class="sc">\n</span><span class="st">&quot;</span>, (<span class="dt">char</span>*) mem );</a>
+<a class="sourceLine" id="cb4-18" title="18">        shmdt( mem );</a>
+<a class="sourceLine" id="cb4-19" title="19">        shmctl( shmid, IPC_RMID, NULL );</a>
+<a class="sourceLine" id="cb4-20" title="20">    } <span class="cf">else</span> <span class="cf">if</span> ( pid == <span class="dv">0</span> ) { <span class="co">/* Child */</span></a>
+<a class="sourceLine" id="cb4-21" title="21">        <span class="dt">void</span>* mem = shmat( shmid, NULL, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb4-22" title="22">        memset( mem, <span class="dv">0</span>, <span class="dv">32</span> );</a>
+<a class="sourceLine" id="cb4-23" title="23">        sprintf( mem, <span class="st">&quot;Hello World&quot;</span> );</a>
+<a class="sourceLine" id="cb4-24" title="24">        shmdt( mem );</a>
+<a class="sourceLine" id="cb4-25" title="25">    }   </a>
+<a class="sourceLine" id="cb4-26" title="26"></a>
+<a class="sourceLine" id="cb4-27" title="27">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb4-28" title="28">}</a></code></pre></div>
+<h4 id="alternatively-mmap.">Alternatively: <code>mmap</code>.</h4>
+<p>An alternative approach for shared memory involves the use of <code>mmap()</code>, a function nominally used to map a file into memory. This is neat – it would allow us to map some disk file to a buffer, so when we fetch data from that buffer, the data is read and when we write into the buffer the data is written to the file. It allows us to read and write files as if they were memory accesses. Very convenient. But we can also use this for IPC, hence its introduction here. But first, the functions need to be introduced. As in <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb5" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">void</span>* mmap( <span class="dt">void</span>* address, <span class="dt">size_t</span> length, <span class="dt">int</span> protection, <span class="dt">int</span> flag, <span class="dt">int</span> fd, off_t offset );</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="dt">int</span> mprotect( <span class="dt">void</span>* address, <span class="dt">size_t</span> length, <span class="dt">int</span> prot );</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="dt">int</span> msync( <span class="dt">void</span>* address, <span class="dt">size_t</span> length, <span class="dt">int</span> flags );</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="dt">int</span> munmap( <span class="dt">void</span>* address, <span class="dt">size_t</span> length );</a></code></pre></div>
+<p>The first argument is the address for where you want the mapped region to go in memory; unless you have a very good reason to do otherwise, let the system choose by supplying <code>NULL</code>. The next argument is the number of bytes we want to map. The third argument is the protection rules — read, write execute, and none – that apply (details below). The flag argument indicates the mode that the memory will be mapped in. The second-last argument is the file descriptor of the file we wish to map, and the last argument is the offset from the start of the file where the segment begins.</p>
+<p>The return value is a pointer to the starting address of the memory area where the file is mapped.</p>
+<p>Okay, so about the protection flags: valid values are <code>PROT_NONE</code>, <code>PROT_READ</code>, <code>PROT_WRITE</code>, and <code>PROT_EXECUTE</code>, which can be combined using the bitwise OR operator (as always). The read, write, and execute ones look as expected, but whatever flags you choose have to be consistent with how the file was opened with <code>open</code>. So you can’t use <code>open</code> as readonly and then somehow use <code>mmap</code> with the write flag. And <code>PROT_NONE</code> forbids all access; any attempt to access that memory results in a segmentation fault.</p>
+<p>Digression: why would you ever use <code>PROT_NONE</code>? What’s the point of mapping a segment of the file and then forbidding all access...? A possible use of this is to put “guards” at the start and end of a region of memory. If the process accidentally goes outside the bounds, then a segmentation fault is generated, thus enforcing the ends of the area <span class="citation" data-cites="lpi"></span>.</p>
+<p>And lastly, you have two flag options. The first is <code>MAP_PRIVATE</code> – modifications are not visible to other processes mapping the same file and are not written out to the underlying file. The other is <code>MAP_SHARED</code> – modifications are visible to other processes and are written to the underlying file (although perhaps not instantly – there is a function to make sure we all agree).</p>
+<p>As you can imagine, the private option is for when we just want to work with a file ourselves and the shared option is for use in an IPC scenario.</p>
+<p><img src="images/memory-mapped-file.png" alt="image" style="width:50.0%" /><br />
+Conceptual diagram of a memory mapped file <span class="citation" data-cites="apunix"></span>.</p>
+<p>If we wish to change the protection rules for a section, we use <code>mprotect</code>, which takes as arguments the address, the size, and the new access rules.</p>
+<p>When a piece of the file is loaded in memory in the shared mode, file changes are not necessarily written out to the underlying file immediately. This is (partly) a performance enhancement but can mean that not everybody agrees on the content of the file because a change has not yet been written to disk. For this, the <code>msync</code> function is used: the address and length parameters are self explanatory. For flags we’ll just say use <code>MS_SYNC</code> which makes this a blocking call. There are other more advanced options but we will not discuss that here. Also, this function does nothing if the file is mapped in private.</p>
+<p>Finally, when we’re done with a segment, we can unmap it with <code>munmap</code>, which takes the same arguments of the address and length. A segment would be unmapped automatically when a process exits, but as always it is polite to unmap it as soon as you know that you are done with it.</p>
+<p>Let’s do a quick example. Suppose I have a file <code>example.txt</code> that contains the text “This is sample text.” We are going to overwrite it with “It is now overwritten” in a child process and the parent will see the updated message.</p>
+<div class="sourceCode" id="cb6" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb6-1" title="1"><span class="pp">#define _XOPEN_SOURCE</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="pp">#include </span><span class="im">&lt;sys/shm.h&gt;</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="pp">#include </span><span class="im">&lt;sys/wait.h&gt;</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="pp">#include </span><span class="im">&lt;sys/stat.h&gt;</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="pp">#include </span><span class="im">&lt;sys/mman.h&gt;</span></a>
+<a class="sourceLine" id="cb6-11" title="11"></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) { </a>
+<a class="sourceLine" id="cb6-13" title="13"></a>
+<a class="sourceLine" id="cb6-14" title="14">    <span class="dt">int</span> fd = open( <span class="st">&quot;example.txt&quot;</span>, O_RDWR );</a>
+<a class="sourceLine" id="cb6-15" title="15">    </a>
+<a class="sourceLine" id="cb6-16" title="16">    <span class="kw">struct</span> stat st; </a>
+<a class="sourceLine" id="cb6-17" title="17">    stat( <span class="st">&quot;example.txt&quot;</span>, &amp;st );</a>
+<a class="sourceLine" id="cb6-18" title="18">    <span class="dt">ssize_t</span> size = st.st_size;</a>
+<a class="sourceLine" id="cb6-19" title="19">    <span class="dt">void</span>* mapped = mmap( NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, <span class="dv">0</span> );  </a>
+<a class="sourceLine" id="cb6-20" title="20">    </a>
+<a class="sourceLine" id="cb6-21" title="21">    <span class="dt">int</span> pid = fork();</a>
+<a class="sourceLine" id="cb6-22" title="22">    <span class="cf">if</span> ( pid &gt; <span class="dv">0</span> ) { <span class="co">/* Parent */</span></a>
+<a class="sourceLine" id="cb6-23" title="23">        waitpid( pid, NULL, <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb6-24" title="24">        printf(<span class="st">&quot;The new content of the file is: %s.</span><span class="sc">\n</span><span class="st">&quot;</span>, (<span class="dt">char</span>*) mapped);</a>
+<a class="sourceLine" id="cb6-25" title="25">        munmap( mapped, size );</a>
+<a class="sourceLine" id="cb6-26" title="26">    } <span class="cf">else</span> <span class="cf">if</span> ( pid == <span class="dv">0</span> ) { <span class="co">/* Child */</span></a>
+<a class="sourceLine" id="cb6-27" title="27">       memset( mapped, <span class="dv">0</span>, size ); <span class="co">/* Erase what&#39;s there */</span></a>
+<a class="sourceLine" id="cb6-28" title="28">       sprintf( mapped, <span class="st">&quot;It is now Overwritten&quot;</span>);</a>
+<a class="sourceLine" id="cb6-29" title="29">       <span class="co">/* Ensure data is synchronized */</span></a>
+<a class="sourceLine" id="cb6-30" title="30">       msync( mapped, size, MS_SYNC );</a>
+<a class="sourceLine" id="cb6-31" title="31">       munmap( mapped, size );</a>
+<a class="sourceLine" id="cb6-32" title="32">    }</a>
+<a class="sourceLine" id="cb6-33" title="33"></a>
+<a class="sourceLine" id="cb6-34" title="34">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb6-35" title="35">}</a></code></pre></div>
+<p>The example works acceptably in the sense that we successfully overwrite the data with the new data and the parent process sees the change. But things get weird if we tried to write fewer bytes than the original message was. In general, the mapped area size cannot change. So if we want to write more data than is in the file, we can’t make the content of the file larger (and things look strange when we write fewer). In Linux there is the <code>mremap</code> call but this is not portable (ie does not work on all systems). But this would be great for something like sorting an array, wouldn’t it? The sorted array is the same size as the input and we could share the work...</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>NFA DFA</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">NFA DFA</h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#deterministic-finite-automaton-dfa">Deterministic Finite Automaton (DFA)</a><ul>
+<li><a href="#formal-definition">Formal Definition</a></li>
+</ul></li>
+<li><a href="#transition-function">Transition Function</a><ul>
+<li><a href="#extended-transition-function">Extended Transition Function</a><ul>
+<li><a href="#special-case">Special Case</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#transition-table">Transition Table</a></li>
+<li><a href="#language-accepted">Language Accepted</a></li>
+<li><a href="#regular-languages">Regular Languages</a><ul>
+<li><a href="#properties-of-regular-languages">Properties of Regular Languages</a></li>
+</ul></li>
+<li><a href="#regular-expressions">Regular Expressions</a><ul>
+<li><a href="#recursive-definition">Recursive Definition</a></li>
+<li><a href="#languages-of-regular-expressions">Languages of Regular Expressions</a><ul>
+<li><a href="#for-primitive-regular-expressions">For primitive regular expressions:</a></li>
+</ul></li>
+<li><a href="#equivalent-regular-expressions">Equivalent Regular Expressions</a></li>
+</ul></li>
+<li><a href="#non-deterministic-finite-automaton-dfa">Non Deterministic Finite Automaton (DFA)</a><ul>
+<li><a href="#formal-definition-1">Formal Definition</a></li>
+</ul></li>
+</ul>
+</nav>
+<h2 id="deterministic-finite-automaton-dfa">Deterministic Finite Automaton (DFA)</h2>
+<p>They accept a finite string as input, and output “Accept” or “Reject”</p>
+<h4 id="formal-definition">Formal Definition</h4>
+<p><span class="math display">M = (Q, \Sigma, \delta, q_0, F)</span></p>
+<p><span class="math inline">Q</span> : set of states<br />
+<span class="math inline">\Sigma</span> : input alphabet <span class="math inline">\;\;\lambda \not\epsilon\; \Sigma</span><br />
+<span class="math inline">\delta</span> : transition function<br />
+<span class="math inline">q_0</span> : initial state<br />
+<span class="math inline">F</span> : set of accepting states<br />
+</p>
+<h2 id="transition-function">Transition Function</h2>
+<p><span class="math display">\delta(q_0 , x) = q&#39;</span>
+Describes the result of a transition from state <span class="math inline">q</span> with symbol <span class="math inline">x</span></p>
+<h3 id="extended-transition-function">Extended Transition Function</h3>
+<p><span class="math display">\delta^\ast: Q\times \Sigma^\ast \rightarrow Q</span>
+<span class="math display">\delta^\ast(q,w) = q&#39;</span></p>
+<p>Describes the resulting state after scanning string <span class="math inline">w</span> from state <span class="math inline">q</span></p>
+<h4 id="special-case">Special Case</h4>
+<p>For any state <span class="math inline">q</span>
+<span class="math display">q^\ast(q, \lambda) = q</span></p>
+<p>In general <span class="math inline">q^\ast</span> implies that there is a walk of transitions where states may repeat</p>
+<h2 id="transition-table">Transition Table</h2>
+<p>Table of all transitions, with the following format</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\delta</span></th>
+<th><span class="math inline">a</span></th>
+<th><span class="math inline">b</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">q_0</span></td>
+<td><span class="math inline">q_1</span></td>
+<td><span class="math inline">q_0</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">q_1</span></td>
+<td><span class="math inline">q_2</span></td>
+<td><span class="math inline">q_0</span></td>
+</tr>
+</tbody>
+</table>
+<p>All the symbols are shown at the top, while all the states are shown on the left.</p>
+<h2 id="language-accepted">Language Accepted</h2>
+<p>Language accepted by DFA <span class="math inline">M</span> are denoted as <span class="math inline">L(M)</span> and contains all the strings accepted by <span class="math inline">M</span><br />
+We also say that <span class="math inline">M</span> recognizes <span class="math inline">L(M)</span></p>
+<h2 id="regular-languages">Regular Languages</h2>
+<p>A language <span class="math inline">L</span> is regular if there is a DFA <span class="math inline">M</span> that accepts it (<span class="math inline">L(M)=L</span>)</p>
+<p>The languages accepted by all DFAs form the family of regular languages</p>
+<h3 id="properties-of-regular-languages">Properties of Regular Languages</h3>
+<p>For regular languages <span class="math inline">L_1</span> and <span class="math inline">L_2</span>, the results of these functions are all regular OR Regular languages are closed under:</p>
+<p>Union: <span class="math inline">L_1 \cup L_2</span><br />
+Intersection: <span class="math inline">L_1 \cap L_2</span><br />
+Concatenation: <span class="math inline">L_1 L_2</span><br />
+Star: <span class="math inline">L_1^\ast</span><br />
+Reversal: <span class="math inline">L_1^R</span><br />
+Complement: <span class="math inline">\overline{L_1}</span></p>
+<h2 id="regular-expressions">Regular Expressions</h2>
+<p>Regular expressions describe regular languages</p>
+<h3 id="recursive-definition">Recursive Definition</h3>
+<p>Primitive Regular Expressions: <span class="math inline">\Phi, \lambda, \alpha</span></p>
+<p>Given regular expressions <span class="math inline">r_1</span> and <span class="math inline">r_2</span>, the results of these functions are all regular expression</p>
+<p><span class="math inline">r_1+r_2</span><br />
+<span class="math inline">r_1\cdot r_2</span><br />
+<span class="math inline">r_1^\ast</span><br />
+<span class="math inline">(r_1)</span><br />
+</p>
+<h3 id="languages-of-regular-expressions">Languages of Regular Expressions</h3>
+<p><span class="math inline">L(r)</span>: language of regular expression <span class="math inline">r</span></p>
+<h4 id="for-primitive-regular-expressions">For primitive regular expressions:</h4>
+<p><span class="math display">L(\Phi) = \Phi</span>
+<span class="math display">L(\lambda) = \{\lambda\}</span>
+<span class="math display">L(a) = \{a\}</span></p>
+<p>For regular expressions <span class="math inline">r_1</span> and <span class="math inline">r_2</span>
+<span class="math display">L(r_1+r_2) = L(r_1)\cup L(r_2)</span>
+<span class="math display">L(r_1\cdot r_2) = L(r_1)L(r_2)</span>
+<span class="math display">L(r_1^\ast) = (L(r_1))^\ast</span>
+<span class="math display">L((r_1)) = L(r_1)</span></p>
+<h3 id="equivalent-regular-expressions">Equivalent Regular Expressions</h3>
+<p>Regular expressions <span class="math inline">r_1</span> and <span class="math inline">r_2</span> are equivalent if <span class="math inline">L(r_1)=L(r_2)</span></p>
+<h2 id="non-deterministic-finite-automaton-dfa">Non Deterministic Finite Automaton (DFA)</h2>
+<p>An NFA accepts a string: if there is a computation of the NFA that accepts the string<br />
+i.e., all the input string is processed and the automaton is in an accepting state<br />
+</p>
+<p>An NFA rejects a string:
+if there is no computation of the NFA that accepts the string.
+For each computation:</p>
+<ul>
+<li>All the input is consumed and the automaton is in a non final state<br />
+<strong>OR</strong></li>
+<li>The input cannot be consumed</li>
+</ul>
+<h3 id="formal-definition-1">Formal Definition</h3>
+<p><span class="math display">M = (Q, \Sigma, \delta, q_0, F)</span></p>
+<p><span class="math inline">Q</span> : set of states<br />
+<span class="math inline">\Sigma</span> : input alphabet <span class="math inline">\;\;\lambda \not\epsilon\; \Sigma</span><br />
+<span class="math inline">\delta</span> : transition function<br />
+</p>
+<ol type="1">
+<li>transition to multiple states on the same letter</li>
+<li>transition on empty string</li>
+</ol>
+<p><span class="math inline">q_0</span> : initial state<br />
+<span class="math inline">F</span> : set of accepting states<br />
+</p>
+<p>An NFA’s transition function can lead to multiple states or no states.</p>
+<p>The language accepted by an NFA then changes to one where, once you’ve processed the entire string, you get a set of states, and there exists at least one accepting state in that set/</p>
+</body>
+</html>

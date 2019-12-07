@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Final</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Final<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#prof-bishops-notes">Prof Bishop’s notes</a></li>
+</ul>
+</nav>
+<h2 id="prof-bishops-notes">Prof Bishop’s notes</h2>
+<p>5 questions - past exam average 60%<br />
+EACH QUESTION IS WORTH 20%</p>
+<ol type="1">
+<li>Serial Interfacing
+<ul>
+<li>refer to midterms for more information</li>
+<li>dumb errors on calculations</li>
+</ul></li>
+<li>Analog Interfacing
+<ul>
+<li>sometimes people forget things, and people forget things</li>
+<li>some things can be hard eg: dual slope</li>
+</ul></li>
+<li>Buses - Data Transfer
+<ul>
+<li>gets people, positioning of edges gets people</li>
+<li>lots of precision required</li>
+</ul></li>
+<li>Buses - Arbitration
+<ul>
+<li>not going to be detailed question on 4 wire</li>
+<li>or non daisy chain</li>
+<li><strong>people do well here</strong> - 70% average</li>
+</ul></li>
+<li>Design
+<ul>
+<li>often things can be answered 2 different ways
+<ul>
+<li>often a lot of things as long as you give context</li>
+</ul></li>
+<li>statistically speaking is not the hardest exam</li>
+</ul></li>
+</ol>
+<p>The word DMA controller appears on the exam, but its in the DESIGN question.<br />
+</p>
+<p>First 3 pages of the exam are going to be on the exam, which will show you the breakdown of each of the parts<br />
+Its safe to assume, that there is going to both software and hardware, it may be given or asked.<br />
+<strong>Number of pages:</strong> Physically 24 sides, last page is blank, first 3 sides are front matter. 20 PAGES NET<br />
+</p>
+<p><strong>Could the labs show up:</strong> Never anything specific about the NIOS system show it. Lab like content COULD show up (“yeah sure”)<br />
+</p>
+<p><strong>Difficult to previous exam</strong>: No more difficult than the previous exam, is it easier, probably not</p>
+<p>Average is going to be between: <span class="math inline">65-70\%</span><br />
+</p>
+<p><strong>Course averages to about</strong> 80%<br />
+<strong>IDEAL</strong> THERE ARE SOME CASES WHERE WE WOULD ASK FOR IDEAL EDGES ESPECIALLY IN ARBITRATION<br />
+BUT DATA TRANSFER COULD ASK FOR NON IDEAL EDGES</p>
+<hr />
+<ul>
+<li>Even parity is XOR</li>
+<li>Binary ramp biases high - increase voltage until greater</li>
+<li>Successive approximation biases low - find greatest non-exceeding voltage</li>
+<li>Clock for Binary ramp ADC should not exceed the settling of the internal DAC</li>
+<li><span class="math inline">t_{aperture} = \frac{\text{max change in }V}{\text{sampling rate}}</span></li>
+</ul>
+<p>Help Session:</p>
+<ol type="1">
+<li>What’s the case for a start bit error: Line goes down for less than a complete cycle</li>
+</ol>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

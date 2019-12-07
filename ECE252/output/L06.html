@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L06.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#file-system">File System</a></li>
+<li><a href="#message-passing">Message Passing</a></li>
+<li><a href="#message-queues">Message Queues</a><ul>
+<li><a href="#using-signals.">Using Signals.</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>Inter-Process Communication (IPC)</span>
+When two or more processes would like to co-ordinate or exchange data the mechanism for doing so is called <em>inter-process communication</em>, usually abbreviated as IPC. If a process shares data with another process in the system, the operating system will provide some facilities to make this possible.</p>
+<p>The motivations for inter-process communication are fairly obvious and we do not need to waste time with long descriptions of scenarios where IPC is desirable. Every time you send an e-mail, for example, there’s IPC going on. In the context of your own program, you could consider breaking a large task into smaller subtasks, allowing multiple users to edit the same data, and system modularity.</p>
+<p>Before proceeding, we need to define some idea about what communication is: transfer of data from one process to another. The data being transferred is typically referred to as the <em>message</em>. The process sending that message is the <em>sender</em> and the process receiving it will be the <em>receiver</em>. This terminology is brutally, painfully obvious, but completeness is key.</p>
+<p>The processes involved must have some agreement on what data a message should contain, and the way the data is formatted. Though there may be defined standards, e.g., transferring data formatted in XML, for the message content, the processes themselves would have to be aware of the fact that the message is in XML format. How this agreement is reached tends to fall outside the purview of the operating system; perhaps the authors agree in a meeting or the sender publishes its format online and the author of the receiver program writes her code to accommodate that.</p>
+<p>Sending and receiving of messages may be either synchronous or asynchronous. If sending is synchronous, the sender sends the message and then is blocked from proceeding until the message is received. If sending is asynchronous, the sender can post the message and then carry on execution. If receiving is synchronous, the receiver is blocked until it receives the message. If receiving is asynchronous, the receiver is notified there is no message available and continues execution. Thus there are four combinations to consider, three of which are common <span class="citation" data-cites="mte241"></span>:</p>
+<ol>
+<li><p><strong>Synchronous send, synchronous receive:</strong> the sender is blocked until the receiver collects the message; the receiver waits for a message and is blocked until it arrives.</p></li>
+<li><p><strong>Synchronous send, asynchronous receive:</strong> the sender is blocked when the message is sent, but the receiver will continue whether or not a message is available. This is a very uncommon configuration.</p></li>
+<li><p><strong>Asynchronous send, synchronous receive:</strong> the sender continues execution when the message is sent, but the receiver will wait until the message is received before it can continue. This is the most common configuration; usually the receiver needs a message to continue.</p></li>
+<li><p><strong>Asynchronous send, asynchronous receive:</strong> the sender can continue as soon as it sends the message, and the receiver will check for a message but will continue whether or not the message is available.</p></li>
+</ol>
+<p>It is also common in the case of asynchronous receive for the receiver to send back another message confirming receipt of the message. When that happens, just reverse the labels: the receiver of the initial message is the sender of the acknowledgement.</p>
+<p>A general paradigm for understanding IPC is known as the <em>producer-consumer</em> problem. The <em>producer</em> creates some information which is later used by the <em>consumer</em>. For example, the database may produce the data (some records from the database) to be consumed by the shell to be displayed to the user. This is a general problem and applicable to client-server situations (e.g., web servers sending out web pages to web browsers).</p>
+<p>There are three approaches we will consider on how we can accomplish IPC:</p>
+<ol>
+<li><p>The file system.</p></li>
+<li><p>Message passing.</p></li>
+<li><p>Shared memory.</p></li>
+</ol>
+<p>All of these methods are quite common and a system can easily implement them all. There is no single option that is optimal in every situation, but each method has some areas of strength and weakness.</p>
+<h2 id="file-system" class="unnumbered">File System</h2>
+<p>One way for two processes to communicate is through the file system. Messages stored in the file system will be persistent and survive a reboot. It can also be used when the sender and receiver know nothing about one another (and the programmer knows nothing about any other IPC mechanisms).</p>
+<p>The producer may write to a file in an agreed upon location and the consumer may read from that same location. The operating system is still involved because of its role in file creation and manipulation (as well as permissions for who may read and write a file).</p>
+<p>If one file is being used then we have the problem of co-ordination: making sure one process does not overwrite the changes of another. We can get around this, however, by using multiple files with unique IDs. Consider an example from a co-op work term: if the producer is generating XML data, it can write in a file in a designated <code>import/</code> directory. The consumer program scans the directory, and when it finds files, reads the file and imports the data contained therein. The imported data is then shown in the program. In this case, since one process writes files and another reads them, there is no possibility that one process overwrites the data of another. As long as the sender chooses distinct file names, it will not overwrite a message if a second message is created before the receiver picks up the first.</p>
+<h2 id="message-passing" class="unnumbered">Message Passing</h2>
+<p>Message passing is a service provided by the operating system where the sender will give the message to the OS and ask that it be delivered to a recipient. There are two basic operations: sending and receiving. Messages can be of fixed or variable size.</p>
+<p>Our experience with postal mail, or e-mail, suggests that to send a message successfully, the sender needs to indicate where the message should go. Under <em>direct communication</em>, each process that wants to communicate needs to explicitly name the recipient or sender of the communication, making the send and receive functions <span class="citation" data-cites="osc"></span>:<br />
+<code>send(A, message)</code> – Send a message to process <span class="math inline">A</span>.<br />
+<code>receive(B, message)</code> – Receive a message from process <span class="math inline">B</span>.</p>
+<p>This requires <em>symmetric</em> addressing: the sender and receiver have to know one another to communicate. This deviates from our experience in sending postal mail: receiving an item does not require foreknowledge of the sender. We would more typically expect <em>asymmetric</em> addressing: the sender names the recipient, but the receiver can pick up items from anyone. The system calls for that scheme are <span class="citation" data-cites="osc"></span>:<br />
+<code>send(A, message)</code> – Send a message to Process <span class="math inline">A</span> (unchanged).<br />
+<code>receive(id, message)</code> – Receive a message from any process; the variable <code>id</code> is set to the sender.</p>
+<p>In either case, we have to know some identifier for the other processes. This is not very flexible; if we want to replace process <span class="math inline">B</span> with some alternative software, do we have to change the identifier in <span class="math inline">A</span>, recompile it, and reinstall it? Do we “fake” the identifier of the new software so it calls itself <span class="math inline">B</span> even though it’s not the same software? Furthermore, oftentimes the sender will produce the data but is not interested in who receives it.</p>
+<p>What we would like is <em>indirect communication</em> where the messages are sent to mailboxes. That makes our send and receive functions <span class="citation" data-cites="osc"></span>:<br />
+<code>send(M, message)</code> – Send a message to mailbox <span class="math inline">M</span>.<br />
+<code>receive(M, message)</code> – Receive a message from mailbox <span class="math inline">M</span>.</p>
+<p>A mailbox may belong specifically to one process or may be set up by the operating system. If the mailbox belongs to the process, then anyone can send to this mailbox, but only the owning process may receive messages from that mailbox. If the owner process has not started or has terminated, attempting to send to that mailbox will be an error for the sender.</p>
+<p>If the mailbox is owned by the operating system, it is persistent and independent of any particular process. When we used direct communication, e.g., sending to process <span class="math inline">A</span>, the communication relationship is 1:1 - one sender and one receiver. When there was a mailbox owned by <span class="math inline">A</span>, we could be certain that only process <span class="math inline">A</span> could retrieve items from that mailbox. There is no conceptual reason, however, preventing an operating system mailbox from belonging to more than one process. If mailbox <span class="math inline">M</span> belongs to the operating system and processes <span class="math inline">P_{1}</span> and <span class="math inline">P_{2}</span> have access to it, which process will receive a message sent to that mailbox?</p>
+<p>There are two ways we can deal with this problem. The first is that the OS should allow only one process at a time to pick up items from the mailbox, thus preventing the problem altogether. The other solution is that the OS may have some scheme: whichever process gets there first, alternation (taking turns), or any other system of deciding whose turn it is.</p>
+<p>The diagram below shows a message queue for communication between processes <span class="math inline">A</span> and <span class="math inline">B</span>:</p>
+<p><img src="images/message-passing.png" alt="image" style="width:20.0%" /><br />
+A view of memory in a message-passing system <span class="citation" data-cites="osc"></span>.</p>
+<p>In this diagram we see something new for the receiver process: a message queue.</p>
+<h2 id="message-queues" class="unnumbered">Message Queues</h2>
+<p>Thus far we have dealt with messages one at a time: the sender wants to send one message and the receiver wants to receive one message. If the sender wants to send a second message before the first message is received, the sender will have three choices, regardless of whether the communication is synchronous:</p>
+<ol>
+<li><p>Wait for the last message to be picked up (block).</p></li>
+<li><p>Overwrite the last message (sometimes this is what you want).</p></li>
+<li><p>Discard the current message (let the old one remain).</p></li>
+</ol>
+<p>A message queue may alleviate the problem or just “kick the can down the road”. If a queue exists, when sending a message, that message is placed in the queue and when receiving a message, the first message is taken. If the queue is of (effectively) unlimited size, then the problem may generally be ignored. If the queue has a fixed size then the problem is put off but not solved: the sender can keep adding messages to the queue until the queue is full. If the queue is full, the sender has to face the same choices of what to do: block, overwrite, or discard.</p>
+<h4 id="using-signals.">Using Signals.</h4>
+<p>We got onto the topic of inter-process communication by talking about signals, so it makes sense to start with then. Signals are, as previously introduced, an interrupt with a specified ID. They don’t contain any “message” within them, so they are somewhat limited. It’s a little bit like how pagers work (strange as those are to think about, doctors still use them!). When someone is paged their pager vibrates and they can see only the number who paged them. So it’s like a text message, but the body is blank. Nevertheless, the poor sleep-deprived overworked medical resident is alerted and will react appropriately, dealing with the situation before going back to whatever else they were doing before being paged.</p>
+<p>As you can imagine, the fact that a signal contains no message is a limitation that means signals can’t be used for every single interprocess communication scenario. That is true, but it is sufficient for some of them. When the fire alarm sounds in a building, you don’t need an accompanying voice announcement to say “this indicates a fire alarm; please calmly exit the building” – you will figure this out just fine on your own (one hopes!). Some of the reason it works out, though, is that you have previously been informed that when the fire alarm sounds it means you need to exit the building, and the same is true for signals: you need to know what to listen for and what’s supposed to happen if you want to react accordingly.</p>
+<p>The appropriate header for including signals is <code>signal.h</code> and it contains the definitions that let you write <code>SIGKILL</code> instead of having to put an explicit int <code>9</code> in your program. Earlier, we introduced a small table of some of the common UNIX signals. They are by no means exhaustive, but unfortunately there is not always 100% agreement between different implementations about what the higher signal numbers are. For this reason it’s helpful to use the names, so if you use <code>SIGABC</code> then it abstracts away the fact that on one system that’s implemented as being <code>X</code> and on another it’s <code>Y</code>.</p>
+<p>We already learned how to send a signal from the command line. But there are two functions for sending a signal programmatically:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> kill( <span class="dt">int</span> pid, <span class="dt">int</span> signo );</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="dt">int</span> raise( <span class="dt">int</span> signo );</a></code></pre></div>
+<p>Both functions return 0 if they were successful and -1 if they were unsuccessful (for whatever reason, such as no such process existing). The <code>raise</code> function sends the signal to the current process, so a nice little shortcut when you need it.</p>
+<p>We need to know the process ID of the recipient. This is fine, but may require a little bit of negotiation for how processes find out about each other. A common convention is for services to register themselves in some way, which might be as simple as putting a file on disk in a specific location that contains the process ID. For example, mysql (a database) server will put its process ID in the file <code>/var/run/mysqld/mysqld.pid</code> and in that file is just the number of its process ID (e.g., <code>1494</code>). So if you know where to look, you can find the recipient’s address. But this could also be communicated in any other way.</p>
+<p>You can use <code>kill</code> to do some interesting things, like signal all your processes. It depends on the value chosen for your <code>pid</code> argument <span class="citation" data-cites="apunix"></span>:</p>
+<ul>
+<li><p><code>pid &gt; 0</code> – send the signal to the process with process ID <code>pid</code>.</p></li>
+<li><p><code>pid == 0</code> – send the signal to all processes in the same process group as the caller.</p></li>
+<li><p><code>pid == -1</code> – send the signal to all processes for which the calling process has permission to send a signal, except <code>init</code> and the calling process. Broadcast, basically.</p></li>
+<li><p><code>pid &lt; -1</code> – send the signal to all processes whose process group ID is equal to the absolute value of <code>pid</code>.</p></li>
+</ul>
+<p>In addition to the signals we know, you can also invoke the <code>kill</code> function with a 0 argument for the signal. This is called the “null signal”. It does not actually send any signal, but can be used to check if the recipient process exists. If not, the <code>errno</code> return value of <code>ESRCH</code> tells you that it no longer exists <span class="citation" data-cites="apunix"></span>. This is of limited utility, however, because (1) the process might exit between the time you check for its existence and the time you do something with that information; and (2) process IDs are only relatively unique so a given ID could be reused for a different process, and the recipient is no longer whom you expect it to be...</p>
+<p>A signal can be sent to a given process, but that process can only actually deal with it when that process is running. A signal is generated by something, and it is later delivered to the recipient. But during the time between generation and delivery, we say the signal is <em>pending</em>. The pending signal is typically delivered at the first opportunity, which might be immediately if the recipient is currently executing <span class="citation" data-cites="lpi"></span>.</p>
+<p>Interestingly, for most (but not all) signals, your process can choose to refuse to listen. This is called blocking signals, and can be done to any with with the exception of <code>SIGKILL</code> and <code>SIGSTOP</code>. When a signal is blocked, it just remains in the pending state until signals of that type are unblocked. Blocking signals is supposed to be temporary, although a badly-behaved program could ignore them indefinitely.</p>
+<p>If the same signal is sent more than once when that signal is blocked by the recipient, it might be delivered only once, depending on your particular operating system implementation <span class="citation" data-cites="apunix"></span>.</p>
+<p>As introduced earlier, signals have a default action. The action that is taken when the signal is delivered is called the <em>disposition</em> of the signal. If you don’t explicitly change what happens when the signal arrives, the default (see the table) happens. But we can change it. There are three options (1) ignore it, (2) run a signal handler, and (3) run the default action. The third option is used to undo an earlier change (such as if we said we wanted to ignore the signal but now no longer do). We’ll restrict our to the “run a signal handler” option in this lecture.</p>
+<p>If we decide to register a signal handler, the function is:</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">void</span> (*signal( <span class="dt">int</span> signo, <span class="dt">void</span> (*handler)(<span class="dt">int</span>))) (<span class="dt">int</span>);</a></code></pre></div>
+<p>Yikes! That is difficult to read. The good news is that using this in practice is a lot easier. What we actually do is call a function to say “for signal <code>X</code>, run function <code>foo</code>”. There are restrictions on the function signature. It must have a <code>void</code> return type and take one parameter of an <code>int</code>. It returns a pointer to the old handler (if there was one). You could use that to set it back if you wanted.</p>
+<p>So a sample signal handler would be:</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">void</span> sig_handler( <span class="dt">int</span> signal_num ) {</a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="co">/* Handle the signal in some way */</span></a>
+<a class="sourceLine" id="cb3-3" title="3">}</a></code></pre></div>
+<p>The integer parameter is set to the number of the signal received. This allows us to have one signal handler that handles many signals, if we wish, but differentiate between them at the time of invocation. To register the signal handler, the simplest way is to ignore the return value of <code>signal</code>:</p>
+<div class="sourceCode" id="cb4" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1">signal( SIGINT, sig_handler );</a></code></pre></div>
+<p>Alright, with your signal handler set up, then the workflow looks like the diagram below:</p>
+<p><img src="images/sighandler.png" alt="image" style="width:50.0%" /><br />
+Signal delivery, signal handler execution and return <span class="citation" data-cites="lpi"></span>.</p>
+<p>The content of your signal handler, however, is restricted. Because the handler deals with an interrupt and runs between two instructions it is important to make sure that the signal handler doesn’t mess anything up. If the signal handler runs in the middle of <code>malloc</code> and the signal handler itself calls <code>malloc</code> it could put the memory management in an invalid state <span class="citation" data-cites="apunix"></span>.</p>
+<p>We can only use functions that are <em>reentrant</em>. That is to say, a function that can be interrupted during execution, have another complete to that same function execute, and then resume (and have everything be okay). In particular the big ones to avoid are: <code>printf</code>, <code>malloc</code>, <code>free</code>, and anything that could possibly block the process (e.g., a read of a file!). The subject of reentrancy is a little bit more complicated than can be covered in a few sentences, and future courses should cover reentrancy in much more detail.</p>
+<p>There are tables of what functions are safe to invoke from within a signal handler. In general what you are looking for is a designation of <em>async-signal safe</em>.</p>
+<p>To block a signal, unblock one, or just find out what the current state is, the function is:</p>
+<div class="sourceCode" id="cb5" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> sigprocmask( <span class="dt">int</span> how, <span class="dt">const</span> sigset_t * set, sigset_t * old_set );</a></code></pre></div>
+<p>The first argument is what we would like to do here: if <code>SIG_BLOCK</code>, the signals pointed to by <code>set</code> are added to the block list; if <code>SIG_UNBLOCK</code> then the ones in <code>set</code> are removed from the block list; if <code>SIG_SETMASK</code> then <code>set</code> is assigned to the signal mask (overwrite all current values)<span class="citation" data-cites="lpi"></span>.</p>
+<p>The third argument is optional, and if a pointer is provided then upon a change to the signal mask, <code>old_set</code> is updated to contain the values from before the change.</p>
+<p>There is also the ability to manage signal disposition in a more advanced way using the function <code>sigaction</code>, but we will consider this beyond the scope of the course.</p>
+<p>There are some helper functions to fill in the mask:</p>
+<div class="sourceCode" id="cb6" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb6-1" title="1"><span class="dt">int</span> sigemptyset( sigset_t *set ); <span class="co">/* Initialize an empty sigset_t */</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="dt">int</span> sigaddset( sigset_t *set, <span class="dt">int</span> signal ); <span class="co">/* Add specified signal to set */</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="dt">int</span> sigfillset( sigset_t *set ); <span class="co">/* Add ALL signals to set */</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="dt">int</span> sigdelset( sigset_t *set, <span class="dt">int</span> signal ); <span class="co">/* Remove specified signal from set */</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="dt">int</span> sigismember( sigset_t *set, <span class="dt">int</span> signal ); <span class="co">/* Returns 1 if true, 0 if false */</span></a></code></pre></div>
+<p>A quick example based on <span class="citation" data-cites="lpi"></span>:</p>
+<div class="sourceCode" id="cb7" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb7-1" title="1">sigset_t set;</a>
+<a class="sourceLine" id="cb7-2" title="2">sigset_t previous;</a>
+<a class="sourceLine" id="cb7-3" title="3"></a>
+<a class="sourceLine" id="cb7-4" title="4">sigemptyset( &amp;set ); <span class="co">/* Initialize set */</span></a>
+<a class="sourceLine" id="cb7-5" title="5">sigaddset( &amp;set, SIGINT ); <span class="co">/* Add SIGINT to it */</span></a>
+<a class="sourceLine" id="cb7-6" title="6"></a>
+<a class="sourceLine" id="cb7-7" title="7">sigprocmask( SIG_BLOCK, &amp;set, &amp;previous ); <span class="co">/* Add SIGINT to the mask */</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">/* SIGINT is blocked in this section */</span></a>
+<a class="sourceLine" id="cb7-9" title="9">sigprocmask( SIG_SETMASK, &amp;previous, NULL ); <span class="co">/* Restore previous mask */</span></a></code></pre></div>
+<p>Finally, if you want to pause your program for a bit until the call is interrupted by a signal, there is the function <code>int pause( )</code>. This function always returns -1 and it suspends your program until the signal handler runs. This can be useful if we really do need to wait for something...</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 4 - Synchronization, Data Generation, and Data Transfer</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 4 - Synchronization, Data Generation, and Data Transfer<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#a-finite-state-machine-model-of-interface-communication">A Finite State Machine Model of Interface Communication</a></li>
+<li><a href="#producerconsumer-model-of-data-transfer">Producer/Consumer Model of Data Transfer</a></li>
+<li><a href="#communicating-events-and-data">Communicating Events and Data</a></li>
+<li><a href="#synchronization-occurs-at-several-levels---a-hierarchical-perspective">Synchronization Occurs at Several Levels - A Hierarchical Perspective</a></li>
+<li><a href="#synchronization-hierarchy">Synchronization Hierarchy</a></li>
+<li><a href="#synchronization">Synchronization</a></li>
+<li><a href="#synchronization-needs">Synchronization Needs</a><ul>
+<li><a href="#examples-of-synchronization-scenarios">Examples of Synchronization Scenarios</a></li>
+</ul></li>
+<li><a href="#levels-of-synchronization">Levels of Synchronization</a><ul>
+<li><a href="#i-generation">I) Generation</a></li>
+<li><a href="#ii-notification-initiation-of-transfer">II) Notification / Initiation of Transfer</a></li>
+<li><a href="#iii-data-transfer">III) Data Transfer</a></li>
+</ul></li>
+<li><a href="#introduction-to-data-persistence">Introduction to Data Persistence</a><ul>
+<li><a href="#blind-synchronization-independent-timing">Blind Synchronization – Independent Timing</a></li>
+<li><a href="#synchronous-systems-common-view-of-time">Synchronous Systems – Common View of Time</a></li>
+<li><a href="#asynchronous-systems-different-views-of-time">Asynchronous Systems – Different Views of Time</a></li>
+</ul></li>
+<li><a href="#generalized-io-overview">Generalized I/O Overview</a></li>
+<li><a href="#data-transfer-terminology">Data Transfer Terminology</a></li>
+<li><a href="#estimating-synchronization-times-for-block-transfers">Estimating Synchronization Times for Block Transfers</a></li>
+</ul>
+</nav>
+<h3 id="a-finite-state-machine-model-of-interface-communication">A Finite State Machine Model of Interface Communication</h3>
+<p>The two sides of the interface likely utilize different clocks (views of time) and both sides are performing tasks independently except when communicating.
+<img src="../../attachments/synchronization-FSM-communication.png" alt="synchronization-FSM-communication" class="responsive-img" /></p>
+<h3 id="producerconsumer-model-of-data-transfer">Producer/Consumer Model of Data Transfer</h3>
+<figure>
+<img src="../../attachments/synchronization-producer-consumer.png" alt="devdrv-software-synchronization" class="responsive-img" /><figcaption>devdrv-software-synchronization</figcaption>
+</figure>
+<p>For the purpose of discussion, consider a simple producer/consumer system.</p>
+<ul>
+<li><strong>Producer</strong>: Either a software or a hardware component responsible for producing data and/or events for the consumer.</li>
+<li><strong>Consumer</strong>: Either a software or a hardware component responsible for consuming data and/or events provided by the producer.</li>
+<li><strong>Data</strong>: The state information transferred from the producer to the consumer.</li>
+<li><strong>Event</strong>: The control information transferred from the producer to the consumer to represent
+the occurrence of some activity.</li>
+</ul>
+<h3 id="communicating-events-and-data">Communicating Events and Data</h3>
+<ul>
+<li><strong>Event Only</strong>: An event occurs (door opens, shaft spins past some registered point, a pro- gram initializes properly) and this occurrence is transferred from the producer to the consumer.</li>
+<li><strong>Event and Data</strong>: An event occurs (key is pressed, message arrives, processor produces a value to print) so the event and the data are transferred to the consumer.</li>
+<li><strong>Data Only</strong>: Some data value is produced (or changed) but the consumer is not directly notified of this change. For example, a temperature of an engine block changes and can be read at any time, but the change is not announced to the consumer.</li>
+</ul>
+<h3 id="synchronization-occurs-at-several-levels---a-hierarchical-perspective">Synchronization Occurs at Several Levels - A Hierarchical Perspective</h3>
+<p>Synchronization must be considered at several levels. Consider the transfer of data from the following levels:</p>
+<p><strong>I) Data Generation</strong>: How is the data creation controlled (if it is controlled). How is it started? How is it stopped? Is this done by the producer or the consumer?
+<br>
+<strong>II) Data Notification/Initiation of Transfer</strong>: Once the producer has the data, how does the producer notify the consumer that it is ready for the data to be consumed? Or, alternatively how does the consumer request the data?
+<br>
+<strong>III) Data Transfer</strong>: Once the producer has the data and the consumer is ready for the Data, how it the timing (synchronization) of the transfer handled?</p>
+<h3 id="synchronization-hierarchy">Synchronization Hierarchy</h3>
+<p>The synchronization hierarchy might resemble the one shown below.
+<img src="../../attachments/synchronization-peers.png" alt="synchronization-peers" class="responsive-img" /></p>
+<h3 id="synchronization">Synchronization</h3>
+<p>Each level in the hierarchy allows for some form of synchronization.</p>
+<ul>
+<li><p><strong>Synchronization</strong>: For our purposes, synchronization refers to the interaction required to make two entities (with different views of time) interact.</p></li>
+<li><p>Synchronization can be classified as follows:</p>
+<ul>
+<li><strong>Active Synchronization</strong>: One of the entities is capable of <em>forcing</em> a change in the operational characteristics of the other. For example, setting an interrupt signal can force the processor to execute the interrupt service routine.</li>
+<li><strong>Passive Synchronization</strong>: One of the communicating entities signals a request for service, however the entity receiving the request is not forced to respond.</li>
+</ul></li>
+</ul>
+<h3 id="synchronization-needs">Synchronization Needs</h3>
+<ul>
+<li>Consider the relationship between/among the entities:
+<ul>
+<li>What is the number of communicating entities (two or more than two)?</li>
+<li>Is there a master/slave relationship?</li>
+<li>Are the entities equals?</li>
+</ul></li>
+<li>Consider the level of service required:
+<ul>
+<li>Active, demand-oriented service. The event at one of the peers must be serviced. This could be implemented as an interrupt.</li>
+<li>Passive, request-oriented service. The event at one of the peers may be serviced. One side keeps testing the other to see if an event has occurred.</li>
+</ul></li>
+</ul>
+<h4 id="examples-of-synchronization-scenarios">Examples of Synchronization Scenarios</h4>
+<figure>
+<img src="../../attachments/synchronization-scenarios.png" alt="synchronization-scenarios" class="responsive-img" /><figcaption>synchronization-scenarios</figcaption>
+</figure>
+<h3 id="levels-of-synchronization">Levels of Synchronization</h3>
+<h4 id="i-generation">I) Generation</h4>
+<p>Data generation requires action by the producer. However, the creation of the data can be initiated by either the producer or the consumer.
+<img src="../../attachments/synchronization-data-generation.png" alt="synchronization-data-generation" class="responsive-img" /></p>
+<ul>
+<li><strong>Spontaneous Sources</strong>: Data is produced in the device independent of the actions of the consumer accepting the data.</li>
+<li><strong>Consumer Sensitive Sources</strong>: Data is produced by the device only after the previous data has been consumed by the consumer.</li>
+<li><strong>Consumer Responsive Sources</strong>: Data is produced by the device only after requested by the consumer.</li>
+</ul>
+<h4 id="ii-notification-initiation-of-transfer">II) Notification / Initiation of Transfer</h4>
+<p>Notification / initiation of transfer may be initiated by either the producer or the consumer.</p>
+<ul>
+<li>Consumer Initiated Scenarios: The consumer requests data and then the data becomes ready (or is ready) and the request is completed:
+<ul>
+<li>Polling for a key to be pressed and once it is pressed, the data is consumed. (Passive Synchronization)</li>
+<li>An interrupt from a printer to indicate that it is ready for the next item to be printed. (Active Synchronization)</li>
+</ul></li>
+<li>Producer Initiated Scenarios: The data is available and then the data is accepted by the consumer and the transfer is completed.
+<ul>
+<li>Polling for a printer to become ready for the next character and once it is ready, the data is transferred and consumed.
+(Passive Synchronization)</li>
+<li>An interrupt from a keyboard to indicate that it has the next character ready for consumption.
+(Active Synchronization)</li>
+</ul></li>
+</ul>
+<h4 id="iii-data-transfer">III) Data Transfer</h4>
+<p><strong>Data Transfer</strong>: The exchange of information between two entities that have (potentially) different views of time.
+Data transfer considerations include data persistence, time synchronization and clocking, and control signalling:</p>
+<ul>
+<li><strong>Data Persistence:</strong> How long data is valid for the purpose of transferring between communicating entities.</li>
+<li><strong>Time Synchronization and Clocking:</strong> How signals representing any data are enabled to make a transfer happen.</li>
+<li><strong>Control Signalling:</strong> How control information is exchanged between communicating entities.</li>
+</ul>
+<h3 id="introduction-to-data-persistence">Introduction to Data Persistence</h3>
+<ul>
+<li><strong>Persistent Data</strong>: Information remains valid until consumer signals that the data has been consumed (processed).</li>
+<li><strong>Transient Data</strong>: Information is made available to the consumer and only remains valid for a period of time. In most cases, the minimum period of time the data will remain valid is known by the designer.</li>
+<li>Most input data falls into the category of transient data</li>
+</ul>
+<h4 id="blind-synchronization-independent-timing">Blind Synchronization – Independent Timing</h4>
+<ul>
+<li>The consumer just reads the data with no regard for the changes at the producer</li>
+<li>Some errors could occur if the data changed too close to the sample time</li>
+<li>Some data values may be missed and others may be read multiple times
+<img src="../../attachments/synchronization-blind-timing.png" alt="synchronization-blind-timing" class="responsive-img" /></li>
+</ul>
+<h4 id="synchronous-systems-common-view-of-time">Synchronous Systems – Common View of Time</h4>
+<ul>
+<li>Common Clock used by the producer and the consumer</li>
+<li>Producer and consumer use different edges to ensure data validity</li>
+<li>Data may be sampled multiple times unless transfers limited to one clock period
+<img src="../../attachments/synchronization-synchronous-timing.png" alt="synchronization-blind-timing" class="responsive-img" /></li>
+</ul>
+<h4 id="asynchronous-systems-different-views-of-time">Asynchronous Systems – Different Views of Time</h4>
+<ul>
+<li>Producer informs consumer of data validity</li>
+<li>Timing can be inferred from data validity</li>
+<li>Data is only sampled once
+<img src="../../attachments/synchronization-asynchronous-timing.png" alt="synchronization-blind-timing" class="responsive-img" /></li>
+</ul>
+<h3 id="generalized-io-overview">Generalized I/O Overview</h3>
+<p>The steps necessary to perform an Input/Output (I/O) transfer are the following:</p>
+<ul>
+<li><strong>Global Initialization</strong>: The steps necessary to set processor and I/O interface parameters for overall system operation. (e.g., initializing interrupt vector tables, specifying port directions, etc.) These steps are executed once.</li>
+<li><strong>Transfer Initialization</strong>: The steps necessary to set processor and I/O interface parameters to facilitate a specific type of transfer. (e.g., set the memory location to accept (or provide) the data for the transfer, set the block and track number for a disk transfer, etc.) These steps are executed once per transfer.<br>
+Later in these notes, Transfer Initialization, in the context of multiple transfers, is referred to as Block Initialization.</li>
+<li><strong>Data Transfer</strong>: Transferring data includes synchronization before and after the transfer.</li>
+</ul>
+<h3 id="data-transfer-terminology">Data Transfer Terminology</h3>
+<ul>
+<li><span class="math inline">t_{transfer\; producer}</span>: The time required by the producer to transfer one data unit. This limits the maximum rate at which data can be transferred.</li>
+<li><span class="math inline">t_{transfer\; consumer}</span>: The time required by the consumer to transfer one data unit. This may be longer or shorter than <span class="math inline">t_{transfer\;producer}</span> but the actual transfer time will be the maximum of the two parameters.</li>
+<li><span class="math inline">t_{wait}</span>: The time required by the initiator, usually the processor, to synchronize with the target, usually a device, and recognize the availability of new data. If tight polling is not used, the initiator will be available for other CPU activities during a portion of this time window.</li>
+<li><span class="math inline">t_{sync-poll}</span>: The time spent by an initiator, usually the processor, to actively poll and detect new data available at a target, usually a device.</li>
+<li><span class="math inline">t_{sync-intr}</span>: The time spent by an initiator, usually the processor, to interrupt its execution in response to new data available at the target, usually a device.</li>
+<li><span class="math inline">t_{interdata}</span>: The time interval between the generation of consecutive data blocks at a producer. This time interval is assumed to be fixed although in practice, it may vary.</li>
+</ul>
+<h3 id="estimating-synchronization-times-for-block-transfers">Estimating Synchronization Times for Block Transfers</h3>
+<p>Consider the transfer of a group of <span class="math inline">256</span> data units. Let <span class="math inline">n</span> be the number of data units that are in one block. Synchronization occurs after every block transfer.</p>
+<ul>
+<li><span class="math inline">n = 1</span> implies that synchronization occurs once after the transfer of <span class="math inline">1</span> data unit for a total of <span class="math inline">256</span> synchronizations.</li>
+<li><span class="math inline">n = 256</span> implies that synchronization occurs once after the transfer of a block of <span class="math inline">256</span> data units for a total of <span class="math inline">1</span> synchronization.</li>
+</ul>
+<p><span class="math inline">t_{transfer} = max(t_{transfer\; producer}, t_{transfer\; consumer})</span>
+<br>
+<span class="math inline">t_{wait}</span> is defined as follows:
+<span class="math display">
+  t_{wait} = \left\{\begin{array}{l}
+      t_{sync-poll},&amp;\text{Polling}\\
+      t_{sync-intr}+t_{interdata}, &amp;\text{Interrupt}
+      \end{array}\right.
+</span></p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 42%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Items per Synchronization</th>
+<th style="text-align: center;">CPU Time Required</th>
+<th style="text-align: center;">Minimum Total Time Per Transfer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">1</span></td>
+<td style="text-align: center;"><span class="math inline">256 \times (t_{sync} + t_{transfer})</span></td>
+<td style="text-align: center;"><span class="math inline">256 \times (t_{wait} + t_{transfer})</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">n</span></td>
+<td style="text-align: center;"><span class="math inline">\lceil{\frac{256}{n}}\rceil \times t_{sync} +256 \times t_{transfer}</span></td>
+<td style="text-align: center;"><span class="math inline">\lceil{\frac{256}{n}}\rceil \times t_{wait} +256 \times t_{transfer}</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">256</span></td>
+<td style="text-align: center;"><span class="math inline">t_{sync} +256 \times t_{transfer}</span></td>
+<td style="text-align: center;"><span class="math inline">t_{wait} +256 \times t_{transfer}</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>Note that the assumption that  <span class="math inline">t_{interdata}</span> is fixed regardless of the size of the block may not always be true. This assumption is simply used to estimate transfer times.</em></p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

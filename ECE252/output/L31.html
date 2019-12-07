@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L31.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#aio-example-read-while-you-eat.">AIO Example: Read While You Eat.</a></li>
+<li><a href="#callback-when-aio-is-complete.">Callback when AIO is complete.</a></li>
+<li><a href="#one-last-thing-the-list.">One last thing: the list.</a></li>
+<li><a href="#aio-is-hard">AIO is HARD!</a></li>
+</ul>
+</nav>
+<p>*<span>AIO</span>
+Previously we had talked about how just opening a file for non-blocking I/O doesn’t quite do what we want. There is, however, a way to do what we want using the POSIX Asynchronous I/O Interface, which we will just call AIO from here on, because it’s shorter.</p>
+<p>The general approach is that you create a control block (<code>struct aiocb</code> – AIO Control Block) that specifies what operation you want to happen. You enqueue this structure by telling the operating system that you want this to happen. And you can, if you wish, set up a callback to run if the desired event occurs, or you can check periodically if the AIO has completed instead. Your choice. Whichever one depends on your application.</p>
+<p>Let’s look at the structure of an AIO control block <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">struct</span> aiocb {</a>
+<a class="sourceLine" id="cb1-2" title="2">  <span class="dt">int</span> aio_fildes;               <span class="co">/* File descriptor */</span></a>
+<a class="sourceLine" id="cb1-3" title="3">  off_t aio_offset;             <span class="co">/* Offset for I/O */</span></a>
+<a class="sourceLine" id="cb1-4" title="4">  <span class="dt">volatile</span> <span class="dt">void</span>* aio_buf;       <span class="co">/* Buffer */</span></a>
+<a class="sourceLine" id="cb1-5" title="5">  <span class="dt">size_t</span> aio_nbytes;            <span class="co">/* Number of bytes to transfer */</span></a>
+<a class="sourceLine" id="cb1-6" title="6">  <span class="dt">int</span> aio_reqprio;              <span class="co">/* Request priority */</span></a>
+<a class="sourceLine" id="cb1-7" title="7">  <span class="kw">struct</span> sigevent aio_sigevent; <span class="co">/* Signal Info */</span></a>
+<a class="sourceLine" id="cb1-8" title="8">  <span class="dt">int</span> aio_lio_opcode;           <span class="co">/* Operation for List I/O */</span></a>
+<a class="sourceLine" id="cb1-9" title="9">};</a></code></pre></div>
+<p>So, looking at the fields: the first is obviously the file descriptor of the file we would like to read or write; the offset is how far into the file we start the operation. The buffer is the source (for a write) or destination (for a read). Those cover the mandatory fields and the ones that most resemble our typical read or write operation. At this point we could skip right to the example, if we knew how to enqueue a request.</p>
+<p>A couple of notes are in order. The offset does nothing if the file has been opened in “append” mode. Also, when we do a write or read the pointer to the place where we are in the file advances as per usual, but it’s not the same pointer into the file as the regular (blocking) read and write operations. If you mix the two kinds of operations you may not get the behaviour that you want.</p>
+<p>The priority field is a suggestion that we can provide as to how the AIO events should be scheduled, but the operating system is free to ignore this if it wishes. We’ll just ignore the ability to set priorities for the purposes of this course. The last parameter is about list-based asynchronous I/O (a more advanced topic), but we need to look deeper at the event first. The best way to do that is to look at the structure:</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">struct</span> sigevent {</a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="dt">int</span> sigev_notify;                              <span class="co">/* Notify Type */</span></a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="dt">int</span> sigev_signo;                               <span class="co">/* Signal number */</span></a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="kw">union</span> sigval sigev_value;                      <span class="co">/* Notify argument */</span></a>
+<a class="sourceLine" id="cb2-5" title="5">  <span class="dt">void</span>* (*sigev_notify_function) (<span class="kw">union</span> sigval); <span class="co">/* Notify Function */</span></a>
+<a class="sourceLine" id="cb2-6" title="6">  pthread_attr_t *sigev_notify_attributes;       <span class="co">/* Notify attributes */</span></a>
+<a class="sourceLine" id="cb2-7" title="7">};</a></code></pre></div>
+<p>(If you’re confused about a <code>union</code>: it’s defined like a structure, except where the struct is made of all of the fields in the definition, a union can be any single one of the fields of the definition at a time.) A <code>sigval</code> is either an integer or a <code>void*</code> pointer.</p>
+<p>The first field is one of the following options:</p>
+<ul>
+<li><p><code>SIGEV_NONE</code>: Don’t do anything when the request completes.</p></li>
+<li><p><code>SIGEV_SIGNAL</code>: The signal specified in the signal number field is generated when the request is complete.</p></li>
+<li><p><code>SIGEV_THREAD</code>: The function specified in the notify function field is executed, in a different, detached thread. The argument to this function is the signal value. And the attributes of the thread (including whether it is detached) can be overridden using the last parameter if you wish.</p></li>
+</ul>
+<p>We should notice that the signature of the function is not the same as when creating pthreads: the return type is just <code>void</code> and not a void pointer; the argument is <code>union sigval</code> rather than a void pointer. The definition of the union is:</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">union</span> sigval {</a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="dt">int</span> sival_int;</a>
+<a class="sourceLine" id="cb3-3" title="3">  <span class="dt">void</span>* sival_ptr;</a>
+<a class="sourceLine" id="cb3-4" title="4">};</a></code></pre></div>
+<p>Using this, we can choose what we want to happen when the AIO event is complete, if anything. The thread approach is probably the one we’ll use most commonly, because it is flexible and convenient. Alright, let’s go!</p>
+<p>When we’re ready to enqueue a request, the functions are:</p>
+<div class="sourceCode" id="cb4" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">int</span> aio_read( <span class="kw">struct</span> aiocb* aiocb );</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="dt">int</span> aio_write( <span class="kw">struct</span> aiocb* aiocb );</a></code></pre></div>
+<p>These are self-explanatory, I would think. The return values are not the same as the actual I/O request return value (as we’ll see). It is important to know that once we enqueue the result we can’t change the control block or buffer while the operation is in progress, otherwise we might get inconsistent results. And so if we want to know if we are done <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb5" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">int</span> aio_error( <span class="dt">const</span> <span class="kw">struct</span> aiocb* aiocb );</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="dt">ssize_t</span> aio_return( <span class="dt">const</span> <span class="kw">struct</span> aiocb* aiocb );</a></code></pre></div>
+<p>The <code>aio_error</code> function should probably really be called <code>aio_status</code> instead, because it tells you what the status of the operation is. A return value of 0 means the operation has completed successfully! A return of -1 means that the call failed and <code>errno</code> tells you the actual reason. If the operation is still waiting to run or in progress the return value is <code>EINPROGRESS</code>; if we get any other value then an error occurred and the value is the error code.</p>
+<p>If the operation completed successfully, <code>aio_return</code> will get the return value from the read or write operation. Calling this while the operation in still progress returns undefined results and potentially fails. We can call this only once per AIO operation; once the value has been collected then some internal structures can be deallocated, so it is polite to call it even if you do not need it.</p>
+<h4 id="aio-example-read-while-you-eat.">AIO Example: Read While You Eat.</h4>
+<p>Suppose we have been asked to design a program that processes a group of files. We can use asynchronous I/O to partially parallelize this: start the read for file <span class="math inline">n+1</span> and process file <span class="math inline">n</span> in the meantime. This doesn’t work for the first file, so a blocking read takes place first. The maximum size of any file we will read is <code>MAX_SIZE</code>, so always use this size as the length of a read (even though we may read less, that’s okay). We need two buffers: one for the file being processed and one where the next read is taking place.</p>
+<p>A list of files to read will be provided as arguments on the commandline to the program. To make the code a bit more compact, we’ll assume that errors won’t occur and therefore we do not need to check for them (i.e., memory allocation, enqueuing an asynchronous read, actually reading the data, et cetera, will always succeed).</p>
+<p>In this example, rather than set up a callback, we’ll just do the thing where we check to see if the enqueued AIO has occurred and sleep if it’s not ready. We could consider changing this to create a thread instead, but using threads is something we may save for a future exercise.</p>
+<div class="sourceCode" id="cb6" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb6-1" title="1"><span class="dt">void</span> process( <span class="dt">char</span>* buffer ); <span class="co">/* Implementation not shown */</span></a>
+<a class="sourceLine" id="cb6-2" title="2"></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="dt">char</span>* buffer1 = malloc( MAX_SIZE * <span class="kw">sizeof</span>( <span class="dt">char</span> ));</a>
+<a class="sourceLine" id="cb6-5" title="5">  <span class="dt">char</span>* buffer2 = malloc( MAX_SIZE * <span class="kw">sizeof</span>( <span class="dt">char</span> ));</a>
+<a class="sourceLine" id="cb6-6" title="6">  </a>
+<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">int</span> fd = open( argv[<span class="dv">1</span>], O_RDONLY );</a>
+<a class="sourceLine" id="cb6-8" title="8">  memset( buffer1, <span class="dv">0</span>, MAX_SIZE * <span class="kw">sizeof</span>( <span class="dt">char</span> ));</a>
+<a class="sourceLine" id="cb6-9" title="9">  read( fd, buffer1, MAX_SIZE );</a>
+<a class="sourceLine" id="cb6-10" title="10">  close( fd );</a>
+<a class="sourceLine" id="cb6-11" title="11">  </a>
+<a class="sourceLine" id="cb6-12" title="12">  <span class="cf">for</span> ( <span class="dt">int</span> i = <span class="dv">2</span>; i &lt; argc; i++ ) {</a>
+<a class="sourceLine" id="cb6-13" title="13">    <span class="dt">int</span> nextFD = open( argv[i], O_RDONLY );</a>
+<a class="sourceLine" id="cb6-14" title="14">    </a>
+<a class="sourceLine" id="cb6-15" title="15">    <span class="kw">struct</span> aiocb cb;</a>
+<a class="sourceLine" id="cb6-16" title="16">    memset( &amp;cb, <span class="dv">0</span>, <span class="kw">sizeof</span>( <span class="kw">struct</span> aiocb ));</a>
+<a class="sourceLine" id="cb6-17" title="17">    </a>
+<a class="sourceLine" id="cb6-18" title="18">    cb.aio_nbytes = MAX_SIZE;</a>
+<a class="sourceLine" id="cb6-19" title="19">    cb.aio_fildes = nextFD;</a>
+<a class="sourceLine" id="cb6-20" title="20">    cb.aio_offset = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb6-21" title="21">    memset( buffer2, <span class="dv">0</span>, MAX_SIZE * <span class="kw">sizeof</span>( <span class="dt">char</span> ));</a>
+<a class="sourceLine" id="cb6-22" title="22">    cb.aio_buf = buffer2;</a>
+<a class="sourceLine" id="cb6-23" title="23">    aio_read( &amp;cb );</a>
+<a class="sourceLine" id="cb6-24" title="24"> </a>
+<a class="sourceLine" id="cb6-25" title="25">    process( buffer1 );</a>
+<a class="sourceLine" id="cb6-26" title="26">    </a>
+<a class="sourceLine" id="cb6-27" title="27">    <span class="cf">while</span>( aio_error( &amp;cb ) == EINPROGRESS ) {</a>
+<a class="sourceLine" id="cb6-28" title="28">      sleep( <span class="dv">1</span> );</a>
+<a class="sourceLine" id="cb6-29" title="29">    }</a>
+<a class="sourceLine" id="cb6-30" title="30">    aio_return( &amp;cb ); <span class="co">/* This frees some internal structures */</span></a>
+<a class="sourceLine" id="cb6-31" title="31">    close( nextFD );</a>
+<a class="sourceLine" id="cb6-32" title="32">    </a>
+<a class="sourceLine" id="cb6-33" title="33">    <span class="dt">char</span>* tmp = buffer1;</a>
+<a class="sourceLine" id="cb6-34" title="34">    buffer1 = buffer2;</a>
+<a class="sourceLine" id="cb6-35" title="35">    buffer2 = tmp;</a>
+<a class="sourceLine" id="cb6-36" title="36">  }</a>
+<a class="sourceLine" id="cb6-37" title="37">  process( buffer1 );</a>
+<a class="sourceLine" id="cb6-38" title="38">  free( buffer1 );</a>
+<a class="sourceLine" id="cb6-39" title="39">  free( buffer2 );</a>
+<a class="sourceLine" id="cb6-40" title="40"></a>
+<a class="sourceLine" id="cb6-41" title="41">  <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb6-42" title="42">}</a></code></pre></div>
+<p>It’s worth noting that we need the header <code>aio.h</code> and to compile with the <code>-lrt</code> option.</p>
+<p>Is sleep really the best way to deal with this? I would argue no: if we have nothing to do we could get blocked instead. There is a function that allows us to do that <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb7" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb7-1" title="1"><span class="dt">int</span> aio_suspend( <span class="dt">const</span> <span class="kw">struct</span> aiocb *<span class="dt">const</span> list[], <span class="dt">int</span> nent, <span class="dt">const</span> <span class="kw">struct</span> timespec* timeout );</a></code></pre></div>
+<p>The first argument is an array of the control blocks; the second is the size of this array; the last is a timeout. This function allows us to block until one of the AIO operations in the list is complete, or the timeout elapses. If the timeout does occur then the function returns -1; if any AIO request finishes then 0 is returned. If everything was finished already by the time this function was called, the function does not block.</p>
+<h4 id="callback-when-aio-is-complete.">Callback when AIO is complete.</h4>
+<p>Let’s also look at setting up a callback that makes a function run when the AIO is completed:</p>
+<div class="sourceCode" id="cb8" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb8-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="pp">#include </span><span class="im">&lt;aio.h&gt;</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="pp">#include </span><span class="im">&lt;errno.h&gt;</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="pp">#include </span><span class="im">&lt;pthread.h&gt;</span></a>
+<a class="sourceLine" id="cb8-9" title="9"></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="pp">#define MAX_SIZE 512</span></a>
+<a class="sourceLine" id="cb8-11" title="11"></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="dt">void</span> worker( <span class="kw">union</span> sigval argument) {</a>
+<a class="sourceLine" id="cb8-13" title="13">    <span class="dt">char</span>* buffer = (<span class="dt">char</span>*) argument.sival_ptr;</a>
+<a class="sourceLine" id="cb8-14" title="14">    printf(<span class="st">&quot;Worker thread here. Buffer contains: %s</span><span class="sc">\n</span><span class="st">&quot;</span>, buffer);</a>
+<a class="sourceLine" id="cb8-15" title="15">    free( buffer );</a>
+<a class="sourceLine" id="cb8-16" title="16">}</a>
+<a class="sourceLine" id="cb8-17" title="17"></a>
+<a class="sourceLine" id="cb8-18" title="18"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb8-19" title="19">    <span class="dt">char</span>* buffer = malloc( MAX_SIZE * <span class="kw">sizeof</span>( <span class="dt">char</span> ));</a>
+<a class="sourceLine" id="cb8-20" title="20"></a>
+<a class="sourceLine" id="cb8-21" title="21">    <span class="dt">int</span> fd = open( <span class="st">&quot;example.txt&quot;</span>, O_RDONLY );</a>
+<a class="sourceLine" id="cb8-22" title="22">    memset( buffer, <span class="dv">0</span>, MAX_SIZE * <span class="kw">sizeof</span>( <span class="dt">char</span> ));</a>
+<a class="sourceLine" id="cb8-23" title="23">    <span class="kw">struct</span> aiocb cb;</a>
+<a class="sourceLine" id="cb8-24" title="24">    memset( &amp;cb, <span class="dv">0</span>, <span class="kw">sizeof</span>( <span class="kw">struct</span> aiocb ));</a>
+<a class="sourceLine" id="cb8-25" title="25"></a>
+<a class="sourceLine" id="cb8-26" title="26">    cb.aio_nbytes = MAX_SIZE;</a>
+<a class="sourceLine" id="cb8-27" title="27">    cb.aio_fildes = fd;</a>
+<a class="sourceLine" id="cb8-28" title="28">    cb.aio_offset = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb8-29" title="29">    cb.aio_buf = buffer;</a>
+<a class="sourceLine" id="cb8-30" title="30">    cb.aio_sigevent.sigev_notify = SIGEV_THREAD;</a>
+<a class="sourceLine" id="cb8-31" title="31">    cb.aio_sigevent.sigev_notify_function = worker;</a>
+<a class="sourceLine" id="cb8-32" title="32">    cb.aio_sigevent.sigev_value.sival_ptr = buffer;</a>
+<a class="sourceLine" id="cb8-33" title="33"></a>
+<a class="sourceLine" id="cb8-34" title="34">    aio_read( &amp;cb );</a>
+<a class="sourceLine" id="cb8-35" title="35">    </a>
+<a class="sourceLine" id="cb8-36" title="36">    pthread_exit( NULL );</a>
+<a class="sourceLine" id="cb8-37" title="37">}</a></code></pre></div>
+<p>If an AIO request is no longer needed, it can be cancelled <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb9" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1"><span class="dt">int</span> aio_cancel( <span class="dt">int</span> fd, <span class="kw">struct</span> aiocb* aiocb );</a></code></pre></div>
+<p>We specify the file descriptor with the AIO operations and the specific request we wish to cancel. If <code>NULL</code> is given as the control block argument, then it tries to cancel all outstanding asynchronous I/O requests for that file.</p>
+<p>Ah, you noticed that I said “tries” to cancel. This function returns one of four values:</p>
+<ul>
+<li><p><code>AIO_CANCELLED</code>: The requested operation(s) have been cancelled.</p></li>
+<li><p><code>AIO_NOTCANCELLED</code>: At least one operation could not be cancelled.</p></li>
+<li><p>-1: Something went wrong in cancelling; <code>errno</code> set.</p></li>
+<li><p><code>AIO_ALLDONE</code>: All operations finished before they could be cancelled.</p></li>
+</ul>
+<p>Here, a silly but complete example of creating a request and then immediately cancelling it:</p>
+<div class="sourceCode" id="cb10" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="pp">#include </span><span class="im">&lt;aio.h&gt;</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="pp">#include </span><span class="im">&lt;fcntl.h&gt;</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="pp">#include </span><span class="im">&lt;errno.h&gt;</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="pp">#include </span><span class="im">&lt;unistd.h&gt;</span></a>
+<a class="sourceLine" id="cb10-8" title="8"></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="pp">#define MAX_SIZE 512</span></a>
+<a class="sourceLine" id="cb10-10" title="10"></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) {</a>
+<a class="sourceLine" id="cb10-12" title="12">    <span class="dt">char</span>* buffer = malloc( MAX_SIZE * <span class="kw">sizeof</span>( <span class="dt">char</span> ));</a>
+<a class="sourceLine" id="cb10-13" title="13"></a>
+<a class="sourceLine" id="cb10-14" title="14">    <span class="dt">int</span> fd = open( <span class="st">&quot;example.txt&quot;</span>, O_RDONLY );</a>
+<a class="sourceLine" id="cb10-15" title="15">    memset( buffer, <span class="dv">0</span>, MAX_SIZE * <span class="kw">sizeof</span>( <span class="dt">char</span> ));</a>
+<a class="sourceLine" id="cb10-16" title="16"></a>
+<a class="sourceLine" id="cb10-17" title="17">    <span class="kw">struct</span> aiocb cb;</a>
+<a class="sourceLine" id="cb10-18" title="18">    memset( &amp;cb, <span class="dv">0</span>, <span class="kw">sizeof</span>( <span class="kw">struct</span> aiocb ));</a>
+<a class="sourceLine" id="cb10-19" title="19"></a>
+<a class="sourceLine" id="cb10-20" title="20">    cb.aio_nbytes = MAX_SIZE;</a>
+<a class="sourceLine" id="cb10-21" title="21">    cb.aio_fildes = fd;</a>
+<a class="sourceLine" id="cb10-22" title="22">    cb.aio_offset = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb10-23" title="23">    cb.aio_buf = buffer;</a>
+<a class="sourceLine" id="cb10-24" title="24">    aio_read( &amp;cb );</a>
+<a class="sourceLine" id="cb10-25" title="25">    </a>
+<a class="sourceLine" id="cb10-26" title="26">    <span class="co">/* Do something */</span></a>
+<a class="sourceLine" id="cb10-27" title="27">    </a>
+<a class="sourceLine" id="cb10-28" title="28">    aio_cancel( fd, &amp; cb );</a>
+<a class="sourceLine" id="cb10-29" title="29"></a>
+<a class="sourceLine" id="cb10-30" title="30">    sleep( <span class="dv">5</span> );</a>
+<a class="sourceLine" id="cb10-31" title="31"></a>
+<a class="sourceLine" id="cb10-32" title="32">    close( fd );</a>
+<a class="sourceLine" id="cb10-33" title="33">    free( buffer );</a>
+<a class="sourceLine" id="cb10-34" title="34"></a>
+<a class="sourceLine" id="cb10-35" title="35">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb10-36" title="36">}</a></code></pre></div>
+<h4 id="one-last-thing-the-list.">One last thing: the list.</h4>
+<p>In the AIO control block there was one more parameter that we did not cover but said that we would come back to: <code>aio_lio_opcode</code>. What’s this for? Well, we can submit a group of AIO requests in a single operation. Rather than calling read or write individually on each control block, the following function allows us to enqueue a list of requests all in one go <span class="citation" data-cites="apunix"></span>:</p>
+<div class="sourceCode" id="cb11" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb11-1" title="1"><span class="dt">int</span> lio_listio( <span class="dt">int</span> mode, <span class="kw">struct</span> aiocb * <span class="dt">const</span> list[ ], <span class="dt">int</span> nent, </a>
+<a class="sourceLine" id="cb11-2" title="2">    <span class="kw">struct</span> sigevent* sigev );</a></code></pre></div>
+<p>The first argument <code>mode</code> is a choice of either <code>LIO_WAIT</code> or <code>LIO_NOWAIT</code>. If we choose the wait option, then the function doesn’t return until all the operations are complete. If that’s the case, the last argument is ignored. If we choose no-wait, then as soon as the I/O requests are queued the function returns and we can go on.</p>
+<p>The next parameters are the list (array) of control blocks and the number of entries in that list (array); not surprising at all. If it’s going into the <code>lio_listio</code> function, in the AIO block you specify the <code>aio_lio_opcode</code> (operation code) as either <code>LIO_READ</code>, <code>LIO_WRITE</code>, or <code>LIO_NOP</code> (this one means do nothing).</p>
+<p>The last parameter is an event that will fire once all operations are complete. You can pass in <code>NULL</code> if you don’t want anything. This is separate from the individual callbacks that you can register in the control blocks; those can still fire if they are set up, either signals or threads – but this is an extra one that’s available if we want it.</p>
+<h4 id="aio-is-hard">AIO is HARD!</h4>
+<p>There’s a funny (and sad) note in <span class="citation" data-cites="lpi"></span> and <span class="citation" data-cites="linuxaio"></span> about what actually happens in Linux when it comes to the POSIX Asynchronous I/O approach: it’s actually implemented internally using threads that do blocking reads (ouch). Work continues on the subject, but the current state of affairs is that for a long time people have been working on a properly in-the-kernel implementation of the AIO behaviour as specified above. The current implementation does not scale very well.</p>
+<p>Does this affect your program? No – what we covered here does still work and is the POSIX-compliant portable way of writing your code. But should you wish to create a very large number of asynchronous I/O requests then you will want to consider an alternative approach for reading your data, such as libevent.</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

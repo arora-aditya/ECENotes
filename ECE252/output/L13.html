@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L13.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#serialization-through-messages">Serialization through Messages</a></li>
+<li><a href="#shared-data-and-atomic-operations">Shared Data and Atomic Operations</a></li>
+<li><a href="#mutual-exclusion-through-flags">Mutual Exclusion through Flags</a></li>
+<li><a href="#test-and-set">Test-and-Set</a></li>
+</ul>
+</nav>
+<p>*<span>Synchronization</span>
+If a computer only ever did exactly one thing at a time (one process, one thread) we would have no concurrency and therefore no concurrency (co-ordination) problems. We have seen already, however, that in a system with multiple processes or multiple threads we have concurrency: more than one thread or process is making progress. And if the system is multicore, we can have parallelism: more than one thread or process actually executing on a CPU in a given instant. Either or both of these can lead to various problems.</p>
+<p>The author of an application does not decide when a thread runs and when a thread switch will occur; these are things the operating system will decide. And the operating system does not usually give much thought to whether it is a convenient or inconvenient time to run a given thread.</p>
+<p>The common English usage of the word “synchronization” refers to making two or more things happen at exactly the same time, but what we mean when we talk about synchronization in the computer sense is more general: it means we want some relationship between events, and the relationship can be before, during, after <span class="citation" data-cites="lbs"></span>. There are two definitions that we need to consider at this point.</p>
+<p>The first is <em>serialization</em>: we want there to be some sort of order of events. What we would like is to be certain that Event <span class="math inline">A</span> takes place before Event <span class="math inline">B</span>. We have already examined some examples of this, where we have a thread or process that <code>wait</code>s on another. The merge sort algorithm, if implemented with two threads that sort the sublists and one thread that merges the results, necessarily implies that the merge thread has to wait for the sorting threads to finish. Thus the sorting (event <span class="math inline">A</span>) must take place before the merging (event <span class="math inline">B</span>). Or we could phrase it that <span class="math inline">B</span> must happen after <span class="math inline">A</span>.</p>
+<p>The other thing we often want is <em>mutual exclusion</em>: events <span class="math inline">C</span> and <span class="math inline">D</span> must not happen at the same time. This is something we’ve referenced a few times before now, often phrased as the fact that we need some sort of co-ordination. In the discussion of inter-process communication, we said we might have an area of memory that is shared between two processes. If two processes can write to this area, there is some possibility that they both try to access the same place at the same time. If we have mutual exclusion, we are certain that <span class="math inline">P_{1}</span> writing to the shared area (event <span class="math inline">C</span>) does not happen at the same time as <span class="math inline">P_{2}</span> tries to read it (event <span class="math inline">D</span>).</p>
+<h2 id="serialization-through-messages" class="unnumbered">Serialization through Messages</h2>
+<p>Suppose we have two people, Alice and Bob (these are the standard names in computer examples...) who work at the Springfield Nuclear Power Plant in Sector 7G, though they work in separate offices and cannot easily see one another. Alice works the day shift and Bob works the night shift. Suppose also that due to safety regulations, that Alice cannot go home until Bob has arrived and begun working. This is a situation where we would like serialization: the event of Bob’s arrival must take place before the event of Alice’s departure.</p>
+<p>How can we get such behaviour? Well, the simple solution is that Alice stays at her desk and will not leave until she gets a call from Bob. Bob doesn’t call until he’s arrived at the office. This is a very simple scenario, but message passing is a valid solution for a lot of synchronization problems and it’s the sort of thing we do in real life all the time: “Text me when you get here” or “Call me when you’ve finished”.</p>
+<p>If we are certain that Bob arrives before Alice departs, we can say that these events are <em>sequential</em>, because we know the order of events. At some point during the workday, Alice ate lunch, and at some point before work, Bob ate lunch. But we have no idea who ate lunch first, so we say they ate lunch <em>concurrently</em>. The formal, strict definition of concurrent is: two events are concurrent if we cannot tell by looking at the program which will happen first <span class="citation" data-cites="lbs"></span>.</p>
+<p>In common parlance, when we say something happened concurrently, it means they happened at the same time (Alice and Bob both had lunch at 12:00). In this context, concurrency is not the same as saying that they happened at the exact same time; it’s saying that we do not know (and cannot guarantee) an order of events. It’s possible that Alice had lunch at 12:00 and Bob had lunch at 13:00 or they both ate at 12:00 or Alice had lunch at 13:30 and Bob had lunch at 12:15. We do not know. The order of concurrent events may change on two runs of the program; this is what we call nondeterminism.</p>
+<p>In a non-deterministic program, we cannot tell just by looking at the program what the execution order would be. If we have two concurrent events, one in which the program prints “1” to the console and one in which the program prints “2” to the console, these could happen in any order. So we might see the output as “12” or “21”. Which one will happen? Without some form of co-ordination, it could be either. This non-determinism makes it difficult to analyze a program. If “12” is the correct output but “21” occurs only very rarely, finding the cause and fixing it might be very painful <span class="citation" data-cites="lbs"></span>.</p>
+<p>This is, incidentally, what is referred to as a “Heisenbug” (a portmanteau of Heisenberg and Bug). This has nothing to do with the “Breaking Bad” TV show, but with Werner Heisenberg (the physicist) and his scientific principle of uncertainty that says: if we precisely know the position of a particle we know nothing about its momentum and vice versa. The Heisenbug is frustrating because the harder we try to track it down, the less likely it is to occur.</p>
+<h2 id="shared-data-and-atomic-operations" class="unnumbered">Shared Data and Atomic Operations</h2>
+<p>We noted earlier that the need for co-ordination in inter-process communication arises from the fact that some area of memory is shared. We also know that all the threads of a process share the same data: in the merge sort algorithm the sorting and merging routines both operate on the same data array. Let’s examine a simpler example (from <span class="citation" data-cites="lbs"></span>) where a shared variable <code>x</code> is manipulated by two threads <span class="math inline">A</span> and <span class="math inline">B</span>, in pseudocode:</p>
+<p><span>2</span>
+<strong>Thread A</strong></p>
+<pre><code>    A1. x = 5
+    A2. print x</code></pre>
+<p><strong>Thread B</strong></p>
+<pre><code>    B1. x = 7
+    </code></pre>
+<p>This is non-deterministic code: there is no co-ordination mechanism here so we cannot say what order these statements will occur. Some possible outcomes are: 5 is printed out and is the final value; 7 is printed out and is the final value, or 5 is printed out and 7 is the final value. Note that there is no way we can print out 7 and get a final value of 5, because we can be certain that statement A1 executes before A2; the problem is we do not know where in relation to the two A-statements that statement B1 will execute.</p>
+<p>This example uses more than one thread, but we do not even need multiple threads to have a concurrency problem; just having interrupts in the system is sufficient.</p>
+<p>Consider an application that is used to count occurrences of some event (whatever it is). We will store the count in a variable <code>count</code> and we will provide some facility for the user to reset the counter (the reset button). Each time we detect the event, we increment <code>count</code> with statement of <code>count++;</code> which seems like one single statement.</p>
+<p>Even a seemingly simple operation like <code>count++;</code> is broken down into a series of smaller operations. You’ve just detected an event. Let’s assume the current value of the variable is 4. Thus we want to increment the variable, which will require three steps.</p>
+<ol>
+<li><p>Read the current value of <code>count</code> (read 4)</p></li>
+<li><p>Add 1 to the value (now it’s 5)</p></li>
+<li><p>Write the changed value back to memory (write 5)</p></li>
+</ol>
+<p>Now imagine an interrupt comes at the worst possible time. The interrupt is generated by the reset button: it’s supposed to set the value of count to zero.</p>
+<ol>
+<li><p>Read the current value of <code>count</code> (read 4)</p></li>
+<li><p>Add 1 to the value (now it’s 5)</p></li>
+<li><p>INTERRUPT (control goes to the interrupt handler)</p></li>
+<li><p>Write 0 to the variable (write 0)</p></li>
+<li><p>END INTERRUPT (control returns to where it was before the interrupt)</p></li>
+<li><p>Write the changed value back to memory (write 5)</p></li>
+</ol>
+<p>At the end of this execution sequence, the variable <code>count</code> shows 5, but it should show 0 (or 1), which is certainly wrong. The user pressed the reset button but the count did not reset! If the reset interrupt had occurred before reading the variable, the count would have been reset, and then an event detected and the count goes up to 1. If the interrupt had occurred after writing the value 5 to the variable we would see the count set to 0 as is expected. If it occurred after the read but before the write, there is an error and the changes the interrupt handler made were lost.</p>
+<p>This problem arises because the instruction <code>count++</code> is really three things (read, add, write) and can be interrupted at any time. When we are performing an operation that cannot be interrupted, we say it is <em>atomic</em>: indivisible. Although since about 1945, we have been able to split the atom (proving that atoms themselves are divisible and that humans are very good at finding ways to make things explode) the use of the word atomic in this context is not about nuclear physics but references the other meaning that stems from Greek word <em>atomos</em>, meaning indivisible (or more literally, not-cuttable).</p>
+<p>Though there are usually some atomic operations available to us in a given system, we cannot be certain that all operations are indivisible. In fact, the opposite is likely to be true: we can be certain there are some operations that are non-atomic. Therefore we need to make sure at the very least that one operation on the shared variable is finished before the next begins.</p>
+<p>A thought: can we do this with serialization? That is, can we make sure that the <code>count++</code> operation completes before the <code>count = 0</code> operation? That would eliminate the problem of the reset being ignored. Unlike the scenario where Alice waits for Bob to get to work before she leaves, in this case there is no obvious order between the events: the user may press the reset button at any time, even if no event has just occurred. Similarly, the event may be detected even if the user is nowhere around and not going to press the reset button. Our concept of serialization requires that there exists a correct order: first this, then that. Here, where both orders are valid, we need the other approach: mutual exclusion (also called <em>mutex</em>).</p>
+<p>With mutual exclusion, we do not know or enforce any particular order of events, but what we do care about is that we do not have multiple threads trying to update the variable at the same time. It would mean that the action to reset <code>count</code> to zero would have to wait until the <code>count++</code> operation was completely finished (or vice versa) before it gets to execute.</p>
+<h2 id="mutual-exclusion-through-flags" class="unnumbered">Mutual Exclusion through Flags</h2>
+<p>So we have identified shared data as a potential source of error. A section of code that should be accessed by a maximum of one thread at a time is referred to as a <em>critical section</em>. The purpose of mutual exclusion is to ensure that at most one thread is in the critical section at a time. If we ever have more than one thread in the critical section at a time, something has gone terribly wrong. But on the other hand, the critical section is supposed to do something useful, so we cannot solve the problem by not allowing any thread to access it ever.</p>
+<p>It is the responsibility of the programmer to identify what critical sections, if any, exist in the program, and to protect them with mutexes. Some analysis tools may exist to identify shared data, but ultimately the best analysis tool is taking a careful look. Critical sections should be as short as possible (but enclose all shared data accesses). The critical section is something that cannot be run in parallel, so it increases the magnitude of the <span class="math inline">S</span> term in Amdahl’s Law, limiting the speed increase we can get from multiple threads and cores. Besides, it would be impolite to make other threads and processes wait unnecessarily.</p>
+<p>Our first approach then, is to have a variable to indicate if the critical section is currently in use. Suppose we have two threads:</p>
+<p><span>2</span>
+<strong>Thread A</strong></p>
+<pre><code>    A1. while ( turn != 0 ) {
+    A2.    /* Wait for my turn */
+    A3. }
+    A4. /* critical section */
+    A5. turn = 1;</code></pre>
+<p><strong>Thread B</strong></p>
+<pre><code>    B1. while ( turn != 1 ) {
+    B2.   /* Wait for my turn */
+    B3. }
+    B4. /* critical section */
+    B5. turn = 0;</code></pre>
+<p>This scheme enforces strict alternation: first it is the turn of thread <span class="math inline">A</span>, then the turn of thread <span class="math inline">B</span>, then back to <span class="math inline">A</span>, and so on. What if thread <span class="math inline">A</span> is to run more often than <span class="math inline">B</span>? If thread <span class="math inline">B</span> terminates then thread <span class="math inline">A</span> will be stuck forever because the variable <code>turn</code> will always be saying that it is thread <span class="math inline">B</span>’s turn. This solution is obviously not satisfactory. Another approach then:</p>
+<p><span>2</span>
+<strong>Thread A</strong></p>
+<pre><code>    A1. while ( busy == true ) {
+    A2.    /* Wait for my turn */
+    A3. }
+    A4. busy = true;
+    A5. /* critical section */
+    A6. busy = false;</code></pre>
+<p><strong>Thread B</strong></p>
+<pre><code>    B1. while ( busy == true ) {
+    B2.    /* Wait for my turn */
+    B3. }
+    B4. busy = true;
+    B5. /* critical section */
+    B6. busy = false;</code></pre>
+<p>The problem with flags is that when we have a statement like <code>while (busy == true)</code> followed by <code>busy = true;</code> these are two distinct steps: read of <code>busy</code> and write of <code>busy</code> and a process switch could occur between the read and the write, which is the worst possible timing (as far as we are concerned). If the switch happens at the bad time then threads <span class="math inline">A</span> and <span class="math inline">B</span> will both be in the critical section at the same time. This solution is also not satisfactory.</p>
+<p>What if instead of using one flag variable, we use an array where each thread writes to its own boolean variable?</p>
+<p><span>2</span>
+<strong>Thread A</strong></p>
+<pre><code>    A1. flag[0] = true;
+    A2. while ( flag[1] ) {
+    A3.    /* Wait for my turn */
+    A4. }
+    A5. /* critical section */
+    A6. flag[0] = false;</code></pre>
+<p><strong>Thread B</strong></p>
+<pre><code>    B1. flag[1] = true;
+    B2. while ( flag[0] ) {
+    B3.    /* Wait for my turn */
+    B4. }
+    B5. /* critical section */
+    B6. flag[1] = false;</code></pre>
+<p>Once again, this strategy is defeated by an untimely process switch: if statement A1 sets <code>flag[0]</code> to true and there is a switch to thread <span class="math inline">B</span>, setting <code>flag[1]</code> to true, now both processes are stuck. Neither can advance, because each is waiting for the other to set its <code>flag</code> variable to false. This is, perhaps, slightly better than two threads in the critical section, but we have two threads that are permanently stuck now. This is also not satisfactory: although we want to forbid two threads from being in the critical section at the same time, keeping all threads out forever is not a good solution either.</p>
+<p>The attempts at solution we have attempted so far have all been foiled by an untimely process switch, which will be triggered by an interrupt. This presents a possible solution: disabling interrupts. If interrupts are disabled, then interrupts generated from the user as well as the normal thread switches the scheduler would perform will not occur. Disabling interrupts is a crude solution, however, because during the time in which interrupts are disabled, the system will be unable to respond to user input or other events (e.g., a fire alarm or detection of an incoming missile!). If an error is encountered in the critical section and the program is terminated, the system is effectively stuck because no other program will be able to run.</p>
+<p>It gets worse: if we have multiple processors the disabling interrupts will not be sufficient <span class="citation" data-cites="osi"></span>. But maybe we’re on the right track by getting hardware involved: the problem is we would like to read and maybe write a variable in such a way that cannot be interrupted. The hardware designers were aware of the problem and have kindly provided a facility to help us out: the <em>Test-and-Set</em> instruction.</p>
+<h2 id="test-and-set" class="unnumbered">Test-and-Set</h2>
+<p>The Test-and-Set instruction is a special machine instruction that is performed in a single instruction cycle and is therefore not interruptible. It is therefore an atomic read and write. The idea is that the Test-and-Set instruction returns a boolean value. When run, it will examine the flag variable (in this example, <code>i</code>) and if it is zero, it will set it to 1 and return true. If <code>i</code> is currently set to 1, it will return false. The meaning of the return value is clear: if it is true, it is the current thread’s turn to enter the critical section. The Test-and-Set instruction is not actually implemented like this, but a description of its functionality in C is:</p>
+<div class="sourceCode" id="cb9" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1">boolean test_and_set( <span class="dt">int</span>* i ) {</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="cf">if</span> ( *i == <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb9-3" title="3">    *i = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb9-4" title="4">    <span class="cf">return</span> true;</a>
+<a class="sourceLine" id="cb9-5" title="5">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb9-6" title="6">    <span class="cf">return</span> false;</a>
+<a class="sourceLine" id="cb9-7" title="7">  }</a>
+<a class="sourceLine" id="cb9-8" title="8">}</a></code></pre></div>
+<p>Now, to make use of the <code>test_and_set</code> routine. Let us assume we have an integer variable called <code>busy</code> that is initialized at program startup to 0. The implementation is the same for both threads so there is no need to show them side by side.</p>
+<div class="sourceCode" id="cb10" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1"><span class="cf">while</span> ( !test_and_set( busy ) ) {</a>
+<a class="sourceLine" id="cb10-2" title="2">   <span class="co">/* Wait for my turn */</span></a>
+<a class="sourceLine" id="cb10-3" title="3">}</a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">/* critical section */</span></a>
+<a class="sourceLine" id="cb10-5" title="5">busy = <span class="dv">0</span>;</a></code></pre></div>
+<p>Finally, we have something that will provide mutual exclusion without the risk that the threads will all get stuck because each thinks another is in the critical section. This is good, but can be improved. The <code>while</code> loop that is constantly checking the value with the Test-and-Set instruction is an example of <em>busy-waiting</em>. A given thread is constantly checking and checking and checking the instruction, and this is a waste of time and effort. Thread <span class="math inline">A</span> will not get into the critical section while thread <span class="math inline">B</span> is in there and asking constantly does not make <span class="math inline">B</span> get the job done any faster, just as a child asking “are we there yet?” does not improve the speed at which he or she gets to his or her destination.</p>
+<p>It is less wasteful of resources and effort if the <code>while</code> loop contains some instructions saying it should wait a little while before checking again (a sleep instruction). Serialization was achievable through messages; and they can be used to get mutual exclusion. This is the topic to be examined next.</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

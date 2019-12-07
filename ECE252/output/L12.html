@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L12.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#thread-cancellation.">Thread Cancellation.</a></li>
+<li><a href="#nows-not-a-good-time">Now’s not a good time!</a></li>
+<li><a href="#attributes-and-using-memory-to-pass-data.">Attributes and Using Memory to Pass Data.</a></li>
+<li><a href="#count-to-10...">Count to 10...</a></li>
+<li><a href="#concurrency">Concurrency</a><ul>
+<li><a href="#parallelism-and-speedup">Parallelism and Speedup</a><ul>
+<li><a href="#merge-sort-example.">Merge Sort Example.</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<p>*<span>More on Threads</span></p>
+<p>We got a brief introduction to working with threads and learned how to create a new thread, how one exits (returning a value or not) and how to collect a value from it. Let’s take a moment to consider cancellation.</p>
+<h4 id="thread-cancellation.">Thread Cancellation.</h4>
+<p>Thread cancellation is exactly what it sounds like: a running thread will be terminated before it has finished its work. Once the user presses the cancel button on the file upload, we want to stop the upload task that was in progress. The thread that we are going to cancel is called the <em>target</em> (because we shoot targets, I guess) and there are two ways a thread might get cancelled <span class="citation" data-cites="osc"></span>:</p>
+<ol>
+<li><p><strong>Asynchronous Cancellation:</strong> One thread immediately terminates the target.</p></li>
+<li><p><strong>Deferred Cancellation:</strong> The target is informed that it is cancelled; the target is responsible for checking regularly if it is terminated, allowing it to clean itself up properly.</p></li>
+</ol>
+<p>The pthread attributes can be used to set the cancellation type before it is created. A thread can declare its own cancellation type through the use of the function:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1">pthread_setcanceltype( <span class="dt">int</span> type, <span class="dt">int</span> *oldtype )</a></code></pre></div>
+<p>The first parameter is the new state we’d like this thread to take on, which would be one of the constants <code>PTHREAD_CANCEL_DEFERRED</code> or <code>PTHREAD_CANCEL_ASYNCHRONOUS</code>. The second parameter will be updated to point to what the previous state was (although we might not care).</p>
+<p>In deferred cancellation, a thread is responsible for checking if it has been cancelled, and if so, and stopping its activity and cleaning up (closing open files, etc.) before it terminates. It’s possible, though generally poor programming practice (and very difficult), to never check for cancellation.</p>
+<p>Given that a thread can effectively ignore a cancellation if it is the deferred cancellation type, why would we ever choose that over asynchronous cancellation? Suppose the thread we are cancelling has some resources. If the thread is terminated in a disorderly fashion, the operating system may not reclaim all resources from that thread. Thus a resource may appear to be in use even though it is not, denying that resource to other threads and processes that may want to use it <span class="citation" data-cites="osc"></span>.</p>
+<p>The pthread command to cancel a thread is <code>pthread_cancel</code> and it takes one parameter (the thread identifier). By default, a pthread is set up for deferred cancellation. In the function that runs as a thread, to check if the thread has been cancelled, the function call is <code>pthread_testcancel</code> which takes no parameters.</p>
+<p>Suppose your background task is to upload a bunch of files, consecutively. It is good programming practice to check <code>pthread_testcancel</code> at the start or end of each iteration of the loop, and if cancellation has been signalled, clean up open files and network connections, and then <code>pthread_exit</code>. Thus, if the thread has been told to cancel, it will do as it is told within a fairly short period of time.</p>
+<p>It is noteworthy that a large number of functions are <em>cancellation points</em>; that is, the POSIX specification requires there is an implicit check for cancellation when calling one of those functions. There is an even larger number of functions that are “potential cancellation points”, where the specification says that they could be cancellation points (but maybe aren’t). You’ll have to check the spec to see if that is the case for a specific function if there is a scenario where unexpected cancellation is a problem.</p>
+<h4 id="nows-not-a-good-time">Now’s not a good time!</h4>
+<p>With the presence of cancellation points or asynchronous cancellation, sometimes a thread can be terminated before it has cleaned up some resources. This is undesirable. One way that we can guard against this is to register cleanup handlers for that thread. If, say, our thread allocated some memory, it would be wise to register a cleanup handler that deallocates that memory in case the thread should die unceremoniously. The function signatures are:</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1">pthread_cleanup_push( <span class="dt">void</span> (*routine)(<span class="dt">void</span>*), <span class="dt">void</span> *argument ); <span class="co">/* Register cleanup handler, with argument */</span> </a>
+<a class="sourceLine" id="cb2-2" title="2">pthread_cleanup_pop( <span class="dt">int</span> execute ); <span class="co">/* Run if execute is non-zero */</span> </a></code></pre></div>
+<p>To add a cleanup handler, the push function is used. Its two arguments are the function that is supposed to run, and a pointer to the argument that cleanup function will need.</p>
+<p>The push function always needs to be paired with the pop function at the same level in your program (where level is defined by the curly braces). You should think of them as being like the opening curly brace at the start of a statement and the closing curly brace at the end; they have to be correctly matched up. The pop function takes one argument: whether it should run or not. If the thread is cancelled, the cleanup function will run; if it continues to the pop function, then you get to choose whether it runs or not.</p>
+<p>Consider the following code:</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">void</span>* do_work( <span class="dt">void</span>* argument ) {</a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="kw">struct</span> job * j = malloc( <span class="kw">sizeof</span>( <span class="kw">struct</span> job ) );</a>
+<a class="sourceLine" id="cb3-3" title="3">  <span class="co">/* Do something useful with this structure */</span></a>
+<a class="sourceLine" id="cb3-4" title="4">  <span class="co">/* Actual work to do not shown */</span></a>
+<a class="sourceLine" id="cb3-5" title="5">  free( j );</a>
+<a class="sourceLine" id="cb3-6" title="6">  pthread_exit( NULL );</a></code></pre></div>
+<p>Suppose that the thread is cancelled during the block operating on <code>j</code> and it is set up for asynchronous cancellation. This means that the code will never get to the <code>free()</code> call, which means that the memory allocated at the beginning is leaked! We can remedy this with application of a cleanup handler:</p>
+<div class="sourceCode" id="cb4" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">void</span> cleanup( <span class="dt">void</span>* mem ) {</a>
+<a class="sourceLine" id="cb4-2" title="2">  free( mem );</a>
+<a class="sourceLine" id="cb4-3" title="3">}</a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="dt">void</span>* do_work( <span class="dt">void</span>* argument ) {</a>
+<a class="sourceLine" id="cb4-6" title="6">  <span class="kw">struct</span> job * j = malloc( <span class="kw">sizeof</span>( <span class="kw">struct</span> job ) );</a>
+<a class="sourceLine" id="cb4-7" title="7">  pthread_cleanup_push( cleanup, j );</a>
+<a class="sourceLine" id="cb4-8" title="8">  <span class="co">/* Do something useful with this structure */</span></a>
+<a class="sourceLine" id="cb4-9" title="9">  <span class="co">/* Actual work to do not shown */</span></a>
+<a class="sourceLine" id="cb4-10" title="10">  free( j );</a>
+<a class="sourceLine" id="cb4-11" title="11">  pthread_cleanup_pop( <span class="dv">0</span> ); <span class="co">/* Don&#39;t run */</span></a>
+<a class="sourceLine" id="cb4-12" title="12">  pthread_exit( NULL );</a></code></pre></div>
+<p>And you may note that you could actually save a line of code by removing the <code>free()</code> call and changing the argument to the pop function to be 1: this means the cleanup function runs and it does free the memory allocated. Nice!</p>
+<h4 id="attributes-and-using-memory-to-pass-data.">Attributes and Using Memory to Pass Data.</h4>
+<p>The earlier example used the return value of a thread. Sometimes, of course, we don’t want to do that. One of the advantages of the use of threads is that data can be passed between threads using memory directly. In this case, because there is no return value that we care about, we can use <code>NULL</code> in the call to join. This example also shows how to initialize and the attributes, although it doesn’t override any of the defaults.</p>
+<div class="sourceCode" id="cb5" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb5-1" title="1"><span class="pp">#include </span><span class="im">&lt;pthread.h&gt;</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="dt">int</span> sum; <span class="co">/* Shared Data */</span></a>
+<a class="sourceLine" id="cb5-5" title="5"></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="dt">void</span> *runner(<span class="dt">void</span> *param);</a>
+<a class="sourceLine" id="cb5-7" title="7"></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span> **argv ) {</a>
+<a class="sourceLine" id="cb5-9" title="9"></a>
+<a class="sourceLine" id="cb5-10" title="10">  pthread_t tid; <span class="co">/* the thread identifier */</span></a>
+<a class="sourceLine" id="cb5-11" title="11">  pthread_attr_t attr; <span class="co">/* set of thread attributes */</span></a>
+<a class="sourceLine" id="cb5-12" title="12"></a>
+<a class="sourceLine" id="cb5-13" title="13">  <span class="cf">if</span> ( argc != <span class="dv">2</span> ) {</a>
+<a class="sourceLine" id="cb5-14" title="14">    fprintf(stderr,<span class="st">&quot;usage: %s &lt;integer value&gt;</span><span class="sc">\n</span><span class="st">&quot;</span>, argv[<span class="dv">0</span>]); </a>
+<a class="sourceLine" id="cb5-15" title="15">    <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb5-16" title="16">  }</a>
+<a class="sourceLine" id="cb5-17" title="17">  <span class="cf">if</span> ( atoi( argv[<span class="dv">1</span>] ) &lt; <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb5-18" title="18">    fprintf(stderr, <span class="st">&quot;%d must be &gt;= 0</span><span class="sc">\n</span><span class="st">&quot;</span>, atoi(argv[<span class="dv">1</span>])); </a>
+<a class="sourceLine" id="cb5-19" title="19">    <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb5-20" title="20">  }</a>
+<a class="sourceLine" id="cb5-21" title="21"></a>
+<a class="sourceLine" id="cb5-22" title="22">  <span class="co">/* set the default attributes */</span></a>
+<a class="sourceLine" id="cb5-23" title="23">  pthread_attr_init( &amp;attr );</a>
+<a class="sourceLine" id="cb5-24" title="24">  <span class="co">/* create the thread */</span></a>
+<a class="sourceLine" id="cb5-25" title="25">  pthread_create( &amp;tid, &amp;attr, runner, argv[<span class="dv">1</span>] );</a>
+<a class="sourceLine" id="cb5-26" title="26">  pthread_join( tid, NULL ); </a>
+<a class="sourceLine" id="cb5-27" title="27">  printf( <span class="st">&quot;sum = %d</span><span class="sc">\n</span><span class="st">&quot;</span>, sum );</a>
+<a class="sourceLine" id="cb5-28" title="28">  pthread_exit( NULL );</a>
+<a class="sourceLine" id="cb5-29" title="29">}</a>
+<a class="sourceLine" id="cb5-30" title="30"></a>
+<a class="sourceLine" id="cb5-31" title="31"><span class="dt">void</span> *runner( <span class="dt">void</span> *param ) {</a>
+<a class="sourceLine" id="cb5-32" title="32">  <span class="dt">int</span> upper = atoi( param );</a>
+<a class="sourceLine" id="cb5-33" title="33">  sum = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb5-34" title="34">  <span class="cf">for</span> ( <span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= upper; i++ ) {</a>
+<a class="sourceLine" id="cb5-35" title="35">    sum += i;</a>
+<a class="sourceLine" id="cb5-36" title="36">  }</a>
+<a class="sourceLine" id="cb5-37" title="37">  pthread_exit( <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb5-38" title="38">}</a></code></pre></div>
+<p>In this example, both threads are sharing the global variable <code>sum</code>. We have some form of co-ordination here because the parent thread will join the newly-spawned thread (i.e., wait until it is finished) before it tries to print out the value. If it did not join the spawned thread, the parent thread would print out the sum early.</p>
+<h4 id="count-to-10...">Count to 10...</h4>
+<p>Let’s do a different take on that program:</p>
+<div class="sourceCode" id="cb6" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb6-1" title="1"><span class="pp">#include </span><span class="im">&lt;pthread.h&gt;</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb6-4" title="4"></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="dt">int</span> sum = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb6-6" title="6"></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="dt">void</span>* runner( <span class="dt">void</span> *param ) {</a>
+<a class="sourceLine" id="cb6-8" title="8">    <span class="dt">int</span> upper = atoi( param );</a>
+<a class="sourceLine" id="cb6-9" title="9">    <span class="cf">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= upper; i++ ) {</a>
+<a class="sourceLine" id="cb6-10" title="10">        sum += i;</a>
+<a class="sourceLine" id="cb6-11" title="11">    }</a>
+<a class="sourceLine" id="cb6-12" title="12">    pthread_exit( <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb6-13" title="13">}</a>
+<a class="sourceLine" id="cb6-14" title="14"></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) { </a>
+<a class="sourceLine" id="cb6-16" title="16"></a>
+<a class="sourceLine" id="cb6-17" title="17">    pthread_t tid[<span class="dv">3</span>];</a>
+<a class="sourceLine" id="cb6-18" title="18"></a>
+<a class="sourceLine" id="cb6-19" title="19">    <span class="cf">if</span> ( argc != <span class="dv">2</span> ) {</a>
+<a class="sourceLine" id="cb6-20" title="20">        printf(<span class="st">&quot;An integer value is required as an argument.</span><span class="sc">\n</span><span class="st">&quot;</span>);</a>
+<a class="sourceLine" id="cb6-21" title="21">        <span class="cf">return</span> -<span class="dv">1</span>; </a>
+<a class="sourceLine" id="cb6-22" title="22">    }   </a>
+<a class="sourceLine" id="cb6-23" title="23">    <span class="cf">if</span> ( atoi( argv[<span class="dv">1</span>]) &lt; <span class="dv">0</span> ) {</a>
+<a class="sourceLine" id="cb6-24" title="24">        printf( <span class="st">&quot;%d must be &gt;= 0.</span><span class="sc">\n</span><span class="st">&quot;</span>, atoi(argv[<span class="dv">1</span>]) );</a>
+<a class="sourceLine" id="cb6-25" title="25">    }   </a>
+<a class="sourceLine" id="cb6-26" title="26"></a>
+<a class="sourceLine" id="cb6-27" title="27">    <span class="cf">for</span> ( <span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">3</span>; ++i ) { </a>
+<a class="sourceLine" id="cb6-28" title="28">        pthread_create( &amp;tid[i], NULL, runner, argv[<span class="dv">1</span>] );</a>
+<a class="sourceLine" id="cb6-29" title="29">    }   </a>
+<a class="sourceLine" id="cb6-30" title="30">    <span class="cf">for</span> ( <span class="dt">int</span> j = <span class="dv">0</span>; j &lt; <span class="dv">3</span>; ++j ) { </a>
+<a class="sourceLine" id="cb6-31" title="31">        pthread_join( tid[j], NULL );</a>
+<a class="sourceLine" id="cb6-32" title="32">    }   </a>
+<a class="sourceLine" id="cb6-33" title="33">    printf( <span class="st">&quot;sum = %d.</span><span class="sc">\n</span><span class="st">&quot;</span>, sum );</a>
+<a class="sourceLine" id="cb6-34" title="34">    </a>
+<a class="sourceLine" id="cb6-35" title="35">    pthread_exit( <span class="dv">0</span> );</a>
+<a class="sourceLine" id="cb6-36" title="36">}</a></code></pre></div>
+<p>What’s going wrong here? For very small values of the argument, nothing, but for a large number we get some strange and inconsistent results. Why? There are three threads that are modifying <code>sum</code>. And, it turns out, that this is a problem – if threads are trying to write to the same place at the same time, things can go wrong. But what does “at the same time” mean in the context of a program? To understand that, we need to think about how the hardware behaves and how the OS schedules the work.</p>
+<h1 id="concurrency" class="unnumbered">Concurrency</h1>
+<p>Not that long ago, a typical computer had one processor with one core. It could accordingly do exactly one thing at a time. When we say there is one processor, it’s one general purpose processor that executes user processes. There may be additional special-purpose processors in the system (e.g., a RAID controller<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>) but there is only one general purpose processor so we call it a uniprocessor system.</p>
+<p>Now, desktops, laptops, and even cell phones are almost certainly using multi-core processors. A quad-core processor may be executing four different instructions from four different threads at the same time. In theory, multiple processors may mean that we can get more work done in the same amount of (wall clock) time, but this is not a guarantee.</p>
+<p>Terminology note: we often refer to a logical processing unit as a <em>core</em>. The term CPU may refer to a physical chip that contains one or more logical processing units. As far as the operating system is concerned, it does not much matter if a system has four cores in four physical chips or four cores in one chip; either way, there are four units that can execute instructions.</p>
+<p>If there is exactly one process with one thread running in the system, then it does not matter how many cores are available: at most one core will be used to execute this task. If there are multiple processes, each process can execute on a different core. But what do we do if there are more processes and threads than available cores? We can hope that the processes get blocked frequently enough and long enough so that all processes get to run, but this is not something we can count on.</p>
+<p>Our solution is that the CPU should switch between the different tasks via a procedure we call <em>time slicing</em>. So thread 1 would execute for a designated period, such as 20 ms, then thread 2 for 20 ms, then thread 3 for 20 ms, then back to thread 1 for 20 ms. To the user, it seems like threads 1, 2, and 3 are being executed in parallel, because 20 ms is fast enough that the user does not notice the difference.</p>
+<p><img src="images/single-core-execution.png" alt="image" style="width:85.0%" /><br />
+Execution of different Threads <span class="math inline">T_{1}</span> through <span class="math inline">T_{4}</span> on a single core <span class="citation" data-cites="osc"></span>.</p>
+<p>Time slicing of execution will still occur, if necessary. Continuing our example, if there are four threads running on a dual-core system, time slicing is necessary to run all those programs.</p>
+<p><img src="images/dual-core-execution.png" alt="image" style="width:70.0%" /><br />
+Execution of different Threads <span class="math inline">T_{1}</span> through <span class="math inline">T_{4}</span> on two cores <span class="citation" data-cites="osc"></span>.</p>
+<h2 id="parallelism-and-speedup" class="unnumbered">Parallelism and Speedup</h2>
+<p>No doubt it has occurred to you that if there are multiple threads running at the same time, it means a task will get completed faster, right? Well... maybe. It depends a lot on what the task is. There is some overhead involved in splitting a task up and re-combining the results (if necessary), but in most circumstances the overhead is negligible compared to the amount of time working on the task.</p>
+<p>If a task can be fully parallelized, it means the task can be split up in such a way that adding a second executing thread would double the speed of execution. Imagine painting an apartment. It would take one person 12 hours to paint the whole apartment and two people could complete the job in 6 hours. The pattern continues: three people can complete the job in 4 hours, four people in 3 hours, et cetera. This is the ideal, but in the real world there will be a limit to how many additional workers you can add and continue to have this speedup characteristic. At some point, the overhead of adding more threads is no longer negligible. In theory, you could hire 720 painters and finish the job in 1 minute, but at some point you cannot physically fit any more painters into the room.</p>
+<p>If a task can be partially parallelized, it means the task can be divided, but doubling the workers doesn’t result in completing the job in half the time. Two chefs working together in a kitchen might take 75% of the time it would take one chef to cook a meal. Adding the extra worker to the kitchen improved the speed at which food was prepared, but it’s not doubled. The chefs can work independently some of the time, but at other times one has to wait for the other; the sauce cannot be put on the chicken until the chicken comes out of the oven.</p>
+<p>If a task cannot be parallelized at all, then no amount of extra workers will speed it up. Some tasks can only be done sequentially. You can’t cook the steak in one minute by putting it in five ovens (this makes the chef very mad).</p>
+<p>Let us consider an example from <span class="citation" data-cites="mte241"></span>: Suppose we have a task that can be executed in 5 s and this task contains a loop that can be parallelized. Let us also say initialization and recombination code in this routine requires 400 ms. So with one processor executing, it would take about 4.6 s to execute the loop. If we split it up and execute on two processors it will take about 2.3 s to execute the loop. Add to that the setup and cleanup time of 0.4 s and we get a total time of 2.7 s. Completing the task in 2.7 s rather than 5 s represents a speedup of about 46%.</p>
+<p>A smart fellow by the name of Gene Amdahl came up with a formula for the general case of how much faster a task can be completed based on how many processors we have available. Let us define <span class="math inline">S</span> as the portion of the application that must be performed serially and <span class="math inline">N</span> as the number of processing cores available. Amdahl’s Law:</p>
+<p>speedup <span class="math inline">\leq</span> <span><span class="math inline">\frac{1}{S + \frac{1-S}{N}}</span></span></p>
+<p>This is a math formula, after all, and you can do things like take the limit as <span class="math inline">N</span> approaches infinity and you will find the speedup converges to <span class="math inline">\frac{1}{S}</span>. So the limiting factor on how much additional processors help is, of course, the size of the <span class="math inline">S</span> term in the equation. That squares well with our intuition about how this should work. If the task is completely sequential (cannot be parallelized at all), we cannot make it faster and <span class="math inline">\frac{1}{1 + 0}</span> will produce a maximum speedup of 1; or in other words... no speedup at all.</p>
+<p>Applying this formula to the example from earlier, we get the following run times:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Processors</strong></th>
+<th style="text-align: left;"><strong>Run Time (s)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">1.55</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">0.975</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">0.6875</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0.54375</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">64</td>
+<td style="text-align: left;">0.471875</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">0.4359375</td>
+</tr>
+</tbody>
+</table>
+<p>There are two observations from this data immediately. The first is that we get diminishing returns as we add more processors. Going from 1 to 2 processors reduced the runtime dramatically, but going from 64 to 128 reduced the run time only a very small amount. The second is that as we continue to add more processors we are converging on a run time of 0.4 s, which fits our expectations of what would happen with infinite processors. The serial part will take 0.4 s no matter what, and with infinite processors the parallel part would be (effectively) instant. Again, applying the formula, the most we could speed up this code is by a factor of <span class="math inline">\frac{5}{0.4}\approx 12.5</span>. It is not possible to do better than this. In reality we will never be able to equal the limit either, because nobody has infinite processors available, considering that would take an infinite amount of space and an infinite amount of money...</p>
+<h4 id="merge-sort-example.">Merge Sort Example.</h4>
+<p>Recall from data structures and algorithms the concept of merge sort. This is a divide-and-conquer algorithm like binary search. Split the array of values up into smaller pieces, sort those, and then merge the smaller pieces together to have sorted data. To get this done, we might have many threads sorting and one thread merging the sorted lists together into a larger, sorted list. Visually, this looks like:</p>
+<p><img src="images/multithread-sort.png" alt="image" style="width:45.0%" /><br />
+Multithreaded sorting <span class="citation" data-cites="osc"></span>.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>The graphics card seems like a more obvious example, but these days there are various programs that can make use of the powerful GPU to do general purpose computation.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩</a></p></li>
+</ol>
+</section>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

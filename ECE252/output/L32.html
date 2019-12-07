@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L32.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#getting-ready.">Getting ready.</a></li>
+<li><a href="#all-your-base...">All your base...</a></li>
+<li><a href="#event-notification.">Event notification.</a></li>
+<li><a href="#lets-get-started.">Let’s get started.</a></li>
+<li><a href="#cleaning-up.">Cleaning up.</a></li>
+<li><a href="#buffered-events.">Buffered events.</a></li>
+</ul>
+</nav>
+<p>*<span>Event-Driven I/O with libevent</span></p>
+<p>We’ve now looked at a few different kinds of asynchronous I/O, including select/poll, cURL, and POSIX AIO. All of these seem to have some drawbacks, though. The libevent library is meant for high performance applications and scalable network servers. Instead of focusing now on whether an operation is blocking or not, we’ll try to think about I/O as events: when something happens, take some action.</p>
+<h4 id="getting-ready.">Getting ready.</h4>
+<p>The library supports a lot of different configuration options. Most of them are too advanced for consideration in this class, such as telling it how you want to handle fatal errors or override default memory allocation and deallocation behaviour. But the most important setup thing is that we need to configure it to use the pthreads library and functions. For this, the function is <span class="citation" data-cites="libevent"></span>:</p>
+<div class="sourceCode" id="cb1" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"><span class="dt">int</span> evthread_use_pthreads( )</a></code></pre></div>
+<p>It returns 0 on success and -1 on failure. There exists a matching Windows function, but obviously that doesn’t work if running under Linux... This function is a composite of several configurations about locks and condition variables and threads, so there’s no need to use the smaller ones. Just use this top level function and we’re ready to go.</p>
+<h4 id="all-your-base...">All your base...</h4>
+<p>Our goal is to handle events of some sort. Each event is associated with an <code>event_base</code> structure, which is a container for a set of events and has some associated configuration. If locking is enabled, it’s safe to use in multiple threads, though its loop can only be in one thread. So we might need multiple bases for multiple thread operations.</p>
+<p>We can choose what method we would like the event base to use check what events are ready. There are many, but the ones we are most familiar with are already here: select and poll. Other options include epoll, kqueue, dnvpoll, evport, win32 <span class="citation" data-cites="libevent"></span>.</p>
+<p>To create an event base, we can do it in one of two ways:</p>
+<div class="sourceCode" id="cb2" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">struct</span> event_base* event_base_new( ); <span class="co">/* Create an event_base with default settings */</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">struct</span> event_base* event_base_new_with_config( <span class="dt">const</span> <span class="kw">struct</span> event_config* cfg ); <span class="co">/* Create with configuration */</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">struct</span> event_config* event_config_new( );</a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="dt">void</span> event_config_free( <span class="kw">struct</span> event_config* cfg );</a></code></pre></div>
+<p>Like with pthreads, the use of a configuration structure is optional. If we do want one, there are separate functions to allocate and to clean them up. The options allow us to say that we would like to avoid certain methods for checking on events and configure arcane options. We’ll say that for the purposes of this course that default options are fine.</p>
+<p>To deallocate an event base, the (self-explanatory) function for that is:</p>
+<div class="sourceCode" id="cb3" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" title="1"><span class="dt">void</span> event_base_free( <span class="kw">struct</span> event_base* base );</a></code></pre></div>
+<p>Let’s consider a brief example, then, in which we can ask on one of our servers what is available <span class="citation" data-cites="libevent"></span>:</p>
+<div class="sourceCode" id="cb4" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="pp">#include </span><span class="im">&lt;event2/event.h&gt;</span></a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) { </a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7">    <span class="dt">int</span> i;</a>
+<a class="sourceLine" id="cb4-8" title="8">    <span class="dt">const</span> <span class="dt">char</span> **methods = event_get_supported_methods();</a>
+<a class="sourceLine" id="cb4-9" title="9">    printf(<span class="st">&quot;Starting Libevent %s.  Available methods are:</span><span class="sc">\n</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb4-10" title="10">            event_get_version());</a>
+<a class="sourceLine" id="cb4-11" title="11">    <span class="cf">for</span> (i=<span class="dv">0</span>; methods[i] != NULL; ++i) {</a>
+<a class="sourceLine" id="cb4-12" title="12">        printf(<span class="st">&quot;    %s</span><span class="sc">\n</span><span class="st">&quot;</span>, methods[i]);</a>
+<a class="sourceLine" id="cb4-13" title="13">    }   </a>
+<a class="sourceLine" id="cb4-14" title="14">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb4-15" title="15">}</a></code></pre></div>
+<p>This produces as output on <code>ecetesla0</code> (at the time of writing):</p>
+<pre><code>jzarnett@ecetesla0:~/ece252$ gcc -std=c99 -g -levent -o le1 le1.c
+jzarnett@ecetesla0:~/ece252$ ./le1 
+Starting Libevent 2.1.8-stable.  Available methods are:
+    epoll
+    poll
+    select</code></pre>
+<p>If you actually want to know what method will be used internally <span class="citation" data-cites="libevent"></span>:</p>
+<div class="sourceCode" id="cb6" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb6-1" title="1"><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="pp">#include </span><span class="im">&lt;event2/event.h&gt;</span></a>
+<a class="sourceLine" id="cb6-4" title="4"></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span>** argv ) { </a>
+<a class="sourceLine" id="cb6-6" title="6">    <span class="kw">struct</span> event_base *base;</a>
+<a class="sourceLine" id="cb6-7" title="7">    <span class="kw">enum</span> event_method_feature f;</a>
+<a class="sourceLine" id="cb6-8" title="8"></a>
+<a class="sourceLine" id="cb6-9" title="9">    base = event_base_new();</a>
+<a class="sourceLine" id="cb6-10" title="10">    <span class="cf">if</span> (!base) {</a>
+<a class="sourceLine" id="cb6-11" title="11">        puts(<span class="st">&quot;Couldn&#39;t get an event_base!&quot;</span>);</a>
+<a class="sourceLine" id="cb6-12" title="12">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb6-13" title="13">        printf(<span class="st">&quot;Using Libevent with backend method %s.&quot;</span>,</a>
+<a class="sourceLine" id="cb6-14" title="14">                event_base_get_method(base));</a>
+<a class="sourceLine" id="cb6-15" title="15">        f = event_base_get_features(base);</a>
+<a class="sourceLine" id="cb6-16" title="16">        <span class="cf">if</span> ((f &amp; EV_FEATURE_ET))</a>
+<a class="sourceLine" id="cb6-17" title="17">            printf(<span class="st">&quot;  Edge-triggered events are supported.&quot;</span>);</a>
+<a class="sourceLine" id="cb6-18" title="18">        <span class="cf">if</span> ((f &amp; EV_FEATURE_O1))</a>
+<a class="sourceLine" id="cb6-19" title="19">            printf(<span class="st">&quot;  O(1) event notification is supported.&quot;</span>);</a>
+<a class="sourceLine" id="cb6-20" title="20">        <span class="cf">if</span> ((f &amp; EV_FEATURE_FDS))</a>
+<a class="sourceLine" id="cb6-21" title="21">            printf(<span class="st">&quot;  All FD types are supported.&quot;</span>);</a>
+<a class="sourceLine" id="cb6-22" title="22">        puts(<span class="st">&quot;&quot;</span>);</a>
+<a class="sourceLine" id="cb6-23" title="23">    }   </a>
+<a class="sourceLine" id="cb6-24" title="24">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb6-25" title="25">}</a></code></pre></div>
+<p>Running this produces:</p>
+<pre><code>jzarnett@ecetesla0:~/ece252$ ./le2
+Using Libevent with backend method epoll.  
+ Edge-triggered events are supported.  
+ O(1) event notification is supported.</code></pre>
+<p>Wait, we didn’t learn about epoll... Do we need to? Well, no – the great thing about libevent is that we don’t have to think about the details of the backend – whatever implementation is used is not really our concern.</p>
+<h4 id="event-notification.">Event notification.</h4>
+<p>The goal is to watch for some events, and for that we need a definition of an event. An event happens on a file descriptor, as with all the other I/O methods we have discussed.</p>
+<p>An event has a lifecycle: it is created; when it becomes associated with an event base it is said to be initialized. When you add it, it is pending, which is to say that we are waiting for the event to happen. If the event that we’re looking for does occur when the event is pending, then a user-defined callback runs. If we don’t want to wait for an event anymore we can use delete to make an event non-pending; a non-pending event can be re-added if desired <span class="citation" data-cites="libevent"></span>.</p>
+<p>To create and destroy an event:</p>
+<div class="sourceCode" id="cb8" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">typedef</span> <span class="dt">void</span> (*event_callback_fn)( evutil_socket_t fd, <span class="dt">short</span> what, <span class="dt">void</span>* arg )</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw">struct</span> event* event_new( <span class="kw">struct</span> event_base* base, evutil_socket_t fd, <span class="dt">short</span> what, event_callback_fn cb, <span class="dt">void</span>* arg )</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="dt">void</span> event_free( <span class="kw">struct</span> event* event )</a></code></pre></div>
+<p>The first line in there is the definition that the callback function must take: void return type with three parameters. We should be familiar enough with this sort of thing by now.</p>
+<p>The event creation function tells you everything you need to provide when creating an event. The definition of the structure is kind of unimportant to us because we don’t access its internals directly. That’s fine with us. Anyway, the first argument is the base that this event will be associated with. The second argument of type <code>evutil_socket_t</code> is really an <code>int</code> (in non-Windows system anyway) and we can just put in our regular file descriptor here. The <code>what</code> parameter is how we specify the kind of thing we want to be notified of (see below). And finally, the last two parameters are the callback function and our user-defined argument to that callback function.</p>
+<p>About that <code>what</code> parameter: hey look, we found a use for <code>short</code>! Only took half your degree... Anyway, we use this to say what we’re looking for, and it’s some combination of the following options (as defined by the library):</p>
+<div class="sourceCode" id="cb9" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1"><span class="pp">#define EV_TIMEOUT      0x01</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="pp">#define EV_READ         0x02</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="pp">#define EV_WRITE        0x04</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="pp">#define EV_SIGNAL       0x08</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="pp">#define EV_PERSIST      0x10</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="pp">#define EV_ET           0x20</span></a></code></pre></div>
+<p>Most of them are self explanatory, but some warrant a bit of explanation. The timeout flag is ignored when setting what you are interested in, but can be returned as a result. The “ET” one indicates that the event should be edge-triggered, which matters for read and writes (i.e., a change in readiness is reported rather than readiness). The “persist” one means that when an event is triggered it’s automatically ready to trigger again immediately.</p>
+<p>They can be combined, as we’ve seen previously for say, an open system call. If you’re interested in watching for a read and a write, combine them using <code>|</code> (bitwise OR) just as we’ve done for other scenarios: <code>EV_READ | EV_WRITE</code>.</p>
+<p>If you want the event itself to be the <code>void*</code> argument passed to the callback function, that can be done here as well. Normally this would not work, because the event doesn’t exist yet. But there’s a workaround for that, a function <code>event_self_cbarg()</code> that does a little magic for you <span class="citation" data-cites="libevent"></span>.</p>
+<p>Deallocating an event is pretty self explanatory as well. It is okay to call this even on an event that is pending or active, according to the library docs, because it checks this and will deactivate or make non-pending any event that gets freed using the <code>event_free()</code> call.</p>
+<p>Alright, so we have created an event. When we’re ready to start watching we can add the event, and when we’re done watching we can remove it, with the following functions:</p>
+<div class="sourceCode" id="cb10" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1"><span class="dt">int</span> event_add( <span class="kw">struct</span> event* ev, <span class="dt">const</span> <span class="kw">struct</span> timeval* tv );</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="dt">int</span> event_del( <span class="kw">struct</span> event* ev );</a></code></pre></div>
+<p>We will see an example soon, but first we are missing one more important thing: dispatching the events!</p>
+<h4 id="lets-get-started.">Let’s get started.</h4>
+<p>There are two ways to dispatch events, the simple way and the hard way:</p>
+<div class="sourceCode" id="cb11" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb11-1" title="1"><span class="dt">int</span> event_base_dispatch( <span class="kw">struct</span> event_base* base);</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="dt">int</span> event_base_loop(<span class="kw">struct</span> event_base *base, <span class="dt">int</span> flags);</a></code></pre></div>
+<p>The easy way is the same as the hard way with no flags set, so the hard way actually isn’t all that hard. The flags are <span class="citation" data-cites="libevent"></span>:</p>
+<div class="sourceCode" id="cb12" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb12-1" title="1"><span class="pp">#define EVLOOP_ONCE             0x01</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="pp">#define EVLOOP_NONBLOCK         0x02</span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="pp">#define EVLOOP_NO_EXIT_ON_EMPTY 0x04</span></a></code></pre></div>
+<p>Once means that we just wait for some events to become active, then turn active events until there are no more, then return. The non-blocking option means we won’t wait for events to trigger: we’ll check if they’re ready, run them if so, and skip them if not. And normally the behaviour is to exit from the loop when there are no more events pending or active; you can turn that off with the no-exit flag. If you plan to use that, you can manually exit the loop with one of:</p>
+<div class="sourceCode" id="cb13" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb13-1" title="1"><span class="dt">int</span> event_base_loopexit(<span class="kw">struct</span> event_base* base, <span class="dt">const</span> <span class="kw">struct</span> timeval* tv);</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="dt">int</span> event_base_loopbreak(<span class="kw">struct</span> event_base* base);</a></code></pre></div>
+<p>The exit function says to stop after some time has elapsed; if any events are active we process them before exiting. The break function says stop as soon as we’ve finished the currently-being-processed active event but not any other ones that are active. Typically this would occur in a callback function of some sort, when we know we are done.</p>
+<p>Now, that code example that was delayed <span class="citation" data-cites="libevent"></span>:</p>
+<div class="sourceCode" id="cb14" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb14-1" title="1"><span class="dt">void</span> cb_func( evutil_socket_t fd, <span class="dt">short</span> what, <span class="dt">void</span> *arg ) {</a>
+<a class="sourceLine" id="cb14-2" title="2">        <span class="dt">const</span> <span class="dt">char</span> *data = arg;</a>
+<a class="sourceLine" id="cb14-3" title="3">        printf(<span class="st">&quot;Got an event on socket %d:%s%s%s%s [%s]&quot;</span>,</a>
+<a class="sourceLine" id="cb14-4" title="4">            (<span class="dt">int</span>) fd,</a>
+<a class="sourceLine" id="cb14-5" title="5">            (what&amp;EV_TIMEOUT) ? <span class="st">&quot; timeout&quot;</span> : <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb14-6" title="6">            (what&amp;EV_READ)    ? <span class="st">&quot; read&quot;</span> : <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb14-7" title="7">            (what&amp;EV_WRITE)   ? <span class="st">&quot; write&quot;</span> : <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb14-8" title="8">            (what&amp;EV_SIGNAL)  ? <span class="st">&quot; signal&quot;</span> : <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb14-9" title="9">            data);</a>
+<a class="sourceLine" id="cb14-10" title="10">}</a>
+<a class="sourceLine" id="cb14-11" title="11"></a>
+<a class="sourceLine" id="cb14-12" title="12"><span class="dt">void</span> main_loop( evutil_socket_t fd1, evutil_socket_t fd2 ){</a>
+<a class="sourceLine" id="cb14-13" title="13">        <span class="kw">struct</span> event *ev1, *ev2;</a>
+<a class="sourceLine" id="cb14-14" title="14">        <span class="kw">struct</span> timeval five_seconds = {<span class="dv">5</span>,<span class="dv">0</span>};</a>
+<a class="sourceLine" id="cb14-15" title="15">        <span class="kw">struct</span> event_base *base = event_base_new();</a>
+<a class="sourceLine" id="cb14-16" title="16"></a>
+<a class="sourceLine" id="cb14-17" title="17">        <span class="co">/* The caller has already set up fd1, fd2 somehow, and make them nonblocking. */</span></a>
+<a class="sourceLine" id="cb14-18" title="18"></a>
+<a class="sourceLine" id="cb14-19" title="19">        ev1 = event_new(base, fd1, EV_TIMEOUT|EV_READ|EV_PERSIST, cb_func,(<span class="dt">char</span>*)<span class="st">&quot;Reading event&quot;</span>);</a>
+<a class="sourceLine" id="cb14-20" title="20">        ev2 = event_new(base, fd2, EV_WRITE|EV_PERSIST, cb_func, (<span class="dt">char</span>*)<span class="st">&quot;Writing event&quot;</span>);</a>
+<a class="sourceLine" id="cb14-21" title="21"></a>
+<a class="sourceLine" id="cb14-22" title="22">        event_add(ev1, &amp;five_seconds);</a>
+<a class="sourceLine" id="cb14-23" title="23">        event_add(ev2, NULL);</a>
+<a class="sourceLine" id="cb14-24" title="24">        event_base_dispatch(base);</a>
+<a class="sourceLine" id="cb14-25" title="25">}</a></code></pre></div>
+<p>Alright, this demonstrates how to create an event base, create some events, add them to the pending list, and begin dispatching (waiting for events to occur). Only one thread can be dispatching a given event base at a time, but this is why we can have multiple bases.</p>
+<h4 id="cleaning-up.">Cleaning up.</h4>
+<p>Finally, libevent has some global structures that are initialized once. When we’re all completely done with everything, there is a global cleanup function available <span class="citation" data-cites="libevent"></span>:</p>
+<div class="sourceCode" id="cb15" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb15-1" title="1"><span class="dt">void</span> libevent_global_shutdown( )</a></code></pre></div>
+<p>This is not meant to deallocate anything that was the return value of a libevent function; those should be cleaned up normally. This should be the last function called, once all libevent stuff is done, otherwise unpredictable behaviour may occur.</p>
+<h4 id="buffered-events.">Buffered events.</h4>
+<p>For a slightly more advanced scenario, we might want to wait until we have a significant chunk of data before we’re ready to process it. If we’re receiving some data one character at a time, it’s very wasteful to fire an event every time a whole character is received. Instead, it’s better to have the event happen when a condition is fulfilled, such as having enough data available.</p>
+<p>The library does support this: <code>bufferevents</code>! A normal callback is triggered when the underlying transport (e.g., socket) is ready to be read or written; a buffer event takes place when enough data has been read or written. Buffer events really only work for TCP communication, so we’ll be back to sockets. This is, to some extent, expected, because our general view of files is that they’re always “ready”, even if a read takes time to be carried out.</p>
+<p>Each buffer event has two buffers: the input and output buffer. There are also two callbacks, a read and a write callback. By default, the read callback happens whenever any data is received, and the write callback is called whenever enough data from the output buffer is sent <span class="citation" data-cites="libevent"></span>. These can be overridden. But you can see why this would make some sense: whenever a chunk of data is received we put it in a buffer until all the data is there; we can send data when enough data has accumulated to be sent.</p>
+<p>Every buffer event has four “watermarks”, which are the levels that trigger some sort of happening <span class="citation" data-cites="libevent"></span>:</p>
+<ul>
+<li><p>Read low-water mark: when a read occurs that results in the buffer being at least this full, the read callback triggers. By default, it is 0, so every chunk of data received starts the callback.</p></li>
+<li><p>Read high-water mark: when a read occurs that leaves the buffer at this level, no more data will be copied into the buffer until data has been taken out of the buffer to get it below the level. By default, this is unlimited so libevent will try to fill up the buffer as much as possible.</p></li>
+<li><p>Write low-water mark: when a write occurs to get to this level, the write callback occurs. This defaults to 0, so the write callback only runs if the output buffer is emptied.</p></li>
+<li><p>Write high-water mark: strangely, does not do what you expect. It can be used for some special meaning situations, though.</p></li>
+</ul>
+<p>We’ll take a look at a buffer events example for socket communication. This means we need to know how to create a buffer event, and how to use it on a socket.</p>
+<div class="sourceCode" id="cb16" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">struct</span> bufferevent* bufferevent_socket_new( <span class="kw">struct</span> event_base* base, evutil_socket_t fd, </a>
+<a class="sourceLine" id="cb16-2" title="2">    <span class="kw">enum</span> bufferevent_options options );</a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="dt">void</span> bufferevent_free( <span class="kw">struct</span> bufferevent* bev );</a>
+<a class="sourceLine" id="cb16-4" title="4"></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="kw">typedef</span> <span class="dt">void</span> (*bufferevent_data_cb)(<span class="kw">struct</span> bufferevent* bev, <span class="dt">void</span>* ctx);</a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="kw">typedef</span> <span class="dt">void</span> (*bufferevent_event_cb)(<span class="kw">struct</span> bufferevent* bev, <span class="dt">short</span> events, <span class="dt">void</span>* ctx);</a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="dt">void</span> bufferevent_setcb(<span class="kw">struct</span> bufferevent* bufev, bufferevent_data_cb readcb, bufferevent_data_cb writecb, bufferevent_event_cb eventcb, <span class="dt">void</span>* cbarg);</a>
+<a class="sourceLine" id="cb16-8" title="8"></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="dt">int</span> bufferevent_socket_connect( <span class="kw">struct</span> bufferevent* bev, <span class="kw">struct</span> sockaddr* address, <span class="dt">int</span> addrlen );</a></code></pre></div>
+<p>Creating a buffer event structure is fairly straightforward: specify which event base it should belong to, the file descriptor, and then you get to choose some options. There are multiple options, but the two we will consider are as follows. The first is <code>BEV_OPT_CLOSE_ON_FREE</code>: close the socket when the buffer event is deallocated. The other is <code>BEV_OPT_THREADSAFE</code>: configure the buffer event to use locks, so it can be accessed concurrently from multiple threads.</p>
+<p>The deallocation function is totally self-explanatory.</p>
+<p>The definitions of data callbacks and event callbacks are a bit more complex. The return type is void, and the arguments are the buffer event structure – sensible, and then there’s a divergence. The data callback takes only some argument; it’s the one provided by the user when setting up the callback (see below). The event callback has the extra parameter of events which works as it did earlier (where you say what events you are interested in).</p>
+<p>Setting the callback is relatively self explanatory: specify the buffer event, the read callback (NULL if you don’t want one, or to clear one), the write callback (again, NULL if you don’t want one), and the event callback. Finally, there is the callback argument (of any type) and this argument is shared between all callbacks.</p>
+<p>Then there is the connect function. This function takes the buffer event that you want to configure, and the address to connect to, as well as the size of the address. So that part is easy.</p>
+<p>Let’s consider an example from <span class="citation" data-cites="libevent"></span> that shows how to use the buffer events:</p>
+<div class="sourceCode" id="cb17" data-language="C"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb17-1" title="1"><span class="pp">#include </span><span class="im">&lt;event2/event.h&gt;</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="pp">#include </span><span class="im">&lt;event2/bufferevent.h&gt;</span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="pp">#include </span><span class="im">&lt;sys/socket.h&gt;</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></a>
+<a class="sourceLine" id="cb17-5" title="5"></a>
+<a class="sourceLine" id="cb17-6" title="6"><span class="dt">void</span> eventcb(<span class="kw">struct</span> bufferevent *bev, <span class="dt">short</span> events, <span class="dt">void</span> *ptr) {</a>
+<a class="sourceLine" id="cb17-7" title="7">    <span class="cf">if</span> (events &amp; BEV_EVENT_CONNECTED) {</a>
+<a class="sourceLine" id="cb17-8" title="8">         <span class="co">/* We&#39;re connected to 127.0.0.1:8080.   Ordinarily we&#39;d do</span></a>
+<a class="sourceLine" id="cb17-9" title="9"><span class="co">            something here, like start reading or writing. */</span></a>
+<a class="sourceLine" id="cb17-10" title="10">    } <span class="cf">else</span> <span class="cf">if</span> (events &amp; BEV_EVENT_ERROR) {</a>
+<a class="sourceLine" id="cb17-11" title="11">         <span class="co">/* An error occured while connecting. */</span></a>
+<a class="sourceLine" id="cb17-12" title="12">    }</a>
+<a class="sourceLine" id="cb17-13" title="13">}</a>
+<a class="sourceLine" id="cb17-14" title="14"></a>
+<a class="sourceLine" id="cb17-15" title="15"><span class="dt">int</span> main_loop( ) {</a>
+<a class="sourceLine" id="cb17-16" title="16">    <span class="kw">struct</span> event_base *base;</a>
+<a class="sourceLine" id="cb17-17" title="17">    <span class="kw">struct</span> bufferevent *bev;</a>
+<a class="sourceLine" id="cb17-18" title="18">    <span class="kw">struct</span> sockaddr_in sin;</a>
+<a class="sourceLine" id="cb17-19" title="19"></a>
+<a class="sourceLine" id="cb17-20" title="20">    base = event_base_new();</a>
+<a class="sourceLine" id="cb17-21" title="21"></a>
+<a class="sourceLine" id="cb17-22" title="22">    memset(&amp;sin, <span class="dv">0</span>, <span class="kw">sizeof</span>(sin));</a>
+<a class="sourceLine" id="cb17-23" title="23">    sin.sin_family = AF_INET;</a>
+<a class="sourceLine" id="cb17-24" title="24">    sin.sin_addr.s_addr = htonl(<span class="bn">0x7f000001</span>); <span class="co">/* 127.0.0.1 */</span></a>
+<a class="sourceLine" id="cb17-25" title="25">    sin.sin_port = htons(<span class="dv">8080</span>); <span class="co">/* Port 8080 */</span></a>
+<a class="sourceLine" id="cb17-26" title="26"></a>
+<a class="sourceLine" id="cb17-27" title="27">    bev = bufferevent_socket_new(base, -<span class="dv">1</span>, BEV_OPT_CLOSE_ON_FREE);</a>
+<a class="sourceLine" id="cb17-28" title="28"></a>
+<a class="sourceLine" id="cb17-29" title="29">    bufferevent_setcb(bev, NULL, NULL, eventcb, NULL);</a>
+<a class="sourceLine" id="cb17-30" title="30"></a>
+<a class="sourceLine" id="cb17-31" title="31">    <span class="cf">if</span> (bufferevent_socket_connect(bev,</a>
+<a class="sourceLine" id="cb17-32" title="32">        (<span class="kw">struct</span> sockaddr *)&amp;sin, <span class="kw">sizeof</span>(sin)) &lt; <span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb17-33" title="33">        <span class="co">/* Error starting connection */</span></a>
+<a class="sourceLine" id="cb17-34" title="34">        bufferevent_free(bev);</a>
+<a class="sourceLine" id="cb17-35" title="35">        <span class="cf">return</span> -<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb17-36" title="36">    }</a>
+<a class="sourceLine" id="cb17-37" title="37"></a>
+<a class="sourceLine" id="cb17-38" title="38">    event_base_dispatch(base);</a>
+<a class="sourceLine" id="cb17-39" title="39">    <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb17-40" title="40">}</a></code></pre></div>
+<p>This sets up a callback that doesn’t do much, but that’s fine for the purpose of the example. We set up the socket connection stuff - the address and port. Then we create the buffer event, with the file descriptor as -1. This placeholder value means that at the time the buffer event is created, the file descriptor is not yet set. That makes sense, because the socket hasn’t been opened yet. There’s no file descriptor to set yet. Then we’ll configure the callback, and launch the connect call. When the connection is established, the callback runs.</p>
+<p>By no means have we covered every possible option or tool in the libevent library. It is quite powerful and quite effective at its job. But now we have an introduction to it, and we’ve seen a lot of ways to do asynchronous I/O.</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 6 - Parallel Interfacing</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 6 - Parallel Interfacing<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#design-of-a-generic-parallel-interface">Design of a Generic Parallel Interface</a></li>
+<li><a href="#communication-across-the-interface">Communication Across the Interface</a></li>
+<li><a href="#system-bus-side">System Bus Side</a></li>
+<li><a href="#sample-system-bus">Sample System Bus</a></li>
+<li><a href="#device-bus-side">Device Bus Side</a></li>
+<li><a href="#bus-driver-structure">Bus Driver Structure</a></li>
+<li><a href="#driver-implementation-alternatives">Driver Implementation Alternatives</a></li>
+<li><a href="#unidirectional-data-input">Unidirectional Data Input</a><ul>
+<li><a href="#no-synchronization">No Synchronization</a></li>
+<li><a href="#transient-data-capture">Transient Data Capture</a></li>
+</ul></li>
+<li><a href="#unidirectional-data-output">Unidirectional Data Output</a><ul>
+<li><a href="#transient-data-capture-1">Transient Data Capture</a></li>
+</ul></li>
+<li><a href="#explicit-bidirectional-data-unsynchronized-tristate-buffer">Explicit Bidirectional Data / Unsynchronized / Tristate Buffer</a></li>
+<li><a href="#explicit-bidirectional-data-transient-data-capture-tristate-buffer">Explicit Bidirectional Data / Transient Data Capture / Tristate Buffer</a></li>
+<li><a href="#implicit-bidirectional-data-transient-data-capture-passive-pullup">Implicit Bidirectional Data / Transient Data Capture / Passive Pullup</a></li>
+<li><a href="#explicit-bidirectional-data-transient-data-capture-passive-pullup">Explicit Bidirectional Data / Transient Data Capture / Passive Pullup</a></li>
+<li><a href="#pseudo-bi-directional-ports-implicit-bidirectional-data-passive-pullup">Pseudo Bi-Directional Ports (Implicit Bidirectional Data / Passive Pullup)</a></li>
+<li><a href="#data-characteristics">Data Characteristics</a></li>
+<li><a href="#control-signalling">Control Signalling</a></li>
+<li><a href="#signalling-of-data-changes">Signalling of Data Changes</a></li>
+<li><a href="#data-persistence">Data Persistence</a></li>
+<li><a href="#handling-persistent-data">Handling Persistent Data</a></li>
+<li><a href="#handling-transient-data">Handling Transient Data</a></li>
+<li><a href="#debouncing-noisy-input-data">Debouncing Noisy Input Data</a><ul>
+<li><a href="#debouncing-options">Debouncing Options</a></li>
+</ul></li>
+<li><a href="#synchronization---control-line-issues">Synchronization - Control Line Issues</a></li>
+<li><a href="#data-only-input-transfers">Data Only Input Transfers</a></li>
+<li><a href="#data-only-output-transfers">Data Only Output Transfers</a></li>
+<li><a href="#capturing-most-recent-transient-data">Capturing Most Recent Transient Data</a><ul>
+<li><a href="#implicit-status-clearing">Implicit Status Clearing</a></li>
+<li><a href="#explicit-status-clearing">Explicit Status Clearing</a></li>
+</ul></li>
+<li><a href="#capturing-first-transient-data">Capturing First Transient Data</a><ul>
+<li><a href="#implicit-status-clearing-1">Implicit Status Clearing</a></li>
+</ul></li>
+<li><a href="#capturing-persistent-data">Capturing Persistent Data</a><ul>
+<li><a href="#implicit-status-clearing-2">Implicit Status Clearing</a></li>
+</ul></li>
+<li><a href="#questions-of-interest">Questions of Interest</a><ul>
+<li><a href="#short-answer">Short Answer</a></li>
+<li><a href="#engineering">Engineering</a></li>
+</ul></li>
+</ul>
+</nav>
+<h3 id="design-of-a-generic-parallel-interface">Design of a Generic Parallel Interface</h3>
+<figure>
+<img src="../../attachments/parallel-interface-structure.png" alt="parallel-interface-structure" class="responsive-img" /><figcaption>parallel-interface-structure</figcaption>
+</figure>
+<ol type="1">
+<li>The interface could sometimes update its own status (here show inside the interface logic block, with bidirectional arrows for status signals and control signals)</li>
+<li>This is also a good mental model for general parallel interfaces</li>
+</ol>
+<h3 id="communication-across-the-interface">Communication Across the Interface</h3>
+<figure>
+<img src="../../attachments/parallel-interface-domains.png" alt="parallel-interface-domains" class="responsive-img" /><figcaption>parallel-interface-domains</figcaption>
+</figure>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 46%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Property</th>
+<th style="text-align: center;">Processing Domain</th>
+<th style="text-align: center;">Device Domain</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Signal Levels</td>
+<td style="text-align: center;">Signal levels match the CPU (low voltage)</td>
+<td style="text-align: center;">Signal levels match the device (varies)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Timing</td>
+<td style="text-align: center;">Predictable; memory-like; inflexible (<span class="math inline">n</span> number of clock cycles)</td>
+<td style="text-align: center;">Often unpredictable; depends upon device</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Bus Control Signals</td>
+<td style="text-align: center;">R/W (direction control) and CLOCK (timing)</td>
+<td style="text-align: center;">Perhaps none; depends upon device</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Bus Delays</td>
+<td style="text-align: center;">Fixed; known upper-bound</td>
+<td style="text-align: center;">Variable; depends upon device, and what it is doing</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Data Persistence</td>
+<td style="text-align: center;">Transient; exists for one bus transaction</td>
+<td style="text-align: center;">Persistent or transient; depends upon device</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>There is no way to convert transient data to persistent, because after some point the data buffer overflows and the data is lost</li>
+</ul>
+<h3 id="system-bus-side">System Bus Side</h3>
+<ul>
+<li>General signal groups within a bus:
+<ul>
+<li><p>Data – bi-directional between the processor and devices (including memory)</p></li>
+<li><p>Selection - memory location or I/O device must be uniquely selected (addressing)</p></li>
+<li><p>Control - transfers must be synchronized:</p>
+<ul>
+<li>Data transfer synchronization signals (e.g., R/W, CLOCK, …),</li>
+<li>Bus control signals (e.g., REQUEST, GRANT, … ), and often</li>
+<li>Processor arbitration signals (e.g., IRQ, …)</li>
+</ul></li>
+</ul></li>
+<li>At this point in the course, we can make the following assumptions:
+<ul>
+<li>A memory mapped I/O device (as opposed to a 2-bus structure)</li>
+<li>An interface with more than 1 register memory-mapped (assume 4 registers - control, status, data in, data out - allows for bi-directional flow)</li>
+<li>A synchronous bus with a global clock</li>
+<li>Timing similar to that illustrated on the next slide…</li>
+</ul></li>
+</ul>
+<h3 id="sample-system-bus">Sample System Bus</h3>
+<figure>
+<img src="../../attachments/parallel-bus-timing-example.png" alt="parallel-bus-timing-example" class="responsive-img" /><figcaption>parallel-bus-timing-example</figcaption>
+</figure>
+<ul>
+<li>See above that the clock is high for more time than low to manage the edges of Chip Select (CS)</li>
+<li>The chip select gets generated using the clock (low), relevant address (address on bus matches what we have), read or write (eg: read only device which ignore writes)
+<ul>
+<li>most devices respond on both read and write</li>
+</ul></li>
+</ul>
+<h3 id="device-bus-side">Device Bus Side</h3>
+<ol type="1">
+<li>Unidirectional buses – Simplicity
+<ul>
+<li>Low cost (no need for direction control or arbitration)</li>
+<li>Makes software interfacing easier to do</li>
+<li>This can also be done by having one wire for read and one wire for write if you still want bi-directional flow of data</li>
+<li>Eg: switches, LEDs</li>
+</ul></li>
+<li>Bi-directional buses – Versatility
+<ul>
+<li>Direction control type
+<ul>
+<li><p>Explicit (Data Direction Register)</p></li>
+<li><p>Implicit (no Data Direction Register)</p></li>
+</ul></li>
+<li>Bus driver implementation alternatives
+<ul>
+<li>Passive Pull-up (often implemented as Open Collector) - explicit or implicit</li>
+<li>Tri-State - explicit only</li>
+<li>Pseudo Bi-directional - implicit only</li>
+</ul></li>
+<li>Direction control frequency
+<ul>
+<li>Static: port direction is configured once during initialization - content consumer (youtube)</li>
+<li>Dynamic: port direction changes frequently during operation - Eg: content creator on youtube (creates + also wants likes), printer (two ways, because it senses whether the device has stapling support, whether it has enough ink etc), computer mouse (changing software sensitivity actually changes things on the mouse hardware configuration wise)</li>
+</ul></li>
+</ul></li>
+</ol>
+<h3 id="bus-driver-structure">Bus Driver Structure</h3>
+<p><img src="../../attachments/drivers.png" alt="drivers" class="responsive-img" />
+<img src="../../attachments/bjt.jpg" alt="bjt" class="responsive-img" /></p>
+<ul>
+<li>When you have a driver, it has the ability to either connect or not connect to its voltage line</li>
+<li>Closing both the switches would cause a short-circuit</li>
+<li>We could replace either the top switch or the bottom switch with the a resistor because that would limit resistances and then we would not have to worry about the switches being mutually exclusive</li>
+</ul>
+<h3 id="driver-implementation-alternatives">Driver Implementation Alternatives</h3>
+<ul>
+<li><strong>Totem-Pole Driver</strong>: Two mutually exclusive switches are used. A logic-0 is applied to the signal line by closing the pull-down switch and opening the pull-up switch. A logic-1 is applied to the signal line by opening the pull-down switch and closing the pull-up switch.
+<ul>
+<li>standard driver in any logical gate, if its not labeled as 0/E or 0-E, and does not have an enable signal then its going to be a totem pole driver</li>
+<li>logical gates almost never have an input signal</li>
+</ul></li>
+<li><strong>Passive Pull-Up Driver</strong>: Replaces the pull-up switch with a resistor. A logic-0 is applied to the signal line by closing the pull-down switch. Otherwise, the resistor passively pulls the signal line to a logic-1.</li>
+<li><strong>Passive Pull-Down Driver</strong>: Replaces the pull-down switch with a resistor. A logic-1 is applied to the signal line by closing the pull-up switch. Otherwise, the resistor passively pulls the signal line to a logic-0.</li>
+<li><strong>Tri-State Driver</strong>: Two switches are used. The logic driving the control inputs permits both switches to be off at the same time. When both are off, the driver is in a high-impedance state.
+<ul>
+<li>if it has a buffer then its a tri-state</li>
+</ul></li>
+</ul>
+<h3 id="unidirectional-data-input">Unidirectional Data Input</h3>
+<h4 id="no-synchronization">No Synchronization</h4>
+<p><span class="math display">ReadData = \overline{Clock}\cdot R/W\cdot ``Device\;Address&quot;</span>
+If Address - 0x8AFF = 1000 1010 1111 1111
+<span class="math display">\begin{aligned}
+Read Data = \overline{Clock}\cdot R/W\cdot A_{15}\cdot\;\overline{A_{14}}\cdot\;\overline{A_{13}}\cdot\;\overline{A_{12}} \\ \qquad\cdot\;A_{11}\cdot\;\overline{A_{10}}\cdot\;A_{9}\cdot\;\overline{A_{8}}\cdot\;A_{7}\cdot\;A_{6}\cdot\;A_{5}\cdot\;A_{3}\cdot\;A_{2}\cdot\;A_{1}
+\end{aligned}
+</span></p>
+<p><span class="math display">\text{Chip Select}=A_{15}\cdot\;\overline{A_{14}}\cdot\;\overline{A_{13}}\cdot\;\overline{A_{12}}\cdot\;A_{11}\cdot\;\overline{A_{10}}\cdot\;A_{9}\cdot\;\overline{A_{8}}\cdot\;A_{7}\cdot\;A_{6}\cdot\;A_{5}\cdot\;A_{3}\cdot\;A_{2}\cdot\;A_{1}</span></p>
+<p><img src="../../attachments/parallel-interface-unidirectional-unsynchronized-data-input.png" alt="parallel-interface-unidirectional-unsynchronized-data-input" class="responsive-img" />
+<img src="../../attachments/parallel-uudi-timing.png" alt="parallel-uudi-timing" class="responsive-img" /></p>
+<ul>
+<li>all the tri-state drivers are being driver by ReadData (which is not what it is always going to be called, and is going to be produced by the Register Selection Logic)</li>
+</ul>
+<p><em>Also notice that the DeviceData and D are labelled differently becuase they are inherently different, one is inside the device, other is outside</em></p>
+<h4 id="transient-data-capture">Transient Data Capture</h4>
+<p><img src="../../attachments/parallel-interface-unidirectional-transient-data-input.png" alt="parallel-interface-unidirectional-transient-data-input" class="responsive-img" />
+<img src="../../attachments/parallel-utdi-timing.png" alt="parallel-utdi-timing" class="responsive-img" />
+- If we were to remove DeviceData[15:0] at the second increasing edge then it would not affect the D[15:0] signal in the second cycle because we would have already captured the data in the Data In register</p>
+<h3 id="unidirectional-data-output">Unidirectional Data Output</h3>
+<h4 id="transient-data-capture-1">Transient Data Capture</h4>
+<p><span class="math display">WriteData = \overline{\overline{Clock}\cdot \overline{R/W}\cdot ``Device\;Address&quot;}</span>
+<img src="../../attachments/parallel-interface-unidirectional-data-output.png" alt="parallel-interface-unidirectional-data-output" class="responsive-img" />
+<img src="../../attachments/parallel-udo-timing.png" alt="parallel-udo-timing" class="responsive-img" /></p>
+<ul>
+<li>we want rising edge to align with the master signal, which is why we are inverting the clock signal, this way we get the data at the time when it is most stable</li>
+<li>it is only at the end of the first cycle will the data actually be updated, and the DeviceData register will hold the data until it is written to again
+<ul>
+<li>CPU/System Bus + Device Interface + Device Bus/Device itself</li>
+</ul></li>
+</ul>
+<h3 id="explicit-bidirectional-data-unsynchronized-tristate-buffer">Explicit Bidirectional Data / Unsynchronized / Tristate Buffer</h3>
+<figure>
+<img src="../../attachments/parallel-interface-explicit-bidirectional-unsynchronized.png" alt="parallel-interface-explicit-bidirectional-unsynchronized" class="responsive-img" /><figcaption>parallel-interface-explicit-bidirectional-unsynchronized</figcaption>
+</figure>
+<p>Some Questions to Consider</p>
+<ol type="1">
+<li>What might the device look like?
+<ul>
+<li>there is a lot of variation</li>
+</ul></li>
+<li>When can the interface drive the DeviceData lines?
+<ul>
+<li>it can drive when DDR is all 1 in this case, and it can read it when DDR is all 0</li>
+</ul></li>
+<li>How does the device drive the DeviceData lines?
+<ul>
+<li>by using the control signals</li>
+</ul></li>
+<li>What additional control signals are necessary?</li>
+</ol>
+<p>This design is incomplete but a good start..<br></p>
+<p>The only difference between control and the actual data is only the address, you can only talk to one register at a time inside the parallel interface. First set control, then the data in consecutive clock cycles</p>
+<h3 id="explicit-bidirectional-data-transient-data-capture-tristate-buffer">Explicit Bidirectional Data / Transient Data Capture / Tristate Buffer</h3>
+<figure>
+<img src="../../attachments/parallel-interface-explicit-bidirectional-data.png" alt="parallel-interface-explicit-bidirectional-data" class="responsive-img" /><figcaption>parallel-interface-explicit-bidirectional-data</figcaption>
+</figure>
+<ul>
+<li>This mechanism it enables the device to know whether it is being reading from, or being read to. And the output of the DDR could be all 16 lines, but if we presume them to be all one then we could just send one wire</li>
+<li>Also presumably, the DDR arrives before the data so that the device has enough time to control its interfacing itself</li>
+<li>To make this work fine there should be tri-state buffer on the device side, not shown here</li>
+</ul>
+<h3 id="implicit-bidirectional-data-transient-data-capture-passive-pullup">Implicit Bidirectional Data / Transient Data Capture / Passive Pullup</h3>
+<p><img src="../../attachments/parallel-interface-implicit-bidirectional-data.png" alt="parallel-interface-implicit-bidirectional-data" class="responsive-img" />
+- Allows us to remove the DDR, if Address has all 0’s, then DeviceData[15:0] will all be 0</p>
+<p>Conflict:<br />
+CPU: 0x1234<br />
+Device: 0x2468<br />
+Conflict between active 0 and passive 1<br />
+comparing nibbles:<br />
+CPU: 0001 0010 0011 0100<br />
+DEV: 0010 0100 0110 1000<br />
+OUT: 0000 0000 0010 0000<br />
+</p>
+<p>The shared signal on the bus will actually be neither of the values of, which is wrong, and is a mathematical combination of the two sides, and is an example of when the two sides are failing to cooperate <br />
+</p>
+<p><em>In order for information to be exchanged both sides have to be co-operating, one side transmitting, one side receiving, and here we are using the addressing mechanism, but we need to still figure out a way to communicate with the device which does not have a bus that can be used for “addressing” per se</em><br />
+</p>
+<p>If we want to read, then we need to drive the open collector buffer to high Z, because otherwise we will be writing one of the lines that we want to read (i.e. we don’t wanna actually override)</p>
+<h3 id="explicit-bidirectional-data-transient-data-capture-passive-pullup">Explicit Bidirectional Data / Transient Data Capture / Passive Pullup</h3>
+<ul>
+<li><p>When DDR = 1 (Output Mode), X = Data and some of the device data lines are driven low by the interface</p></li>
+<li><p>At power-up, the DDR must be set to a value of 0 (only safe state)
+<img src="../../attachments/parallel-interface-explicit-bidirectional-passive-pullup.png" alt="parallel-interface-explicit-bidirectional-passive-pullup" class="responsive-img" /></p></li>
+<li><p>When DDR = 0 (Input Mode), X = 0 and the device data lines float high unless driven low by the device</p></li>
+<li><p>When DDR = 1 (Output Mode), X = Data and some of the device data lines are driven low by the interface</p></li>
+<li><p>At power-up, the DDR must be set to a value of 0 (only safe state)</p></li>
+</ul>
+<p>As earlier, the other side should cooperate, and if it does not we get weird outputs<br />
+We have a DDR but it is not really needed</p>
+<h3 id="pseudo-bi-directional-ports-implicit-bidirectional-data-passive-pullup">Pseudo Bi-Directional Ports (Implicit Bidirectional Data / Passive Pullup)</h3>
+<figure>
+<img src="../../attachments/parallel-interface-pseudo-bidirectional-port.png" alt="parallel-interface-pseudo-bidirectional-port" class="responsive-img" /><figcaption>parallel-interface-pseudo-bidirectional-port</figcaption>
+</figure>
+<ul>
+<li><span class="math inline">X[15..0] = Q[15..0]</span></li>
+<li>If <span class="math inline">Q[0] = 0</span>, then <span class="math inline">DeviceData[0]</span> is actively driven to 0</li>
+<li>If <span class="math inline">Q[0] = 1</span>, then <span class="math inline">DeviceData[0]</span> is passively driven to 1 (i.e., floats high)</li>
+<li><strong>To read a value from a device attached to the <span class="math inline">DeviceData</span> lines, the Data Out Register must first be set to a value of all 1’s (0xFFFF)</strong></li>
+</ul>
+<p>One read, needs 2 cycles, one to write to direction, and then one to read <em>but</em> Multiple back to back reads can be done in 4 cycles<br />
+Companies like Intel etc. use it a lot because it is cheaper to manufacture</p>
+<h3 id="data-characteristics">Data Characteristics</h3>
+<ul>
+<li>Whenever two systems communicate there is a question as to how data can be passed from one domain to the other. This transfer may include:
+<ul>
+<li>Signal Translation (light ↔ electrical, or 5 V ↔ 3 V, or 5 V ↔ 10 mA)</li>
+<li>Synchronization (When should data be read or written?)</li>
+</ul></li>
+<li>Consider the following dimensions to the problem:
+<ul>
+<li>Data may be either persistent or transient
+<ul>
+<li>will it exist for as long as we need it</li>
+</ul></li>
+<li>The source of the data may either inform or not inform the receiver that the data is present
+<ul>
+<li>how much notification do we need from the system, i.e. control signals</li>
+</ul></li>
+<li>The receiver may (or may not) request new data when it is ready for the data
+<ul>
+<li>can data be demanded by the receiver</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="control-signalling">Control Signalling</h3>
+<p>There are two general techniques to pass control information between two entities:</p>
+<ul>
+<li><strong>In-Band</strong>: Some (or all) control information is communicated in the same way that data is transferred. For example, a control-C in a text string resembles ordinary data, but it may be interpreted as a special control character.
+<ul>
+<li><div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1">  printf(<span class="st">&quot;Hello World</span><span class="sc">\n</span><span class="st">&quot;</span>);</a></code></pre></div>
+In the above example, the “\n” means an escape sequence, and is an example of an In-Band control information, that can be passed as data but cannot be confused as data. More examples: “\a” for alert, “\t” for tab, “\r” for carriage return, “\\” for a single backslash. If something doesn’t equal to the text we use it as, then it cna be considered an escape character<br />
+</li>
+</ul></li>
+<li><strong>Out-of-Band</strong>: Control information is communicated using techniques that cannot be confused with the transmission of data.<br />
+For example, wireless control information may be transmitted using frequencies not used to transmit data, control information may be transmitted on the data lines of a bus at a time when data is never present, or control information may be transmitted on signal lines dedicated to the transmission of control information.</li>
+</ul>
+<h3 id="signalling-of-data-changes">Signalling of Data Changes</h3>
+<p>Consider the challenge of transmitting two identical data values back-to-back:
+For example, how might you tell the difference between the transmission of two data values of 0x76 and one data value of 0x76?</p>
+<ul>
+<li>Using the In-Band approach, the only indication that there has been a change is the fact that the value on the data lines is different than it was previously (e.g., a different key has been pushed). This would require very special operating specifications. One alternative, from among many, is to insert a special control character between identical consecutive values.</li>
+<li>Using the Out-of-Band approach, the most straightforward alternative is to use an extra signal line to indicate the presence of valid data and its duration</li>
+</ul>
+<h3 id="data-persistence">Data Persistence</h3>
+<p>Consider data persistence from the perspective of the consumer of the data:</p>
+<ul>
+<li>Persistent data may be accepted at the convenience of the consumer. After the data has been consumed, the producer is notified.</li>
+<li>Transient data must be accepted within a fixed time after being produced. The consumer does not notify the producer of data consumption.
+<ul>
+<li>a good example is a keyboard input where we can set a minimum time, and humans are slower so it should be fine</li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/parallel-data-persistence.png" alt="parallel-data-persistence" class="responsive-img" /><figcaption>parallel-data-persistence</figcaption>
+</figure>
+<h3 id="handling-persistent-data">Handling Persistent Data</h3>
+<p>How might you handle persistent data?<br />
+A fully-interlocked protocol can be implemented with out-of-band signalling<br />
+<br />
+Data produced: Valid<br />
+Data received: Accepted<br />
+<br />
+Fully Interlocked protocol: data valid rising before data accept rising, data valid falling edge before data accept falling edge
+
+<img src="../../attachments/parallel-interface-persistent-data-processing.png" alt="parallel-interface-persistent-data-processing" class="responsive-img" /></p>
+<pre class="assembly"><code>// consider implementation of control sequence
+LOOP1:  TST StatusRegister
+        BEQ LOOP1
+        MOVE DATA, R0
+        MOVE #1, ControlRegister
+LOOP2:  TST StatusRegister
+        BNE LOOP2
+        MOVE #0, ControlRegister</code></pre>
+<h3 id="handling-transient-data">Handling Transient Data</h3>
+<p>How might you handle transient data?</p>
+<ul>
+<li>Out-of-band signalling can be used to detect changes in data</li>
+<li>Double-buffering can be used to extend the time window for data to be consumed
+<img src="../../attachments/parallel-interface-transient-data-processing.png" alt="parallel-interface-transient-data-processing" class="responsive-img" /></li>
+</ul>
+<p>We sometimes just have to infer when there is no data for Transient data (If we have Data Available then we don’t need an edge detection device, because the flip flop itself can do the work and <em>detect</em> when data exists/changes)<br />
+</p>
+<p>If we have more data then we can store the data temporarily with the data buffer, and then when the CPU is ready it can read from the buffer. So if CPU is busy, then buffer fills up, and then CPU can read easily from buffer whenever it is ready<br />
+</p>
+<p>Double Buffering: One register for immediate storage, and data buffer for the system bus</p>
+<h3 id="debouncing-noisy-input-data">Debouncing Noisy Input Data</h3>
+<ul>
+<li>Mechanical switch inputs may be noisy due to bouncing - contact plates need to touch, and they might not actually make a great connection, moreover there might not even touch for current to arc between the two plates of the switch when they get super close but don’t touch
+<ul>
+<li>the older the switch, the more corrosing, the more wear and tear, the more debouncing</li>
+</ul></li>
+<li>Debounced switches can be built using more expensive SPDT switches instead of SPST switches as illustrated to the right</li>
+<li>The SPDT solution assumes that a switch will not bounce from one throw to the other
+<img src="../../attachments/parallel-interface-switch-debouncing.png" alt="parallel-interface-switch-debouncing" class="responsive-img" />
+software solution: one way to handle is to literally ignore the input when we see it fluctuate<br />
+hardware solution: use a capacitor, one shot capacitor<br />
+B and C are active low output signal, and feed them into an RS latch, and this has to do with the set reset stage between the two input lines to the latch (the two lines bounce at independent times, i.e. R is zero and S bounces or S is zero and R bounces)</li>
+</ul>
+<h4 id="debouncing-options">Debouncing Options</h4>
+<ul>
+<li>The duration of the bouncing is often unknown and may change over time</li>
+<li>Software approaches include the following:
+<ul>
+<li>Option 1: Wait a fixed amount of time using a delay loop
+<ul>
+<li>but you need to guess this amount</li>
+</ul></li>
+<li>Option 2: Wait until the signal is stable
+<ul>
+<li>repeatedly read and then if you see its stable then good for you</li>
+</ul></li>
+</ul></li>
+<li>Hardware approaches include the following:
+<ul>
+<li>Option 1: Wait a fixed amount of time using a counter or shift register</li>
+<li>Option 2: Slow down the signal transitions using a one-shot capacitor
+<ul>
+<li>normal capacitor but it slows down the signal and it gives us a stable output</li>
+</ul></li>
+<li>Option 3: Use a more expensive switch attached to an RS latch</li>
+</ul></li>
+</ul>
+<p>Mostly software option 1 is used, because its the cheapest</p>
+<h3 id="synchronization---control-line-issues">Synchronization - Control Line Issues</h3>
+<ul>
+<li>What should be done when new input data is available?
+<ul>
+<li>Set a status bit to notify the CPU of new input data</li>
+<li>Assert an interrupt request signal to notify the CPU of new input data</li>
+<li>Clock device data into an interface data register</li>
+</ul></li>
+<li>What should be done when new output data is available?
+<ul>
+<li>Set a status bit to notify the device of new output data</li>
+<li>Clock CPU data into an interface data register</li>
+</ul></li>
+<li>When should status bits be set or cleared?
+<ul>
+<li>Set status bits when a new data event occurs</li>
+<li>Implicitly clear the status using control logic</li>
+<li>Wait for the software to explicitly clear the status</li>
+</ul></li>
+<li>Which control signal edge is the active edge?</li>
+</ul>
+<h3 id="data-only-input-transfers">Data Only Input Transfers</h3>
+<figure>
+<img src="../../attachments/parallel-data-only-input.png" alt="parallel-data-only-input" class="responsive-img" /><figcaption>parallel-data-only-input</figcaption>
+</figure>
+<ul>
+<li>No obvious time constraints</li>
+<li>No event information (i.e. no signal to assert when button is pressed or not)</li>
+<li>Possibility of switches bouncing (we could insert a capacitor to handle this)</li>
+</ul>
+<p>Data input using <code>MOVE DATA, R0</code><br />
+</p>
+<h3 id="data-only-output-transfers">Data Only Output Transfers</h3>
+<figure>
+<img src="../../attachments/parallel-data-only-output.png" alt="parallel-data-only-output" class="responsive-img" /><figcaption>parallel-data-only-output</figcaption>
+</figure>
+<ul>
+<li>No obvious time constraints</li>
+<li>No event information</li>
+<li>No notification of changes</li>
+</ul>
+<p>Data output using <code>MOVE R0, DATA</code><br />
+Its easier to sink a wire by a register than source a wire, which allows the LED to light up (1 for off, 0 for on)<br />
+Changing the resistance would change the intensity of the LED, increasing R, decrease brightness<br />
+Continuously switch it on and off in software and it would appear to be less bright<br />
+</p>
+<h3 id="capturing-most-recent-transient-data">Capturing Most Recent Transient Data</h3>
+<h4 id="implicit-status-clearing">Implicit Status Clearing</h4>
+<figure>
+<img src="../../attachments/parallel-interface-event-capture-recent.png" alt="parallel-interface-event-capture-recent" class="responsive-img" /><figcaption>parallel-interface-event-capture-recent</figcaption>
+</figure>
+<ul>
+<li>Status Register
+<ul>
+<li>Set to 1 when an event occurs</li>
+<li>Cleared to 0 when data is read</li>
+</ul></li>
+<li>Data In Register
+<ul>
+<li>Set to data when an event occurs</li>
+<li>Overwritten if not read in time</li>
+</ul></li>
+</ul>
+<p>This is the most recent data since if we there is new data before we read, the existing data will get overwritten.<br />
+We need the Status Register to assert validity of the data.<br />
+<br />
+DeviceEvent, DataStable, Logic1 becomes 1, status becomes 1, CPU reads status, CPU consumes Data, data read, reset status using READDATA</p>
+<h4 id="explicit-status-clearing">Explicit Status Clearing</h4>
+<figure>
+<img src="../../attachments/parallel-interface-event-capture-recent-explicit.png" alt="parallel-interface-event-capture-recent-explicit" class="responsive-img" /><figcaption>parallel-interface-event-capture-recent-explicit</figcaption>
+</figure>
+<ul>
+<li>The status register in this design must be explicitly reset by the software toggling a bit in the control register</li>
+<li>When an event is detected:
+<ul>
+<li>Software must set control register to 1</li>
+<li>Software must then clear control register to 0</li>
+<li>If the control register is not cleared, new data may be missed</li>
+</ul></li>
+</ul>
+<p>Notice how we have to write to the control signal twice, because its not an instantaneous thing but we need       <br />
+</p>
+<p>Device events comes in, gets stored in data register, sets data 1 to status register<br />
+CPU pulls status register, realises data to be pulled, actually reads the data<br />
+Then CPU sets the control signal to reset, and then sets the control signal back to 0 to stop resetting</p>
+<h3 id="capturing-first-transient-data">Capturing First Transient Data</h3>
+<h4 id="implicit-status-clearing-1">Implicit Status Clearing</h4>
+<figure>
+<img src="../../attachments/parallel-interface-event-capture-first.png" alt="parallel-interface-event-capture-first" class="responsive-img" /><figcaption>parallel-interface-event-capture-first</figcaption>
+</figure>
+<ul>
+<li>Status Register
+<ul>
+<li>Set to 1 when an event occurs</li>
+<li>Cleared to 0 when data is read</li>
+</ul></li>
+<li>Overrun Register (second status register, to detect whether data is being lost or not)
+<ul>
+<li>Set to 1 when data already stored and an event occurs</li>
+<li>Cleared to 0 when data is read</li>
+</ul></li>
+<li>Data In Register
+<ul>
+<li>Set to data when data not already
+stored and an event occurs</li>
+<li>Data stored until read</li>
+</ul></li>
+</ul>
+<p><em>1st Novelty</em> : how do we get the first transient data?<br />
+<em>2nd Novelty</em> : how do we do overrun detection? (the hardware in the lab is doing something like this for Lab 2)</p>
+<h3 id="capturing-persistent-data">Capturing Persistent Data</h3>
+<h4 id="implicit-status-clearing-2">Implicit Status Clearing</h4>
+<figure>
+<img src="../../attachments/parallel-interface-event-capture-persistent.png" alt="parallel-interface-event-capture-persistent" class="responsive-img" /><figcaption>parallel-interface-event-capture-persistent</figcaption>
+</figure>
+<ul>
+<li>Note the behavior of <code>DataAccepted</code>:
+<ul>
+<li>Set to 1 at power-up</li>
+<li>Cleared to 0 when an event occurs</li>
+<li>Set to 1 when data has been read</li>
+</ul></li>
+<li>The device must co-operate to avoid losing data</li>
+</ul>
+<h2 id="questions-of-interest">Questions of Interest</h2>
+<h3 id="short-answer">Short Answer</h3>
+<ul>
+<li>How do you hook up a switch and LED to the same port?</li>
+</ul>
+<h3 id="engineering">Engineering</h3>
+<p>no right or wrong answer</p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

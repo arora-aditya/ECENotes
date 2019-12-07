@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section IV</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section IV</h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#time-and-frequency-domain-analysis-of-discrete-time-linear-systems">Time and Frequency Domain Analysis of Discrete-Time Linear Systems</a><ul>
+<li><a href="#examples-of-discrete-time-signals-and-systems">4.1 Examples of Discrete-Time Signals and Systems</a></li>
+<li><a href="#the-discrete-time-impulse-function">4.2 The Discrete-time Impulse Function</a><ul>
+<li><a href="#sifting-formula">Sifting Formula</a></li>
+</ul></li>
+<li><a href="#the-discrete-time-impulse-response">4.3 The Discrete-Time Impulse Response</a><ul>
+<li><a href="#discrete-time-convolution-identities">Discrete-time Convolution Identities</a></li>
+</ul></li>
+<li><a href="#linear-difference-equation-with-constant-coefficients">4.4 Linear Difference Equation with Constant Coefficients</a></li>
+<li><a href="#zero-input-and-zero-state-response">4.5 Zero-Input and Zero-State response</a><ul>
+<li><a href="#zero-input-response">Zero-Input response</a></li>
+</ul></li>
+<li><a href="#stability">4.6 Stability</a><ul>
+<li><a href="#asymptomatically">Asymptomatically</a></li>
+<li><a href="#bounded-input-bounded-output-bibo">Bounded-Input Bounded-Output (BIBO)</a></li>
+</ul></li>
+<li><a href="#the-z-transform">4.7 The Z-transform</a></li>
+<li><a href="#properties-of-z-transform">4.8 Properties of z-transform</a></li>
+<li><a href="#inverse-z-transforms">4.9 Inverse z-transforms</a></li>
+<li><a href="#the-method-of-partial-fractions">4.10 The Method of Partial Fractions</a></li>
+<li><a href="#zero-input-and-zero-state-response-by-z-transforms">4.11 Zero-Input and Zero-state response by Z-transforms</a></li>
+<li><a href="#discrete-time-transfer-functions">4.12 Discrete-Time Transfer Functions</a></li>
+<li><a href="#discrete-time-frequency-response">4.13 Discrete-Time Frequency Response</a></li>
+<li><a href="#discretizing-continuous-time-systems">4.14 Discretizing Continuous-Time systems</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="time-and-frequency-domain-analysis-of-discrete-time-linear-systems">Time and Frequency Domain Analysis of Discrete-Time Linear Systems</h1>
+<p>Most sophisticated modern technology incorporates a computer in some way. Computes only take action at the clock ticks, and are this naturally modelled in discrete time</p>
+<h2 id="examples-of-discrete-time-signals-and-systems">4.1 Examples of Discrete-Time Signals and Systems</h2>
+<p>Many signals are innately, discrete time such as your monthly cell phone bill, or the government’s annual report on the National GDP. In ECE, many discrete-time signals arise from sampling continuous time signals.<br />
+</p>
+<figure>
+<img src="../../attachments/sampler.svg" alt="sampler" class="responsive-img" /><figcaption>sampler</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/sampler.png" alt="sampler" class="responsive-img" /><figcaption>sampler</figcaption>
+</figure>
+<p>In ECE, discrete time systems are typically made up of summing and difference junctions, amplifiers and (unit) delays<br />
+</p>
+<figure>
+<img src="../../attachments/sampler_A.svg" alt="sampler_A" class="responsive-img" /><figcaption>sampler_A</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/sampler_delay.svg" alt="sampler_delay" class="responsive-img" /><figcaption>sampler_delay</figcaption>
+</figure>
+<p>Example (First order digital filter)</p>
+<figure>
+<img src="../../attachments/first_order_digital_filter.png" alt="first_order_digital_filter" class="responsive-img" /><figcaption>first_order_digital_filter</figcaption>
+</figure>
+<p><span class="math display">
+  \begin{aligned}
+    e[k] &amp;= x[k] - By[k]\\
+    y[k] &amp;= Ae[k-1]\\
+  \end{aligned}\Bigg\} \implies y[k] = Ax[k-1] - ABy[k-1]</span></p>
+<h2 id="the-discrete-time-impulse-function">4.2 The Discrete-time Impulse Function</h2>
+<p>As in continuous-time, the discrete impulse is of great significance in the study of linear discrete-time systems.</p>
+<p>The discrete-time impulse is much more straightforward than in continuous time
+<span class="math display">
+\delta[k] :=
+\begin{cases}
+      1,&amp; k = 0 \\
+      0,&amp; \text{otherwise}
+\end{cases}
+</span></p>
+<figure>
+<img src="../../attachments/discrete_impulse.png" alt="discrete_impulse" class="responsive-img" /><figcaption>discrete_impulse</figcaption>
+</figure>
+<p>Since <span class="math inline">\delta[k]</span> is 0 everywhere except <span class="math inline">k = 0</span>, where it is 1, we have</p>
+<p><span class="math display">\sum_{n=-\infty}^{\infty}\delta[n] = 1</span>
+which is analogous to the continuous time property
+<span class="math display">\int_{-\infty}^{\infty}\delta(\tau)d\tau = 1</span></p>
+<h3 id="sifting-formula">Sifting Formula</h3>
+<p><strong>Theorem</strong>: Given a discrete time signal <span class="math inline">x[k]</span>,
+<span class="math display">x[k] = \sum_{n=-\infty}^{\infty} x[n]\delta[k-n] = \sum_{n=-\infty}^{\infty} x[k-n]\delta[n]</span></p>
+<p><strong>Proof</strong> From the definition of <span class="math inline">\delta[k]</span>:
+<span class="math display">
+x[n]\delta[k-n] =
+\begin{cases}
+      x[k],&amp; k = n \\
+      0,&amp; k \neq n
+\end{cases}
+</span></p>
+<h2 id="the-discrete-time-impulse-response">4.3 The Discrete-Time Impulse Response</h2>
+<p>Just as in continuous time, where the impulse response of an LTI system completely characterized its input-output relation via
+<span class="math display">y(t) = \int_{-\infty}^{\infty} x(\tau)h(t-\tau)d\tau</span>
+in discrete time we have the following theorem</p>
+<p><strong>Theorem</strong>:<br />
+</p>
+<figure>
+<img src="../../attachments/discrete_impulse_response.png" alt="discrete_impulse_response" class="responsive-img" /><figcaption>discrete_impulse_response</figcaption>
+</figure>
+<p>Given a discrete-time LTI system with an impulse response <span class="math inline">h[k]</span>, its response to any input <span class="math inline">x[k]</span> is <span class="math display">y[k] = \sum_{n=-\infty}^{\infty} x[n]h[k-n] = \sum_{n=-\infty}^{\infty} x[k-n]h[n]</span></p>
+<p><strong>Proof</strong> From the definition of <span class="math inline">\delta[k]</span>:</p>
+<figure>
+<img src="../../attachments/discrete_impulse_response_proof.png" alt="discrete_impulse_response_proof" class="responsive-img" /><figcaption>discrete_impulse_response_proof</figcaption>
+</figure>
+<p><strong>Theorem</strong>:<br />
+An LTI system with an impulse response <span class="math inline">h[k]</span> is causal if and only if <span class="math display">h[k] = 0\;\;\forall k &lt; 0</span></p>
+<p><strong>Proof</strong>:
+<span class="math inline">\Rightarrow</span> Assume causal<br />
+By linearity if <span class="math inline">x_1(t) = 0</span>, then <span class="math inline">y_1(t) = 0</span><br />
+<span class="math inline">\delta[k] = x_1[k] = 0\;\;\forall k &lt; 0</span>, so by causality, <span class="math inline">h[k] = y_1[k] = 0\;\;\forall k &lt; 0</span></p>
+<p><span class="math inline">\Leftarrow</span> Assume <span class="math inline">h[k] = 0\;\;\forall k &lt; 0</span>, since the system is LTI,
+<span class="math display">y[k] = \sum_{n=-\infty}^{\infty} x[n]h[k-n]</span>
+where <span class="math inline">h[k-n] = 0\;\;\forall k -n &lt; 0 \Leftrightarrow n &gt; k</span>. Thus
+<span class="math display">y[k] = \sum_{n=-\infty}^{k} x[n]h[k-n]</span>
+<span class="math inline">y[k]</span> depends on <span class="math inline">x[-\infty],\dots, x[k]</span> but not <span class="math inline">x[k+1],x[k+2]\dots</span> so the system is clearly causal.</p>
+<p><strong>Corollary</strong>: If the system is LTI causal, then
+<span class="math display">y[k] = \sum_{n=-\infty}^{k} x[n]h[k-n] = \sum_{n=0}^{\infty} x[k-n]h[n]</span></p>
+<h3 id="discrete-time-convolution-identities">Discrete-time Convolution Identities</h3>
+<p>These summations are discrete convolutions
+<span class="math display">(X\ast Y)[k] := \sum_{n=-\infty}^{\infty}x[n]y[k-n]</span></p>
+<p>Properties:</p>
+<ol type="1">
+<li>Commutativity: <span class="math inline">(X\ast Y)[k] = (Y\ast X)[k]</span></li>
+<li>Distributivity: <span class="math inline">(X\ast (Y+Z))[k] = (X\ast Y)[k] + (X\ast Z)[k]</span></li>
+<li>Associativity: <span class="math inline">((X\ast Y)\ast Z)[k] = (X\ast (Y\ast Z))[k]</span></li>
+</ol>
+<p>Since summations are generally more difficult to evaluate than integrals, we will not develop an <span class="math inline">\alpha[k]</span>, <span class="math inline">\beta[k]</span> method of evaluating convolutions. We will instead wait until we have introduced the <span class="math inline">z</span> transform</p>
+<h2 id="linear-difference-equation-with-constant-coefficients">4.4 Linear Difference Equation with Constant Coefficients</h2>
+<p>Many important discrete-time systems, including the first order filter we say at the start of this chapter are modelled by difference equations of the form.</p>
+<p><span class="math display">
+\begin{aligned}
+y[k+n] + a_{n-1}y[k+n-1] + \cdots + a_1y[k+1] + a_0y[k] \\
+\,\,= b_mx[k+m] + \cdots + b_1x[k+1] + b_0x[k]
+\end{aligned}
+</span>
+where <span class="math inline">y</span> is the output and <span class="math inline">x</span> is the input and <span class="math inline">n (\geq m)</span> is the order of the difference equation, <span class="math inline">m \geq 0</span> and <span class="math inline">b_m \neq 0</span></p>
+<p>Define the time-advance operator <span class="math inline">E</span>
+<span class="math display">E\{z[k]\}:=z[k+r]</span>
+Using E, define the polynomials
+<span class="math display">
+\begin{aligned}
+Q(E) &amp;:= E^n + a_{n-1}E^{n-1} + \cdots + a_1E + a_0\\
+P(E) &amp;:= b_mE^m + \cdots + b_1E + b_0
+\end{aligned}
+</span></p>
+<p>Now we can write our difference equations as
+<span class="math display">Q[E]y[k] = P(E)x[k]</span></p>
+<p>Just as in continuous time, there are infinitely many solutions unless we impose auxiliary conditions, for example:
+<span class="math display">y[k+1]+y[k] = x[k]</span>
+Even if we know <span class="math inline">x[k]</span> we don’t have enough information to solve for <span class="math inline">y[k]</span> for all <span class="math inline">k</span> or any <span class="math inline">k</span>!
+<span class="math display">y[1] + y[0]= x[0]\dots\Large?</span></p>
+<p>Let’s take our difference equation, time-shift <span class="math inline">k\rightarrow k-n</span>, and rearrange
+<span class="math display">
+\begin{aligned}
+y[k] = &amp;-a_{n-1}y[k-1] - \cdots - a_1y[k-(n-1)] - a_0y[k-n]\\
+&amp;+b_mx[k-(n-m)] + \cdots + b_0x[k-n]
+\end{aligned}
+</span></p>
+<p>Substitute <span class="math inline">k=0</span>,
+<span class="math display">
+\begin{aligned}
+y[k] = &amp;-a_{n-1}y[-1] - \cdots - a_0y[-n]\\
+&amp;+b_mx[-(n-m)] + \cdots + b_0x[-n]
+\end{aligned}
+</span></p>
+<p>We always know <span class="math inline">x[k]</span>, so what’s <strong>“missing”</strong> is
+<span class="math display">y[-1], y[-2], \dots, y[-(n-1)], y[-n]</span>
+which are the initial conditions</p>
+<p>Analogously to continuous-time, we will study the system
+<span class="math display">
+\begin{cases}
+      Q(E)y[k] = P(E)x[k],\\
+      y[-1] = \alpha_0, \dots, y[-n]=\alpha_{n-1},\\
+      x[k] = 0\;\;\forall\;\; k &lt; 0
+\end{cases}
+</span></p>
+<p>One can show that</p>
+<p><span class="math display">y[k] = y_{zi}[k] + y_{zs}[k]</span></p>
+<p>where
+<span class="math display">
+\begin{cases}
+      Q(E)y_{zi}[k] = 0,\\
+      y_{zi}[-1] = \alpha_0, \dots, y_{zi}[-n]=\alpha_{n-1},\\
+\end{cases}
+</span></p>
+<p>and
+<span class="math display">
+\begin{cases}
+      Q(E)y_{zs}[k] = P(E)x[k],\\
+      y[-1] =0, \dots, y[-n]=0,\\
+      x[k] = 0\;\;\forall\;\; k &lt; 0
+\end{cases}
+</span></p>
+<p>Equipped with the discrete-time notion of initially at rest,
+<span class="math display">y[-\infty] = 0</span>
+linearity, time-invariance, and causality, can be proven using similar proofs as in continuous time with obvious changes</p>
+<h2 id="zero-input-and-zero-state-response">4.5 Zero-Input and Zero-State response</h2>
+<h3 id="zero-input-response">Zero-Input response</h3>
+<p>Recall that by the fundamental theorem of algebra
+<span class="math display">Q(\lambda) = (\lambda-\lambda_1)^{m_1}(\lambda-\lambda_2)^{m_2}\cdots(\lambda-\lambda_r)^{m_r}</span>
+with <span class="math inline">n=m_1+\cdots+m_r</span></p>
+<p><strong>Theorem</strong>:<br />
+If <span class="math inline">Q(\lambda)</span> has <span class="math inline">n</span> distinct non-zero roots then
+<span class="math display">y_{zi}[k] = \sum_{i=1}^nc_i\lambda_i^k</span>
+where the coefficients <span class="math inline">c_i</span> are given by
+<span class="math display">
+\begin{bmatrix}
+  \lambda_1^{-1} &amp;\; \lambda_2^{-1} &amp;\; \cdots &amp;\;\lambda_n^{-1}\\
+  \lambda_1^{-2} &amp;\; \lambda_2^{-2} &amp;\; \cdots &amp;\;\lambda_n^{-2}\\
+  \vdots &amp;\; \vdots &amp;\; \ddots &amp;\; \vdots \\
+  \lambda_1^{-n} &amp;\; \lambda_2^{-n} &amp;\; \cdots &amp;\;\lambda_n^{-n}\\
+\end{bmatrix}
+\begin{bmatrix}
+c_1\\
+\vdots\\
+\vdots\\
+c_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+\alpha_0\\
+\vdots\\
+\vdots\\
+\alpha_{n-1}
+\end{bmatrix}
+</span></p>
+<p><strong>Proof</strong>:
+We must satisfy the equation <span class="math inline">Q[E]y_{zi}[k] = 0</span><br />
+Consider the signal <span class="math inline">\lambda_i^k</span> where <span class="math inline">Q(\lambda_i) = 0</span>
+We have
+<span class="math display">
+\begin{aligned}
+Q(E)\lambda_i^k &amp;= (E^n+a_{n-1}E^{n-1}+\cdots+a_1E + a_0)\lambda_i^k\\
+&amp;=\lambda_i^{k+n} + a_{n-1}\lambda_i^{k+n-1} + \dots + a_{1}\lambda_i^{k+1} + a_{0}\lambda_i^{k}\\
+&amp;=(\lambda_i^{n} + a_{n-1}\lambda_i^{n-1} + \dots + a_{1}\lambda_i^{1} + a_{0})\lambda_i^{k}\\
+&amp;=Q(\lambda_i)\lambda_i^k\\
+&amp;= 0\;\;\;\text{[}Q(\lambda_i)=0\text{]}\\
+\end{aligned}
+</span></p>
+<p>Guess the solution
+<span class="math display">y_{zi}[k] = \sum_{i=1}^nc_i\lambda_i^k</span></p>
+<p>We must satisfy the initial conditions
+<span class="math display">\begin{aligned}
+\alpha_j = y_{zi}[j+1] &amp;= c_1\lambda_1^{-j+1} + \dots + c_n\lambda_n^{-j+1}\\
+&amp;=\begin{bmatrix}
+\lambda_1^{-j+1} \cdots \lambda_n^{-j+1}
+\end{bmatrix}
+\begin{bmatrix}
+c_1\\
+\vdots \\
+c_n
+\end{bmatrix}\\
+\end{aligned}
+</span>
+which furnishes the matrix equation in the theorem. The matrix is a Van-der mode matrix and the <span class="math inline">\lambda_i</span> are distinct, so there exists a unique solution for <span class="math inline">c_i</span>
+</p>
+<h2 id="stability">4.6 Stability</h2>
+<p><span class="math display">{\Large\ast}
+\begin{cases}
+Q(E)y[k] = P(E)x[k]\\
+y[-1] = \alpha_0,\dots,y[-n]=\alpha_{n-1}\\
+x[k] = 0\;\;\forall\;k\;&lt;\;0
+\end{cases}
+</span></p>
+<h3 id="asymptomatically">Asymptomatically</h3>
+<p><strong>Definition</strong>: A system is asymptomatically stable if for any choice of initial conditions, the zero-input response tends to zero as <span class="math inline">k\rightarrow\infty</span> i.e. for all <span class="math inline">\alpha_j,\;j=0,\dots,n-1</span>, <span class="math inline">y_{zi}[k]\rightarrow 0</span> as <span class="math inline">k\rightarrow \infty</span></p>
+<p><strong>Theorem</strong>: The system <span class="math inline">{\Large\ast}</span> is asymptomatically stable if and only if all roots of <span class="math inline">Q(\lambda)</span> have magnitude strictly less than 1 i.e.
+<span class="math display">AS \Leftrightarrow (Q(\lambda) = 0 \implies |\lambda| &lt; 1)</span></p>
+<p><strong>Proof</strong>: A discrete-time signal <span class="math inline">x[k]</span> is bounded if there exists real <span class="math inline">B &lt; \infty</span> such that <span class="math inline">\forall\;k\;\epsilon\;\mathbb{Z}, |x[k]| \leq B</span></p>
+<h3 id="bounded-input-bounded-output-bibo">Bounded-Input Bounded-Output (BIBO)</h3>
+<p><strong>Definition</strong>: A system is BIBO stable if for all bounded inputs <span class="math inline">x[k]</span> the zero-state response <span class="math inline">y_{zs}[k]</span> is bounded i.e.
+<span class="math display">BIBO \Leftrightarrow (x[k]\;bounded\implies y_{zs}\;bounded)</span></p>
+<p><strong>Theorem</strong>: The system <span class="math inline">{\Large\ast}</span> is BIBO stable if and only if all roots of <span class="math inline">Q(\lambda)</span> that are also no roots of <span class="math inline">P(\lambda)</span> have magnitude strictly less than 1 i.e.
+<span class="math display">(\forall\;\lambda\;\epsilon\;\mathbb{C})(Q(\lambda) = 0)(P(\lambda)\neq 0)( |\lambda | &lt; 1)</span></p>
+<p><strong>Remark</strong>: Notice that we do not require <span class="math inline">n\geq m</span> as in Continuous time.<br />
+The proof is similar to continuous time, but uses Z-transforms instead of Laplace Transforms</p>
+<h2 id="the-z-transform">4.7 The Z-transform</h2>
+<p>The z-transform is the discrete time analog of the Laplace transform. Just like in Chapter 3, we will use this transform to develop frequency domain tools to study systems modelled by different equations.</p>
+<p>The z-transform of <span class="math inline">x[k]</span> is
+<span class="math display">\mathcal{Z}\{x[k]\} = X[z] := \sum_{k=0}^{\infty}x[k]z^{-k}</span>
+where <span class="math inline">z\;\epsilon\;\mathbb{C}</span> is some complex variable. We can clearly see that this the z-transform is oblivious to negative time.</p>
+<p>A very useful fact for computing z-transforms is that, given <span class="math inline">p\;\epsilon\;\mathbb{C}</span> where <span class="math inline">|p| &lt; 1</span>
+<span class="math display">\sum_{k=0}^{\infty}p^k = \frac{1}{1-p}</span>
+Conversely, if <span class="math inline">|p| &gt; 1</span> then the summation does not converge</p>
+<p><strong>Example</strong>: <span class="math inline">x[k] = \alpha^k</span>
+<span class="math display">
+\begin{aligned}
+X[z] &amp;= \sum_{k=0}^{\infty}\alpha^kz^{-k}\\
+&amp;= \sum_{k=0}^{\infty}\Big(\frac{\alpha}{z}\Big)^{k}\\
+&amp;= \frac{1}{1-\frac{\alpha}{z}},\;if\;|\frac{\alpha}{z}| &lt; 1 \Leftrightarrow |z| &gt; |\alpha|\\
+&amp;= \frac{z}{z-\alpha}
+\end{aligned}
+</span></p>
+<figure>
+<img src="../../attachments/region_of_convergence.png" alt="region of convergence" class="responsive-img" /><figcaption>region of convergence</figcaption>
+</figure>
+<p>The summation converges only for <span class="math inline">z</span> outside the disc of radius <span class="math inline">\alpha</span>. Just as with Laplace transform, we don’t care about the specific <span class="math inline">z</span> in this most cases. We just need there to exist some <span class="math inline">z</span> that makes the summation converge</p>
+<h2 id="properties-of-z-transform">4.8 Properties of z-transform</h2>
+<ol type="1">
+<li><p><strong>Linearity</strong>: <span class="math inline">\mathcal{Z}\{c_1x_1[k] + c_2x_2[k]\}[z] = c_1X_1[z] + c_2X_2[z]</span></p></li>
+<li><p><strong>Time Advance</strong>: <span class="math inline">\mathcal{Z}\{x[k+1]\}[z] = zX[z] - zx[0]</span>, or more generally
+<span class="math display">\mathcal{Z}\{x[k+N]\}[z] = z^NX[z] - z^Nx[0] - \cdots - z^2x[N-2] - z[N-1]</span>
+This property is analogous to the derivative property of Laplace transforms
+<span class="math display">\mathcal{L}\{\frac{d^nx(t)}{dt^n}\}(s) = s^nX(s) - s^{(n-1)}x(0^-) - \cdots - sx^{(n-2)}(0^-)-x^{(n-1)}(0^-)</span></p>
+<ul>
+<li><strong>Proof</strong>:
+<span class="math display">
+\begin{aligned}
+\mathcal{Z}\{x[k+N]\}[z] &amp;= \sum_{k=0}^{\infty}x[k+N]z^{-k}\\
+\text{change of variable } l:= k+N\\
+&amp;= \sum_{l=N}^{\infty}x[l]z^{-(l-N)}\\
+&amp;= z^N\sum_{l=N}^{\infty}x[l]z^{-l}\\
+&amp;= z^N(\sum_{l=0}^{\infty}x[l]z^{-l} - \sum_{l=0}^{N-1}x[l]z^{-l})\\
+&amp;= z^NX[z] - \sum_{l=0}^{N-1}x[l]z^{N-l}\\
+\end{aligned}
+</span></li>
+</ul></li>
+<li><p><strong>Time Delay</strong>: <span class="math inline">\mathcal{Z}\{x[k-1]\}[z] = z^{-1}X[z] + x[-1]</span>, or more generally
+<span class="math display">\mathcal{Z}\{x[k-N]\}[z] = z^{-N}X[z] + z^{-(N-1)}x[-1] + \cdots + z^{-1}x[-(N-1)] + x[-N]</span></p>
+<ul>
+<li><strong>Proof</strong>: Its same as the one above, but the substitution changes to <span class="math inline">l:= k-N</span></li>
+</ul></li>
+<li><p><strong>Multiplications by <span class="math inline">\alpha^k</span></strong>: <span class="math inline">\mathcal{Z}\{\alpha^kx[k]\}[z] = X(\frac{z}{\alpha})</span>
+Analogous to exponential scaling: <span class="math inline">\mathcal{L}\{e^{at}x(t)\}(s) = X(s-a)</span><br />
+</p>
+<ul>
+<li><strong>Proof</strong>:
+<span class="math display">
+\begin{aligned}
+\mathcal{Z}\{\alpha^kx[k]\}[z] &amp;= \sum_{k=0}^{\infty}\alpha^kx[k]z^{-k}\\
+&amp;= \sum_{k=0}^{\infty}x[k]\Big(\frac{z}{\alpha}\Big)^{-k}\\
+&amp;= X\Big(\frac{z}{\alpha}\Big)
+\end{aligned}
+</span></li>
+</ul></li>
+<li><p><strong>Convolution</strong>: <span class="math inline">\mathcal{Z}\{(x\ast y)[k]\}[z] = X[z]Y[z]</span><br />
+Just like Continuous time: <span class="math inline">\mathcal{L}\{(x\ast y)(t)\}(s) = X(s)Y(s)</span></p></li>
+<li><p><strong>Final Value Theorem</strong>: If <span class="math inline">\lim_{k\to\infty}x[k]</span> exists, then
+<span class="math display">\lim_{k\to\infty}x[k] = \lim_{z\to1}(z-1)X[z]</span></p></li>
+<li><p><strong>Initial Value Theorem</strong>:
+<span class="math display">x[0] = \lim_{z\to\infty}X[z]</span></p>
+<ul>
+<li><strong>Proof</strong>:
+<span class="math display">
+X[z] = \sum_{k=0}^{\infty}x[k]z^{-k} = x[0] + \sum_{k=1}^{\infty}\frac{x[k]}{z^k}
+</span>
+Take the limit as <span class="math inline">z\to\infty</span></li>
+</ul></li>
+<li><p><strong>Multiplication by k</strong>: <span class="math inline">\mathcal{Z}\{kx[k]\}[z] = -z\frac{dX[z]}{dz}</span></p>
+<ul>
+<li><strong>Proof</strong>:
+<span class="math display">
+\begin{aligned}
+X[z] &amp;= \sum_{k=0}^{\infty}x[k]z^{-k}\\
+\frac{d}{dz}X[z] &amp;= -\sum_{k=0}^{\infty}kx[k]z^{-k-1}\\
+-z\frac{d}{dz}X[z] &amp;= z\sum_{k=0}^{\infty}kx[k]z^{-k}\\
+&amp;= \mathcal{Z}\{kx[k]\}[z]
+\end{aligned}
+</span></li>
+</ul></li>
+</ol>
+<p>In particular,
+<span class="math display">Z\{k\}[z] = \frac{z}{(z-1)^2}\text{ for a ramp}</span>
+<span class="math display">Z\{k^2\}[z] = \frac{(z)(z+1)}{(z-1)^3}\text{ for a parabola}</span></p>
+<h2 id="inverse-z-transforms">4.9 Inverse z-transforms</h2>
+<p>Recall the definition of the z-transform
+<span class="math display">X[z] = \sum_{k=0}^{\infty}x[k]z^{-k}</span>
+Just like the Laplace transform, the Z-transform is oblivious to negative time.</p>
+<p><strong>Theorem</strong>: If <span class="math inline">x_1[k] = x_2[k]</span> for all <span class="math inline">k \geq 0</span>, then <span class="math inline">X_1[z] = X_2[z]</span>
+In particular, we take <span class="math inline">\mathcal{Z}^{-1}\{X[z]\}[k] = 0\;\;\forall\;k&lt; 0, x_1[k] \neq x_2[k]</span></p>
+<p><em>By convention we take <span class="math inline">Z^{-1}\{X[z]\}[k] = 0</span> for all <span class="math inline">k &lt; 0</span></em></p>
+<p>We will again use a lookup table for inverse transforms</p>
+<table>
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 58%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">x[k]</span></th>
+<th><span class="math inline">X[z]</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\delta [k]</span></td>
+<td><span class="math inline">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">u[k]</span></td>
+<td><span class="math inline">\frac{z}{z-1}</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\alpha^k</span></td>
+<td><span class="math inline">\frac{z}{z-\alpha}</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\frac{(k)_{n-1}\alpha^{k-(n-1)}}{(n-1)!}</span></td>
+<td><span class="math inline">\frac{z}{(z-\alpha)^n}</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">sin(k\omega T)</span></td>
+<td><span class="math inline">\frac{zsin(\omega T)}{(z^2-2zcos(\omega T)+1)}</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">cos(k\omega T)</span></td>
+<td><span class="math inline">\frac{z^2 - \alpha zcos(\omega T)}{(z^2-2zcos(\omega T)+1)}</span></td>
+</tr>
+</tbody>
+</table>
+<p>where
+<span class="math display">(k)_n:= (k)(k-1)(k-2)\cdots(k-(n-2))(k-(n-1))=\frac{k!}{(k-n)!}_\;</span></p>
+<h2 id="the-method-of-partial-fractions">4.10 The Method of Partial Fractions</h2>
+<p>Recall the Heaviside Expansion Theorem from Chapter 3</p>
+<p><strong>Theorem</strong> (Heaviside Expansion Theorem)
+If <span class="math inline">X(S) = \frac{N(s)}{D(s)}</span> is coprime and <span class="math inline">deg(N) &lt; deg(D)</span>, and
+<span class="math display">D(s)=a_n(s-p_1)^{m_1}(s-p_2)^{m_2}\cdots(s-p_l)^{m_l}</span>
+then,
+<span class="math display">X(s) = \sum_{i=1}^{l}\Bigg\{\sum_{j=1}^{m_i}\frac{r_{ij}}{(s-p_i)^j}\Bigg\}</span>
+where
+<span class="math display">r_{ij} = \frac{1}{(m_i-j)!}\frac{d^{m_i - j}}{ds^{m_i - j}}\Bigg[X(s)(s-p_i)^{m_i}\Bigg]\Bigg|_{s=p_i},\;\;i=1,\dots,{m_i}</span>_</p>
+<p>We could directly apply this to z-transforms, but we can our lives much easier by observing from our able that most of our z-transforms have <span class="math inline">z</span> in the in the numerator. It would therefore have us slightly modify the Heaviside method of partial fractions.</p>
+<p>Let <span class="math inline">\frac{X[z]}{z} = \frac{N(s)}{D(s)}</span>
+and <span class="math inline">D[z] = a_n(z-p_1)^{m_1}(z-p_2)^{m_2}\cdots(z-p_l)^{m_l}</span>. Then,
+<span class="math display">X[z] = \sum_{i=1}^{l}\Bigg\{\sum_{j=1}^{m_i}\frac{r_{ij}z}{(z-p_i)^j}\Bigg\}</span>
+where
+<span class="math display">r_{ij} = \frac{1}{(m_i-j)!}\frac{d^{m_i - j}}{ds^{m_i - j}}\Bigg[\frac{X(s)}{z}(z-p_i)^{m_i}\Bigg]\Bigg|_{z=p_i},\;\;i=1,\dots,{m_i}</span>_</p>
+<p>From our table
+<span class="math display">
+x[k] =
+\begin{cases}
+\sum_{i=1}^{l}\Bigg\{\sum_{j=1}^{m_i} \frac{r_{ij}}{(j-1)!} (k)_{j-1}p_i^{k-(j-1)}\Bigg\},&amp; k\geq 0_\;\\
+0, &amp; k &lt; 0
+\end{cases}
+</span></p>
+<h2 id="zero-input-and-zero-state-response-by-z-transforms">4.11 Zero-Input and Zero-state response by Z-transforms</h2>
+<p>Recall that we are focusing on systems of the form
+<span class="math display">\begin{cases}
+      Q(E)y[k] = P(E)x[k],\\
+      y[-1] = \alpha_0, \dots, y[-n]=\alpha_{n-1},\\
+      x[k] = 0\;\;\forall\;\; k &lt; 0
+\end{cases}
+</span>
+which has the very nice property <span class="math display">y[k] = y_{zi}[k] + y_{zs}[k]</span></p>
+<p>where
+<span class="math display">
+\begin{cases}
+      Q(E)y_{zi}[k] = 0,\\
+      y_{zi}[-1] = \alpha_0, \dots, y_{zi}[-n]=\alpha_{n-1},\\
+\end{cases}
+</span></p>
+<p>and
+<span class="math display">
+\begin{cases}
+      Q(E)y_{zs}[k] = P(E)x[k],\\
+      y[-1] =0, \dots, y[-n]=0,\\
+      x[k] = 0\;\;\forall\;\; k &lt; 0
+\end{cases}
+</span></p>
+<p>z-transforms greatly facilitate finding <span class="math inline">y_{zi}</span> and <span class="math inline">y_{zs}</span></p>
+<h2 id="discrete-time-transfer-functions">4.12 Discrete-Time Transfer Functions</h2>
+<p>We just saw
+<span class="math display">Y_{zs}[z] = \frac{P(z)}{Q(z)}X[z]</span>
+so if <span class="math inline">x[k] = \delta[k] \implies X[z] = 1</span>, then
+<span class="math display">Y_{zs}[z] = \frac{P(z)}{Q(z)}</span>
+Thus, the impulse response <span class="math inline">h[k]</span> has z-transform
+<span class="math display">H[z] = \frac{P(z)}{Q(z)}</span>
+and
+<span class="math display">
+h[k] =
+\begin{cases}
+\mathcal{Z}^{-1}\{\frac{P(z)}{Q(z)}\}[k],&amp;k\geq 0\\
+0,&amp;k&lt; 0\\
+\end{cases}
+</span>
+The discrete-time impulse response is <strong>not</strong> indeterminate at <span class="math inline">k=0</span></p>
+<p>Notice that, <span class="math inline">\frac{Y_{zs}[k]}{X[k]} = \frac{P(z)}{Q(z)} = H[z]</span><br />
+i.e. the ratio of the output to the input (with 0 Initial conditions) is always the same. Just as in continuous time we call this ratio, the <strong>transfer function</strong> and it is equal to the z-transform of the impulse response</p>
+<p><strong>Theorem</strong>: A DT LTI system is BIBO stable if and only if all the poles of its transfer function have magnitude less than 1.</p>
+<p><strong>Theorem</strong>: A DT LTI system is BIBO stable if and and only if <span class="math inline">Q(z)</span> and <span class="math inline">P(z)</span> have no common roots with magnitude 1 or greater, and all poles of its transfer function have magnitude strictly lesser than 1</p>
+<figure>
+<img src="../../attachments/bibo_stability_poles.png" alt="bibo_stability_poles" class="responsive-img" /><figcaption>bibo_stability_poles</figcaption>
+</figure>
+<p>Just as in CT, transfer functions facilitate the input-output modelling and analysis of interconnections of systems.</p>
+<ul>
+<li><p>Series:
+<img src="../../attachments/series.png" class="center responsive-img" />
+<span class="math display">\frac{Y[z]}{X[z]} = H_1[z]H_2[z]</span></p></li>
+<li><p>Parallel:
+<img src="../../attachments/parallel.png" class="center responsive-img" />
+<span class="math display">\frac{Y[z]}{X[z]} = H_1[z]+H_2[z]</span></p></li>
+<li><p>Feedback:
+<img src="../../attachments/feedback.png" class="center responsive-img" />
+<span class="math display">\frac{Y[z]}{X[z]} = \frac{H_1[z]}{1\pm H_1[z]H_2[z]}</span></p></li>
+</ul>
+<h2 id="discrete-time-frequency-response">4.13 Discrete-Time Frequency Response</h2>
+<p>Continuous time signals are very often to produce discrete time signals which are then processed by digital hardware. As we’ve seen sinusoids are an important class of signals.</p>
+<p><strong>Theorem</strong>
+Consider the system
+<span class="math display">
+\begin{cases}
+      Q(E)y[k] = P(E)x[k],\\
+      y[-1] = \alpha_0, \dots, y[-n]=\alpha_{n-1},\\
+\end{cases}
+</span>
+Suppose the system is asymptotically stable with transfer function <span class="math inline">H[z]</span>
+If
+<span class="math display">
+\text{If } x[k] =
+\begin{cases}
+      Acos(k\omega T + \theta), &amp;k\geq 0\\
+      0, &amp; k &lt; 0\\
+\end{cases}
+</span></p>
+<p>(<span class="math inline">cos(\omega t + \theta)</span> sampled with period <span class="math inline">T &gt; 0</span>) then,
+<span class="math display">\lim_{k\to\infty}y[k] =: y_{ss}[k] = A|H[e^{j\omega T}]|cos(k\omega T + \theta + \angle H[e^{j\omega T}])</span></p>
+<p><strong>Definition</strong> <span class="math inline">H[e^{j\omega T}] = |H[z]|\Bigg|_{z = e^{j\omega T}}\;_\;</span> is called the frequency response.</p>
+<p>Just as in continuous time, the initial conditions don’t affect the steady state behaviour. The system simply changes the magnitude and phase, not the “frequency”. (Recall that in Discrete time, sinusoids are generally not periodic)</p>
+<p><strong>Sketch of Proof</strong>:
+Consider the input <span class="math inline">x[k] = e^{j(k\omega T + \theta)}</span>, then
+<span class="math display">
+\begin{aligned}
+y_{zs}[k] &amp;= (x \ast h)[k]\\
+&amp;= \sum_{n=0}^{\infty}x[k-n]h[n]\\
+&amp;= \sum_{n=0}^{\infty}e^{j((k-n)\omega T + \theta)}h[n]\\
+&amp;= e^{j(k\omega T + \theta)}\sum_{n=0}^{\infty}e^{-j(n\omega T)}h[n]\\
+&amp;= e^{j(k\omega T + \theta)}H[e^{j\omega T}]
+\end{aligned}
+</span></p>
+<p>By linearity and Euler’s formula, the response to
+<span class="math display">cos(k \omega T + \theta) = \frac{e^{j(k\omega T + \theta)}+e^{-j(k\omega T + \theta)}}{2}</span>
+is
+<span class="math display">
+\frac{e^{j(k\omega T + \theta)}H[e^{j\omega T}]+e^{-j(k\omega T + \theta)}H[e^{-j\omega T}]}{2}
+</span>
+which is the even part of
+<span class="math display">e^{j(k\omega T + \theta)}H[e^{j\omega T}] = \Bigg|H[e^{j\omega T}]\Bigg| e^{j(k\omega T + \theta + \angle H[e^{j\omega T}])}</span>
+which is
+<span class="math display">\Bigg|H[e^{j\omega T}]\Bigg| cos(k\omega T + \theta + \angle H[e^{j\omega T}])</span></p>
+<p><strong>Remark</strong>: Unlike continuous time, the discrete time frequency response is periodic in <span class="math inline">\omega</span>. <span class="math inline">H[e^{j\omega T}]</span> is <span class="math inline">\frac{2\pi}{T}</span> periodic</p>
+<h2 id="discretizing-continuous-time-systems">4.14 Discretizing Continuous-Time systems</h2>
+<p>Quite often, we want to interface digital hardware with continuous-time systems. Eg: Robots, cars. The main hardware involved in these “sampled-data” setups are A/D and D/A converters which are modelled by the idea sample <span class="math inline">S</span> and ideal hold <span class="math inline">H</span> operators respectively.</p>
+<p><span class="math display">S(x(t)) = x[k]</span>, where <span class="math inline">x[k] = x(kT),\; T(&gt; 0)</span> is the sample period
+<span class="math display">H(y[k]) = y(t)</span>, where <span class="math inline">y(t) = y[k],\; t\;\epsilon [kT, (k+1)T)</span> is the sample period</p>
+<figure>
+<img src="../../attachments/sample_and_hold.png" alt="Example" class="responsive-img60" /><figcaption>Example</figcaption>
+</figure>
+<p>Sometimes, it is easier to do design in continuous-time but implement on a computer Eg: filters. Given a system with transfer function <span class="math inline">G(s)</span>, we want to find a discrete-time system with transfer function <span class="math inline">G_d[z]</span> such that <span class="math inline">y_1[k]\approx y_2[k]</span> in the final diagram.</p>
+<figure>
+<img src="../../attachments/Gj.png" alt="diagram" class="responsive-img60" /><figcaption>diagram</figcaption>
+</figure>
+<p>The most common technique for doing this is the <strong>bilinear transform</strong>:
+<span class="math display">G_d[z]:= G(s)\Bigg|_{s = \frac{2(z-1)}{T(z+1)}}</span>_</p>
+<p>then <span class="math inline">Q(E)y[k] = P(E)x[k]</span> is found from <span class="math inline">G_d[z] =\frac{P(z)}{Q(z)}</span></p>
+<p>To see where this comes from, lets look at is simple example</p>
+<p>Suppose <span class="math inline">\frac{dy(t)}{dt} = x(t)</span>, so <span class="math inline">y(t) = \int_{-\infty}^{t}x(\tau)d\tau</span></p>
+<p>From this relation, we have</p>
+<p><span class="math display">
+\begin{aligned}
+y(kT) &amp;= \int_{-\infty}^{kT} x(\tau)d\tau\\
+y[k]  &amp;= \int_{-\infty}^{(k-1)T} x(\tau)d\tau + \int_{kT}^{(k-1)T} x(\tau)d\tau\\
+\end{aligned}
+</span></p>
+<p>We can only measure <span class="math inline">x(t)</span> at the sample times <span class="math inline">T, 2T, 3T</span> etc. so we can only approximate <span class="math inline">\int_{(k-1)T}^{kT}x(\tau)d\tau</span>, which depends on <span class="math inline">x(t)</span> at all times <span class="math inline">t</span> between samples <span class="math inline">kt</span> and <span class="math inline">k</span></p>
+<figure>
+<img src="../../attachments/discretization.png" alt="Discretization" class="responsive-img" /><figcaption>Discretization</figcaption>
+</figure>
+<p>Use the trapezoidal method to approximate this integral</p>
+<p><span class="math display">\int_{(k-1)T}^{kT}x(\tau)d\tau \approx \frac{T}{2}(x[k-1] + x[k])</span></p>
+<p>So <span class="math inline">y[k] \approx y[k-1] + \frac{T}{2}(x[k-1] + x[k])</span></p>
+<p>Assuming zero initial conditions and taking z-transforms</p>
+<p><span class="math display">
+\begin{aligned}
+Y[z] &amp;\approx z^{-1}Y[z] + \frac{T}{2}(z^{-1} + 1)X[z]\\
+(1 - z^{-1})Y[z] &amp;\approx \frac{T(z+1)}{2(z-1)}\\
+\frac{Y[z]}{X[z]} &amp;\approx \frac{T(z+1)}{2(z-1)}
+\end{aligned}
+</span></p>
+<p>In continuous time we have
+<span class="math display">
+\begin{aligned}
+\frac{dy(t)}{dt} &amp;= x(t)\\
+sY(s) &amp;= X(s)\\
+\frac{Y(s)}{X(s)} &amp;= \frac{1}{s}
+\end{aligned}
+</span></p>
+<hr />
+<p>An alternative approach is to discretize the continuous time system we are interfacing with, then do our design in discrete time</p>
+<figure>
+<img src="../../attachments/alternate_discretization.png" alt="Alternate Discretization" class="responsive-img60" /><figcaption>Alternate Discretization</figcaption>
+</figure>
+<p><span class="math inline">x(t) = H(x[k])</span> is a series of steps so we’d like to find <span class="math inline">G_d[z]</span> such that its resppnse to <span class="math inline">u[k]</span> matches the response of <span class="math inline">G(s)</span> to <span class="math inline">u(t)</span></p>
+<p>Let <span class="math inline">x[k] = u[k]</span> then <span class="math inline">x(t) = H(x[k]) = u(t)</span></p>
+<p>From the diagram:
+<span class="math display">
+\begin{aligned}
+Y(s) &amp;= G(s)\frac{1}{s}\\
+y(t) &amp;= \mathcal{L}^{-1}\{G(s)\frac{1}{s}\}(t)\\
+y(kT) &amp;= \mathcal{L}^{-1}\{G(s)\frac{1}{s}\}(t)\Big|_{t=kT}\;_\;\\
+Y[z] &amp;= \mathcal{Z}\Bigg\{\mathcal{L}^{-1}\{G(s)\frac{1}{s}\}\Big|_{t=kT}\;_\;\Bigg\}
+\end{aligned}
+</span>
+but <span class="math inline">Y[z] = G_d[z]\frac{z}{z-1}</span> so,</p>
+<p><span class="math display">G_d[z] = \frac{z-1}{z} \Large\mathcal{Z}\{\mathcal{L}^{-1}\{\normalsize\frac{G(s)}{s}\Large\}\normalsize\Bigg|_{t=kt}\Large\}</span>_</p>
+<p><span class="math inline">G_d[z]</span> is called the <strong>step-invariant transform</strong> of <span class="math inline">G(s)</span>, because its step response exactly matches that of <span class="math inline">G(s)</span> at <span class="math inline">t=kT, (k+1)T</span> etc. It is not an approximation like the bilinear transform</p>
+<p><strong>Remark</strong>: The last lines are how these discretizations could be implemented on a computer</p>
+</body>
+</html>

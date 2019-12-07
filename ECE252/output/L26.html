@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>L26.html</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-137390799-2');
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 33){
+      document.getElementById('button').parentNode.removeChild(document.getElementById('button'));
+      }
+    }
+  
+    function next(){
+      var num = window.location.pathname.slice(window.location.pathname.length-7, window.location.pathname.length-5);
+      var next= String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 33){
+        // string manipulation to handle edge case for L"25" conflicting with "25"2 in header
+        window.location.pathname = window.location.pathname.slice(0, window.location.pathname.length-7) + window.location.pathname.slice(window.location.pathname.length-7).replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#should-i-stay-or-should-i-go-now">Should I Stay or Should I Go Now?</a></li>
+</ul>
+</nav>
+<p>*<span>Istanbul was Constantinople</span>
+Byzantium was an ancient Greek city, rebuilt by Constantine the Great under the name of Constantinople. It is now modern day Turkey. The word Byzantine refers to things relating to the empire based there, but in English has also come to mean a thing that is excessively complicated. But it’s the last “extra” meaning that we want to talk about: characterized by deviousness. The Byzantine Empire was characterized by deviousness, alright: it was a place where generals and leaders would vie for power in underhanded ways, backstabbing and sabotaging others when they thought it was to their advantage. I guess it was very <em>Game of Thrones</em>, now that I think of it.</p>
+<p>Where this crosses over into the realm of programming is in dealing with the unreliable nature of systems. It’s not that we think that somewhere out there one of the processes in the system is malicious and trying to make the system fail... although that could happen... but our normal expectation is that the systems interacting may be faulty or have errors or bugs, not malicious intent.</p>
+<p>However we get here, though, we still need a way to deal with the fact that not everyone agrees and sometimes messages get mixed up. And that is a communication problem, yes, but also a coordination problem as well. And if you’ve tried to get a group of five people to agree on where to go to lunch you may have found it unexpectedly difficult... now imagine that one person is (unintentionally or otherwise) trying to sabotage the planning so organizing lunch will fail.</p>
+<p>The generic form of the Byzantine Generals problem looks something like this. There is a <em>General</em> who is giving the orders. There are also <span class="math inline">n</span> <em>Lieutenants</em> who each are commanding a group of the Empire’s troops. The individual troops just do what they’re told so there’s no further concern for their actions. The lieutenants can communicate with one another through messages, and they get their orders from the general. All of the lieutenants have to work together for their plan to be a success, otherwise there is chaos.</p>
+<p>No problem, you might imagine. The general tells the lieutenants what to do and they do it! And if one of the lieutenants does the wrong thing, that lieutenant is a traitor. But it’s not so simple, because the general can be disloyal too. Horrible Bosses: Byzantium!</p>
+<p>Suppose you are a disloyal general. Your Emperor has commanded you to attack, but you want the attack to fail, but also seem like it’s not your fault. What do you do? You can issue different orders to different lieutenants, they will be all confused and uncoordinated, and oh gee darn, I guess the attack didn’t go as planned! And you can blame the lieutenants who are now dead for going too early, or something, because it’s not like they can defend themselves now...</p>
+<p>So a loyal general sends the same message to all lieutenants and a disloyal one sends different messages to different lieutenants. It’s key to remember that “loyal” really means “functioning” and “disloyal” means “faulty” <span class="citation" data-cites="mte241"></span>. It’s fun to make it seem like human actors are doing things for their own evil-villainy-related reasons, but it is just computer interaction that presumably has no actual malicious intent. It’s also worth noting that being in one state or the other is not permanent: a functioning unit can be damaged, a malfunctioning one can be repaired, or a problem can be transient (i.e., some electromagnetic interference flipped a bit here or there) and resolve itself with no further action.</p>
+<p>One of the key decisions is about how much disloyalty your system can tolerate. Given enough bad actors, things will go wrong. If everyone is disloyal, utter chaos will result. But is it enough to tolerate one disloyal participant? Two? The line will have to be drawn somewhere... But at the very least we don’t want to let one disloyal individual ruin things for everyone, even if that disloyal individual is the boss.</p>
+<h2 id="should-i-stay-or-should-i-go-now" class="unnumbered">Should I Stay or Should I Go Now?</h2>
+<p>In the examples that we will discuss there are two kinds of command: attack and retreat. In a real system the options don’t have to be quite so binary (we could give any orders) but for the purpose of demonstration and coming to grips with this problem we’ll use the binary example. Attack or retreat.</p>
+<p>It is possible that our system produces a tie (no matter how many participants or possible actions we have). This usually necessitates a default action be selected. So if we cannot come to a decision, we take the default choice. Usually we say that the default choice is to retreat.</p>
+<p>Consider the diagram below where we have a disloyal general, and two loyal lieutenants. In our examples in this section we’ll use G for generals, L for lieutenants, and we’ll make disloyal participants red and loyal ones grey.</p>
+<p>What are lieutenants to do? In the imperfect world of Byzantium the lieutenants can try to figure out if they’re about to be mismanaged to literal death by communicating with one another. If they are all on the same page then they can do what they’re supposed to do; if they’re not, then they will fall back on the default option.</p>
+<p>Unfortunately, though, letting the lieutenants communicate is not a complete solution. Because lieutenants can lie, even if the general doesn’t.</p>
+<p>In general if there are <span class="math inline">d</span> disloyal participants, we will need there to be more than <span class="math inline">3d</span> participants for the loyal lieutenants to agree on what to do. If the general is loyal, then at least <span class="math inline">2d</span> loyal lieutenants are needed to obey the orders; if the general is disloyal then <span class="math inline">2d+1</span> loyal lieutenants are needed so they can come up with a course of action <span class="citation" data-cites="mte241"></span>.</p>
+<p>Let’s imagine that there is at most one disloyal participant. If that’s the case then all lieutenants should compare notes and decide on the majority course of action. Each lieutenant compiles a little table (or array or vector, whatever) of the data received and then decide on what the majority cause of action is. It might be simpler to just count the total number of votes, but it would make it harder to figure out later who the traitor is (if there is one).</p>
+<p>What if we can have two disloyal participants? Each lieutenant sending its messages and using a majority-wins vote isn’t necessarily going to work here. It can happen that the general is disloyal and one of the lieutenants is a collaborator. Consider this scenario below from <span class="citation" data-cites="mte241"></span> where the general is disloyal and sends mixed instructions. What can the collaborating lieutenant do to make sure that the other lieutenants don’t come to an agreement?</p>
+<p>The lieutenants all send one another their instructions. Each of the loyal lieutenants sends its received command and received the honest answer from three other lieutenants. The score is 3 attack and 3 retreat. The disloyal lieutenant sends one message to half the other participants, and a different message to the other half.</p>
+<p>Now we’re in trouble because half the participants think the majority action is attack and half the participants think the majority action is retreat. Summing up what we heard is not sufficient. Lieutenants should also talk about what they heard from one another. After the general issues instructions, each lieutenant should then communicate with every other to hear what the general said to them. Then by reviewing this information, they can decide what to do.</p>
+<p>Consider a simple example where the general is loyal and we have two traitorous lieutenants with a total of seven participants. The general issued an order to attack.</p>
+<p>So each lieutenant constructs the following vector. We’re not sure if the general is a traitor, but we’ll take notes from every other participant, and see what they report. The general form is as follows, where <span class="math inline">v_{x}</span> is the forwarded order we received from lieutenant <span class="math inline">x</span>:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"><span class="math inline">v_{1}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{2}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{3}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{4}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{5}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{6}</span></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>So if we are lieutenant 1, we complete the table as below. The value for L1 is what we received from the general, but we get the remaining values from the other lieutenants.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>Then the lieutenants just compare notes on this subject as well! They send to one another their vectors and assemble them into a table. Whatever lieutenant <span class="math inline">x</span> received in the first round forms row <span class="math inline">x</span> of the table, and the other rows are added from this second round of communication. In the table each value <span class="math inline">v_{i,j}</span> is interpreted as “Lieutenant <span class="math inline">i</span> says that Lieutenant <span class="math inline">j</span> reports the general said <span class="math inline">v</span>”. The entries on the diagonal are redundant because of course each lieutenant agrees with itself:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"><span class="math inline">v_{1,1}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{1,2}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{1,3}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{1,4}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{1,5}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{1,6}</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"><span class="math inline">v_{2,1}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{2,2}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{2,3}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{2,4}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{2,5}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{2,6}</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"><span class="math inline">v_{3,1}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{3,2}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{3,3}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{3,4}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{3,5}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{3,6}</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"><span class="math inline">v_{4,1}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{4,2}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{4,3}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{4,4}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{4,5}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{4,6}</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"><span class="math inline">v_{5,1}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{5,2}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{5,3}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{5,4}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{5,5}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{5,6}</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"><span class="math inline">v_{6,1}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{6,2}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{6,3}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{6,4}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{6,5}</span></td>
+<td style="text-align: left;"><span class="math inline">v_{6,6}</span></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>Those “redundant” entries (the ones on the diagonal) need to be removed from the table. From the point of view of lieutenant 1, let’s imagine the table looks like this (filling in for the sake of the example that L5 and L6 always say retreat).</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>One the thing we can do, however, is fill in the first column: lieutenant 1 does not care what other people THINK they said; so the whole column can be replaced with what was actually said:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>Then we’ll try to figure out the majority vote for each <span class="math inline">j</span> in the table. So sum up each column:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>And we have four lieutenants who think the general said attack and two who think the general said retreat. The majority wins and the attack proceeds. Onward to victory, brothers and sisters!</p>
+<p>If there was one less loyal lieutenant, though, we could have a tie here which would result in picking the default value. If the general ordered something other than the default value (e.g., default is retreat and the order was attack) the general will not be happy about this...</p>
+<p>You may have figured out that since disloyal participants can lie at any step of the equation, we can’t rely on their data at all. That’s true! In the examples in the course we know that two participants are traitors and I’ve said they are L5 and L6. Therefore we could replace whatever they say with a question mark in the able rather than any particular answer, because they are liars. In real life though, <em>some</em> message is received – attack or retreat – and it’s only later we could identify which participants are the traitors.</p>
+<p>Let’s go back to the example of having eight participants: one general and seven lieutenants. So if we are lieutenant 1, we complete the table as below. The value for L1 is what we received from the general, but we get the remaining values from the other lieutenants.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;">L7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+</tbody>
+</table>
+<p>However, if we are lieutenant 7 our vector looks like this instead:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;">L7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+</tbody>
+</table>
+<p>From the point of view of lieutenant 1 the table is formed then as follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;">L7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+</tr>
+</tbody>
+</table>
+<p>The fourth row is shown as all question marks. Why? Lieutenant 4 is the traitor and could also lie about what the other lieutenants said. Then replace the first column.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;">L7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;"> </td>
+</tr>
+</tbody>
+</table>
+<p>Sum up each column:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">General</th>
+<th style="text-align: left;">L1</th>
+<th style="text-align: left;">L2</th>
+<th style="text-align: left;">L3</th>
+<th style="text-align: left;">L4</th>
+<th style="text-align: left;">L5</th>
+<th style="text-align: left;">L6</th>
+<th style="text-align: left;">L7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">R</td>
+</tr>
+</tbody>
+</table>
+<p>Each of the lieutenants figures out that we have a draw and we then choose the default choice. Well, that’s grim, but it makes sense: the general issued contradictory orders and the collaborating lieutenant did the same. But now instead of half the lieutenants charging in and dying while the others hang back and watch, everyone takes the same action, even if it’s not the one that helps the Empire the most.</p>
+<p>If there three disloyal participants can exist in the system there’s another round of data exchange that needs to take place. Each lieutenant sends the table formed in the second round to all other lieutenants. The more disloyalty there could be in the system, the more rounds the process will go on. As you may have identified, for <span class="math inline">n</span> participants the communication grows at <span class="math inline">n^{2}</span> (well, actually worst case <span class="math inline">dn^{2}</span> <span class="citation" data-cites="mte241"></span>) and even worse than that, as the number of participants and rounds increases, the amount of data to be sent also increases. For this reason it is somewhat impractical to tolerate a large number of disloyal participants.</p>
+<p>That is, however, still a design decision...</p>
+<p>Part of the difficulty comes from the fact that lieutenants can lie about what the general said. In the time of Byzantium, wax seals were used (hot wax is poured and then a stamp or ring was used to make an imprint on it). In modern times messages can be signed using public-key cryptography. Then participants can check whether the received message was genuine. An order that does not appear genuine can be disregarded, reducing the ability of disloyal lieutenants to cause confusion.</p>
+<p>The Byzantine Generals Problem has applicability in all kinds of systems, from space flight to cryptocurrency. Whenever we have multiple “agents” of some sort that come to their own conclusions about what to do, we can face this issue. As long as we know this, we can design our system with this in mind, because pretending it’s not going to happen is not a real solution...</p>
+<button id='button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Section 8 - Serial Interfacing</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+  
+  
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+  
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 11){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Section 8 - Serial Interfacing<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#communication-context">Communication Context</a></li>
+</ul></li>
+<li><a href="#duplexing-in-channels">Duplexing in Channels</a></li>
+<li><a href="#classes-of-synchronization">Classes of Synchronization</a><ul>
+<li><a href="#bit-synchronization">Bit Synchronization</a><ul>
+<li><a href="#ex-1">EX 1</a></li>
+<li><a href="#ex-2">EX 2</a></li>
+<li><a href="#ex3">EX3</a></li>
+</ul></li>
+<li><a href="#byte-synchronization">Byte Synchronization</a></li>
+</ul></li>
+<li><a href="#terminology">Terminology</a><ul>
+<li><a href="#implementation-issues---data-representation-as-electrical-signals">Implementation Issues - Data Representation as Electrical Signals</a></li>
+</ul></li>
+<li><a href="#one-byte-serial-interface">One-Byte Serial Interface</a><ul>
+<li><a href="#transmit">Transmit</a></li>
+<li><a href="#receive">Receive</a></li>
+<li><a href="#processor-side-of-one-byte-serial-interface">Processor Side of One-Byte Serial Interface</a></li>
+<li><a href="#reality-checks">Reality Checks</a></li>
+<li><a href="#clockstime">Clocks/Time</a></li>
+<li><a href="#time-and-data-at-the-transmitter-and-receiver">Time and Data at the Transmitter and Receiver</a></li>
+</ul></li>
+<li><a href="#protocols-and-standards">Protocols and Standards</a><ul>
+<li><a href="#before-communication-begins">Before Communication Begins</a></li>
+<li><a href="#standards---who-is-in-charge">Standards - Who is in Charge?</a></li>
+<li><a href="#serial-protocols">Serial Protocols</a></li>
+<li><a href="#asynchronous-protocols">Asynchronous Protocols</a></li>
+<li><a href="#bit-synchronization-1">Bit Synchronization</a></li>
+<li><a href="#design-example">Design Example</a></li>
+<li><a href="#bit-synchronization-2">Bit Synchronization</a></li>
+<li><a href="#example-of-an-asynchronous-frame">Example of an Asynchronous Frame</a></li>
+<li><a href="#bit-sampling">Bit Sampling</a></li>
+<li><a href="#impact-of-clock-errors">Impact of Clock Errors</a></li>
+<li><a href="#clock-shift">Clock Shift</a></li>
+<li><a href="#one-eight-bit-implementation---overhead">One Eight-Bit Implementation - Overhead</a></li>
+<li><a href="#some-errors">Some Errors</a></li>
+<li><a href="#impact-of-parity-selection">Impact of Parity Selection</a></li>
+<li><a href="#special-character">Special Character</a></li>
+<li><a href="#note-impact-of-stop-bit-mismatch">Note: Impact of Stop Bit Mismatch</a></li>
+<li><a href="#asynchronous-serial-communication-synchronization-summary">Asynchronous Serial Communication Synchronization Summary</a></li>
+<li><a href="#synchronous-protocols">Synchronous Protocols</a></li>
+<li><a href="#clocking-of-synchronous-serial-communication">Clocking of Synchronous Serial Communication</a></li>
+<li><a href="#synchronous-serial-communication-connections">Synchronous Serial Communication Connections</a></li>
+<li><a href="#synchronous-serial-communication-connections-1">Synchronous Serial Communication Connections</a><ul>
+<li><a href="#typical-synchronous-port-structure">Typical Synchronous Port Structure</a></li>
+</ul></li>
+<li><a href="#typical-synchronous-port-structure-1">Typical Synchronous Port Structure</a></li>
+<li><a href="#how-to-add-synchronization">How to Add Synchronization</a></li>
+<li><a href="#bisync-protocol">BISYNC Protocol</a><ul>
+<li><a href="#bisync-protocol-contd.">BISYNC Protocol contd.</a></li>
+</ul></li>
+<li><a href="#hdlc-high-level-data-link-control-protocol">HDLC (High-Level Data Link Control) Protocol</a><ul>
+<li><a href="#hdlc-protocol-cont.">HDLC Protocol (cont.)</a></li>
+<li><a href="#hdlc-frame-structure">HDLC Frame Structure</a><ul>
+<li><a href="#hdlc---information-frames">HDLC - Information Frames</a></li>
+<li><a href="#hdlc---supervisory-frames">HDLC - Supervisory Frames</a></li>
+<li><a href="#hdlc---un-numbered-frames">HDLC - Un-Numbered Frames</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#synchronisation-patterns">Synchronisation Patterns</a><ul>
+<li><a href="#no-sequence-numbers---error-free-unidirectional-transmission">No Sequence Numbers - Error Free Unidirectional Transmission</a></li>
+<li><a href="#no-sequence-numbers---error-free-bidirectional-transmission">No Sequence Numbers - Error Free Bidirectional Transmission</a></li>
+<li><a href="#sequence-numbers---error-free-bidirectional-transmission">Sequence Numbers - Error Free Bidirectional Transmission</a></li>
+<li><a href="#sequence-numbers---unidirectional-transmission-with-timeouts">Sequence Numbers - Unidirectional Transmission with Timeouts</a></li>
+<li><a href="#sequence-numbers---unidirectional-transmission-with-nacks">Sequence Numbers - Unidirectional Transmission with NACKs</a></li>
+<li><a href="#sequence-numbers---transmission-with-piggy-backed-acknowledgements">Sequence Numbers - Transmission with Piggy-Backed Acknowledgements</a></li>
+<li><a href="#sequence-numbers---out-of-order-transmission-with-selective-rejection">Sequence Numbers - Out-of-Order Transmission with Selective Rejection</a></li>
+</ul></li>
+<li><a href="#synchronous-serial-communication-synchronization-summary">Synchronous Serial Communication Synchronization Summary</a></li>
+<li><a href="#final-signal-comments">Final Signal Comments</a></li>
+<li><a href="#goals-of-usb">Goals of USB</a></li>
+<li><a href="#comparison-of-usb-protocols">Comparison of USB Protocols</a></li>
+<li><a href="#usb-bus-architecture">USB Bus Architecture</a></li>
+<li><a href="#topics-of-interest">Topics of Interest</a></li>
+<li><a href="#low-speed-and-full-speed-signalling">Low Speed and Full Speed Signalling</a></li>
+<li><a href="#usb-ports">USB ports</a></li>
+<li><a href="#low-level-synchronization">Low-Level Synchronization</a></li>
+<li><a href="#usb-nrzi-signalling">USB NRZI Signalling</a></li>
+<li><a href="#usb-data-transfers">USB Data Transfers</a></li>
+<li><a href="#usb-packet-format">USB Packet Format</a></li>
+<li><a href="#usb-token-packets">USB Token Packets</a></li>
+<li><a href="#usb-handshake-packets">USB Handshake Packets</a></li>
+<li><a href="#usb-types-of-transfers">USB Types of Transfers</a></li>
+<li><a href="#usb-setup">USB Setup</a></li>
+<li><a href="#using-serial-communication-in-the-real-world">Using Serial Communication in the Real World</a></li>
+<li><a href="#rs-232-electrical-interface">RS-232 Electrical Interface</a><ul>
+<li><a href="#general-null-modem">General Null Modem</a></li>
+<li><a href="#wire-null-modem">3/4-Wire Null Modem</a></li>
+<li><a href="#wire-null-modem-1">5/6-Wire Null Modem</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h3 id="introduction">Introduction</h3>
+<figure>
+<img src="../../attachments/serialrange.png" alt="serialrange" class="responsive-img" /><figcaption>serialrange</figcaption>
+</figure>
+<p><strong>Why Serial?</strong></p>
+<ul>
+<li>It is the least complex electrical interface between digital devices.</li>
+<li>Use a single wire (plus ground) to carry information - one symbol (one bit in the simplest case) at a time.</li>
+<li>wires get expensive as you increase the distance, if any one breaks the communication is broken</li>
+<li>thickness of the wire is also less which makes it convenient to carry around and use</li>
+</ul>
+<p>The standard for communication between the two connected devices should match for Serial interfacing to make any sense</p>
+<h4 id="communication-context">Communication Context</h4>
+<figure>
+<img src="../../attachments/context.png" alt="context" class="responsive-img" /><figcaption>context</figcaption>
+</figure>
+<h3 id="duplexing-in-channels">Duplexing in Channels</h3>
+<ul>
+<li><strong>Simplex</strong>: unidirectional as shown below</li>
+<li><strong>Half Duplex</strong>: bidirectional, one-way at a time, as shown below
+<ul>
+<li>Phones for a long while worked like this, to preserve bandwidth, and there was only uni-directional flow of data, Walkie-Talkies have the Push to Talk buttons which generally use Half Duplex</li>
+<li>Eg: a productive lecture is a half-duplex where instructor talks and student listens and vice versa, a conversation between 2 people</li>
+</ul></li>
+<li><strong>Full Duplex</strong>: simultaneous bidirectional, as shown below
+<ul>
+<li>sometimes interference can lead to crosstalk but there are ways to minimise this</li>
+</ul></li>
+</ul>
+<figure>
+<img src="../../attachments/duplexing.png" alt="context" class="responsive-img" /><figcaption>context</figcaption>
+</figure>
+<h3 id="classes-of-synchronization">Classes of Synchronization</h3>
+<ul>
+<li><strong>Bit Synchronization</strong>: How long is each bit? and Where do bits start (or stop)? These two components may be considered separately.
+<ul>
+<li><em>Bit Rate Synchronization</em>: The time that elapses between the start of one bit and the start of the next bit.</li>
+<li><em>Phase Synchronization</em>: Given that the rate is known, how is the mid-point (or start) of each (or any) bit found. This amounts to determining the phase relationship between the local clock and the clock used to transmit the data originally.
+<ul>
+<li>if you sample them at the wrong time then you would get garbage data</li>
+</ul></li>
+</ul></li>
+<li><strong>Byte Synchronization</strong>: Where do bytes start and stop?</li>
+<li><strong>Block Synchronization</strong>: Where do blocks start and stop?</li>
+</ul>
+<h4 id="bit-synchronization">Bit Synchronization</h4>
+<h5 id="ex-1">EX 1</h5>
+<p>Given an input signal as shown below:
+<img src="../../attachments/synch1.png" alt="synch1" class="responsive-img" /></p>
+<ul>
+<li>How many bits are represented? Unknown,
+<ul>
+<li>this could also be back to back zeros, or</li>
+<li>it could be part of a control signal</li>
+</ul></li>
+<li>What are their values? Unknown</li>
+<li>What do they mean? Unknown
+<ul>
+<li>are those bits ints or chars or etc</li>
+</ul></li>
+</ul>
+<h5 id="ex-2">EX 2</h5>
+<p>Given an input signal and a clock as shown below: (The clock provides one way to get the bit timing. In this case, one edge of each clock period is used to sample the data line.)
+<img src="../../attachments/synch2.png" alt="synch2" class="responsive-img" /></p>
+<ul>
+<li>How many bits are represented? <strong>8</strong></li>
+<li>What are their values? Unknown (Phase Synchronization required.)
+<ul>
+<li>Rising edge? <strong>01101110</strong></li>
+<li>Falling edge? <strong>11111100</strong>
+<ul>
+<li>its not just reversed, its more than that, you might not detect the edges as they are transmitted</li>
+</ul></li>
+</ul></li>
+<li>Select edge to sample at the most correct time (if possible).
+What do they mean? <strong>Unknown</strong>
+<ul>
+<li>could be hex or sth else</li>
+</ul></li>
+</ul>
+<h5 id="ex3">EX3</h5>
+<p>Given an input signal and a clock as shown below: The clock provides one way to get the bit timing, if we assume rising edge then bit synchronization has been attained and the bits can be reliably interpreted. 16, - 0110111001101010</p>
+<figure>
+<img src="../../attachments/synch3.png" alt="synch3" class="responsive-img" /><figcaption>synch3</figcaption>
+</figure>
+<ul>
+<li>What do they mean? Unknown
+<ul>
+<li>Where does a byte start?
+<ul>
+<li>If one byte is read the following values are read depending one where the first bit is assumed to be located - Bit 1 Hex(6e), Bit 2 Hex(dc), Bit 3 Hex(b9) Bit 4 Hex(73) etc.</li>
+</ul></li>
+</ul></li>
+<li>Need a convention to find the start of a byte.</li>
+</ul>
+<h4 id="byte-synchronization">Byte Synchronization</h4>
+<p>Given an input signal and a clock as shown below: The clock provides one way to get the bit timing, if we assume rising edge then bit synchronization has been attained and the bits can be reliably interpreted. 16, - 0110111001101010 Further assume that by convention synchronization information permits bytes to be detected 0xB9, 0xA9</p>
+<figure>
+<img src="../../attachments/synch4.png" alt="synch4" class="responsive-img" /><figcaption>synch4</figcaption>
+</figure>
+<ul>
+<li>What do the bytes mean? Unknown
+<ul>
+<li>What do they mean: ASCII (American Standard Code for Information Interchange)? Part of a block? …</li>
+</ul></li>
+</ul>
+<h3 id="terminology">Terminology</h3>
+<p>Bit per second (Bit Rate) vs Baud (or Baud Rate).</p>
+<ul>
+<li><strong>Bit Rate</strong>: The number of bits that can be transferred per second over a channel.</li>
+<li><strong>Baud Rate</strong>: The maximum number of symbols that can be transferred per second over a channel.<br />
+Consider the following figure
+<img src="../../attachments/bitbaud.png" alt="bitbaud" class="responsive-img" /></li>
+</ul>
+<p>We generally assume that wire can only be 0 or 1, but in the above you can see how the diagram of how “multiple” bits are transferred at the same time, using different voltage levels</p>
+<h4 id="implementation-issues---data-representation-as-electrical-signals">Implementation Issues - Data Representation as Electrical Signals</h4>
+<ul>
+<li>Note: Coding schemes that do not have a zero rest point are referred to as an NRZ (Non-Return-to-Zero) code.</li>
+<li>One could characterize on parameters such as: Ease of design, the presence of a DC component, use of bandwidth and synchronization possibilities.</li>
+<li>(Also in Wakerly)</li>
+</ul>
+<p><img src="../../attachments/serial13.png" alt="serial13" class="responsive-img" /><br />
+<strong>NRZ - Non-Return-to-Zero</strong><br />
+</p>
+<ol type="1">
+<li>ON/OFF: Oscillates between 0V and XV (where X=3.3 or 5 or 12)</li>
+<li>Bipolar: Oscillates between -YV to YV (where Y=3.3 or 5 or 12)
+<ul>
+<li>quite better because you see the current change direction</li>
+</ul></li>
+<li>NRZI(inverted or interval): 1 means EDGE
+<ul>
+<li>how is this synchronized: we need a clock signal, because you need to know where the bits start and stop
+<img src="../../attachments/differential_and_NRZI.png" alt="differential_and_NRZI" class="responsive-img" /></li>
+</ul></li>
+</ol>
+<p><strong>RZ - Return-to-Zero</strong><br />
+</p>
+<ol type="1">
+<li>ON/OFF: If you get a long list of 0’s then you lose synchronization
+<ul>
+<li>not as big a problem in real life because we alternate often</li>
+</ul></li>
+<li>Manchester (Split Phase): 0 is represented by a rising edge, and 1 is represented by a falling edge, i.e. always goes to zero
+<ul>
+<li>two views: where they actually switch the bits, moreover some accepted standards have the switched representations</li>
+<li>Why do you care about middle of bits: Arrival of clock edge may not align with the arrival of data. so when they introduced “middle” of bit examples is to allow for a clock recovery
+<ul>
+<li>you can transmit just the data and design a circuit that allows for the clock to be synced/“calculated”<img src="../../attachments/calculated_clock.png" alt="calculated_clock" class="responsive-img" /><br />
+</li>
+</ul></li>
+<li>The problem with this is if you send a bunch of 1’s then they can also be read as a bunch of 0’s thus causing you to fall out of sync, <strong>BUT</strong> if you sent a pre-determined pattern of bits that both the receiver and sender know about at the start of signal then there could be a way to actually sync</li>
+<li>This also sucks because there are a lot of transitions, which sucks for wireless transmissions in preserving accuracy moreover</li>
+<li>This also sucks because it consumes more power, because the actual energy consumed in a computer is in charging and discharging capacitors and not in keeping a signal just high or just low
+<ul>
+<li>same way a car works, if you keep it at a constant speed it consumes less “fuel”, as opposed to starting and stopping</li>
+</ul></li>
+<li>Works best for fibre-optic and wired connection</li>
+</ul></li>
+<li>Differential: Encode transitions instead of encoding values, 0 means EDGE
+<ul>
+<li>Doesn’t matter what you start with</li>
+<li>how is this synchronized: we need a clock signal, because you need to know where the bits start and stop</li>
+<li>Used by USB: they say they use NRZI, but they actually use Differential
+<ul>
+<li>the original USB used to send the signal, and its inversion because it had noise immunity, and had 4 wires if you included ground</li>
+</ul></li>
+</ul></li>
+</ol>
+<h3 id="one-byte-serial-interface">One-Byte Serial Interface</h3>
+<h4 id="transmit">Transmit</h4>
+<figure>
+<img src="../../attachments/serial1.png" alt="serial1" class="responsive-img" /><figcaption>serial1</figcaption>
+</figure>
+<p>Shift registers are used to convert between serial and parallel data streams.<br />
+</p>
+<p>Pretty much matches what we have seen with parallel interfacing but with shift registers, it might look different because the image is p old and hasn’t been updated and coloured<br />
+<span class="math inline">SR_{in}</span>, <span class="math inline">SR_{out}</span> act as an intermediary<br />
+</p>
+<ul>
+<li>Data is loaded into <span class="math inline">XMIT</span> (Transmit) register (in parallel) from the system bus.</li>
+<li>When <span class="math inline">SR_{out}</span> (i.e. the Output Shift Register) is idle, data is transferred from <span class="math inline">XMIT</span> to <span class="math inline">SR_{out}</span> (in parallel). Data is shifted out serially by the <span class="math inline">Tx</span> (Transmit) clock.</li>
+<li>In the figures below, two alternatives for the transmit clock are shown.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Asynchronous</th>
+<th>Synchronous</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="../../attachments/serial1ta.png" alt="serial1ta" class="responsive-img" /></td>
+<td><img src="../../attachments/serial1tb.png" alt="serial1tb" class="responsive-img" /></td>
+</tr>
+</tbody>
+</table>
+<h4 id="receive">Receive</h4>
+<ul>
+<li>Data is shifted into <span class="math inline">SR_{in}</span> (Input Shift Register) serially by the <span class="math inline">Rx</span> (Receiver) Clock.</li>
+<li>When <span class="math inline">SR_{in}</span> is full data is transferred into the <span class="math inline">RCV</span> (Receive) register (in parallel)</li>
+<li>Data is transferred (in parallel) to the system bus.</li>
+<li>In the figures below, two alternatives for the receive clock are shown.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Asynchronous</th>
+<th>Synchronous</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="../../attachments/serial1ra.png" alt="serial1ra" class="responsive-img" /></td>
+<td><img src="../../attachments/serial1rb.png" alt="serial1rb" class="responsive-img" /></td>
+</tr>
+</tbody>
+</table>
+<h4 id="processor-side-of-one-byte-serial-interface">Processor Side of One-Byte Serial Interface</h4>
+<figure>
+<img src="../../attachments/serial1busa.png" alt="serial1busa" class="responsive-img" /><figcaption>serial1busa</figcaption>
+</figure>
+<p>In the bottom right, you see<br />
+<img src="../../attachments/oc_for_IRQ.jpg" alt="oc_for_IRQ" class="responsive-img" /></p>
+<h4 id="reality-checks">Reality Checks</h4>
+<p>There are a number of issues to resolve.<br />
+Time:</p>
+<ul>
+<li>How does the receiver really recognize bits, bytes (or later blocks)? - what counts as end of of data etc</li>
+<li>Given a clock how do you send/receive the data (next)?</li>
+<li>How do you get the clock (later)?</li>
+<li>In the case of serial communication, slightly different meanings of Synchronous and Asynchronous:
+<ul>
+<li><strong>Synchronous</strong>: Both <span class="math inline">Rx and Tx</span> use the same clock (frequency and phase). - they don’t need to have the same physical wire, but they should be able to decipher the clock from the data</li>
+<li><strong>Asynchronous</strong>: $Rx and <span class="math inline">Tx</span> have independent clocks that have the same (or similar) frequencies.</li>
+</ul></li>
+</ul>
+<p>Errors:</p>
+<ul>
+<li>Corrupted data received due to noise on the channel.</li>
+<li>Erroneous data caused by timing problems (e.g., slow reading, clocking differences)</li>
+</ul>
+<h4 id="clockstime">Clocks/Time</h4>
+<figure>
+<img src="../../attachments/clocks.png" alt="clocks" class="responsive-img" /><figcaption>clocks</figcaption>
+</figure>
+<ul>
+<li>The Transmit and Receive clocks on a given interface do not have to be at the same data rate. (They usually are at the same rate.)</li>
+<li>The serial interface figures leave the clock as external to the interface.</li>
+<li>In some cases a local oscillator is used for the transmit clock and may be used for the receive clock (e.g., asynchronous).</li>
+</ul>
+<p>There are 4 clocks in the actual system, at both ends, moreover they do not need to have the same frequencies. There might be some limiting bandwidth so, we set up our routers to be download heavy and upload light, because we want to allocate the bandwidth efficiently</p>
+<h4 id="time-and-data-at-the-transmitter-and-receiver">Time and Data at the Transmitter and Receiver</h4>
+<figure>
+<img src="../../attachments/serclock.png" alt="serclock" class="responsive-img" /><figcaption>serclock</figcaption>
+</figure>
+<p><strong>Why are there two registers in each direction?</strong></p>
+<ul>
+<li><strong>Receive</strong>: Processor may not pick up the data fast enough (Overrun, if mismatch in performance between the 2 connected devices)</li>
+<li><strong>Transmit</strong>: Processor may not respond fast enough to keep serial data stream uninterrupted.
+<img src="../../attachments/bitbyte.png" alt="bitbyte" class="responsive-img" /></li>
+</ul>
+<p>Even though the shift register produces a byte output, it is only valid for that one bit time when reading from the CPU.<br />
+It gives the CPU some more time, to not just be reading bit by bit but, by doing byte level operations.</p>
+<h3 id="protocols-and-standards">Protocols and Standards</h3>
+<h4 id="before-communication-begins">Before Communication Begins</h4>
+<p>How do two systems that need to exchange information agree on a common language. The two ends must agree on the following issues:</p>
+<ul>
+<li>Timing,</li>
+<li>Control,</li>
+<li>Format,</li>
+<li>Data representation, and</li>
+<li>Electrical signalling (signal voltages, currents, connector pin-outs, etc.).</li>
+</ul>
+<p><strong>Communication Protocol</strong>: A set of rules for making connections and transferring information.</p>
+<h4 id="standards---who-is-in-charge">Standards - Who is in Charge?</h4>
+<p>The protocols associated with communication structures are often developed in a sequence similar to the one listed below.</p>
+<ul>
+<li>Industry specification: some company (or consortium of organizations) defines the specification for use with their products.</li>
+<li>A national level organization (e.g., ANSI - American National Standards Institute) may sanction this standard (or a slightly modified version of the standard). The country organization may opt for input from a technical organization (e.g., IEEE).</li>
+<li>Eventually there may be need for an international standard. International standards are often sanctioned by the International Standards Organization (ISO).</li>
+<li>Finally, once the standard has been accepted it will be sanctioned by ITU-T (International Telegraph Union - Telecommunication standardization sector) formerly known as CCITT (Comite Consultatif International Telephonique et Telegraphique), the international organization representing the telephone companies and <strong>is the one responsible for CHECKSUMs.</strong></li>
+</ul>
+<h4 id="serial-protocols">Serial Protocols</h4>
+<figure>
+<img src="../../attachments/synchasynch.png" alt="synchasynch" class="responsive-img" /><figcaption>synchasynch</figcaption>
+</figure>
+<h4 id="asynchronous-protocols">Asynchronous Protocols</h4>
+<figure>
+<img src="../../attachments/asynchclock.png" alt="asynchclock" class="responsive-img" /><figcaption>asynchclock</figcaption>
+</figure>
+<ul>
+<li>Assume both ends of the channel know the correct (nominal) data rate.
+<ul>
+<li>(Standard) Baud Rates: 110, 134.5, 150, 300, 600, 1200, 2400, 4800, 9600, 19200, … .</li>
+</ul></li>
+<li>Must convey the phase of the tx clock to the receiver.</li>
+</ul>
+<p>The oscillator is now responsible for generating one sending clock, one receiving clock</p>
+<figure>
+<img src="../../attachments/serial2a.png" alt="serial2a" class="responsive-img" /><figcaption>serial2a</figcaption>
+</figure>
+<p>Line idles high, we drop the line low for one cycle i.e. start bit, then one by one the bits are transmitted and then 1.5 stop bits i.e. signal is high</p>
+<h4 id="bit-synchronization-1">Bit Synchronization</h4>
+<ul>
+<li><p>Issues</p>
+<ul>
+<li>The data cannot be clocked into the receiver using the same clock as used for
+transmission. That is, there is no wire connecting the clocks.</li>
+<li>The designer (and user) of the receiver has only a nominal transmission frequency specification.</li>
+<li>There is no (direct) phase synchronization between the transmit and receive clocks.</li>
+<li>The clock generators in the source and destinations do not necessarily have the same drift coefficients. (Time or Temperature)</li>
+</ul></li>
+<li><p><strong>Design principle</strong>: The structure is designed assuming that the receiver has a reasonable estimate of where the bit should start (phase synchronization), and the goal is to sample the bit in the middle. Why?<br />
+</p></li>
+<li><p>To sample in the middle of the bit the following design characteristics are required.</p>
+<ul>
+<li>A reasonably accurate specification for the nominal frequency (e.g., (<span class="math inline">10000 \pm 5\%</span>) Hz.)
+used to find the next bit given the current bit.</li>
+<li>A way to extract the phase of the clock. (described later)</li>
+</ul></li>
+</ul>
+<h4 id="design-example">Design Example</h4>
+<p>Detailed clock design example</p>
+<ul>
+<li>The figure assumes correct frequencies but Rx1, Rx2 and Rx3 differ in phase synchronization with the transmitter.</li>
+<li>If we have multiples of the transmitter frequency available at the receiver, then we can more accurately estimate the middle of the bit. (16 or 32 are multiples often used)</li>
+</ul>
+<h4 id="bit-synchronization-2">Bit Synchronization</h4>
+<figure>
+<img src="../../attachments/sixteen.png" alt="sixteen" class="responsive-img" /><figcaption>sixteen</figcaption>
+</figure>
+<h4 id="example-of-an-asynchronous-frame">Example of an Asynchronous Frame</h4>
+<figure>
+<img src="../../attachments/serial2.png" alt="serial2" class="responsive-img" /><figcaption>serial2</figcaption>
+</figure>
+<ul>
+<li>Bit -1 (Start Bit). Must have a value of 0 and indicates that a data byte is to start. Bit 0-7 Data bit values</li>
+<li>Bit 7 may also be a parity bit (Space (Parity Bit = 0), Mark (Parity Bit = 1), Even, or Odd)
+Bit 8 (and perhaps 9) Stop bit:</li>
+<li>Must have a value 1 to indicate end of data</li>
+<li>Value of 1 assures that start bit will have a falling edge at the start of it.
+Between characters. The protocol leaves the line as a ‘1’ when there is no data to transmit.</li>
+</ul>
+<h4 id="bit-sampling">Bit Sampling</h4>
+<p>Possible to implement an asynchronous protocol at the receiver with a free-running local oscillator n times the data rate. (Assume n=16, 8-bits of data, and no parity for this example.)</p>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 32%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Counter</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>0x0</td>
+<td>Wait for start of start bit (falling edge)</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>0..7</td>
+<td>Wait for 0.5 bit times (8 clock periods)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>8</td>
+<td>Verify that serial data line is still 0.</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>0x9..0x18</td>
+<td>Wait 16 clock times (1 bit time) and sample the first bit</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>0xi9..0x(i + 1)8</td>
+<td>Wait 16 clock times (1 bit time) and sample the ith bit</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>0x79..0x88</td>
+<td>Wait 16 clock times (1 bit time) and sample the last bit (bit b7)</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>0x89..0x98</td>
+<td>Wait 16 clock times (1 bit time)</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>0x98</td>
+<td>If data = 0 then framing error (stop bit has wrong value).</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>0x99..0xA8 (If req’d)</td>
+<td>If there</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>0x0</td>
+<td>Indicate that the byte has been received go to step 1.</td>
+</tr>
+</tbody>
+</table>
+<p>Middle of first start bit<br />
+1.5 stop bit is 0xA0</p>
+<figure>
+<img src="../../attachments/serial3.png" alt="serial3" class="responsive-img" /><figcaption>serial3</figcaption>
+</figure>
+<ul>
+<li>Sample in the middle of each bit.</li>
+<li>Note: since the start bit time and the bit structure is known, Byte synchronization is inherent.</li>
+<li>Note: in this case 1 stop bit is tested by considering the line’s value at clock 0x98. If there were 2 stop bits, there would be an additional test at 0xA8. If there were 1.5 stop bits the additional test would be at clock step 0xA0.</li>
+</ul>
+<h4 id="impact-of-clock-errors">Impact of Clock Errors</h4>
+<p>If the clock rate drift causes the sample point to change by more than 0.5 bits in 10 (1 start, 8 data and 1 stop bit), the information detected will be corrupted.
+- Therefore the frequencies of the derived clocks at the receiver and the transmitter must differ by no more than 5% (if there is a 10 bit frame)
+- Note impact on the required clock precision if the number of data bits is increased.
+<img src="../../attachments/slowclocks.png" alt="slowclocks" class="responsive-img" /></p>
+<p>Just increasing the clock speed won’t fix it, since we have the same bit being read twice</p>
+<h4 id="clock-shift">Clock Shift</h4>
+<p><span class="math display">\Delta T = |\frac{1}{f_{Rx}} - \frac{1}{f_{Tx}}|</span>
+If <span class="math inline">B\times\Delta T &gt; \frac{1}{2} \times \frac{1}{f_{Tx}}</span> then the shift at the end of B bits is larger than 0.5 bits.</p>
+<h4 id="one-eight-bit-implementation---overhead">One Eight-Bit Implementation - Overhead</h4>
+<p>Overhead: (to be consistent with the previous definition) is <span class="math inline">\frac{\text{Number of non data bits in a frame}}{\text{Total number bits in a frame}}</span><br />
+<img src="../../attachments/serial2.png" alt="serial2" class="responsive-img" /></p>
+<p>There is the following overhead (per byte of data).</p>
+<ul>
+<li>Worst case: 7 data bits, 1 parity bit, 1 start bit and 2 stop bits, or 4 non-data bits for every 7 bits of data. (4/11 or 36%)</li>
+<li>Best case: 8 bits of data, 1 start bit, and 1 stop bit or 2 non-data bits for every 8 bits of data. (2/10 or 20%)</li>
+</ul>
+<h4 id="some-errors">Some Errors</h4>
+<ul>
+<li><strong>Framing Error</strong>: An incorrect frame has been detected. In the case of one-byte asynchronous transfers, the indication of a framing problem is that the stop bit is incorrect (possible baud rate error) .</li>
+<li><strong>Overrun Error</strong>: In a serial communication system, the data at the transmitter and receiver is transferred at a time convenient to the controlling processor. As a result it may be that the serial data will arrive too quickly for the receiver to process the data. It is also possible that the transmitter will be sending data faster than the serial channel can transfer the data. In either case, some data may be overrun by the data following it in the channel. This is an overrun error. There are two special cases.
+<ul>
+<li><em>Receive Overrun Error</em>: At the receiver, incoming data has overwritten data in SRin or RCV register.</li>
+<li><em>Transmit Overrun Error</em>: Resulting from the CPU or the device writing to the transmit buffer before the current content of the transmit buffer has been transmitted.</li>
+</ul></li>
+<li><strong>Parity Error</strong>: The parity of the received data and the value of the parity bit do not match</li>
+<li><strong>Start Bit Error</strong>: when the line is sampled one half of a bit time after the edge of the start bit is detected, the value is not zero. This probably indicates that a false start bit has been detected, alternatively there may be some error in the assumed bit rate.<br />
+<br />
+A stop bit is essentially a MARK OR A SPACE BIT depending on what you choose<br />
+Retransmission is the only one way to fix it, and it could even arise if your “stop” bit is incorrect but the data is correct</li>
+</ul>
+<h4 id="impact-of-parity-selection">Impact of Parity Selection</h4>
+<ul>
+<li>The selection of Even or Odd parity for a given application may depend on the character set usage. For example:
+<ul>
+<li>Some noise appears as short duration pulses. These pulses may imitate some of the timing of one or more bits.</li>
+<li>Consider the cases shown in the figure below.</li>
+</ul></li>
+<li><strong>Delete - 0x7F</strong>: In the even parity version in the presence of short noise pulses: 8 bits (7 plus parity) a single start bit followed by all 1s looks like a correct even-parity character. Howver, it would be quite unlikely that the signal pattern for the odd parity version of Delete would occur in the same environment.</li>
+<li><strong>∼ - 0x7E</strong>: In this case, the even parity version is less likely an error than the odd parity version. Thus there is no ideal parity.</li>
+</ul>
+<figure>
+<img src="../../attachments/delete.png" alt="delete" class="responsive-img" /><figcaption>delete</figcaption>
+</figure>
+<p>The noise in these signals could lead to one deleting the next character when there wasn’t actually such a signal</p>
+<h4 id="special-character">Special Character</h4>
+<ul>
+<li><p>Break (and long break) … Forces a framing error.</p>
+<ul>
+<li>A normal break is usually a fixed duration in a given system. In some cases (with slow data rates) this break may appear to be some form of data that starts with a number of zeros. A long break often stays asserted as long as the user presses the break key, this assures that it will be a framing error.</li>
+<li>An example of <strong>out-of-band signalling</strong> - and there is no way you can confuse it with any data.
+<img src="../../attachments/break.png" alt="break" class="responsive-img" /></li>
+</ul>
+<p>Low for 2 frames, and at some point it is going to get a framing error on the receiving end. This way you can the receiver to a known state. It will not start looking for the next start bit until the line goes back to idle. By doing this we can guarantee this way that can re-sync</p></li>
+<li><p>How would you know the receiver and transmitter are out of sync?
+You would have generally have information in both directions, and there might even be some control signals</p></li>
+</ul>
+<h4 id="note-impact-of-stop-bit-mismatch">Note: Impact of Stop Bit Mismatch</h4>
+<p>Consider the situation where the transmitter and the receiver use different assumptions about the number of stop bits. (Since all systems use 1 start bit there can be no confusion on this part of the protocol).</p>
+<ul>
+<li>If <span class="math inline">SB_{Tx}</span> = <span class="math inline">SB_{Rx}</span> There is not problem</li>
+<li>If <span class="math inline">SB_{Tx}</span> &gt; <span class="math inline">SB_{Rx}</span> There may be a bit of extra idle time between consecutive bytes, but communication will not be a problem.</li>
+<li>If <span class="math inline">SB_{Tx}</span> &lt; <span class="math inline">SB_{Rx}</span> There is a problem. If the
+transmitter ever sends consecutive bytes as close together as possible (<span class="math inline">SB_{Tx}</span> bit times separation) then the receiver will be looking for a stop bit (a 1) where there is a start bit (a 0) and should indicate a framing error. Even in this case we care not sure to detect an error because the line might just go idle, and we will detect the idle state as the stop bit</li>
+</ul>
+<p>Note: If the channel is bidirectional, then in most cases the number of stop bits used for the transmit and receive timing will be the same on one end of the channel. Hence if there is a discrepancy, one direction of communication will have the <span class="math inline">SB_{Tx}</span> &lt; <span class="math inline">SB_{Rx}</span> relationship.<br />
+<img src="../../attachments/simplex1a.png" alt="simplex1a" class="responsive-img" /></p>
+<h4 id="asynchronous-serial-communication-synchronization-summary">Asynchronous Serial Communication Synchronization Summary</h4>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 11%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Synchronization</th>
+<th>Technique</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bit Synchronization:Bit Rate</td>
+<td>by agreement</td>
+<td>May also be done by software detection.</td>
+</tr>
+<tr class="even">
+<td>Bit Synchronization:Phase</td>
+<td>start/stop bits</td>
+<td>The receiver detects falling edge to determine where the first bit starts.</td>
+</tr>
+<tr class="odd">
+<td>Byte Synchronization</td>
+<td>start/stop bits</td>
+<td>Since only 1 byte per frame, once bit 0 has been detected, the byte is also known.</td>
+</tr>
+<tr class="even">
+<td>Block Synchronization</td>
+<td>N/A</td>
+<td>Some of the techniques described in later sec- tions could be used to provide Block Synchro- nization.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="synchronous-protocols">Synchronous Protocols</h4>
+<ul>
+<li>Synchronous protocols use a common clock at the source and destination</li>
+<li>A common clock can be implemented in two different ways:
+<ul>
+<li>A dedicated clock signal can be shared (limits distances and data rates)</li>
+<li>Data can be encoded to allow inference of the clock (typically Manchester encoding)</li>
+</ul></li>
+</ul>
+<p>Advantages:</p>
+<ul>
+<li>Reduces overhead (e.g., no start / stop bits) <strong>BUT it introduces other overhead</strong></li>
+<li>Eliminates problems related to clock skew, and you’re constantly syncing</li>
+<li>Increases data transmission speeds:
+<ul>
+<li>Asynchronous RS-232 maximum of 19,200 bps (115,200 bps over short distances)</li>
+<li>Synchronous rates can exceed 10 Gbps - high speed, ideal netflix connection</li>
+</ul></li>
+</ul>
+<h4 id="clocking-of-synchronous-serial-communication">Clocking of Synchronous Serial Communication</h4>
+<figure>
+<img src="../../attachments/genericsync.png" alt="genericsync" class="responsive-img" /><figcaption>genericsync</figcaption>
+</figure>
+<p>Note:
+Clock and wire length. If the distances are too large, then the clock may not arrive at each input at the correct time. (Discussed in detail later in the term.)<br />
+<br />
+As long as you have a well synchronized global clock, <strong>BUT</strong> it has to reach all the registers at the same fucking time. You can establish some timing patterns to ensure that: PLL or clock trees (where the distance of clock source and destinations is the same for all)<br />
+The middle register could be going to other output devices, and is there to show that we can have more than one register to store stuff</p>
+<h4 id="synchronous-serial-communication-connections">Synchronous Serial Communication Connections</h4>
+<figure>
+<img src="../../attachments/synchclock.png" alt="synchclock" class="responsive-img" /><figcaption>synchclock</figcaption>
+</figure>
+<p>You connect the local oscillator to the transmit signal, and that becomes the receive signal for the other side. General convention is that transmit sends signal<br />
+<br />
+<br />
+<img src="../../attachments/synchclock2.png" alt="synchclock2" class="responsive-img" /></p>
+<p>The lines inside the channel are “Manchester encoded” and not the standard on off encoding</p>
+<h4 id="synchronous-serial-communication-connections-1">Synchronous Serial Communication Connections</h4>
+<figure>
+<img src="../../attachments/serial14.png" alt="serial14" class="responsive-img" /><figcaption>serial14</figcaption>
+</figure>
+<p>We are not going to discuss clock extraction or sync detection because that is almost a graduate level course<br />
+The Queue’s exist to ensure that none of the data is lost, because the CPU might not always be ready to service the register.<br />
+All the control signals are not shown, and there might even be some signals that reset the queue’s</p>
+<h5 id="typical-synchronous-port-structure">Typical Synchronous Port Structure</h5>
+<p>Of Note:</p>
+<ul>
+<li>The receive clock is extracted from the input signal. The edges on the data line are used to adjust the frequency and phase of a local oscillator.
+<ul>
+<li>No internal clock for the receiver. Although, there be an oscillator for use in clock recovery, (shown in synchronous2.png).</li>
+</ul></li>
+<li>Since there are no start/stop bits, extra hardware is required for synchronization.</li>
+<li>Since higher speeds are possible, FIFO queues may be required. (Gaps or flow-control may
+be difficult or not possible at this level).</li>
+</ul>
+<h4 id="typical-synchronous-port-structure-1">Typical Synchronous Port Structure</h4>
+<figure>
+<img src="../../attachments/manchester1.png" alt="manchester1" class="responsive-img" /><figcaption>manchester1</figcaption>
+</figure>
+<p>Every manchester bit, starts at one point and ends at a different point, i.e. the encoding for ‘1’(1 to 0) starts at 1 and ends at 0, and ‘0’ starts at 0 and end at 1, this way when we detect that our assumed edge is wrong we can resynchronize<br />
+Only when we have a transition from 0 to 1 or 1 to 0, and we get the double stable signal we can synchronize and get our values.<br />
+We’re not sending the clock because manchester has our clock encoded, and we can totally avoid clock skew.</p>
+<h4 id="how-to-add-synchronization">How to Add Synchronization</h4>
+<ul>
+<li>Why is it needed?</li>
+<li>Where/When is it needed?</li>
+<li><strong>BISYNC Protocol</strong>: Modify the sequence of characters using hardware or software to provide block synchronization. (Byte synchronization is used to derive block synchronization.)</li>
+<li><strong>HDLC Protocol</strong>: Modify the sequence of bits so that synchronization can be maintained. (Bit synchronization is used to derived block synchronization.)</li>
+</ul>
+<p>Some ideas of these protocols have been implemented in the USB protocol</p>
+<h4 id="bisync-protocol">BISYNC Protocol</h4>
+<ul>
+<li>Based on special ASCII characters: SYNC (0x16), SOH, STX, ETX, ETB, and DLE. (SYNC - Synchronize, SOH Start of Header, STX Start of Text, ETX End of Text, ETB End of Transmission Block, DLE Data Link Escape) A complete listing of the ASCII table is available in most texts or on the Internet (at www.asciitable.com).</li>
+<li>A long string of SYNC characters can eventually be recognized and are used to establish synchronization during initialization.</li>
+<li>SYNC characters are ignored (except for their synchronization characteristic).</li>
+</ul>
+<p>These characters are the reason why the ASCII ‘a’ is not 0 and so on. The larger block structures look pretty much like asynchronous frames, with start parts, data parts, error correction parts, and stop part.<br />
+We cannot idle high, because if we’re using Manchester with no clock then we might lose synchronization and have no recovery way, which is why we send the SYNC characters.</p>
+<h5 id="bisync-protocol-contd.">BISYNC Protocol contd.</h5>
+<p>Header: may contain source and destination addresses, and/or a sequence number</p>
+<figure>
+<img src="../../attachments/seria15a.png" alt="seria15a" class="responsive-img" /><figcaption>seria15a</figcaption>
+</figure>
+<ul>
+<li>Data: contains data being transferred (but not STX or ETX characters).
+<ul>
+<li>Send these characters (and all special characters) with a Data Link Escape (DLE). A DLE character indicates that the next character is to be interpreted as a normal (not special) character.</li>
+<li>For example:
+<ul>
+<li>DLE | ETX would be used to send an ETX in the data stream and</li>
+<li>DLE | DLE would be used to send a DLE in the data stream</li>
+</ul></li>
+</ul></li>
+<li>When the source buffer empties, SYNCs are inserted by the source and ignored by the destination, as long as the character prior to the first SYNC is not a DLE.</li>
+</ul>
+<p>We have ETX because the text can now be of variable length as opposed to asynchronous where we had 8 bits data top. If we want to transfer a DLE, we send two DLE characters (its basically the escape character), and to transfer ETX (we will send one DLE and then ETX).<br />
+This is a character based protocol. Although logically we can assume that the clock can be detected out of the manchester encoding we still need some basic communication rate to be able to detect all edges.<br />
+<br />
+Overhead is still there, since we need DLE to escape some characters, moreover the obvious header of “header”, and if you’re only transmitting one byte, the header is extremely large. (8 bytes of overhead for one byte data).
+If we have a bunch of DLE’s to send the overhead might be worse because we will have to transmit every character ESCAPED, but thankfully since the data rate is so high we don’t have to care.<br />
+The checksum hopefully saves the day, when we do fuck up a frame</p>
+<h4 id="hdlc-high-level-data-link-control-protocol">HDLC (High-Level Data Link Control) Protocol</h4>
+<ul>
+<li>HDLC is based on modifying the sequence of bits so that synchronization can be achieved.</li>
+<li>HDLC will never transmit a string of six ’1’s over the link, except as a special message to the receiver called a flag.
+<ul>
+<li>If the user data requires five ‘1’s (in one byte or in two consecutive bytes) the hardware sends five ’1’s, then a ’0’ and then the sixth bit of data.
+<ul>
+<li>0x7E (0111 1110) is transmitted as {9 bits} 0111 11010, where the extra 0 has been stuffed into the data.</li>
+<li>0x3E (0011 1110) is transmitted as {9 bits} 0011 11100, where the extra 0 has been stuffed into the data.</li>
+</ul></li>
+<li>When a receiver receives five ‘1’s in a row, it discards the next bit (if it is a ’0’) and treats it as a flag (if it is a ‘1’).</li>
+<li>This referred to as <strong>bit-stuffing</strong>.</li>
+</ul></li>
+</ul>
+<p>Bit stuffing is the major contribution of this protocol, by adding that 0, we can allow for resynchronization to occur as we discussed <a href="#typical-synchronous-port-structure-1">earlier</a><br />
+</p>
+<ul>
+<li>The flag is a bit pattern that does not occur in the data, and we use <em>‘bit stuffing’</em></li>
+</ul>
+<p><strong>Q. Why did they choose 6?</strong><br />
+<strong>A.</strong> because it had to do with the accuracy of the clocks on that day<br />
+Modern USB uses 6 bits<br />
+<br />
+<strong>Q. Why don’t we worry about a long sequence of 0s?</strong><br />
+<strong>A.</strong> because this was the system where the line was idling high, which meant that we only cared about the long pattern of 1s and which is why we need to worry about going of sync more for a bunch of 1s than 0s</p>
+<h5 id="hdlc-protocol-cont.">HDLC Protocol (cont.)</h5>
+<figure>
+<img src="../../attachments/seria15b.png" alt="seria15b" class="responsive-img" /><figcaption>seria15b</figcaption>
+</figure>
+<ul>
+<li>Note: No idle periods are allowed. Thus:
+<ul>
+<li>If the source FIFO ever empties, the transmission must be aborted. (An abort is eight ’1’s in a row.)</li>
+</ul></li>
+</ul>
+<p>The HDLC frame also has the similar header information (Addr would be 1 byte), Control (1 or 2 bytes), Checksum (2 bytes), and we use flag to use as a start/stop bit. The notion that we have to delineate the data we are associated with, the data itself, some error correction code and then delineate the end of the data just like BISYNC. We have the same overhead as Bisync, 3 bits if we all use the data. The control flag allows us to do sequence number and acknowledgements, and the size isn’t shown here (but the data is about the same size, 256 bytes)</p>
+<ul>
+<li>Abort a frame: 8 1’s in a row (generally in the data), out of band transmission, you cannot expect 8 ones in a row to occur naturally in the data.
+<ul>
+<li>generally happens when you run out of data to send and then you send the abort</li>
+</ul></li>
+</ul>
+<h5 id="hdlc-frame-structure">HDLC Frame Structure</h5>
+<figure>
+<img src="../../attachments/serial16.png" alt="serial16" class="responsive-img" /><figcaption>serial16</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/serial16-control.png" alt="serial16-control" class="responsive-img" /><figcaption>serial16-control</figcaption>
+</figure>
+<p><strong>Sequence Number</strong>: A unique id associated with a specific packet of data, useful if you want to send multiple packets of data, and sometimes when you transmit them, by the time you reject a frame you might have recieved the next one, and you ask the CPU to resend, and then using the sequence number you can use it to put it in the right position. Most of them are small (3 bits) - 7 frames outstanding at one point (Not 8, since one entry is left empty in the circular buffer)<br />
+</p>
+<p>Control fields are not for memorization but to actually look and investigate.</p>
+<ul>
+<li>Information frame:
+<ul>
+<li>Used to transmit data from point A to point B</li>
+<li>If we put 0 as bit 0, then we know its information, and the other bits can be used for defining the sequence</li>
+<li>The curious bit in the middle - older context: the bit was used to signal to dumb terminals that the mainframe was still live, and that bit gave us the space to do so</li>
+</ul></li>
+<li><strong>Supervisory</strong>:
+<ul>
+<li>If we put 1 as bit 0 and 0 as bit 1</li>
+<li>It is used for all different types of acknowledgements in the system
+<ul>
+<li><em>positive</em>: received and all fine</li>
+<li><em>negative</em>: received but something was broken</li>
+<li><em>selective reject</em>: received, its broken, and only resend that one</li>
+<li>not-yet (nyet): I have recieved the frame, but stop giving me more, I cannot handle any more</li>
+</ul></li>
+</ul></li>
+<li>Unnumbered:
+<ul>
+<li>If we put 1 as bit 0 and 1 as bit 1</li>
+<li>Used for all those control functions that a computer needs over a port, things that are needed to abort/go offline</li>
+<li>It can also be used for an acknowledgement for a <em>Supervisory</em> frame above, since it does not have a sequence numbered</li>
+<li>How do you acknowledge an Unnembered frame - you can’t, you hope the other side recieves it but you cannot acknowledge it</li>
+</ul></li>
+</ul>
+<h6 id="hdlc---information-frames">HDLC - Information Frames</h6>
+<figure>
+<img src="../../attachments/serial16a.png" alt="serial16a" class="responsive-img" /><figcaption>serial16a</figcaption>
+</figure>
+<ul>
+<li>Sequence numbers:
+<ul>
+<li>are re-used acts like a circular buffer</li>
+<li>are used to request re-transmission</li>
+<li>Permits several messages to be sent before any ACK received</li>
+</ul></li>
+<li>Piggy back acknowledgement allows us include the data from one device to another, some information about data that we have already received
+<ul>
+<li>If we have regular 2 way communication, we will never have to send a manual acknowledgement between the devices, naturally through the data that we are transmitting</li>
+<li>Instead of describing which frames you’ve recieved, you say which frame you’re expecting</li>
+</ul></li>
+<li>P/F: Poll/Final.
+<ul>
+<li>Can be used to poll (P) a unit for data or to indicate that this is the final (F) packet.</li>
+<li>It can also be used to force (F) an acknowledgment from the other end.</li>
+</ul></li>
+</ul>
+<p>A device will respond with next - 1 if it percieves that the data it recieved was indeed correct. Initially the next field would be 0, and once we get all of it, we’ll get 7</p>
+<h6 id="hdlc---supervisory-frames">HDLC - Supervisory Frames</h6>
+<figure>
+<img src="../../attachments/serial16b.png" alt="serial16b" class="responsive-img" /><figcaption>serial16b</figcaption>
+</figure>
+<ul>
+<li>Type 0: Used as an Acknowledgment (ACK) only. Useful when there is no reverse traffic on which to carry the acknowledgments.
+<ul>
+<li>in a situation where A keeps transmitting, and B doesn’t respond with anything, then at some point B will have to respond with sth, even if it has no data, and that is using this acknowledgment.</li>
+<li>it would be a very short frame that just includes the next frame that it would be expecting, just control information, no data, maybe checksum</li>
+</ul></li>
+<li>Type 1: Negative Acknowledgment (NACK). The Next field indicates the number of the first frame that must be retransmitted.
+<ul>
+<li>yes we receieved the frame, but when we ran the checksum it turned out that the checksum failed</li>
+<li>re-transmit required of that packet and everything after that</li>
+<li>the default mode is to retransmit everything because once you experience one error, you experience multiple in a row</li>
+</ul></li>
+<li>Type 2: Similar to type 0. ACK all messages up to Next-1 but causes the sender to stop transmission. When ready Next will be either ACKed or NACKed.</li>
+<li>Type 3: Selective Reject. Resend just the named frame.</li>
+</ul>
+<p>When we send the acknowledgement for frame N we assume that all frames up until and including N are good. If you don’t send the acknowledgement for frame 1,2,3 and then send the acknowledgement for frame 4, then the sender assumes that 1,2,3 and 4 were all good.</p>
+<h6 id="hdlc---un-numbered-frames">HDLC - Un-Numbered Frames</h6>
+<figure>
+<img src="../../attachments/serial16c.png" alt="serial16c" class="responsive-img" /><figcaption>serial16c</figcaption>
+</figure>
+<p>Various Control functions</p>
+<ul>
+<li>DISConnect - Machine going down.</li>
+<li>SNRM (Set Normal Response Mode) - Reset sequence numbers to 0
+<ul>
+<li>there’s always a chance that the 2 devices get out of sync, and reseting this allows you to force what the next expected sequence is going to be</li>
+</ul></li>
+<li>FRMR (Frame Reject) - A frame was received with a valid checksum, but it made no sense.
+<ul>
+<li>everything on the signal makes perfect signal, but contextually it makes no sense. [Eg: unlocking an already unlocked garage door]</li>
+</ul></li>
+<li>UA (Un-numbered Acknowledge) - Acknowledge for a control frame (control frames are not numbered, but only one can be outstanding at a time.)
+<ul>
+<li>Acknowledge a supervisory frame
+<ul>
+<li>if you’re sending a type-2 supervisory to stop sending, you want to know if the sender did recieve the message.</li>
+<li>if you’re sending a selective reject, you want to know if the sender did recieve the message.</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="synchronisation-patterns">Synchronisation Patterns</h4>
+<h5 id="no-sequence-numbers---error-free-unidirectional-transmission">No Sequence Numbers - Error Free Unidirectional Transmission</h5>
+<ul>
+<li><p>Device 1 sends data frames and device 2 acknowledges received data frames</p></li>
+<li><p>At most one data frame outstanding at a time
+<img src="../../attachments/serial-ack-structure-1.png" alt="serial-ack-structure-1" class="responsive-img" /></p></li>
+<li><p>D<span class="math inline">x</span> = Data frame from device <span class="math inline">x</span></p></li>
+<li><p>A<span class="math inline">x</span> = Acknowledgement of device <span class="math inline">x</span></p></li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Everything here is error free</li>
+<li>Probably the slowest way to do things</li>
+<li>No sequence number</li>
+</ul>
+<h5 id="no-sequence-numbers---error-free-bidirectional-transmission">No Sequence Numbers - Error Free Bidirectional Transmission</h5>
+<ul>
+<li><p>Both devices send, receive, and acknowledge data frames</p></li>
+<li><p>At most one data frame outstanding from each device at a time
+<img src="../../attachments/serial-ack-structure-2.png" alt="serial-ack-structure-2" class="responsive-img" /></p></li>
+<li><p>D<span class="math inline">x</span> = Data frame from device <span class="math inline">x</span></p></li>
+<li><p>A<span class="math inline">x</span> = Acknowledgement of device <span class="math inline">x</span></p></li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Everything here is error free</li>
+<li>No sequence number</li>
+<li>Full duplex transmission, one for transmit one for recieve</li>
+<li>At most 2 messages (one for each device), always have a unique source and destination<br />
+<em>A frame is outstanding until its Acknowledgement is recieved, we send the data, but its acknoledgement is not yet recieved</em></li>
+</ul>
+<h5 id="sequence-numbers---error-free-bidirectional-transmission">Sequence Numbers - Error Free Bidirectional Transmission</h5>
+<ul>
+<li><p>Both devices send, receive, and acknowledge data frames</p></li>
+<li><p>At most <span class="math inline">n - 1</span> data frames outstanding from each device at a time
+<img src="../../attachments/serial-ack-structure-3.png" alt="serial-ack-structure-3" class="responsive-img" /></p></li>
+<li><p>D<span class="math inline">x, y</span> = Data frame <span class="math inline">y</span> from device <span class="math inline">x</span></p></li>
+<li><p>A<span class="math inline">x, y</span> = Acknowledgement of data frame <span class="math inline">y</span> from device <span class="math inline">x</span></p></li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>This will work well for full duplexed connections, where we could send on one, and acknowledge on another</li>
+</ul>
+<h5 id="sequence-numbers---unidirectional-transmission-with-timeouts">Sequence Numbers - Unidirectional Transmission with Timeouts</h5>
+<ul>
+<li>Device 1 sends data frames and device 2 acknowledges received data frames</li>
+<li>At most <span class="math inline">n - 1</span> data frames outstanding from each device at a time
+<img src="../../attachments/serial-ack-structure-4.png" alt="serial-ack-structure-4" class="responsive-img" /></li>
+<li>D<span class="math inline">x, y</span> = Data frame <span class="math inline">y</span> from device <span class="math inline">x</span></li>
+<li>A<span class="math inline">x, y</span> = Acknowledgement of data frame <span class="math inline">y</span> from device <span class="math inline">x</span></li>
+<li>E = Erroneous frame</li>
+<li>D = Discarded frame</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Notice how frame 1,2 is Erroneous, and all the frames after that are discarded</li>
+<li>We set a watch dog timer such that multiple frames can be sent before we give up, because there is always a chance that the response was just slow. There is no reason to throw away a frame prematurely</li>
+<li>Notice how the watchdog isn’t long enough to re-send frame 0 to avoid confusion of which response you get
+<ul>
+<li>so that you can know if the response you get is actually the next 1 or the previous 1, and the gap allows you to differentiate b/w the first 1 and the second 1 that the device would ACK</li>
+</ul></li>
+<li>You need a timer for every frame you send, so here actually 8 watchdog timers, which isn’t the worst but this is hoping that the interrupt doesn’t actually get triggerred</li>
+</ul>
+<h5 id="sequence-numbers---unidirectional-transmission-with-nacks">Sequence Numbers - Unidirectional Transmission with NACKs</h5>
+<ul>
+<li><p>Device 1 sends data frames and device 2 acknowledges received data frames</p></li>
+<li><p>At most <span class="math inline">n - 1</span> data frames outstanding from device 1 at a time
+<img src="../../attachments/serial-ack-structure-5.png" alt="serial-ack-structure-5" class="responsive-img" /></p></li>
+<li><p>D<span class="math inline">x, y</span> = Data frame <span class="math inline">y</span> from device <span class="math inline">x</span></p></li>
+<li><p>A<span class="math inline">x, y</span> = Acknowledgement of data frame <span class="math inline">y</span> from device <span class="math inline">x</span></p></li>
+<li><p>N<span class="math inline">x, y</span> = Negative acknowledgement of data frame <span class="math inline">y</span> from device <span class="math inline">x</span></p></li>
+<li><p>E = Erroneous frame</p></li>
+<li><p>D = Discarded frame</p></li>
+</ul>
+<h5 id="sequence-numbers---transmission-with-piggy-backed-acknowledgements">Sequence Numbers - Transmission with Piggy-Backed Acknowledgements</h5>
+<ul>
+<li>Both devices send, receive, and acknowledge data frames</li>
+<li>At most <span class="math inline">n - 1</span> data frames outstanding from each device at a time</li>
+<li>Acknowledgements are piggy-backed on data frames
+<img src="../../attachments/serial-ack-structure-6.png" alt="serial-ack-structure-6" class="responsive-img" /></li>
+<li>D<span class="math inline">x, y</span> = Data frame <span class="math inline">y</span> from device <span class="math inline">x</span></li>
+<li>A<span class="math inline">x, y</span> = Acknowledgement of data frame <span class="math inline">y</span> from device <span class="math inline">x</span></li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Piggy back generally acknowledges for the next frame, but here its not shown to preserve consistency with the notation in the previous slides</li>
+<li>Notice how A<span class="math inline">1,5</span> gets directly sent, without intermediate ACKs getting send</li>
+<li>We need to keep track of each the devices and what we have recieved from each of the devices, there’s a bunch of book keeping to do, but it does improve performance</li>
+<li>You could still have watchdog timers to keep track, and possibly have just one overall timer to reset the client if nothing is progressing</li>
+</ul>
+<h5 id="sequence-numbers---out-of-order-transmission-with-selective-rejection">Sequence Numbers - Out-of-Order Transmission with Selective Rejection</h5>
+<ul>
+<li>Both devices send, receive, and acknowledge data frames</li>
+<li>At most <span class="math inline">n - 1</span> data frames outstanding from each device at a time</li>
+<li>Acknowledgements are piggy-backed on data frames</li>
+<li>Erroneous frames are rejected</li>
+</ul>
+<figure>
+<img src="../../attachments/serial-ack-structure-7.png" alt="serial-ack-structure-7" class="responsive-img" /><figcaption>serial-ack-structure-7</figcaption>
+</figure>
+<ul>
+<li>D<span class="math inline">x, y</span> = Data frame <span class="math inline">y</span> from device <span class="math inline">x</span></li>
+<li>A<span class="math inline">x, y</span> = Acknowledgement of data frame <span class="math inline">y</span> from device <span class="math inline">x</span></li>
+<li>R<span class="math inline">x, y</span> = Rejection of data frame <span class="math inline">y</span> from device <span class="math inline">x</span></li>
+</ul>
+<h4 id="synchronous-serial-communication-synchronization-summary">Synchronous Serial Communication Synchronization Summary</h4>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sync Level</th>
+<th>Global Clock Technique</th>
+<th>Single Line for Data and Clock - Technique</th>
+<th>Single Line for Data and Clock - Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bit Rate</td>
+<td>Dedicated clock signal</td>
+<td>Hardware detection</td>
+<td>May require agreement to an approximate rate</td>
+</tr>
+<tr class="even">
+<td>Bit Phase</td>
+<td>Dedicated clock signal</td>
+<td>Derived from serial data stream</td>
+<td>Although often part of clock extraction, the phase can be detected by observ- ing the edges and shifting edges until mid bit always found. (Assuming Manch- ester encoding.)</td>
+</tr>
+<tr class="odd">
+<td>Byte</td>
+<td>Flag, bit, bit-pattern or global reset</td>
+<td>Flag or bit pattern</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Block</td>
+<td>Byte synchronization</td>
+<td>Bit or byte synchronization</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="final-signal-comments">Final Signal Comments</h4>
+<ul>
+<li>Electrical Properties: it should be noted that the actual drivers and receivers used to transfer (synchronous or asynchronous) serial signals can be of any type.</li>
+<li>The considerations that may come into the driver and receiver selection include the fol- lowing.
+<ul>
+<li>Distance: as the distance increases, there will be a need for more specialized drivers and receivers.</li>
+<li>Noise: as the noise increases, there will be a need for more specialized drivers and receivers.</li>
+<li>Data Rates: as the data rate increases, there will be a need for more specialized drivers and receivers.</li>
+</ul></li>
+<li>Standards: if the driver and receiver will be provided by different subsystem manufacturers, then a standard would be required.</li>
+</ul>
+<h4 id="goals-of-usb">Goals of USB</h4>
+<ul>
+<li>General Goal: to bring sanity to the mixture of standards and cables used in the PC market. Interpreted from the following motivations.
+<ul>
+<li>Connection of the PC to the telephone (cheap ubiquitous connectivity)</li>
+<li>Ease-of-use (a.k.a. plug-and-play)</li>
+<li>each computer</li>
+<li>Port expansion (bidirectional, low-cost, low-to-mid speed peripheral bus that expands)</li>
+</ul></li>
+<li>Specific Goals:
+<ul>
+<li>Common connector (tree based, expandable); this goal failed in that there is more than 1 connector used.</li>
+<li>refer: https://en.wikipedia.org/wiki/USB#Overview Even at USB1.0 they did not establish this universal connector and had Type-A and Type-B</li>
+<li>Type-A has made it into non computer devices such as extension cord with USB ports built in. (Since 2017, the USB A connector has been deprecated)
+<ul>
+<li>Has 2 data lines, 1 ground, 1B</li>
+</ul></li>
+<li>Hot plug-in support, including automatic detection and configuration.</li>
+<li>Support new and legacy peripherals</li>
+<li>Higher performance than the systems it replaced</li>
+<li>Low-power implementation</li>
+<li>Direct power distribution for low-power devices</li>
+</ul></li>
+</ul>
+<ol type="1">
+<li>USB C is full duplexed as compared to half duplex in Type-A, which has allowed them to expand on the throughput bandwidth transmission</li>
+</ol>
+<h4 id="comparison-of-usb-protocols">Comparison of USB Protocols</h4>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 24%" />
+<col style="width: 20%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Characteristic</th>
+<th>USB 1.x</th>
+<th>USB 2.x</th>
+<th>USB 3.0</th>
+<th>USB 3.1 / 3.2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Year Adopted</td>
+<td>1996</td>
+<td>2001</td>
+<td>2011</td>
+<td>2014/ 2017</td>
+</tr>
+<tr class="even">
+<td>Maximum Rate</td>
+<td>12 Mbps</td>
+<td>480 Mbps</td>
+<td>5 Gbps</td>
+<td>20 Gbps†</td>
+</tr>
+<tr class="odd">
+<td>Connectors</td>
+<td>Standard A and B</td>
+<td>Standard A and B Mini A, B, and AB Micro A, B, and AB</td>
+<td>Standard A and B Mini B Micro A, B, and AB</td>
+<td>Standard A and B Mini B Micro A, B, and AB Type C</td>
+</tr>
+<tr class="even">
+<td>Transmission</td>
+<td>Half Duplex</td>
+<td>Half Duplex</td>
+<td>Full Duplex</td>
+<td>Full Duplex</td>
+</tr>
+</tbody>
+</table>
+<p>In most cases, advertised rate is not the actual rate of transmission, and the advertised rate can only be achieved in very specific conditions.<br />
+The rate assumes that we assume that everything transfers properly, and we don’t need to escape any transmitted characters<br />
+<strong>USB4.0 is expected to have bandwidth of 40Gbps, at which point it is starting to max out the CPU</strong>*</p>
+<h4 id="usb-bus-architecture">USB Bus Architecture</h4>
+<figure>
+<img src="../../attachments/usb1.png" alt="usb1" class="responsive-img" /><figcaption>usb1</figcaption>
+</figure>
+<ul>
+<li>Whatever the speed you have at the top, limits the speed of what it does below.<br />
+
+<ul>
+<li>If a hub supports high speed, then it also handles speeds below that<br />
+</li>
+</ul></li>
+<li>Each USB logo changes based on the speed you’re running
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/USB#USB_1.x">Notice the images on the right on Wiki</a></li>
+<li>Super-speed because it was full-duplex</li>
+<li>SuperSpeed+
+<img src="https://www.howtogeek.com/wp-content/uploads/2019/02/USB-Logo.jpg.pagespeed.ce.D40j6FumMK.jpg" /></li>
+</ul></li>
+<li>If you attach a high speed hub to a super speed device, it actually slows things down</li>
+</ul>
+<h4 id="topics-of-interest">Topics of Interest</h4>
+<ul>
+<li>Signalling</li>
+<li>Data transfers</li>
+<li>Synchronization</li>
+<li>Control structure<br />
+<br />
+</li>
+<li>These notes discuss Low Speed (1.5 Mbps) and Full Speed (12 Mbps) modes for connection to 1.x compliant devices</li>
+<li>There is very limited discussion of the High Speed (480Mbps) mode for connection to 2.x compliant devices and higher data rates supported by USB 3.x compliant devices</li>
+</ul>
+<h4 id="low-speed-and-full-speed-signalling">Low Speed and Full Speed Signalling</h4>
+<p>At the signal level, USB 1.x compliant devices have the following characteristics:</p>
+<ul>
+<li>Four wires, power, ground, D+ (Data Positive) and D- (Data Negative)</li>
+<li>D+ and D- are half duplex (unidirectional at any given time)
+<ul>
+<li>differential signals, <em>usually</em> transmit the complement of each other</li>
+</ul></li>
+<li>Differential drivers and receivers</li>
+<li>Cable <span class="math inline">Z_0=90\Omega \pm 15\%</span>
+<ul>
+<li><span class="math inline">R_{Source} = 45Ω</span> for high-speed operations</li>
+<li><span class="math inline">28 \Omega \leq R_{Source} \leq 44 \Omega</span> is specified for full-speed operation</li>
+<li>No attempt to match impedances at the source</li>
+</ul></li>
+<li>Slew rate limited (4 ns to 20 ns from 10% to 90% voltage levels into a 50 pf load) <span class="math inline">V_{OH} \geq 2.8V;V_{OL} \leq 0.3V</span></li>
+<li>Maximum cable skew between D+ and D− is 100 ps
+<ul>
+<li>this is what limits the rate of transmission<br />
+<br />
+</li>
+</ul></li>
+</ul>
+<p><strong>Q</strong>: How does the hub know the speed of the operation
+<strong>A</strong>: Based on the impedance it would sense, it would determine the rate of transmission</p>
+<h4 id="usb-ports">USB ports</h4>
+<p><img src="../../attachments/usb-transceivers.png" alt="usb-transceivers" class="responsive-img" />
+</p>
+<ul>
+<li>The total number of devices to be connected isn’t like 255 because of the presence of hubs that occupy lines</li>
+<li>A device can only be connected to a hub, and not another device</li>
+</ul>
+<p><strong>When you plug a device into a hub, NOTHING happens.
+When the hub decides its a good time to check, it send a signal to the device, and at which point the USB responds. Plug and Play depends on the hub to do most of the work</strong><br />
+<br />
+</p>
+<p>Interrupts for USB are implemented using Polling.<br />
+The receiver polls the devices to as whether or not they want to interrupt the device, and at which point the device says yes.<br />
+</p>
+<p>If you have a hierarchy of hubs, then each hub has to ask its correspondingly attached device to see if it wants to interrupt. Now the hub parent of the hub, has to ask the hub whether it wants to interrupt. This way there is a hierarchy and SUCKS latency wise.<br />
+</p>
+<h4 id="low-level-synchronization">Low-Level Synchronization</h4>
+<ul>
+<li>Data rate is specified by the presence of one of the resistors pulling up either <span class="math inline">D^-</span> (Low Speed) or <span class="math inline">D^+</span> (Full Speed). This is detected when the device is plugged into the hub</li>
+<li>USB uses differential signal encoding but refers to it as Non-Return-to-Zero-Inverted (NRZI) signal encoding. (Zeros cause transitions and ones do not cause transitions)
+<ul>
+<li>They use differential but they say they use NRZI. USB NRZI === differential in the notes</li>
+</ul></li>
+<li>Bit stuffing is used to maintain enough clock edges to keep the clock synchronized. (Stuff after 6 consecutive ones in this case.)</li>
+<li>(Block Synchronization 1) Start of Packet is transmitted as 00000001 to synchronize clock (lots of edges with the 0’s for bit/clock synchronization and then one 1 for byte synchronization.) Of note, line goes idle between packets and clock re-synchronization is required for each packet.
+<ul>
+<li>the 00000001 is actually a bunch of transitions for the zeros, then nothing for the last 1, and at which point you start</li>
+</ul></li>
+<li>(Block Synchronization 2) Out-of-band signalling for end of packet. (Both D+ and D- are held at 0 for 2 bit times using the SE0 signal to force a violation of differential output values.)
+<ul>
+<li>can be used as abort type behaviour</li>
+</ul></li>
+</ul>
+<h4 id="usb-nrzi-signalling">USB NRZI Signalling</h4>
+<figure>
+<img src="../../attachments/usbsignals.png" alt="usbsignals" class="responsive-img" /><figcaption>usbsignals</figcaption>
+</figure>
+<h4 id="usb-data-transfers">USB Data Transfers</h4>
+<ul>
+<li><p>Asymmetric connection, only the root hub can initiate transfers</p></li>
+<li><p>Each transaction is (usually) composed of 3 packets.</p>
+<ul>
+<li><strong>USB Token Packet</strong>: Selects the slave for the communication. The slave includes: Target device (7-bits), endpoint number (the I/O register in the device (4-bits)), and the direction of transfer (in or out).</li>
+<li><strong>USB Data Packet</strong>: Payload information for the transfer - up to 1023 bytes in isochronous (special class of transfers) case, and 64 bytes for other (full-speed) transfers.
+<ul>
+<li>much like information frame</li>
+</ul></li>
+<li><strong>USB Handshake Packet</strong>: When required, this is used to confirm to the data source that the data has been received (and accepted) by the data destination. This is not required for isochronous transfers.
+<ul>
+<li>Look at the handshakes here: <a href="https://en.wikipedia.org/wiki/USB_(Communications)#Protocol_layer">link</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="usb-packet-format">USB Packet Format</h4>
+<figure>
+<img src="../../attachments/usbpackets1.png" alt="usbpackets1" class="responsive-img" /><figcaption>usbpackets1</figcaption>
+</figure>
+<ul>
+<li><strong>USB PID</strong>: There are 16 PID values. Each value is encoded using 8 bits for the purpose of error detection. The bit ordering is reversed (MSb to LSb) and then complemented.
+<ul>
+<li>they only really needed 4 bits, but they transmit 4 bits in reverse order and then transmit the complement of these</li>
+</ul></li>
+<li>PID value 0101 (SOF - Start of Frame) is transmitted as a PID byte of 10100101 (A5)</li>
+<li>Other values include SETUP (1101 transmitted as 1011 0100), IN (1001 transmitted as 1001 0110), and OUT (0001 transmitted as 1000 0111)
+<ul>
+<li>this ensures that there at least some transitions in the signal, while also allowing for some error detection<br />
+</li>
+</ul></li>
+</ul>
+<h4 id="usb-token-packets">USB Token Packets</h4>
+<ul>
+<li><strong>USB SOF Token Packet</strong>:
+<ul>
+<li>START OF FRAME</li>
+<li>In USB, a frame is used to provide some synchronization and to facilitate data transfer.</li>
+<li>In most cases, the SOF packet will be sent once per millisecond to indicate a new cycle has started. The SOF token packet provides a number to indicate that this is the start of the nth frame.</li>
+<li>Please note, the concept of frame used in USB (a sequence of activities that repeat every 1 ms) is quite different from the concept used in the serial communication section of the notes.</li>
+</ul></li>
+<li><strong>USB IN Token Packet</strong>: The IN packet can be used for Interrupt, Bulk, Control and Isosynchronous transfers (more later). The IN packet provides the address of the device and the I/O register (endpoint) to provide the data for the IN transfer.
+<ul>
+<li>for input - reading</li>
+</ul></li>
+<li><strong>USB OUT Token Packet</strong>: The same as IN except the communication channel being established is in the opposite direction.
+<ul>
+<li>for output - writing</li>
+</ul></li>
+<li><strong>USB SETUP Token Packet</strong>: Used to setup the remote device or hub.</li>
+</ul>
+<h4 id="usb-handshake-packets">USB Handshake Packets</h4>
+<ul>
+<li><strong>USB ACK Packet</strong>: Error free receipt of data packet.</li>
+<li><strong>USB NACK Packet</strong>: Unable to accept or return data. Also used during polling to indicate
+that no new data is available.</li>
+<li><strong>USB STALL Packet</strong>: Target unable to complete transfer and software intervention is required.</li>
+</ul>
+<p>NYET is also included but not shown</p>
+<h4 id="usb-types-of-transfers">USB Types of Transfers</h4>
+<p>The type of transfer is indicated when you are setting up the device</p>
+<ul>
+<li><strong>USB Interrupt Transfer</strong>: Traditional small volume transfers. There is no interrupt facility on the USB, so each device must be polled at a regular interval to see if a new value has been entered for action. During the interval between polling, a device could lose data, but every piece of data must be delivered, therefore there is a time critical component.
+<ul>
+<li>the interrupt method is curious, and is actually just polling in the background</li>
+<li>latency is going to be low, so response time is pretty low, because polling is p fast as long as you limit the transfers</li>
+</ul></li>
+<li><strong>USB Bulk Transfer</strong>: Used by block transfer devices. Once the transfer has been started, there is no particular time constraint. Every piece of data must be delivered.</li>
+<li><strong>USB Isochronous Transfer</strong>: Typically real-time data. The data must be read/written with a given rate. If one item is missed it can be ignored and processing continues. Every piece of data need not be delivered (i.e. lossy data).</li>
+<li><strong>USB Control Transfer</strong>: Used to setup devices.
+<ul>
+<li>define manufacturer</li>
+<li>clear buffers</li>
+<li>load correct drivers etc.</li>
+</ul></li>
+</ul>
+<h4 id="usb-setup">USB Setup</h4>
+<figure>
+<img src="../../attachments/usbsoftware.png" alt="usbsoftware" class="responsive-img" /><figcaption>usbsoftware</figcaption>
+</figure>
+<ul>
+<li>All isochronous data is put in the frames FIRST, and then the bulk transfer gets fit into the remaining space on a case by case spaces
+<ul>
+<li>if you get too much isochronous data, you might not even take the bulk data</li>
+</ul></li>
+<li>BULK has least priority but they’re guaranteed and not LOSSY</li>
+<li>Frame size in this would matter, and depend on the rate of transmission</li>
+</ul>
+<h4 id="using-serial-communication-in-the-real-world">Using Serial Communication in the Real World</h4>
+<ul>
+<li>Considered thus far:
+<ul>
+<li>Channels,</li>
+<li>Synchronization,</li>
+<li>Clocking, and</li>
+<li>Block and byte transfer techniques.</li>
+</ul></li>
+<li>Left to cover:
+<ul>
+<li>How to use typical interconnections (RS-232)</li>
+<li>Signalling details (later in the notes)</li>
+</ul></li>
+</ul>
+<h4 id="rs-232-electrical-interface">RS-232 Electrical Interface</h4>
+<ul>
+<li>Originally specified to attach data terminal equipment (DTE) to a modem or data communication equipment (DCE)</li>
+<li>Now used to connect computers to terminals, modems, (some) printers, almost any (relatively) slow peripheral</li>
+</ul>
+<figure>
+<img src="../../attachments/serial6.png" alt="serial6" class="responsive-img" /><figcaption>serial6</figcaption>
+</figure>
+<ul>
+<li>The computer DTE, would have a different interface compared to the device (DCE).
+<ul>
+<li>You can see how the connection is un-symmetric that would allow one to work with the other</li>
+</ul></li>
+<li>Signals:
+<ul>
+<li>DTR: DTE is ready</li>
+<li>DSR: DCE is ready</li>
+<li>RTS: Is a handshaking signal</li>
+</ul></li>
+<li>it was based on modem tech, which is why some of the lingo matches eg: Carrier Detect</li>
+<li>Fully duplexed</li>
+<li>All other signals are control signals</li>
+<li>The ring indicator was designed to work with the hand cranked phones that allows you to generate electricity to ring the phone on the other hand
+<ul>
+<li>you will get a 75V shock if you touch the Ring Indicator wire when the phone is ringing</li>
+</ul></li>
+</ul>
+<p>2 grounds: one is to prevent against noise, the other one acts as the reference<br />
+Note:</p>
+<ul>
+<li>Shield Ground is attached to the chassis (if it is safe to do so)</li>
+<li>Signal Grounds must be connected which may lead to ground loop problems</li>
+<li>According to the standard each device may have 50 feet of cable (100 ft. total)</li>
+<li>A standard “D” connector is used</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Signal</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TRANSMIT</td>
+<td>Data from DTE to DCE</td>
+</tr>
+<tr class="even">
+<td>RECEIVE</td>
+<td>Data from DCE to DTE</td>
+</tr>
+<tr class="odd">
+<td>RTS (Request to Send)</td>
+<td>Used by the DTE to indicate that it has a character to send (Half duplex)</td>
+</tr>
+<tr class="even">
+<td>CTS (Clear to Send)</td>
+<td>Used by the DCE to indicate that the character (indicated by RTS) may now be sent</td>
+</tr>
+<tr class="odd">
+<td>DSR (Data Set Ready) and DTR (Data Terminal Ready)</td>
+<td>Used to inform DTE and DCE that the other is operational (Power on etc.)</td>
+</tr>
+<tr class="even">
+<td>CD (Carrier Detect)</td>
+<td>The communications line is now active</td>
+</tr>
+<tr class="odd">
+<td>RI (Ring Indicator)</td>
+<td>There is a request from the communications line (and hence the DCE) to contact the DTE</td>
+</tr>
+</tbody>
+</table>
+<p>Note: Connections are asymmetric - there is a DTE connector and a DCE connector and the direction of information flow is not the same.</p>
+<figure>
+<img src="../../attachments/serial7.png" alt="serial7" class="responsive-img" /><figcaption>serial7</figcaption>
+</figure>
+<ul>
+<li>If connecting two DTEs (e.g., a computer and a printer), then must translate connections between lines, using a null modem.</li>
+</ul>
+<figure>
+<img src="../../attachments/serial6b.png" alt="serial6b" class="responsive-img" /><figcaption>serial6b</figcaption>
+</figure>
+<p>How do you do this transmission between these devices
+1. You can cross out the recieve and transmit for each Other
+2. But what do you do about DTR or RTS?</p>
+<h5 id="general-null-modem">General Null Modem</h5>
+<figure>
+<img src="../../attachments/serial8.png" alt="serial8" class="responsive-img" /><figcaption>serial8</figcaption>
+</figure>
+<h5 id="wire-null-modem">3/4-Wire Null Modem</h5>
+<figure>
+<img src="../../attachments/serial8_3.png" alt="serial8_3" class="responsive-img" /><figcaption>serial8_3</figcaption>
+</figure>
+<p><em>Note: change in operation at the software level.</em><br />
+<em>Note: shield ground is not always included (as discussed much later in the course).</em></p>
+<ul>
+<li>At any time we have DTR we are going to feed it into its DSR</li>
+<li>Any time we have RTS we are going to give to CTS</li>
+</ul>
+<p>This means both sides are always ready to whatever the fuck they want</p>
+<h5 id="wire-null-modem-1">5/6-Wire Null Modem</h5>
+<figure>
+<img src="../../attachments/serial8_5.png" alt="serial8_5" class="responsive-img" /><figcaption>serial8_5</figcaption>
+</figure>
+<p>In reality, this is not a huge difference, because it has 2 extra wires crossing the bridge</p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

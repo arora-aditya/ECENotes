@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Gravity and Motion </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Gravity and Motion<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#temperature">Temperature</a>
+<ul>
+<li><a href="#temperature-vs.-heat">Temperature vs. Heat</a></li>
+<li><a href="#temperature-and-energy">Temperature and Energy</a></li>
+</ul></li>
+<li><a href="#pressure">Pressure</a>
+<ul>
+<li><a href="#gas-pressure">Gas Pressure</a></li>
+<li><a href="#pressure-and-density">Pressure and Density</a></li>
+<li><a href="#air-pressure">Air Pressure</a>
+<ul>
+<li><a href="#air-pressure-and-air-density-another-example-calculation.-temperature">Air Pressure and Air Density (another example calculation)…. Temperature?</a></li>
+</ul></li>
+<li><a href="#pressure-versus-gravity">Pressure versus Gravity</a></li>
+<li><a href="#properties-of-an-ellipse">Properties of an ellipse</a></li>
+</ul></li>
+<li><a href="#barycenter">Barycenter</a>
+<ul>
+<li><a href="#centre-of-mass">Centre of Mass</a></li>
+</ul></li>
+<li><a href="#conservation-of-energy">Conservation of Energy</a>
+<ul>
+<li><a href="#energy">Energy</a></li>
+<li><a href="#pot.-e-keconstant-if-no-external-forces">Pot. E + KE=constant …if no external forces!</a></li>
+</ul></li>
+<li><a href="#conservation-of-angular-momentum">Conservation of Angular Momentum</a></li>
+<li><a href="#keplers-laws-derived-from-newtons-equations-celestial-mechanics">Kepler’s Laws derived from Newton’s Equations: “Celestial Mechanics”</a>
+<ul>
+<li><a href="#three-versions-of-keplers-third-law">three “versions” of Kepler’s Third Law</a></li>
+<li><a href="#example-msun-au-y-m_1m_2p2-a3-a_1a_23">Example: mSun, AU, y <span class="math inline">(m_1+m_2)P^2 = a^3 = (a_1+a_2)^3</span></a></li>
+<li><a href="#example-kg-m-s">Example: kg, m, s</a></li>
+</ul></li>
+<li><a href="#orbital-energy-and-distance-from-centre-of-mass-one-large-mass">Orbital energy and distance from centre of mass, one large mass</a>
+<ul>
+<li><a href="#orbit-and-energy">Orbit and Energy</a>
+<ul>
+<li><a href="#escape-velocity-rocket-leaving-earth">Escape velocity: rocket leaving Earth</a></li>
+<li><a href="#it-is-easier-to-leave-the-solar-system-then-to-hit-the-sun">It is easier to leave the Solar System then to hit the Sun</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#orbital-elements">Orbital Elements</a></li>
+<li><a href="#tides-caused-by-differential-forces-across-a-body">Tides: caused by differential forces across a body</a>
+<ul>
+<li><a href="#ocean-tides-on-earth">Ocean Tides on Earth:</a></li>
+<li><a href="#tidal-friction">Tidal Friction</a></li>
+<li><a href="#tides-not-just-earthmoon-effect">Tides not just Earth/Moon effect…</a></li>
+</ul></li>
+<li><a href="#orbits-can-be-altered-by-exchange-of-energy">Orbits: can be altered by exchange of energy</a></li>
+<li><a href="#gravity-waves">Gravity Waves</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul>
+</nav>
+<h2 id="temperature">Temperature</h2>
+<ul>
+<li>a measure of heat energy content per particle</li>
+<li>temperature: average random kinetic energy of atoms</li>
+<li>temperature normally measured in the “Kelvin scale”</li>
+<li>zero is “Absolute Zero”; no negative temperature
+- each Kelvin degree same size as “Celsius” or “Centigrade”</li>
+<li>freezing point of water is 273° above Absolute Zero (i.e. 273° K)
+- boiling point of water is 373° above Absolute Zero (i.e. 373° K)
+- “room temperature” (20° C) is at 293° K</li>
+</ul>
+<figure>
+<img src="../../attachments/L04_temperature_scales.jpg" alt="" /><figcaption>L04_temperature_scales</figcaption>
+</figure>
+<h3 id="temperature-vs.-heat">Temperature vs. Heat</h3>
+<ul>
+<li>Temperature is the measure of the average random energy. (e.g. kinetic, but more…)</li>
+<li>Heat is the total random energy.</li>
+</ul>
+<p><span class="math display">\text{Random Kinetic Energy} \propto kT</span>
+<span class="math inline">k</span>=Boltzman’s constant</p>
+<p><span class="math display">\frac{1}{2}mv^2\text{(random)} = 3/2kT</span>
+for one particle same T (“thermal energy”)</p>
+<p><img src="../../attachments/L04_heat_temp_1.jpg" alt="L04_heat_temp_1" />
+<img src="../../attachments/L04_heat_temp_2.jpg" alt="L04_heat_temp_2" /></p>
+<h3 id="temperature-and-energy">Temperature and Energy</h3>
+<ul>
+<li>Temperature is NOT a measure of “directed” kinetic energy, only the random part</li>
+<li>Excitation of atoms and molecules can also be measured by temperature</li>
+<li>Electronic excitation of atoms</li>
+<li>Vibrational or rotational excitation of molecules</li>
+<li>BUT can also have “non-thermal” excitation (e.g. in
+lasers)</li>
+<li>In general (when in “Thermal Equilibrium”), the ”state” of the material is given by temperature and energy in a relationship described by the equations for the Boltzmann Distribution</li>
+</ul>
+<figure>
+<img src="../../attachments/L04_phases_of_matter.jpg" alt="" /><figcaption>L04_phases_of_matter</figcaption>
+</figure>
+<h2 id="pressure">Pressure</h2>
+<ul>
+<li>Pressure is Force per unit Area – e.g. collisions with surface</li>
+<li>In a given length of time (?1 sec) how many atoms/molecules bounce off the surface (area 1 meter2 ) and what component of their velocity is changed producing how much force?</li>
+</ul>
+<figure>
+<img src="../../attachments/L04_pressure.png" alt="" /><figcaption>L04_pressure</figcaption>
+</figure>
+<h3 id="gas-pressure">Gas Pressure</h3>
+<ul>
+<li><p>Gases exert pressure through collisions of atoms/molecules/etc with other atoms/… (or with surfaces)</p></li>
+<li><p>There are other types of pressure too (e.g. solids) Gas Pressure = density * temperature * constant (where the constant depends on the units used)</p></li>
+<li><p>Ideal Gas Law
+<span class="math display">P = nkT</span></p>
+<ul>
+<li><span class="math inline">n</span> is number density ( #/<span class="math inline">m^3</span> or <span class="math inline">m^{-3}</span> )</li>
+<li><span class="math inline">T</span> is temperature (<span class="math inline">ºK</span>)</li>
+<li><span class="math inline">k</span> is Boltzman’s constant (<span class="math inline">k = 1.38064852 10^{-23} Joules/ºK</span>)</li>
+</ul></li>
+</ul>
+<h3 id="pressure-and-density">Pressure and Density</h3>
+<ul>
+<li><p>Density is usually expressed, in everyday life, as a mass density… e.g. In kg/m3</p></li>
+<li><p>Note one can also have surface mass density kg/m2 and linear mass density kg/m</p></li>
+<li><p>But one often uses number density – the number of
+particles such as atoms/molecules in a given
+volume, surface, line e.g. In units of <span class="math inline">\frac{1}{m^3}</span></p></li>
+<li><p>For example: <span class="math inline">mass density (\rho) = particle number(n) \times × average mass of particle</span>
+<span class="math display">\rho = n \mu m_{AMU}</span> where <span class="math inline">\mu</span> is average mass in amu And one atomic mass unit(amu) = <span class="math inline">1.66 ×10^{-27}kg</span></p></li>
+</ul>
+<h3 id="air-pressure">Air Pressure</h3>
+<ul>
+<li>Pressure is Force per unit Area – e.g. collisions with surface</li>
+<li>EXAMPLE: Density of Earth’s atmosphere at sea level ~1.17 kg/<span class="math inline">m^3</span> 9000 m</li>
+</ul>
+<p>9 km high atmosphere, acceleration <span class="math inline">9.8 m/s^2</span></p>
+<p>What is the Force of an air column acting on a 9 km
+<span class="math inline">m^2</span> of the surface?</p>
+<p><span class="math display">F = ma = 1.17 kg/m^3 \times 9000 m   \times 9.8 m/s^2</span>
+<span class="math display">= 1.0 \times  10^5 N/m^2</span></p>
+<p>1 standard atmosphere (atm) = 101,325 Pascal (<span class="math inline">N/m^2</span>) = 1.01325 bar =760 mmHg = 760 torr = 29.82 inHg = 14.696 psi</p>
+<h4 id="air-pressure-and-air-density-another-example-calculation.-temperature">Air Pressure and Air Density (another example calculation)…. Temperature?</h4>
+<ul>
+<li>Earth’s atmosphere is primarily nitrogen (N2) and
+the mass of one molecule is <span class="math inline">2×14×1.66×10^{-27} kg</span>
+<span class="math inline">=4.65×10^{-26} kg</span> (2 atoms, atomic weight 14, “atomic mass unit”)</li>
+<li>Density of <span class="math inline">1.17 kg/m^3</span> implies number density of
+<span class="math inline">1.17/(4.65×10^{-26}) = 2.5 ×10^{25} /m^3</span>
+<span class="math display">10^5 N/m^2 = nkT = 2.5 ×10^{25}  /m^3 ×1.38×10^{-23} T \implies T = 290 K   ( 17º C )</span></li>
+</ul>
+<h3 id="pressure-versus-gravity">Pressure versus Gravity</h3>
+<ul>
+<li>The “fundamental conflict of astronomy”</li>
+<li>Gravity pulls everything in the universe together</li>
+<li>Pressure pushes everything apart – but only if they
+are “touching”!</li>
+<li>But gas pressure depends on both temperature and
+density</li>
+<li>If, for example, the temperature drops, so does pressures</li>
+</ul>
+<h3 id="properties-of-an-ellipse">Properties of an ellipse</h3>
+<ul>
+<li>an orbit’s focus is at the location of the centre of mass of the system</li>
+<li>semimajor axis is the average distance of a body from the orbit’s focus
+<img src="../../attachments/L04_ellipse.jpg" alt="L04_ellipse" /></li>
+</ul>
+<figure>
+<img src="../../attachments/L04_ellipse_distances.jpg" alt="" /><figcaption>L04_ellipse_distances</figcaption>
+</figure>
+<p><span class="math display">
+\begin{aligned}
+r_{min} &amp;= a(1-e)\\
+r_{max} &amp;= a(1+e)\\
+r_{min} + r_{max} &amp;= 2a\\
+\end{aligned}
+</span></p>
+<p>The Sun is close to, but not exactly at, the focus of the ellipse!</p>
+<h2 id="barycenter">Barycenter</h2>
+<figure>
+<img src="../../attachments/L04_barycenter.gif" alt="" /><figcaption>L04_barycenter</figcaption>
+</figure>
+<h3 id="centre-of-mass">Centre of Mass</h3>
+<figure>
+<img src="../../attachments/L04_center_of_mass.jpg" alt="" /><figcaption>L04_center_of_mass</figcaption>
+</figure>
+<ul>
+<li>Objects orbit, in an ellipse, around the Centre of Mass (CM)
+<span class="math display">m_1a_1 = m_2a_2</span></li>
+<li>location of centre of mass depends on relative masses</li>
+<li>in an equal mass system, CM is midway between masses</li>
+<li>in Solar System <span class="math inline">M_{Sun} &gt;&gt; M_{planet}</span> and CM is inside or close to the Sun</li>
+</ul>
+<p>more general form of Kepler III
+<span class="math display">(m_1 + m_2)P^2 = a^3 = (a_1 + a_2)^3</span></p>
+<figure>
+<img src="../../attachments/L04_center_of_mass_different_masses.jpg" alt="" /><figcaption>L04_center_of_mass_different_masses</figcaption>
+</figure>
+<ul>
+<li>as centre of mass location depends on mass ratio…</li>
+<li>so does relative orbital size</li>
+</ul>
+<h2 id="conservation-of-energy">Conservation of Energy</h2>
+<ul>
+<li>energy can be neither created nor destroyed.</li>
+<li>energy merely changes its form or is exchanged between objects.</li>
+<li>this principle (or law) is fundamental physics/science</li>
+<li>the total energy content of the Universe was determined in the Big Bang and remains the same today!</li>
+</ul>
+<h3 id="energy">Energy</h3>
+<ul>
+<li><p>Kinetic Energy K.E. or <span class="math inline">K = \frac{1}{2} m v^2</span></p></li>
+<li><p>Gravitational Potential Energy <span class="math inline">U = − G m_1 m_2 /r</span></p></li>
+<li><p>Note: at infinity (<span class="math inline">r = \infty</span>) <span class="math inline">U = 0</span>
+as <span class="math inline">r</span> decreases (objects come closer together) <span class="math inline">U</span> gets smaller ! (more negative)</p></li>
+</ul>
+<h3 id="pot.-e-keconstant-if-no-external-forces">Pot. E + KE=constant …if no external forces!</h3>
+<ul>
+<li>gravitational potential energy decrease as distance decreases</li>
+<li>Therefore orbital kinetic energy (and the velocity) must increase as distance decreases</li>
+</ul>
+<figure>
+<img src="../../attachments/L04_orbits.jpg" alt="" /><figcaption>L04_orbits</figcaption>
+</figure>
+<h2 id="conservation-of-angular-momentum">Conservation of Angular Momentum</h2>
+<ul>
+<li>“spin” is conserved: L=mass×speed×distance where the distance is from the rotation axis</li>
+<li>L=constant (unless there are external forces)</li>
+<li>If the distance (r) changes then the speed (v) must change (smaller r, larger v)</li>
+</ul>
+<figure>
+<img src="../../attachments/L04_angular_momentum.jpg" alt="" /><figcaption>L04_angular_momentum</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L04_ballerina.jpg" alt="" /><figcaption>L04_ballerina</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L04_planets_coa.jpg" alt="" /><figcaption>L04_planets_coa</figcaption>
+</figure>
+<h2 id="keplers-laws-derived-from-newtons-equations-celestial-mechanics">Kepler’s Laws derived from Newton’s Equations: “Celestial Mechanics”</h2>
+<p>use conservation of momentum,
+centripetal forces, and gravity to get
+general version of Kepler’s Third Law</p>
+<p><span class="math display">P^2 = \Bigg[\frac{4\pi^2}{G(m_1 + m_2)}\Bigg]a^3</span></p>
+<p>Use conservation of energy, polar coordinate equation of ellipse (and take time derivatives of position on
+ellipse) a lot of algebra to get the “vis viva” equation (velocity as a function of distance from the</p>
+<p><span class="math display">v^2 = G(m_1 + m_2)(\frac{2}{r} - \frac{1}{a})</span></p>
+<p>For a circular orbit <span class="math inline">r = a</span>
+<span class="math display">v^2 = G(m_1 + m_2)\frac{1}{a}</span></p>
+<h3 id="three-versions-of-keplers-third-law">three “versions” of Kepler’s Third Law</h3>
+<ul>
+<li>Kepler’s: <span class="math inline">P^2 = a^3</span> (orbits around a 1.0 Solar Mass object)
+<ul>
+<li>NOTE: the mass of the Sun is 1 Solar Mass, also <span class="math inline">M_{sun}</span> or <span class="math inline">m_{Sun}</span> or <span class="math inline">M _{\astrosun}</span>_</li>
+</ul></li>
+<li>More general: <span class="math inline">(m_1 + m_2)P^2 = a^3 = (a_1 + a_2)^3</span>
+(units of mass are Solar Masses, distance in AU, time in years)</li>
+<li>Most general:
+<span class="math display">P^2 = \Bigg[\frac{4\pi^2}{G(m_1 + m_2)}\Bigg]a^3</span>
+(units are kg, m, s)
+<ul>
+<li>semimajor axis for each object object
+around Center of Mass is given)</li>
+</ul></li>
+</ul>
+<h3 id="example-msun-au-y-m_1m_2p2-a3-a_1a_23">Example: mSun, AU, y <span class="math inline">(m_1+m_2)P^2 = a^3 = (a_1+a_2)^3</span></h3>
+<ul>
+<li>A planet orbits a 1<span class="math inline">m_{Sun}</span> star with a period of 20y. What is its orbital semimajor axis?</li>
+<li>m1+m2=1 since <span class="math inline">m_{planet} &lt;&lt; m_{Sun}</span></li>
+<li>also can use <span class="math inline">a_1+a_2=a</span> since <span class="math inline">a_{planet} &gt;&gt; a_{Sun}</span></li>
+<li><span class="math inline">(1)(20)^2=a^3</span> and <span class="math inline">a=7.37AU</span></li>
+<li>remember <span class="math inline">a</span> is the separation between the masses; if masses are more similar you may need to find <span class="math inline">a_1</span> and <span class="math inline">a_2</span> explicitly to know the orbit of each</li>
+<li>what if the planet orbits a 3<span class="math inline">m_{Sun}</span> star with a 20y period? What is its semimajor axis? - 10.6 A.U.</li>
+<li>You can also do this with Newton’s form, SI units; give it a try</li>
+</ul>
+<h3 id="example-kg-m-s">Example: kg, m, s</h3>
+<p><span class="math display">P^2 = \Bigg[\frac{4\pi^2}{G(m_1 + m_2)}\Bigg]a^3</span></p>
+<ul>
+<li><p>The Moon and the Earth are in mutual orbit with a period of 27.3dand a mean separation of 384,400 km. We know (by
+other means) that <span class="math inline">m_{Earth}= 5.972 x10^{24}kg</span></p></li>
+<li><p>What is the mass of the Moon? What are the semimajor axes of the Moon’s and Earth’s orbits?</p></li>
+</ul>
+<p><span class="math display">a_{earth} + a_{moon} = 3.844 \times 10^5 km</span></p>
+<ul>
+<li>KIII(Newton’s form) gives <span class="math inline">M_{Earth}+M_{Moon}= 6.043x10^{24}kg</span>;</li>
+<li>subtracting <span class="math inline">m_{Earth}=&gt; M_{Moon}=7.1x1022kg = 0.012M_{Earth}</span></li>
+<li>since <span class="math inline">m_{Earth}~83 m_{Moon}</span> we have <span class="math inline">a_{Moon}/a_{Earth}= m_{Earth}/m_{Moon}~83</span>,
+<span class="math inline">a_{Earth}+ 83 a_{Earth}= 3.844×10^5 km</span> <span class="math inline">84a_{Earth}= 3.844×10^5km</span></li>
+<li>giving <span class="math inline">a_{Earth}\approx 4,600 km</span> and <span class="math inline">a_{Moon}\approx 380,000 km</span> .</li>
+<li><span class="math inline">m_{moon}</span>&lt;&lt; <span class="math inline">m_{Earth}</span>, result will depend on the # significant figures</li>
+</ul>
+<h2 id="orbital-energy-and-distance-from-centre-of-mass-one-large-mass">Orbital energy and distance from centre of mass, one large mass</h2>
+<p><span class="math display">v_{circ} = \sqrt{\frac{GM}{r}}</span></p>
+<p>Circular velocity
+<span class="math display">v_{1AU} =2v_{4AU}</span> etc…</p>
+<p>orbital kinetic energy (½mv2) also decreases with distance from centre of mass</p>
+<p>this pattern for orbital speed vs distance is valid in any system where orbits are dominated by a central mass</p>
+<figure>
+<img src="../../attachments/L04_distance_of_planets_from_sun.jpg" alt="" /><figcaption>L04_distance_of_planets_from_sun</figcaption>
+</figure>
+<h3 id="orbit-and-energy">Orbit and Energy</h3>
+<ul>
+<li>circular orbit (<span class="math inline">e=0</span>):
+<span class="math inline">v = v_{circ}</span>
+<span class="math inline">v_{circ} = \sqrt{\frac{GM}{r}}</span></li>
+<li>bound orbit (<span class="math inline">0&lt;e&lt;1</span>):
+<span class="math inline">v &lt; v_{esc}</span><br />
+<span class="math inline">v_{esc} = \sqrt{2}v_{circ} = \sqrt{2GM/r}</span></li>
+<li>unbound orbit: <span class="math inline">v \geq v_{esc}</span></li>
+</ul>
+<figure>
+<img src="../../attachments/L04_orbit_and_energy.jpg" alt="" /><figcaption>L04_orbit_and_energy</figcaption>
+</figure>
+<h4 id="escape-velocity-rocket-leaving-earth">Escape velocity: rocket leaving Earth</h4>
+<figure>
+<img src="../../attachments/L04_rocket_leaving.jpg" alt="" /><figcaption>L04_rocket_leaving</figcaption>
+</figure>
+<h4 id="it-is-easier-to-leave-the-solar-system-then-to-hit-the-sun">It is easier to leave the Solar System then to hit the Sun</h4>
+<ul>
+<li>Velocity of Earth around Sun ~30 km/s. To escape need to go 2 faster (42.4 km/s)</li>
+<li>Increase speed by 12.4 km/s</li>
+<li>To hit Sun need velocity at Earth of
+<span class="math display">v^2 = GM_{sun}(\frac{2}{1AU} - 
+  frac{2}{1AU + 7\times10^8})</span> or <span class="math inline">v = 2.9km/s</span>
+<ul>
+<li>Decrease speed by 27 km/s</li>
+</ul></li>
+</ul>
+<h2 id="orbital-elements">Orbital Elements</h2>
+<ul>
+<li>Not only do we need to specify the inclination of the two orbital planes but is also useful to mark where they cross (the ascending node and the descending node – connected by the line of nodes).</li>
+<li>Within our reference plane it is useful to specify a reference direction – usually towards us! We can then describe the ascending nodes position relative to this direction (longitude of ascending node).</li>
+<li>In the orbit plane we need to define the direction to the perapsis (argument of periapsis) and where in its orbit the object is at a given instant (the true anomaly).</li>
+</ul>
+<figure>
+<img src="../../attachments/L04_orbital_elements.jpg" alt="" /><figcaption>L04_orbital_elements</figcaption>
+</figure>
+<h2 id="tides-caused-by-differential-forces-across-a-body">Tides: caused by differential forces across a body</h2>
+<ul>
+<li>remember: the force of gravity varies as <span class="math inline">distance^2</span></li>
+<li>The difference between gravitational forces varies as <span class="math inline">distance^3</span></li>
+</ul>
+<h3 id="ocean-tides-on-earth">Ocean Tides on Earth:</h3>
+<p>vary with alignment of Earth, Moon, Sun</p>
+<figure>
+<img src="../../attachments/L04_ocean_tides_moon_sun.jpg" alt="" /><figcaption>L04_ocean_tides_moon_sun</figcaption>
+</figure>
+<h3 id="tidal-friction">Tidal Friction</h3>
+<figure>
+<img src="../../attachments/L04_tidal_friction.jpg" alt="" /><figcaption>L04_tidal_friction</figcaption>
+</figure>
+<h3 id="tides-not-just-earthmoon-effect">Tides not just Earth/Moon effect…</h3>
+<ul>
+<li>Tidal forces are important wherever
+differential gravitational forces are large
+enough</li>
+<li>SS examples: planetary rings, jovian (jupiter) moons
+and more</li>
+<li>binary stars: close pairs, large envelopes…</li>
+<li>vicinity of black holes</li>
+<li>galaxies: tidal streams from encounters,
+warped disks etc.</li>
+</ul>
+<h2 id="orbits-can-be-altered-by-exchange-of-energy">Orbits: can be altered by exchange of energy</h2>
+<p>such as…</p>
+<ul>
+<li>collisions</li>
+<li>near encounters (multi-body or tidal effects)</li>
+</ul>
+<p>examples:</p>
+<ul>
+<li>comets and Jupiter</li>
+<li>spacecraft</li>
+<li>star clusters</li>
+<li>galaxies and more</li>
+</ul>
+<figure>
+<img src="../../attachments/L04_space_collisions.jpg" alt="" /><figcaption>L04_space_collisions</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L04_galaxy_collisions.jpg" alt="" /><figcaption>L04_galaxy_collisions</figcaption>
+</figure>
+<h2 id="gravity-waves">Gravity Waves</h2>
+<ul>
+<li>Einstein’s theory of General Relativity predicts that gravitational radiation should exist and carry energy
+through space</li>
+<li>Indirectly detected in binary pulsar by Taylor and
+Hulse (1974) (and awarded Nobel Prize 1993)</li>
+<li>LIGO built 1994 – 2015.
+Laser Interferometer Gravitational-Wave Observatory
+<ul>
+<li>Feb 2016: Announced first discovery (14 Sept 2015)</li>
+<li>Merger of two black holes: <span class="math inline">36+29=62 M_{Sun}</span></li>
+<li>awarded Nobel Prize 2017</li>
+</ul></li>
+</ul>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>Pressure, density, temperature are inter-related</li>
+<li>Gravity
+<ul>
+<li>Simplest orbits possible are for two bodies
+<ul>
+<li>Orbits are “conic sections” (closed orbits are ellipses)</li>
+<li>There are very simple equations for cases where masses are in Solar Masses, distances are in A.U, periods are in years</li>
+<li>The general equations (in SI units) are often needed (can
+usually distinguish them by “G” appearing in them)</li>
+</ul></li>
+<li>Three or more body gravity is complex
+<ul>
+<li>Tides</li>
+<li>Orbits have no simple description</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" />
+<img src="../../attachments/.jpg" /></p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

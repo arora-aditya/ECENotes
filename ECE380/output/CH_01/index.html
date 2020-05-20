@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Feedback Control </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 9){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.replace(num, prevV);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Feedback Control<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#what-is-control-engineering">What is control engineering?</a>
+<ul>
+<li><a href="#e.g.-automated-highway">e.g. Automated highway</a>
+<ul>
+<li><a href="#solution-1-open-loop">Solution 1: Open loop</a></li>
+<li><a href="#solution-2-closed-loop">Solution 2: Closed Loop</a></li>
+</ul></li>
+<li><a href="#e.g.-web-server">e.g. Web server</a>
+<ul>
+<li><a href="#control-objectives">Control objectives</a></li>
+</ul></li>
+<li><a href="#definition">Definition</a></li>
+</ul></li>
+<li><a href="#control-cycle">Control Cycle</a></li>
+<li><a href="#design-cycle">Design Cycle</a></li>
+</ul>
+</nav>
+<h2 id="what-is-control-engineering">What is control engineering?</h2>
+<h3 id="e.g.-automated-highway">e.g. Automated highway</h3>
+<figure>
+<img src="../../attachments/highway.png" alt="" /><figcaption>highway</figcaption>
+</figure>
+<p><strong>Objective:</strong>
+- decide on the velocity commands to the follower in order to maintain a safe inter-vehicle distance</p>
+<p><strong>Assumptions:</strong>
+- cars only move forward and reverse on flat ground
+- through software running on an embedded computer, we can assign different velocities to the follower
+- Model for follower: <span class="math inline">\frac{df(t)}{dt} = u(t)</span>, where we decide <span class="math inline">u(t)</span>
+- Leader moves at a constant but unknown speed</p>
+<h4 id="solution-1-open-loop">Solution 1: Open loop</h4>
+<ul>
+<li>Don’t equip follower with any sensors (save that money 💰)</li>
+<li>algorithm to decide velocity only has access to the desired inter-vehicle distance, labelled <span class="math inline">r(t)</span></li>
+</ul>
+<figure>
+<img src="../../attachments/openloop.png" alt="" /><figcaption>open loop</figcaption>
+</figure>
+<ul>
+<li>Since the algorithm has no access to <span class="math inline">y(t)</span>, it can’t make an informed decision</li>
+<li>Toasters work like this (doesn’t sense toast burntness, just goes for a set time)</li>
+</ul>
+<h4 id="solution-2-closed-loop">Solution 2: Closed Loop</h4>
+<ul>
+<li>equip the follower with sensors that can measure <span class="math inline">y(t)</span></li>
+</ul>
+<figure>
+<img src="../../attachments/closedloop.png" alt="" /><figcaption>closed loop</figcaption>
+</figure>
+<ul>
+<li>Simplest control algorithm
+<ul>
+<li><span class="math inline">u(t) = -K_p (r(t) - y(t)), \quad K_p \gt 0</span></li>
+</ul></li>
+<li>Better control algorithm: <strong>proportional-integral error feedback</strong>
+<ul>
+<li><span class="math inline">u(t) = -K_p (r(t) - y(t)) - K_i \int_0^t{(r(T)-y(T)) dT}, \quad K_p, K_i \gt 0</span></li>
+</ul></li>
+</ul>
+<h3 id="e.g.-web-server">e.g. Web server</h3>
+<p>(See 1.4.1 in the notes)</p>
+<ul>
+<li>Web server that responds to GET and POST requests from browsers</li>
+<li>The server has a buffer of pending requests so no requests are lost</li>
+</ul>
+<figure>
+<img src="../../attachments/webserver.png" alt="" /><figcaption>web server</figcaption>
+</figure>
+<h4 id="control-objectives">Control objectives</h4>
+<ol type="1">
+<li>Don’t let the queue length get too large (buffer may overflow and requests will be lost)</li>
+<li>Don’t let queue length get to zero (it would be a waste of resources to have the server idle)</li>
+</ol>
+<p>Consequently, we want to keep the queue length at some known value <span class="math inline">r(t)</span>.</p>
+<p>The difficulty is that the <strong>service rate</strong> is not known, as it depends on many things (e.g. number of clients). Because of this, we will model it as a <strong>disturbance</strong> <span class="math inline">d(t)</span>.</p>
+<p>We must decide on the <strong>request rate</strong> <span class="math inline">u(t)</span> based on <span class="math inline">r(t)</span> and <span class="math inline">y(t)</span> (queue length).</p>
+<figure>
+<img src="../../attachments/webserver-block.png" alt="" /><figcaption>web server block</figcaption>
+</figure>
+<h3 id="definition">Definition</h3>
+<p>Control engineering attempts to change the behaviour of a system (called a “plant”) in a useful way despite the presence of external influences (“disturbances”) and despite <strong>model uncertainty.</strong></p>
+<p>We change the behaviour of the plant by connecting it to another system (“controller”).
+<strong>Feedback</strong> is the most powerful interconncetion strategy.</p>
+<h2 id="control-cycle">Control Cycle</h2>
+<ol type="1">
+<li>Sense the operation of a system</li>
+<li>Compare against a desired behaviour</li>
+<li>Compute a correctibe action informed bu a model of the sustem’s respnse to external stimuli</li>
+<li>Actuate the sustem to affect the desired change</li>
+</ol>
+<p>The <strong>sense, compute, actuate</strong> cycle loops.</p>
+<h2 id="design-cycle">Design Cycle</h2>
+<ol type="1">
+<li>Study the system to be controlled, decide on sensors and actuators. Sensors change what information is at your disposal, and actuators represent choices you can make in response to the inputs.</li>
+<li>Model the resulting system [CH2]
+<ul>
+<li>Mathematical model</li>
+<li>Often one or more differential equations e.g. follower <span class="math inline">\frac{dx_f}{dt}(t) = u(t)</span></li>
+<li>Obtained through analysis or experimental data [CH4]</li>
+</ul></li>
+<li>Simplify model if necessary
+<ul>
+<li>Classical control (this course, most common) deals with linear, time-invariant systems. It requires that we have a <strong>transfer function</strong> (input-output) model of the plant.</li>
+<li>e.g. <span class="math inline">\mathcal{L}\left\{\frac{dx_f}{dt}\right\} = \mathcal{L}\{u\} \Rightarrow sX_f(s) - x_f(0) = U(s)</span>. Transfer function is <span class="math inline">\frac{X_f(s)}{U(s)} = \frac{1}{s}</span>.</li>
+<li>A system has a transfer function iff it is linear and time-invariant.</li>
+</ul></li>
+<li>Analyze the model [CH3/4]</li>
+<li>Determine design specifications: stability [CH3/5], good steady-state behaviour [CH5], robustness [CH8/9], good transient performance [CH4/5/7/8/9]</li>
+<li>Decide on the type of controller [CH5/7/9]</li>
+<li>Design the controller
+<ul>
+<li>In this course, we design LTI controllers, the controller itself has a transfer function</li>
+<li>This transfer function corresponds to a differential equation relating the inputs and outputs of the controller</li>
+<li>eg: followers: proportional integral controller <span class="math inline">\frac{U(s)}{E(s)} = -K_p + K_i\frac{1}{s}</span></li>
+</ul></li>
+<li>Simulate (usually using Matlab, Octave &amp; Scilab)</li>
+<li>Return to step 1 if necessary</li>
+<li>Implement controller
+<ul>
+<li>it is possible to build circuits that have the same transfer function as the controller from step 7</li>
+<li>More ealistically, the Ordinary Differential Equation (ODE) from step 7 is discretized and approximated as a difference equation and implemented in software</li>
+<li>this works well if the computer runs fast enough</li>
+</ul></li>
+</ol>
+<figure>
+<img src="../../attachments/yousuf_notes.png" alt="" /><figcaption>yousuf notes</figcaption>
+</figure>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

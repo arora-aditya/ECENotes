@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Chapter 5 - Continuous Random Variables </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 7){
+        document.getElementById('next_button').parentNode.removeChild(document.getElementById('next_button'));
+      }
+      if(parseInt(num) == 1){
+        document.getElementById('prev_button').parentNode.removeChild(document.getElementById('prev_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + next;
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + prevV;
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Chapter 5 - Continuous Random Variables<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#expectation-and-variance-of-continuous-random-variable"><span class="toc-section-number">0.1</span> Expectation and Variance of Continuous Random Variable</a></li>
+<li><a href="#the-uniform-random-variable"><span class="toc-section-number">0.2</span> The Uniform Random Variable</a></li>
+<li><a href="#normal-random-variables"><span class="toc-section-number">0.3</span> Normal Random Variables</a></li>
+<li><a href="#normal-random-variable"><span class="toc-section-number">0.4</span> Normal Random Variable</a></li>
+<li><a href="#exponential-random-variables"><span class="toc-section-number">0.5</span> Exponential Random Variables</a></li>
+<li><a href="#the-gamma-distribution"><span class="toc-section-number">0.6</span> The Gamma Distribution</a></li>
+</ul>
+</nav>
+<p><strong>Definition</strong>: <span class="math inline">X</span> is called a continuous random variables if there is a non-negative function <span class="math inline">f(x)</span> such that for any set <span class="math inline">B \subset R</span></p>
+<p><span class="math display">P\{X \epsilon B\} = \int_Bf(x)dx</span></p>
+<p><span class="math inline">f(x)</span> is called the PDF</p>
+<figure>
+<img src="../../attachments/ch5_pdf.png" alt="" /><figcaption><span class="math inline">B = [a, b], P\{X\epsilon B\} = \int_a^bf(x)dx</span></figcaption>
+</figure>
+<p><span class="math display">
+\begin{aligned}
+\int_{-\infty}^{\infty}f(x)dx = P\{-\infty &lt; X &lt; \infty\} = 1\\
+P\{X = a\} = P\{X \epsilon [a, a]\} = \int_{-a}^{a}f(x)dx = 0
+\end{aligned}
+</span></p>
+<p><strong>Definition:</strong> Cumulative Distribution Function (CDF)
+<span class="math display">F(a) = P\{X \leq a\} = P\{X &lt; a\} = \int_{-\infty}^{a}f(x)dx</span>
+<span class="math display">f(a) = F&#39;(a) = \frac{d}{da}F(a)</span></p>
+<h2 data-number="0.1" id="expectation-and-variance-of-continuous-random-variable" data-number="0.1"><span class="header-section-number">5.1</span> Expectation and Variance of Continuous Random Variable</h2>
+<p>Discrete: <span class="math inline">E[X] = \sum_x xP\{X = x\}</span></p>
+<p>Continuous: <span class="math inline">E[X] = \int_{-\infty}^{\infty} xf(x)</span></p>
+<p>Similarly, <span class="math inline">E[aX + b] = aE[X] + b</span> where <span class="math inline">X</span> is a continuous random variable</p>
+<p><span class="math display">
+\begin{aligned}
+Var(X) &amp;= E[(X-\mu)^2], \mu = E[x]\\
+&amp;= E[X^2] - (E[X])^2\\
+Var(aX + b) &amp;= a^2Var(X)
+\end{aligned}
+</span></p>
+<h2 data-number="0.2" id="the-uniform-random-variable" data-number="0.2"><span class="header-section-number">5.2</span> The Uniform Random Variable</h2>
+<p>A random variable is said to be uniformly distributed over the interval <span class="math inline">(0,1)</span> if its PDF is</p>
+<figure>
+<img src="../../attachments/ch5_uniform_rv.png" alt="" /><figcaption>uniform random variable</figcaption>
+</figure>
+<p><span class="math display">
+f(x) = 
+\begin{cases}
+1 &amp; 0 &lt; x &lt; 1\\
+0 &amp; \text{otherwise}
+\end{cases}
+</span></p>
+<p>In general, a random variable uniformly distributed over <span class="math inline">(\alpha, \beta)</span> if its PDF is
+<span class="math display">
+f(x) = 
+\begin{cases}
+\frac{1}{\beta-\alpha} &amp; \text{if }\alpha &lt; x &lt; \beta\\
+0 &amp; \text{otherwise}
+\end{cases}
+</span></p>
+<p>Its CDF
+<span class="math display">
+\begin{aligned}
+F(a) &amp;= \int_{-\infty}^af(x)dx\\
+&amp;=
+\begin{cases}
+0 &amp; a \leq \alpha\\
+\frac{a-\alpha}{\beta-\alpha} &amp; \text{if }\alpha &lt; a &lt; \beta\\
+1 &amp; a \geq \beta
+\end{cases}
+\end{aligned}
+</span></p>
+<figure>
+<img src="../../attachments/ch5_uniform_rv_2.png" alt="" /><figcaption>uniform random variable</figcaption>
+</figure>
+<p><span class="math display">
+\begin{aligned}
+E[X] &amp;= \int_{-\infty}^{\infty}xf(x)dx\\
+&amp;= \int_{\alpha}^{\beta}x\frac{1}{\beta-\alpha}dx\\ 
+&amp;=  \frac{1}{2}\frac{\beta^2-\alpha^2}{\beta-\alpha}\\
+&amp;=  \frac{\beta+\alpha}{2}\\
+E[X^2] &amp;= \int_{-\infty}^{\infty}x^2f(x)dx\\
+&amp;= \int_{\alpha}^{\beta}x^2\frac{1}{\beta-\alpha}dx\\ 
+&amp;=  \frac{1}{3}\frac{\beta^3-\alpha^3}{\beta-\alpha}\\
+&amp;=  \frac{\beta^2+ \beta\alpha+\alpha^2}{3}\\
+Var(X) &amp;= E[X^2] - (E[X])^2\\
+&amp;= \frac{\beta^2+ \beta\alpha+\alpha^2}{3} - \frac{\beta^2+\alpha^2 + 2\beta\alpha}{4}\\
+&amp;= \frac{(\beta-\alpha)^2}{12}\\
+\end{aligned}
+</span></p>
+<h2 data-number="0.3" id="normal-random-variables" data-number="0.3"><span class="header-section-number">5.3</span> Normal Random Variables</h2>
+<p><span class="math inline">X</span> is a normal (gaussian) random variable if its PDF is</p>
+<p><span class="math display">f(x)  = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}, -\infty &lt; x &lt; \infty</span></p>
+<p>where <span class="math inline">\mu</span> and <span class="math inline">\sigma^2</span> are the parameters and we can show in fact <span class="math inline">\mu</span> is the expectation and <span class="math inline">\sigma^2</span> is the variance of the normal random variable</p>
+<figure>
+<img src="../../attachments/ch5_bell_shaped_distribution.png" alt="" /><figcaption>Bell Shaped Distribution</figcaption>
+</figure>
+<p>Usually, we use <span class="math inline">X \sim N(\mu, \sigma^2)</span> to denote that <span class="math inline">X</span> is a normal random variable with parameters <span class="math inline">\mu</span> and <span class="math inline">\sigma^2</span></p>
+<p>Now, to show that <span class="math inline">f(x)</span> is indeed a PDF, we need to show that</p>
+<p><span class="math display">\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}dx = 1</span></p>
+<p>By making the substitutions, <span class="math inline">y = \frac{x - \mu}{\sigma}</span> we see that</p>
+<p><span class="math display">\frac{1}{\sqrt{2\pi}\sigma}\int_{-\infty}^{\infty}e^{-\frac{(x-\mu)^2}{2\sigma^2}}dx = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-\frac{y^2}{2}}dy</span> denoted as <span class="math inline">I</span></p>
+<p>Then, to show <span class="math inline">I = 1</span> is equivalent to show <span class="math inline">I^2 = 1</span></p>
+<p><span class="math display">
+\begin{aligned}
+I^2 &amp;= \int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}}dy \cdot \int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx\\
+&amp;= \frac{1}{{2\pi}}\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}e^{-\frac{y^2 + x^2}{2}}dy dx\\
+&amp;= \frac{1}{{2\pi}}\int_{0}^{\infty}\int_{0}^{2\pi}e^{-\frac{r^2}{2}}rd\theta dr\\
+&amp;= \int_{0}^{\infty}e^{-\frac{r^2}{2}}r dr\\
+&amp;= -e^{-\frac{r^2}{2}}\Big|_0^{\infty}{}_{}\\
+&amp;= 1
+\end{aligned}
+</span></p>
+<p>In order to verify <span class="math inline">E[X] = \mu</span> and <span class="math inline">Var(X) = \sigma^2</span>, we need to calculate</p>
+<p><span class="math inline">E[X] = \int_{-\infty}^{\infty}xf(x)dx</span> and <span class="math inline">Var(X) = E[(X-\mu)^2] = \int_{-\infty}^{\infty}(x-\mu)^2 f(x)dx</span></p>
+<p>Let’s first consider the special case when <span class="math inline">\mu = 0, \sigma^2 = 1</span> which is called standard normal distribution. Its PDF is given by</p>
+<p><span class="math inline">f(x) = \frac{1}{\sqrt{2\pi}}e^{\frac{-x^2}{2}}dx</span> and we can denote it as <span class="math inline">Z \sim N(0,1)</span></p>
+<p>Now,</p>
+<p><span class="math display">
+\begin{aligned}
+E[Z] &amp;= \int_{-\infty}^{\infty}x\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx\\
+&amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-\frac{x^2}{2}}d\Big(\frac{x^2}{2}\Big)\\
+&amp;= -\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}\Big|_{-\infty}^{\infty}{}_{}\\
+&amp;= 0 = \mu\\
+Var(Z) &amp;= E[(Z-\mu)^2] = E[Z^2] = \int_{-\infty}^{\infty}xd(e^{-\frac{x^2}{2}})\\
+&amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}xe^{-\frac{x^2}{2}}d(\frac{x^2}{2})\\
+&amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}xd(-e^{-\frac{x^2}{2}})\\
+&amp;= \frac{1}{\sqrt{2\pi}}x(-e^{-\frac{x^2}{2}}\Big|_{-\infty}^{\infty}) - \int_{-\infty}^{\infty}e^{-\frac{x^2}{2}}dx\\
+&amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-\frac{x^2}{2}}dx\\
+&amp;= 1 (= \sigma^2)
+\end{aligned}
+</span></p>
+<p>Now, we are going to consider the general case, where <span class="math inline">X \sim N(\mu, \sigma^2)</span></p>
+<p>In order to show, in the general case <span class="math inline">E[X] = \mu</span>, and <span class="math inline">Var(X) = \sigma^2</span>, we construct another random variable <span class="math inline">Y = \sigma Z + \mu</span> where <span class="math inline">Z \sim N(0, 1)</span></p>
+<p>Then, <span class="math inline">Y = \sigma Z + \mu</span> is normally distributed with parameters <span class="math inline">\mu</span> and <span class="math inline">\sigma^2</span> i.e. <span class="math inline">Y\sim N(\mu, \sigma^2)</span></p>
+<p>To show this, we know that
+<span class="math display">
+\begin{aligned}
+F_r(y) &amp;= P(Y \leq y) &amp;= P(\sigma Z + \mu \leq y) &amp;= P(Z \leq \frac{y - \mu}{\sigma}) = F_Z(\frac{y - \mu}{\sigma})\\
+\therefore{} f_r(y) &amp;= f_z(\frac{y - \mu}{\sigma})\frac{1}{\sigma} &amp;= \frac{1}{\sigma}\frac{1}{\sqrt{2\pi}}e^{-\frac{(y-\mu)^2}{2\sigma^2}}
+\end{aligned}
+</span></p>
+<p>Besides, it’s obvious that <span class="math inline">E[Y] = E[\sigma Z + \mu] = \sigma E[Z] + \mu = \mu\;\;\;\;</span> (<span class="math inline">E[Z] = 0</span>)
+<span class="math inline">Var(Y) = Var(\sigma Z + \mu) = \sigma^2 Var(Z) = \sigma^2\;\;\;\;</span> (<span class="math inline">Var(Z) = 1</span>)</p>
+<p><br />
+</p>
+<h2 data-number="0.4" id="normal-random-variable" data-number="0.4"><span class="header-section-number">5.4</span> Normal Random Variable</h2>
+<p><span class="math display">X \sim N(\mu, \sigma^2)</span></p>
+<p><span class="math display">f(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}},\;\; E[X] = \mu, Var(X) = \sigma^2</span></p>
+<p>Standard <span class="math inline">Z \sim N(0, 1)</span></p>
+<p><span class="math display">f(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}</span></p>
+<p>Distribution Function <span class="math inline">F(x) = P\{X \leq x\} = \int_{-\infty}^x \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y-\mu)^2}{{2\sigma^2}}}dy</span></p>
+<p>Distribution function for standard normal random variable</p>
+<p><span class="math display">\phi(x) = \int_{-\infty}^{x}\frac{1}{\sqrt{2\pi}}e^{\frac{y^2}{2}}dy</span></p>
+<p>Th values <span class="math inline">\phi(x)</span> for non-negative <span class="math inline">x</span> are given in the table 5.1 in textbook. Because of symmetry, the table only provides <span class="math inline">\phi(x)</span> for non-negative <span class="math inline">x</span></p>
+<figure>
+<img src="../../attachments/ch05_table51.png" alt="" /><figcaption>Table 5.1</figcaption>
+</figure>
+<p>Obviously, <span class="math inline">\phi(-x) = 1-\phi(x)</span>, since <span class="math inline">\underbrace{P\{X \leq -x\}}_{\phi(-x)} = \underbrace{P\{X \geq x\}}_{1 - \phi(x)}</span> for standard normal deviation</p>
+<figure>
+<img src="../../attachments/ch5_normal_rv.png" alt="" /><figcaption>Normal Random Variable Distribution</figcaption>
+</figure>
+<p>In general case,
+<span class="math display">F(x) = P\{X \leq x\} = P\{\sigma Z + \mu \leq x\} = P\{Z \leq\frac{x-\mu}{\sigma}\} =\phi(\frac{x-\mu}{\sigma})</span></p>
+<h2 data-number="0.5" id="exponential-random-variables" data-number="0.5"><span class="header-section-number">5.5</span> Exponential Random Variables</h2>
+<p>An exponential random variable with parameter <span class="math inline">\lambda &gt; 0</span>, has the PDF
+<span class="math display">f(x) = \begin{cases}
+\lambda e^{-\lambda x} &amp; \text{if } x \geq 0\\
+0 &amp; \text{if } x &lt; 0\\
+\end{cases}</span></p>
+<p><span class="math inline">F(x) = 1 - e^{-\lambda x}</span> for <span class="math inline">x \geq 0</span></p>
+<p><span class="math inline">E[X] = \frac{1}{\lambda}</span>, <span class="math inline">Var(X)=\frac{1}{\lambda^2}</span></p>
+<h2 data-number="0.6" id="the-gamma-distribution" data-number="0.6"><span class="header-section-number">5.6</span> The Gamma Distribution</h2>
+<p>A gamma distribution with parameters <span class="math inline">(\alpha, \lambda)</span>, <span class="math inline">\alpha &gt; 0</span> and <span class="math inline">\lambda &gt; 0</span> has PDF</p>
+<p><span class="math display">f(x) = \begin{cases}
+\frac{\lambda e^{-\lambda x}(\lambda x)^{\alpha - 1}}{\Gamma(\alpha)} &amp; \text{if } x \geq 0\\
+0 &amp; \text{if } x &lt; 0\\
+\end{cases}</span></p>
+<p>where <span class="math inline">\Gamma(\alpha) = \int_{0}^{\infty}e^{-y}y^{\alpha - 1}dy</span>, if <span class="math inline">\alpha = n, \Gamma(n) = (n-1)!</span></p>
+<p><span class="math inline">E[X] = \frac{\alpha}{\lambda}</span>, <span class="math inline">Var(X)=\frac{\alpha}{\lambda^2}</span><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</p>
+<button id='prev_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='next_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Tutorial 1 - Recap of Complex Numbers, Laplace Transforms, Linear Algebra </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 9){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.replace(num, prevV);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Tutorial 1 - Recap of Complex Numbers, Laplace Transforms, Linear Algebra<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#complex-numbers">Complex Numbers</a>
+<ul>
+<li><a href="#mathematical-operations">Mathematical operations</a>
+<ul>
+<li><a href="#adding-complex-numbers">Adding complex numbers:</a></li>
+<li><a href="#multiplying-complex-numbers">Multiplying complex numbers:</a></li>
+</ul></li>
+<li><a href="#eulers-form">Euler’s form</a>
+<ul>
+<li><a href="#modulus">Modulus</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#laplace-transforms">Laplace Transforms</a>
+<ul>
+<li><a href="#common-transformation">Common Transformation</a>
+<ul>
+<li><a href="#example">Example</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#linear-algebra">Linear Algebra</a>
+<ul>
+<li><a href="#example-1">Example</a></li>
+<li><a href="#example-2">Example</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>= {j1mu}</p>
+<h2 id="complex-numbers">Complex Numbers</h2>
+<p>A complex number <span class="math inline">z\; \epsilon\; \mathbb{C}</span> is a pair of real numbers <span class="math inline">a,\;b \epsilon \mathbb{R}</span></p>
+<p><span class="math display">z = a + \iu b</span></p>
+<p>where <span class="math inline">\iu^2 = -1</span></p>
+<h3 id="mathematical-operations">Mathematical operations</h3>
+<p><span class="math inline">z_1 = a + b\iu</span>
+<span class="math inline">z_2 = c + d\iu</span></p>
+<h4 id="adding-complex-numbers">Adding complex numbers:</h4>
+<p><span class="math inline">z_1 + z_2 = a + c + (b + d)\iu</span></p>
+<h4 id="multiplying-complex-numbers">Multiplying complex numbers:</h4>
+<p><span class="math inline">z_1 \times z_2 = ac - bd + (bc + ac)\iu</span></p>
+<h3 id="eulers-form">Euler’s form</h3>
+<p><span class="math inline">z = r (cos \theta + sin \theta)</span></p>
+<h4 id="modulus">Modulus</h4>
+<p><span class="math inline">r = |z| = \sqrt(a^2 + b^2)</span><br />
+</p>
+<p>The principal argument of <span class="math inline">z</span>,denoted <span class="math inline">arg(z)</span>, is the ange <span class="math inline">\theta\;\epsilon\;(-\pi, \pi]</span> so that <span class="math inline">z = r (cos \theta + sin \theta)</span><br />
+<span class="math inline">z = |z|(cos(arg(z)) + sin(arg(z)))</span><br />
+<br />
+Recall
+<span class="math inline">e^{j\theta} = cos(\theta) + \iu sin(\theta)</span></p>
+<p>We can write <span class="math inline">z = a + \iu b\; \epsilon\; \mathbb{C}</span></p>
+<p><span class="math display">z = |z|e^{\iu arg(z)}</span></p>
+<p>If we have <span class="math inline">z_1, z_2\;\epsilon\;\mathbb{C}</span><br />
+<span class="math display">z_1z_2 = |z_1||z_2|e^{\iu(arg(z_1) + arg(z_2))}</span></p>
+<p>Verify for yourself that for <span class="math inline">z \epsilon\;\mathbb{C}</span></p>
+<p><span class="math display">z^{-1} = \frac{\bar{z}}{|z|^2}\;\;\;z\neq 0</span>
+where <span class="math inline">\bar{z} = a - \iu b = |z|e^{\iu (-arg(z))}</span></p>
+<h2 id="laplace-transforms">Laplace Transforms</h2>
+<p>Let <span class="math inline">f: \R \rightarrow \R</span> be an integral signal where <span class="math inline">f(t)\; =\; 0 \;\forall\; t\; &lt;\; 0</span><br />
+</p>
+<p>Suppose there exists constants <span class="math inline">M, \t_0, k\;\epsilon \R</span> so that
+<span class="math display">f(t) \leq Me^{tk}\;\;\;\forall t \geq t_0</span></p>
+<p>Then
+<span class="math display">\int_{0}^{\infty} f(t)e^{-ts}dt</span> converges for <span class="math inline">Re\{s\} &gt; k</span><br />
+<br />
+We define the Laplace transform of <span class="math inline">f(t), F(s)</span> or <span class="math inline">\mathbb{L}\{f(t)\}</span> as</p>
+<p><span class="math display">F(s) = \int_{0}^{\infty} f(t)e^{-ts}dt</span></p>
+<h3 id="common-transformation">Common Transformation</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">f(t)</span></th>
+<th style="text-align: center;"><span class="math inline">F(s)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">f(t) = 1</span></td>
+<td style="text-align: center;"><span class="math inline">F(s) = \frac{1}{s}</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">f(t) = at</span></td>
+<td style="text-align: center;"><span class="math inline">F(s) = a\frac{1}{s^2}</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">f(t) = e^{at}</span></td>
+<td style="text-align: center;"><span class="math inline">F(s) = \frac{1}{s-a}</span></td>
+</tr>
+</tbody>
+</table>
+<p>Recall that if we have <span class="math inline">\frac{df(t)}{dt}</span>, the Laplace transform is</p>
+<p><span class="math display">\mathbb{L}\{\frac{df(t)}{dt}\} = sF(s) - f(0)</span></p>
+<p><span class="math display">\mathbb{L}\{\frac{d^nf(t)}{dt}\} = s^nF(s) - s^{n-1}f(0) - s^{n-2}f^{(1)}(0) \cdots - f^{(n-1)}(0)</span></p>
+<h4 id="example">Example</h4>
+<p><img src="../../attachments/tut_01_eg1_01.jpg" /><br />
+<br />
+<img src="../../attachments/tut_01_eg1_02.jpg" /></p>
+<h2 id="linear-algebra">Linear Algebra</h2>
+<p>A vector in <span class="math inline">\mathbb{R}^n</span> is an array of <span class="math inline">n</span> real numbers <span class="math inline">x_1, \dots, x_n</span> denoted</p>
+<p><span class="math display">X = (x_1, x_2, \dots, x_n) = 
+\begin{bmatrix}
+x_1\\
+\vdots\\
+x_n
+\end{bmatrix}
+</span></p>
+<p>A matrix that is <span class="math inline">m\times n</span> Real is simply an array of <span class="math inline">m</span>-rows and <span class="math inline">n</span>-columns</p>
+<p><span class="math display">M = 
+\begin{bmatrix}
+M_{11} &amp; \dots &amp; M_{1n}\\
+\vdots &amp; &amp;\\
+M_{n1} &amp; \dots &amp; M_{nn}
+\end{bmatrix}
+</span></p>
+<p>If we want to multiply a matrix <span class="math inline">M</span> with a vector <span class="math inline">X</span></p>
+<p><span class="math display">
+\begin{bmatrix}
+M_{11} &amp; M_{12} &amp; M_{13}\\
+M_{21} &amp; M_{22} &amp; M_{23}
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_3
+\end{bmatrix} = 
+\begin{bmatrix}
+{M_{11}x_1 + M_{12}x_2 + M_{12}x_3}\\
+{M_{21}x_1 + M_{22}x_2 + M_{22}x_3}\\
+\end{bmatrix}
+ = 
+\begin{bmatrix}
+b_1\\
+b_2
+\end{bmatrix}
+\;\;\;\text{where }{b_1,\;b_2}\text{ are constants}
+</span></p>
+<p>Given a matrix A that is square <span class="math inline">n\times n</span>, and a vector <span class="math inline">b\;\epsilon\;\mathbb{R}^n</span> when is there a solution to <span class="math inline">Ax = b</span></p>
+<p>Recall a map known as the determinant denoted as <span class="math inline">det(A)</span><br />
+</p>
+<p>In particular if <span class="math inline">det(A) \neq 0</span> then we can always solve that equation<br />
+</p>
+<p>In fact, there exists an <span class="math inline">A^{-1}</span> so that <span class="math inline">A\cdot A^{-1} = A^{-1}\cdot A = I_n</span> where <span class="math inline">I</span> is the identity matrix</p>
+<p><span class="math display">\begin{aligned}
+A^{-1} Ax = A^{-1}b\\
+x =A^{-1}b
+\end{aligned}</span></p>
+<p><span class="math display">det(\begin{bmatrix}
+a &amp; b\\
+c &amp; d
+\end{bmatrix}) = ad-bc</span></p>
+<p><span class="math display">\begin{bmatrix}
+a &amp; b\\
+c &amp; d
+\end{bmatrix}^{-1} = \frac{1}{ad-bc} \begin{bmatrix}
+d &amp; -b\\
+-c &amp; a
+\end{bmatrix}</span></p>
+<p>For an <span class="math inline">n\times n</span> matrix, we use <del>the Laplace formulae</del> recursion</p>
+<p><img src="../../attachments/tut_01_nxn_det.jpeg" /><br />
+</p>
+<h3 id="example-1">Example</h3>
+<p><img src="../../attachments/tut_01_eg2_01.jpeg" /><br />
+<br />
+<br />
+Lets say <span class="math inline">A</span> is an <span class="math inline">n\times n</span> matrix</p>
+<ul>
+<li>To invert <span class="math inline">A</span> you could <span class="math inline">[A | I] ~ [I | A^{-1}]</span></li>
+<li>You can also directly compute the inverse
+<span class="math display">A^{-1} = \frac{1}{det(A)} [\text{matrix of cofactors}]^{T}</span></li>
+</ul>
+<p>Lets saw we have encountered an equation of the form
+<span class="math display">\begin{bmatrix}
+M_{11} &amp; M_{12} &amp; M_{13}\\
+M_{21} &amp; M_{22} &amp; M_{23}\\
+M_{31} &amp; M_{32} &amp; M_{33}
+\end{bmatrix}\begin{bmatrix}
+x_1\\
+x_2\\
+x_3
+\end{bmatrix} = \begin{bmatrix}
+b_1\\
+b_2\\
+b_3
+\end{bmatrix}
+</span></p>
+<p>We can show</p>
+<p><span class="math display">x_1 =\frac{\begin{bmatrix}
+b_{1} &amp; M_{12} &amp; M_{13}\\
+b_{2} &amp; M_{22} &amp; M_{23}\\
+b_{3} &amp; M_{32} &amp; M_{33}
+\end{bmatrix}}{det(M)}\text{ and so on}</span></p>
+<h3 id="example-2">Example</h3>
+<p><img src="../../attachments/tut_01_eg3.jpg" /><br />
+</p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

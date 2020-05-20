@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Chapter 2 - Axioms of Probability </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 7){
+        document.getElementById('next_button').parentNode.removeChild(document.getElementById('next_button'));
+      }
+      if(parseInt(num) == 1){
+        document.getElementById('prev_button').parentNode.removeChild(document.getElementById('prev_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + next;
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + prevV;
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Chapter 2 - Axioms of Probability<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">0.1</span> Introduction</a></li>
+<li><a href="#sample-spaces-and-events"><span class="toc-section-number">0.2</span> Sample Spaces and Events</a>
+<ul>
+<li><a href="#properties"><span class="toc-section-number">0.2.1</span> Properties</a></li>
+<li><a href="#demorgans-laws"><span class="toc-section-number">0.2.2</span> DeMorgan’s Laws</a></li>
+</ul></li>
+<li><a href="#axioms-of-probability"><span class="toc-section-number">0.3</span> Axioms of Probability</a>
+<ul>
+<li><a href="#axiom-1"><span class="toc-section-number">0.3.1</span> Axiom 1</a></li>
+<li><a href="#axion-2"><span class="toc-section-number">0.3.2</span> Axion 2</a></li>
+<li><a href="#axiom-3"><span class="toc-section-number">0.3.3</span> Axiom 3</a></li>
+</ul></li>
+<li><a href="#some-simple-propositions"><span class="toc-section-number">0.4</span> Some Simple Propositions:</a>
+<ul>
+<li><a href="#proposition-1"><span class="toc-section-number">0.4.1</span> Proposition 1</a></li>
+<li><a href="#proposition-2"><span class="toc-section-number">0.4.2</span> Proposition 2</a></li>
+<li><a href="#proposition-3"><span class="toc-section-number">0.4.3</span> Proposition 3</a></li>
+<li><a href="#proposition-4"><span class="toc-section-number">0.4.4</span> Proposition 4</a></li>
+</ul></li>
+<li><a href="#sample-space-having-equally-likely-outcomes"><span class="toc-section-number">0.5</span> Sample space having equally likely outcomes</a></li>
+</ul>
+</nav>
+<h2 data-number="0.1" id="introduction" data-number="0.1"><span class="header-section-number">2.1</span> Introduction</h2>
+<h2 data-number="0.2" id="sample-spaces-and-events" data-number="0.2"><span class="header-section-number">2.2</span> Sample Spaces and Events</h2>
+<p><span class="math inline">S</span> - sample space: the set of all possible outcomes of an experiment</p>
+<ol type="1">
+<li>Flip a coin: <span class="math inline">S = \{tail,\;head\}</span></li>
+<li>Flip 2 coins: <span class="math inline">S = \{(H,H),(T,H),(H,T),(T,T)\}</span></li>
+<li>Toss 2 die: <span class="math inline">S = \{(i,j): i,j = 1\dots 6\}</span></li>
+<li>The order of finishes in a race among 7 horses
+<span class="math inline">S = \{\text{all 7! permutations of (1\dots 7)}\}</span></li>
+<li>Measuring (in hours) the lifetime of a transistor
+<span class="math inline">S = \{x: 0 \leq x \leq +\infty\}</span></li>
+</ol>
+<p>Event - Any subset <span class="math inline">E</span> of the sample space is known as an event. That is, an event is a set of some possible outcomes.</p>
+<p>If the outcome of the experiment is contained in <span class="math inline">E</span>, then we say the <span class="math inline">E</span> has occured</p>
+<ol type="1">
+<li><span class="math inline">E = \{head\}</span>, <span class="math inline">F = \{tail\}</span></li>
+<li><span class="math inline">E = \{(H, H), (H, T)\}</span> - the first coin is head 
+<span class="math inline">F = \{(T, H), (H, T)\}</span> - the two coins have different appearances</li>
+</ol>
+<p>For <span class="math inline">E</span>, obviously if <span class="math inline">(H, H)</span> happens, we can say it happens that the first coin is head. This explains that if the outcome of the experiment is contained in <span class="math inline">E</span>, then we can say the <span class="math inline">E</span> has occured.</p>
+<ol start="3" type="1">
+<li><span class="math inline">E = \{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\}</span> - the sum of dice is 7</li>
+<li><span class="math inline">E = \{\text{all permutations starting with 3}\}</span> - Horse 3 wins the race</li>
+<li><span class="math inline">E = \{x: 0 \le x \le 5\}</span> - the transistor does not last longer than 5 hours</li>
+</ol>
+<p>We can define <span class="math inline">E \cup F</span> - the union of two events and <span class="math inline">E \cdot F = E \cap F</span> - the intersection of two events
+<span class="math display">E_1 \cup E_2 \dots E_n = \cup_{n=1}^{\infty}E_n</span>
+<span class="math display">E_1 \cap E_2 \dots E_n = \cap_{n=1}^{\infty}E_n</span></p>
+<p>What if <span class="math inline">E-1</span> and <span class="math inline">E_2</span> have no common elements? <span class="math inline">E_1\cdot E_2 = 0</span><br />
+</p>
+<p><span class="math display">E^c = \{\text{all elements not in E}\}</span>
+<span class="math display">S^c = \phi</span></p>
+<h3 data-number="0.2.1" id="properties" data-number="0.2.1"><span class="header-section-number">2.2.1</span> Properties</h3>
+<p><span class="math inline">E \subset F</span> implies that all elements in <span class="math inline">E</span> are contained in <span class="math inline">F</span>. It implies that if <span class="math inline">E</span> occurs, we can say <span class="math inline">F</span> occurs
+<span class="math display">E \subset F \equiv F \supset E</span></p>
+<p>Iff <span class="math inline">E \subset F</span> and <span class="math inline">F \subset E</span> then <span class="math inline">E = F</span></p>
+<figure>
+<img src="../../attachments/ch2_properties_1.png" alt="" /><figcaption>property 1</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/ch2_properties_2.png" alt="" /><figcaption>property 2</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/ch2_properties_3.png" alt="" /><figcaption>property 3</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/ch2_properties_4.png" alt="" /><figcaption>property 4</figcaption>
+</figure>
+<ul>
+<li>Commutative Laws: <span class="math inline">E\cup F = F\cup E</span>, <span class="math inline">EF = FE</span></li>
+<li>Associative Laws: <span class="math inline">(E \cup F) \cup G = E \cup (F \cup G)</span>, <span class="math inline">(EF)G = E(FG)</span></li>
+<li>Distributive Laws: <span class="math inline">(E \cup F)G = (EG)\cup(FG)</span>, <span class="math inline">(EF)\cup G = (E\cup G)(F \cup G)</span></li>
+</ul>
+<figure>
+<img src="../../attachments/ch2_proof_distributive.png" alt="" /><figcaption>ch2_proof_distributive</figcaption>
+</figure>
+<h3 data-number="0.2.2" id="demorgans-laws" data-number="0.2.2"><span class="header-section-number">2.2.2</span> DeMorgan’s Laws</h3>
+<p><span class="math display">(\cup_{i=1}^nE_i)^c = (\cap_{i=1}^nE_i^c)</span>
+<span class="math display">(\cap_{i=1}^nE_i)^c = (\cup_{i=1}^nE_i^c)</span></p>
+<p><strong>Proof</strong>: Suppose
+<span class="math display">\begin{aligned}
+x\;\; \epsilon&amp;\;\; (\cup_{i=1}^nE_i)^c\\
+\implies x \not\epsilon&amp;\;\; (\cup_{i=1}^nE_i)\\
+\implies x \not\epsilon&amp;\;\; E_i, \text{ for any } i = 1,2,\dots n\\
+\implies x\;\; \epsilon&amp;\;\; E_i^c, \text{ for any } i = 1,2,\dots n\\
+\implies x\;\; \epsilon&amp;\;\; (\cap_{i=1}^nE_i^c)\\
+Thus\;(\cup_{i=1}^nE_i)^c \subset&amp;\;\; (\cap_{i=1}^nE_i^c)
+\end{aligned}
+</span></p>
+<p>Similarly we can get <span class="math inline">(\cup_{i=1}^nE_i)^c \supset\;\; (\cap_{i=1}^nE_i^c)</span></p>
+<p>Since the sets are now subset of each other, we can say that they are equal</p>
+<h2 data-number="0.3" id="axioms-of-probability" data-number="0.3"><span class="header-section-number">2.3</span> Axioms of Probability</h2>
+<p><span class="math inline">S</span> - sample space, <span class="math inline">E</span> - event</p>
+<h3 data-number="0.3.1" id="axiom-1" data-number="0.3.1"><span class="header-section-number">2.3.1</span> Axiom 1</h3>
+<p><span class="math inline">0 \le P(E) \le 1</span> for any event <span class="math inline">E</span></p>
+<h3 data-number="0.3.2" id="axion-2" data-number="0.3.2"><span class="header-section-number">2.3.2</span> Axion 2</h3>
+<p><span class="math inline">P(S) = 1</span></p>
+<h3 data-number="0.3.3" id="axiom-3" data-number="0.3.3"><span class="header-section-number">2.3.3</span> Axiom 3</h3>
+<p>For any sequence of mututally exclusive events <span class="math inline">E_1, E_2\dots</span> (that is <span class="math inline">E_i\cdot E_j = 0</span> when <span class="math inline">i \ne j</span>
+<span class="math display">P(\cup_{i=1}^{\infty}E_i) = \sum_{i=1}^{\infty}P(E_i)</span></p>
+<p><strong>Proof</strong>: <span class="math inline">P(\cup_{i=1}^{\infty}E_i) = \sum_{i=1}^{\infty}P(E_i)</span></p>
+<p>Let <span class="math inline">E_{n+1} = \phi</span>, <span class="math inline">E_{n+2} = \phi</span><br />
+then
+<span class="math inline">\cup_{i=1}^{\infty}E_i = \cup_{i=1}^{n}E_i</span>,
+<span class="math inline">P(E_{n+1}) = 0, P(E_{n+2}) = 0, \dots</span><br />
+Thus:
+<span class="math display">P(\cup_{i=1}^{n}E_i) = \sum_{i=1}^{n}P(E_i)</span></p>
+<h2 data-number="0.4" id="some-simple-propositions" data-number="0.4"><span class="header-section-number">2.4</span> Some Simple Propositions:</h2>
+<h3 data-number="0.4.1" id="proposition-1" data-number="0.4.1"><span class="header-section-number">2.4.1</span> Proposition 1</h3>
+<p><span class="math display">P(E^c) = 1 - P(E)</span><br />
+<strong>Proof</strong>:</p>
+<p><span class="math display">E^c \cup E = S,\; E^c \cap E = \phi\\
+\begin{aligned}
+P(S) &amp;= P(E) + P(E^c)\\
+P(E) + P(E^c) &amp;= 1\\
+P(E^c) &amp;= 1 - P(E)
+\end{aligned}
+</span></p>
+<h3 data-number="0.4.2" id="proposition-2" data-number="0.4.2"><span class="header-section-number">2.4.2</span> Proposition 2</h3>
+<p>If <span class="math inline">E^c \subset F</span>, then <span class="math inline">P(E) \le P(F)</span><br />
+</p>
+<p><strong>Proof</strong>:
+<span class="math display">
+\begin{aligned}
+F &amp;= E \cup (E^c F)\\
+P(F) &amp;= P(E) + P(E^cF)\\
+P(E) &amp;\le P(F) \\
+\text{ Since } P(E^cF) &amp;\ge 0
+\end{aligned}
+</span></p>
+<h3 data-number="0.4.3" id="proposition-3" data-number="0.4.3"><span class="header-section-number">2.4.3</span> Proposition 3</h3>
+<p><span class="math display">P(E\cup F) = P(E) + P(F) - P(EF)</span>
+<img src="../../attachments/ch2_proposition_3.png" alt="ch2_proposition_3" /></p>
+<h3 data-number="0.4.4" id="proposition-4" data-number="0.4.4"><span class="header-section-number">2.4.4</span> Proposition 4</h3>
+<p><span class="math display">P(E\cup F \cup G) = P(E) + P(F) + P(G) - P(EF) - P(EG) - P(FG) - P(EFG)</span>
+<img src="../../attachments/ch2_proposition_4.png" alt="ch2_proposition_4" /></p>
+<p>Think of <span class="math inline">P(E \cup F)</span> and <span class="math inline">P(E \cup F \cup G)</span> as the striped area respectively in the above two Venn diagrams. By calculating the areas of the two striped regions, we can get proposition 3 and 4</p>
+<p><span class="math display">P(E_1 \cup E_2 \cup \dots E_n) = \sum_{i=1}^{n} - \sum_{i_1 &lt; i_2}P(E_{i_1}E_{i_2}) + (-1)^{r+1}\sum_{i_1 &lt; i_2 \dots &lt; i_r}P(E_{i_1}E_{i_2}\dots E_{i_r}) \dots</span></p>
+<h2 data-number="0.5" id="sample-space-having-equally-likely-outcomes" data-number="0.5"><span class="header-section-number">2.5</span> Sample space having equally likely outcomes</h2>
+<p><span class="math display">\begin{aligned}
+S &amp;= \{1, 2, \dots N\}\\
+P(\{1\}) &amp;= P(\{2\}) = \dots P(\{N\}) = \frac{1}{N}\\
+\implies P(E) &amp;= \frac{\text{number of outcomes in }E}{\text{total number of outcomes in }S} 
+\end{aligned}</span></p>
+<p><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</p>
+<button id='prev_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='next_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

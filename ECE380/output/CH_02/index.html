@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Mathematical Models of System </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 9){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.replace(num, prevV);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mathematical Models of System<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#general-comments-on-modelling">General comments on modelling</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#applying-known-laws-to-get-equations">Applying known laws to get equations</a>
+<ul>
+<li><a href="#e.g.-spring">e.g. Spring</a></li>
+<li><a href="#eg-2-carts">eg: 2 carts</a></li>
+<li><a href="#e.g.-resistor">e.g. Resistor</a></li>
+</ul></li>
+<li><a href="#state-space-models">State-space models</a>
+<ul>
+<li><a href="#e.g.-cart">e.g. Cart</a></li>
+</ul></li>
+<li><a href="#generalizing">Generalizing</a>
+<ul>
+<li><a href="#eg-from-previous-example">eg from previous example:</a></li>
+<li><a href="#e.g.-more-carts">e.g. more carts</a></li>
+<li><a href="#e.g.-drones">e.g. drones</a></li>
+<li><a href="#determining-state">Determining state</a></li>
+<li><a href="#e.g.-cart-with-no-forces">e.g. cart with no forces</a></li>
+<li><a href="#e.g.-2.5.1-pendulum">e.g. 2.5.1: Pendulum</a></li>
+<li><a href="#e.g.-2.4.5-circuit">e.g. 2.4.5 Circuit</a></li>
+</ul></li>
+<li><a href="#linearization">Linearization</a>
+<ul>
+<li><a href="#e.g.-2.5.2">e.g. 2.5.2</a></li>
+<li><a href="#e.g.-2.5.3">e.g. 2.5.3</a></li>
+<li><a href="#multivariable-taylor-series">Multivariable Taylor series</a></li>
+<li><a href="#e.g.-find-all-the-equilibria-at-which-the-pendulum-is-upright">e.g. Find all the equilibria at which the pendulum is upright</a></li>
+<li><a href="#obtaining-a-transfer-function-from-a-state-space-model">Obtaining a Transfer function from a state-space model</a>
+<ul>
+<li><a href="#summary-getting-a-transfer-function">Summary: Getting a transfer function</a>
+<ul>
+<li><a href="#ex-2.8.6-recall-the-linearized-model-of-the-pendulum-in-the-upright-position">Ex: 2.8.6 Recall the linearized model of the pendulum in the upright position</a></li>
+</ul></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#block-diagram-manipulations">Block diagram manipulations</a>
+<ul>
+<li><a href="#e.g.-linearized-pendulum">e.g. Linearized pendulum</a>
+<ul>
+<li><a href="#strategy-1-express-y-directly-in-terms-of-u-and-simplify">Strategy 1: Express Y directly in terms of U and simplify</a></li>
+<li><a href="#strategy-2-re-arrange-block-to-reveal-common-configurations">Strategy 2: Re-arrange block to reveal common configurations</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#systematic-method-of-finding-transfer-functions">Systematic method of finding transfer functions</a></li>
+</ul>
+</nav>
+<p>for control design, we need a “good” (simple but accurate) mathematical model of how the plant responds to stimuli</p>
+<h2 id="general-comments-on-modelling">General comments on modelling</h2>
+<figure>
+<img src="../../attachments/dynamicsystem.png" alt="" /><figcaption>dynamic system</figcaption>
+</figure>
+<ul>
+<li>a <em>model</em> is a set of equations that describe how a system transforms inputs into outputs</li>
+<li>no model is perfects (errors in measurement, approximations are made)</li>
+<li>models allow us to manipulate a system outside the constraints of physical reality</li>
+<li>in control: simple model for design, complex model for simulation</li>
+</ul>
+<hr />
+<h2 id="overview">Overview</h2>
+<ol type="1">
+<li>Apply known laws to get a system of coupled differential equations
+<ul>
+<li>come from first principles eg: newton’s, maxwell’s, queuing theory, econometrics etc. and/or system identification (experiments, data fitting)</li>
+</ul></li>
+<li>Linearize the model at an operating point to get a system of linear equations
+<ul>
+<li>simplify “linearize” model about an “operating point”</li>
+</ul></li>
+<li>Take the Laplace transforms with zero initial conditions to get a system of linear algebraic equations</li>
+<li>Isolate input and output to get a transfer function
+<ul>
+<li>express output <span class="math inline">Y(s)</span> in terms of the input <span class="math inline">U(s)</span></li>
+</ul></li>
+<li>Experimentally determine parameter values for the transfer function (e.g. weight of your robot)</li>
+</ol>
+<h2 id="applying-known-laws-to-get-equations">Applying known laws to get equations</h2>
+<h3 id="e.g.-spring">e.g. Spring</h3>
+<figure>
+<img src="../../attachments/spring.png" alt="" /><figcaption>spring</figcaption>
+</figure>
+<p><span class="math inline">q(t) \in \mathbb{R}</span> is the position of the mass <span class="math inline">M</span> at the time <span class="math inline">t</span>, output</p>
+<p><span class="math inline">M &gt; 0</span>, mass in kg</p>
+<p><span class="math inline">u</span> - an externally applied force (input)</p>
+<p><span class="math inline">\dot{q} := \frac{dq}{dt}, \quad \ddot{q} := \frac{d^2q}{dt^2}</span></p>
+<p>Assume that <span class="math inline">q=0</span> corresponds to the mass location at which the spring is neither stretched nor compressed - “unsprung”.</p>
+<p>Newton’s 2nd law: <span class="math inline">M\ddot{q} = \sum{ \text{forces acting on } M}</span></p>
+<p>Force due to spring: <span class="math inline">F_K(q) = Kq(t)</span>, assumed to be linear, hooke’s law</p>
+<p>Force due to damper, possibly nonlinear: <span class="math inline">C(\dot{q})</span> where <span class="math inline">C: \mathbb{R} \rightarrow \mathbb{R}</span></p>
+<p>Altogether, we get a second order nonlinear ODE:
+<span class="math display">M\ddot{q} = u(t) - Kq(t) - C(\dot{q})</span></p>
+<p>Note: if the damper is linear (<span class="math inline">C(\dot{q})=bq</span>), then the overall system is linear</p>
+<h3 id="eg-2-carts">eg: 2 carts</h3>
+<figure>
+<img src="../../attachments/2mass.png" alt="" /><figcaption>2 carts</figcaption>
+</figure>
+<ul>
+<li>a force <span class="math inline">u</span> is applied to <span class="math inline">M_1</span> and we want to control the position of <span class="math inline">M_2</span></li>
+<li>assume that when <span class="math inline">q_1(t) = q_2(t)</span>, the spring is at rest</li>
+</ul>
+<p>Applying Newton’s second law on <span class="math inline">M_1</span> gives us two coupled second order linear ODEs:
+<span class="math display">M_1\ddot{q_1} = u - Kq_1 + Kq_2 - b\dot{q}_1 + b\dot{q}_2</span>
+<span class="math display">M_2\ddot{q_2} = Kq_1 - Kq_2 + b\dot{q}_1 - b\dot{q}_2</span></p>
+<h3 id="e.g.-resistor">e.g. Resistor</h3>
+<p><img src="../../attachments/resistor.png" alt="resistor" />
+<img src="../../attachments/vr_i_graph.png" alt="V_r i graph" /></p>
+<p><span class="math inline">V_R(t) = h(i(t)), \quad h : \mathbb{R} \rightarrow \mathbb{R}</span> is possibly nonlinear</p>
+<p><span class="math inline">u(t)</span>: applied voltage; <span class="math inline">y(t)</span>: voltage across capacitor</p>
+<p>Apply Kirchoff’s Voltage Law:
+<span class="math display">\begin{aligned}
+-u(t) + V_R(t) + y(t) &amp;= 0\\
+\\
+i(t) &amp;= C\frac{dy}{dt} \quad \text{(capacitor equation)}\\
+V_R &amp;= h(i(t)) = h(C\dot(y))\\
+\\
+-u(t) + h(C\dot{y}) + y &amp;= 0\\
+\end{aligned}</span></p>
+<p>Note: if the resister were linear (<span class="math inline">h(i) = Ri</span>), the whole system would be linear (see 2.3.4 in notes)</p>
+<blockquote>
+<p>L02 Summary</p>
+<ul>
+<li>control design cycle (course roadmap)</li>
+<li>Ch2 modelling
+<ul>
+<li>examples - mech x2, elec x1</li>
+</ul></li>
+</ul>
+<p>Expectation: model very simple, physical systems, see sec 2.3 of notes</p>
+</blockquote>
+<h2 id="state-space-models">State-space models</h2>
+<p>a way to express mathematical models in standard form</p>
+<h3 id="e.g.-cart">e.g. Cart</h3>
+<figure>
+<img src="../../attachments/carairresistance.png" alt="" /><figcaption>carairresistance</figcaption>
+</figure>
+<p>Newton’s second law: <span class="math inline">M\ddot{y} = u - D(\dot{y})</span></p>
+<p>We put this model into a standard form by defining two <strong>state variables</strong>:
+<span class="math display">x_1 := y \text{ (position)}, \quad x_2 := \dot{y} \text{ (velocity)}</span></p>
+<p>Together, <span class="math inline">x_1</span> and <span class="math inline">x_2</span> make up the <strong>state</strong> of the system. We do some rewriting to have a systematic way to do linearization:</p>
+<p><span class="math display">\begin{aligned}
+\dot{x_1} &amp;= x_2 &amp; \text{(state equation)}\\
+\dot{x_2} &amp;= \frac{1}{M}u - \frac{1}{M}D(x_2) &amp; \text{(state equation)}\\
+y &amp;= x_1 &amp; \text{(output equation)}\\
+\end{aligned}</span></p>
+<p>Together, these equations make up the <strong>state-space model.</strong> These equations have the general form (also called the <strong>Nonlinear state-space model</strong>):</p>
+<p><span class="math display">\dot{x} = f(x,u) \text{, } y = h(x(t))</span></p>
+<p>In this example:</p>
+<p><span class="math display">\begin{aligned}
+x(t) &amp;= \begin{bmatrix}
+x_1(t) \\
+x_2(t)\\
+\end{bmatrix} \in \mathbb{R}^2\\
+f(x,u) &amp;= \begin{bmatrix}
+x_2 \\
+\frac{1}{M}u - \frac{1}{M}D(x_2)
+\end{bmatrix}\\
+\end{aligned}\\ h(x) = x_1</span></p>
+<ul>
+<li>the function <span class="math inline">f: \mathbb{R}^2\times \mathbb{R} \rightarrow \mathbb{R}</span> is linear if <span class="math inline">D(x_2)</span> is linear</li>
+<li><span class="math inline">h: \mathbb{R}^2 \rightarrow \mathbb{R}</span> is linear</li>
+</ul>
+<p>In the special case where air resistance is a linear function of <span class="math inline">x_2</span> (<span class="math inline">D(x_2)=d x_2</span>), then <span class="math inline">f(x,u)</span> becomes a linear function of <span class="math inline">x</span> and <span class="math inline">u</span>:</p>
+<p><span class="math display">f(x,u) = \begin{bmatrix}
+0 &amp; 1 \\
+0 &amp; \frac{-d}{M}
+\end{bmatrix} \begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix} + \begin{bmatrix}
+0 \\
+\frac{1}{M}
+\end{bmatrix} u
+</span></p>
+<p>Define <span class="math inline">C = \begin{bmatrix}1 &amp; 0\end{bmatrix}</span>. In the linear case, we get:
+<span class="math display">\begin{aligned}
+\dot{x} &amp;= Ax + Bu\\
+y &amp;= Cx\\
+\end{aligned}</span></p>
+<p>This is a linear, time-invariant (LTI) model.</p>
+<p><strong>Expect at least one question like this on the midterm</strong></p>
+<h2 id="generalizing">Generalizing</h2>
+<p>Generalizing this example above, a large class of systems have models of the form:</p>
+<p><span class="math display">\begin{aligned}
+\dot{x} &amp;= f(x, u), &amp; f: \mathbb{R}^n \times \mathbb{R}^m \rightarrow \mathbb{R}^n\\
+y &amp;= h(x, u), &amp; h: \mathbb{R}^n \times \mathbb{R}^m \rightarrow \mathbb{R}^p\\
+\end{aligned}</span></p>
+<ul>
+<li>This model is nonlinear</li>
+<li>there are <span class="math inline">m</span> control inputs <span class="math inline">u=(u_1, ..., u_m)</span></li>
+<li>there are <span class="math inline">p</span> outputs <span class="math inline">y=(y_1,...,y_p)</span></li>
+<li>the state vector <span class="math inline">x</span> has dimensions <span class="math inline">n</span>: <span class="math inline">x=(x_1, ..., x_n)</span></li>
+</ul>
+<p>The LTI special case is:
+<span class="math display">\begin{aligned}
+\dot{x} &amp;= Ax + Bu, &amp; A  \in \mathbb{R}^{n \times n}, B \in \mathbb{R}^{n \times m}\\
+y &amp;= Cx + Du, &amp; C \in \mathbb{R}^{p \times n}, D \in \mathbb{R}^{p \times m}\\
+\end{aligned}</span></p>
+<h3 id="eg-from-previous-example">eg from previous example:</h3>
+<ul>
+<li>n = 2</li>
+<li>m = 1 (one input- applied force),</li>
+<li>p = 1 (one output)</li>
+</ul>
+<p>In this course, we look at single-input, single-output systems: <span class="math inline">m=p=1</span>.</p>
+<h3 id="e.g.-more-carts">e.g. more carts</h3>
+<figure>
+<img src="../../attachments/carts.png" alt="" /><figcaption>carts</figcaption>
+</figure>
+<p><span class="math display">\begin{aligned}
+m&amp;=2, &amp; u &amp;= (u_1, u_2)\\
+p&amp;=2, &amp; y &amp;= (y_1, y_2)\\
+m&amp;=4, &amp; x &amp;= (x_1, x_2, x_3, x_4) := (y_1, \dot{y_1}, y_2, \dot{y_2})\\
+\end{aligned}</span></p>
+<h3 id="e.g.-drones">e.g. drones</h3>
+<p><img src="../../attachments/drones.png" alt="drones" />
+<span class="math display">\begin{aligned}
+m&amp;= 4\\u &amp;= (y_1, u_2, u_3, u_4)= (f_1, f_2, f_3, f_4)\\
+p&amp;=3\\
+y&amp;=(y_1, y_2, y_3)\\
+n &amp;= 12\\
+x &amp;\in \mathbb{R}^{12} = (\text{position}, \text{3 orientations - roll, pitch, and yaw}, \text{velocity}, \text{angular velocity})\\
+\end{aligned}</span></p>
+<h3 id="determining-state">Determining state</h3>
+<p><strong>What is the state of a system?</strong></p>
+<p>The state vector <span class="math inline">x(t_0)</span> encapsulates all of the system’s evolution up to time <span class="math inline">t_0</span>.</p>
+<p>More formally: For any two times <span class="math inline">t_0 \lt t</span>, knowing <span class="math inline">x(t_0)</span> and knowing <span class="math inline">\{u(t) : t_0 \le t \le t_1\}</span>, we can compute <span class="math inline">x(t_1)</span> and hence <span class="math inline">y(t_1)</span>.</p>
+<blockquote>
+<p>Faraz:System is causal</p>
+</blockquote>
+<h3 id="e.g.-cart-with-no-forces">e.g. cart with no forces</h3>
+<figure>
+<img src="../../attachments/cart-no-forces.png" alt="" /><figcaption>cart-no-forces</figcaption>
+</figure>
+<p>We know <span class="math inline">M\ddot{y} = 0</span> from Newton’s laws.</p>
+<p>If we try a 1-dimensional state, say <span class="math inline">x := y</span>, then knowing <span class="math inline">x(t_0)</span> without knowing <span class="math inline">\dot{y}</span> is not enough information to find the position in the future, <span class="math inline">x(t)</span> for <span class="math inline">t \gt t_0</span>. We have the same problem if we define <span class="math inline">x = \dot{y}</span>.</p>
+<p>Since the governing equation is second order, we need two initial conditions. So, <span class="math inline">x=(y, \dot{y}) \in \mathbb{r}^2</span> is a good choice.</p>
+<p>In general, it is a good idea to use:</p>
+<ul>
+<li>position and velocity for a physical system</li>
+<li>Capacitor voltage and inductor current for a circuit</li>
+</ul>
+<h3 id="e.g.-2.5.1-pendulum">e.g. 2.5.1: Pendulum</h3>
+<figure>
+<img src="../../attachments/pendulum.png" alt="" /><figcaption>pendulum</figcaption>
+</figure>
+<p>Model: <span class="math inline">\ddot{\theta} = \frac{3}{Ml^2} u - 3\frac{g}{l} \sin(\theta)</span></p>
+<p><span class="math display">
+\begin{aligned}
+x &amp;= \begin{bmatrix}
+x_1 \\ x_2 
+\end{bmatrix} := \begin{bmatrix}
+\theta \\ \dot{\theta}
+\end{bmatrix}\\
+u &amp;:= \tau \text{ (applied torque)}\\
+y &amp;:= \theta \text{ (position)}
+\end{aligned}
+</span></p>
+<p>In state space form:
+<span class="math display">\begin{aligned}
+x &amp;= (\theta, \dot{\theta})\\
+y &amp;= \text{angular position} = \theta\\
+\\
+\dot{x}&amp;=f(x,u) \quad &amp; &amp; \dot{x_1}=x_2\\
+\dot{y}&amp;=h(x,u) \quad &amp; &amp; \dot{x_2}=\frac{3}{Ml^2}u - 3\frac{s}{l} \sin(x_1)\\
+&amp; &amp; &amp; y = x_1
+\end{aligned}</span></p>
+<p>This is nonlinear due to the sine term, its state-space model <em>cannot</em> be written in the form as above</p>
+<h3 id="e.g.-2.4.5-circuit">e.g. 2.4.5 Circuit</h3>
+<figure>
+<img src="../../attachments/circuit.png" alt="" /><figcaption>circuit</figcaption>
+</figure>
+<p><span class="math display">
+\begin{aligned}
+x &amp;= \begin{bmatrix}
+x_1 \\ x_2 
+\end{bmatrix} := \begin{bmatrix}
+\text{voltage across cap} \\ \text{current through inductor}
+\end{bmatrix}\\
+u &amp;:= \text{ (applied voltage)}\\
+y &amp;:= \text{current through inductor}
+\end{aligned}
+</span></p>
+<p><span class="math display">\begin{aligned}
+x_1 &amp;:= \text{voltage across capacitor} = \frac{1}{C} \int{y(\tau)d\tau}\\
+x_2 &amp;:= \text{current through inductor} = y\\
+\\
+-u + V_R + V_C + V_L &amp;= 0\\
+\Rightarrow -u + Rx_2  + x_1 + L\dot{x_2} &amp;= 0, \quad \text{from capacitor equation: } \dot{x_1}=\frac{1}{C} x_2\\
+\\
+\dot{x} &amp;= \begin{bmatrix}
+0 &amp; \frac{1}{C}\\
+\frac{-1}{2} &amp; \frac{-R}{L}\end{bmatrix} \begin{bmatrix}x_1\\
+x_2\end{bmatrix} + \begin{bmatrix}0 \\ \frac{1}{L}\end{bmatrix} u\\
+y &amp;= \begin{bmatrix}0 &amp; 1\end{bmatrix}\\
+\end{aligned}</span></p>
+<p>The above is a linear system, and right above this is the state space model</p>
+<blockquote>
+<p>L03 summary</p>
+<p><img src="../../attachments/L03_summary.png" /></p>
+<p>Non-linear time-invariant causal state-space model
+<span class="math display"> \begin{aligned}
+f&amp;: \mathbb{R}^n \times \mathbb{R}^m \to \mathbb{R}^n\\
+h&amp;: \mathbb{R}^n \times \mathbb{R}^m \to \mathbb{R}^p
+\end{aligned}
+</span>
+Single-input single output: m = p = 1</p>
+<p>State vector: <span class="math inline">z(t)</span>, given <span class="math inline">x(t_0)</span> and <span class="math inline">u(t), t_0 \leq t \leq t_1</span>, we can compute <span class="math inline">y(t_1)</span></p>
+<p>Rule of thumb:
+1. mechanical - posn and velocity
+2. electrical: Inductor currents and capacitor voltages</p>
+<p><strong>LTI SPECIAL CASE</strong></p>
+<p><img src="../../attachments/L03_summary.png" /></p>
+<p><span class="math inline">A \epsilon \mathbb{R}^{n\times n};B \epsilon \mathbb{R}^{n\times m};C \epsilon \mathbb{R}^{p\times n};D \epsilon \mathbb{R}^{p\times n};</span></p>
+</blockquote>
+<h2 id="linearization">Linearization</h2>
+<p>In this course we always linearize, non-linear system</p>
+<p>This refers to the process of approximating a nonlinear state-space model with a linear model</p>
+<p>Linearization allows us to use simpler, systematic analysis and design tools</p>
+<h3 id="e.g.-2.5.2">e.g. 2.5.2</h3>
+<p>Linearize <span class="math inline">y=x^3</span> at the point <span class="math inline">\bar{x}=1</span>.</p>
+<figure>
+<img src="../../attachments/linearize.png" alt="" /><figcaption>linearize</figcaption>
+</figure>
+<p>Let <span class="math inline">\bar{y} := f(\bar{x}) = 1^3 = 1</span></p>
+<p>Taylor series at <span class="math inline">x=\bar{x}</span> is:
+<span class="math display">y=\sum_{n=0}^\infty c_n (x-\bar{x})^n, \quad c_n = \frac{1}{n!} \frac{d^n f(x)}{dx^n} \biggr|_{x=\bar{x}}</span></p>
+<p>Keep only the terms <span class="math inline">n=0</span> and <span class="math inline">n=1</span>:
+<span class="math display">\begin{aligned}
+f(x) &amp;\approx f(\bar{x}) + \frac{df(x)}{dx}\biggr|_{x-\bar{x}} (x-\bar{x})\\
+y - \bar{y} &amp;\approx + \frac{df(x)}{dx}\biggr|_{x-\bar{x}} (x-\bar{x})\\
+\end{aligned}</span></p>
+<p>If we define the derivations <span class="math inline">\partial y := y - \bar{y}, \partial x := x - \bar{x}</span>, then <span class="math inline">\partial y = \frac{df}{dx} \bigg|_{x=\bar{x}} \partial x</span>, i.e. <span class="math inline">\partial y = 3 \partial x</span></p>
+<h3 id="e.g.-2.5.3">e.g. 2.5.3</h3>
+<p><span class="math display">y = \begin{bmatrix}y_1 \\ y_2\end{bmatrix} = f(x) = \begin{bmatrix}x_1 x_2 - 1 \\ x_3^2 - 2x_1 x_3\end{bmatrix} =: \begin{bmatrix}f_1(x) \\ f_2(x)\end{bmatrix}</span></p>
+<p>Linearize at <span class="math inline">\bar{x}=(1, -1, 2)</span>.</p>
+<p><span class="math inline">\bar{y}=f(\bar{x})=\begin{bmatrix}-2\\0\end{bmatrix}</span></p>
+<h3 id="multivariable-taylor-series">Multivariable Taylor series</h3>
+<p><span class="math display">d(x)=f(\bar{x})+\frac{\partial f}{\partial x} \biggr|_{x=\bar{x}} (x-\bar{x}) \text{ + higher order terms}</span></p>
+<p>The Jacobian of <span class="math inline">f</span> at <span class="math inline">\bar{x}</span> is:
+<span class="math display">\begin{aligned}
+\frac{\partial f}{\partial x} \biggr|_{x = \bar{x}}
+&amp;= \begin{bmatrix}
+  \frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \frac{\partial f_1}{\partial x_3} \\
+  \frac{\partial f_2}{\partial x_1} &amp; \frac{\partial f_2}{\partial x_2} &amp; \frac{\partial f_2}{\partial x_3} \\
+  \frac{\partial f_3}{\partial x_1} &amp; \frac{\partial f_3}{\partial x_2} &amp; \frac{\partial f_3}{\partial x_3} \\
+\end{bmatrix}\\
+&amp;= \begin{bmatrix}
+  x_2 &amp; x_1 &amp; 0 \\
+  -2x_3 &amp; 0 &amp; 2x_3-2x_1 \\
+\end{bmatrix}_{x=(1, -1, 2)}\\
+&amp;= \begin{bmatrix}
+  -1 &amp; 1 &amp; 0\\
+  -4 &amp; 0 &amp; 2
+\end{bmatrix}\\
+&amp;= A
+\end{aligned}</span></p>
+<p>i.e. <span class="math inline">y-\bar{y} \approx A(x-\bar{x})</span></p>
+<p>You can now think of this as tangent planes to surfaces</p>
+<p>By direect extension, at <span class="math inline">(x,u)=(\bar{x}, \bar{u})</span>:
+<span class="math display">f(x, u) \approx f(\bar{x}, \bar{u})+ \frac{\partial f}{\partial x} \biggr|_{(x,u)=(\bar{x}, \bar{u})} (x-\bar{x}) + \frac{\partial f}{\partial u} \biggr|_{(x,u)=(\bar{x}, \bar{u})} (u-\bar{u})</span></p>
+<p>Let’s apply linearization to <span class="math inline">\dot{x}=f(x,u), y=h(x,u)</span>.</p>
+<p><strong>Definition (2.5.1):</strong> A constant pair <span class="math inline">(\bar{x}, \bar{u}) \in \mathbb{R}^n \times \mathbb{R}^m</span> is an <strong>equilibrium configuration</strong> of the system <span class="math inline">\dot{x}=f(x,u), y=h(x,u)</span> if <span class="math inline">f(\bar{x}, \bar{u})=(0,...,0)</span>. The constant <span class="math inline">\bar{x}</span> is the <strong>equilibrium point.</strong></p>
+<h3 id="e.g.-find-all-the-equilibria-at-which-the-pendulum-is-upright">e.g. Find all the equilibria at which the pendulum is upright</h3>
+<p><span class="math display">\begin{aligned}
+\dot{x} &amp;= f(x,u)\\
+y &amp;= h(x,u)\\
+x_1 &amp;= \theta\\
+x_2 &amp;= \dot{\theta}\\
+f(x,u) &amp;= \begin{bmatrix}x_2\\ \frac{3}{Ml}u-\frac{3g}{l}\sin(x_1)\end{bmatrix}\\
+h(x) &amp;= x_1
+\end{aligned}</span></p>
+<p>If <span class="math inline">y=\pi</span> (upright), then <span class="math inline">\bar{x_1}=\pi</span>. So we have to solve:
+<span class="math display">
+\begin{bmatrix}0\\0\end{bmatrix} = \begin{bmatrix}
+  \bar{x_2}\\
+  \frac{3\bar{u}}{Ml} - \frac{3g}{l}\sin(\bar{x_1})
+\end{bmatrix} \Rightarrow \bar{x_2}=0, \quad \bar{u}=0
+</span></p>
+<p>Therefore the equilibria are:
+<span class="math display">
+\begin{bmatrix}\bar{x_1}\\\bar{x_2}\end{bmatrix} = \begin{bmatrix}\pi + 2\pi k \\ 0\end{bmatrix}, \quad \bar{u}=0
+</span></p>
+<p>Assume that <span class="math inline">\dot{x}=f(x,u)</span> has an equilibrium configuration at <span class="math inline">(x,u)=(\bar{x}, \bar{u})</span>.</p>
+<p><span class="math display">
+f(x,u) \approx \underbrace{f(\bar{x}, \bar{u})}_{=0} + \underbrace{\frac{\partial f}{\partial x} \biggr|_{(x,u)=(\bar{x}, \bar{u})} (x - \bar{x})}_{=: A} + \underbrace{\frac{\partial f}{\partial u} \biggr|_{(x,u)=(\bar{x}, \bar{u})} (u - \bar{u})}_{=:B}</span></p>
+<p>Consider deviations from <span class="math inline">(\bar{x}, \bar{u})</span>, where <span class="math inline">||\partial x||, ||\partial u||</span> are assumed to be small:
+<span class="math display">\begin{aligned}
+\partial x(t) &amp;:= x(t) - \bar{x}\\
+\partial u(t) &amp;:= u(t) - \bar{u}\\
+\end{aligned}</span></p>
+<p>Then we get linearized state equations:
+<span class="math display">\dot{\partial x} = \dot{x} - 0 = f(x,u) \approx A\partial x + B \partial u\\
+\dot{\partial x} = A\partial x + B\partial u</span></p>
+<p>Linearized output equation:</p>
+<p><span class="math display">\partial y = \underbrace{\frac{\partial h}{\partial x} \biggr|_{(x,u)=(\bar{x},\bar{u})} \partial x}_{=:C} + \underbrace{\frac{\partial h}{\partial u} \biggr|_{(x,u)=(\bar{x},\bar{u})} \partial u}_{=:D}\\
+\partial y := y-\bar{y}=y-h(\bar{x},\bar{u})</span></p>
+<h3 id="obtaining-a-transfer-function-from-a-state-space-model">Obtaining a Transfer function from a state-space model</h3>
+<ul>
+<li>start w/ an LTI state-space model
+<span class="math display">
+\dot{\partial x(t)} = A\partial x + B\partial y\\
+y(t) = Cx(t) + Dy(t)
+</span></li>
+<li>take LTs w/ zero initial conditions
+<span class="math display">
+sX(s) = AX(s) + BU(s)\\
+Y(s) = CX(s) + DU(s)
+</span>
+<span class="math display">X(s) = \begin{bmatrix}
+X_1(s)\\
+\vdots\\
+X_n(s)
+\end{bmatrix}
+</span>
+<span class="math display">U(s) = \begin{bmatrix}
+U_1(s)\\
+\vdots\\
+U_m(s)
+\end{bmatrix}
+</span>
+<span class="math display">Y(s) = \begin{bmatrix}
+Y_1(s)\\
+\vdots\\
+Y_p(s)
+\end{bmatrix}
+</span></li>
+<li>eliminate <span class="math inline">X(S)</span>
+<span class="math display">
+\begin{aligned}
+(sI - A)X(s) &amp;= BU(s) \\
+X(s) &amp;= (sI - A)^{-1}BU(s)\\
+Y(s) &amp;= \underbrace{(C(sI - A)^{-1}B + D)}_{G(s)}U(s)
+\end{aligned}
+</span>
+<span class="math inline">G(s)</span> is the transfer function</li>
+</ul>
+<h4 id="summary-getting-a-transfer-function">Summary: Getting a transfer function</h4>
+<ol type="1">
+<li>Use first principles to obtain the ODEs that govern the system’s behaviour. Put into state-space form</li>
+<li>Pick an equilibrium configuration <span class="math inline">(\bar{x}, \bar{u})</span> typically depends on a desired output <span class="math inline">\bar{y}</span> around which we wish to control the plant</li>
+<li>Linearize <span class="math inline">(\bar{x}, \bar{u})</span> to get <span class="math inline">A, B, C, D</span></li>
+<li>Transfer Function: <span class="math inline">G(s) = (sI - A)^{-1}B</span> MATLAB: <code>ss|tf</code></li>
+</ol>
+<h5 id="ex-2.8.6-recall-the-linearized-model-of-the-pendulum-in-the-upright-position">Ex: 2.8.6 Recall the linearized model of the pendulum in the upright position</h5>
+<p><span class="math display">\begin{aligned}
+\partial \dot{x} &amp;= \begin{bmatrix} 0 &amp; 1 \\ \frac{3g}{2l} &amp; 0 \end{bmatrix} \partial x + \begin{bmatrix}0 \\ \frac{3}{Ml^2}\end{bmatrix} \partial u\\
+\partial y &amp;= \begin{bmatrix}1 &amp; 0\end{bmatrix} \partial x\\
+\\
+G(s) &amp;= C(sI-A)^{-1}B + D, \quad (sI-A)^{-1} = \frac{\text{adj}(sI-A)}{\det(sI-A)}\\
+&amp;= \begin{bmatrix}1 &amp; 0\end{bmatrix}\begin{bmatrix}s &amp; -1 \\ \frac{-3g}{2l} &amp; s\end{bmatrix}^{-1}\begin{bmatrix}0 \\ \frac{3}{Ml^2}\end{bmatrix}\\
+&amp;= \frac{\begin{bmatrix}1 &amp; 0\end{bmatrix}\begin{bmatrix}s &amp; \frac{3g}{2l} \\ 1 &amp; s\end{bmatrix}^T\begin{bmatrix}0 \\ \frac{3}{Ml^2}\end{bmatrix}}{s^2 - 1.5\frac{g}{l}}\\
+&amp;= \frac{3}{(Ml^2)(s^2 - \frac{1.5g}{l})}\\
+\end{aligned}</span></p>
+<h4 id="summary">Summary</h4>
+<ol type="1">
+<li>Select an equilibrium configuration <span class="math inline">(\bar{x}, \bar{u}) \in \mathbb{R}^n \times \mathbb{R}^m</span>: <span class="math inline">\bar{y}=h(\bar{x},\bar{u}), f(\bar{x},\bar{u})=0</span></li>
+<li>Compute Jacobians of <span class="math inline">f,h</span> to get <span class="math inline">A,B,C,D</span></li>
+<li>Linearization: <span class="math inline">\dot{\partial x} = A \partial + B \partial u, \partial y = C \partial x + D \partial u</span></li>
+</ol>
+<h2 id="block-diagram-manipulations">Block diagram manipulations</h2>
+<pre><code>          +------+
+  U(s) --&gt;| G(s) |--&gt; Y(s)      Y(s) = G(s)U(s)
+          +------+
+
+           +------+
+        +-&gt;| G(s) |--+
+        |  +------+  |
+  U(s) -+            +--&gt; Y(s)   Y(s) = (G(s) + H(s))U(s)
+        |  +------+  |
+        +-&gt;| H(s) |--+
+           +------+
+
+                                        D(s) 
+                                         |
+                                         v
+                                      +-----+
+                  D(s)                | 1/G |
+                    |                 +-----+   
+          +------+  v                     |   +------+
+  U(s) --&gt;| G(s) |--o--&gt; Y(s)   =  U(s) --o--&gt;| G(s) |   Y(s) = D(s) + G(s)U(s)
+          +------+                            +------+
+
+
+             +------+
+  U(s) --o--&gt;| G(s) |--+--&gt; Y(s)      Y(s) = G(s)U(s)/(1 + G(s)H(s))
+         ^-  +------+  |
+         |             |
+         |   +------+  |
+         +---| H(s) |--+
+             +------+ 
+</code></pre>
+<h3 id="e.g.-linearized-pendulum">e.g. Linearized pendulum</h3>
+<p>Find the transfer function from <span class="math inline">U</span> to <span class="math inline">Y</span></p>
+<figure>
+<img src="../../attachments/model.jpg" alt="" /><figcaption>model</figcaption>
+</figure>
+<h4 id="strategy-1-express-y-directly-in-terms-of-u-and-simplify">Strategy 1: Express Y directly in terms of U and simplify</h4>
+<p><span class="math display">\begin{aligned}
+Y(s) &amp;= G_2(s) (G_{ff}(s) U(s) + G_1(s) (U(s) - Y(s)))\\
+\frac{Y(s)}{U(s)} = \frac{G_2G_{ff} + G_2G_1}{1 + G_2G_1}
+\end{aligned}
+</span></p>
+<h4 id="strategy-2-re-arrange-block-to-reveal-common-configurations">Strategy 2: Re-arrange block to reveal common configurations</h4>
+<ul>
+<li>move <span class="math inline">G_1</span> to the left of negative feedback junction and swap locations of the negative feedback junction, and the positive feed forward junction<br />
+<img src="../../attachments/model_rearranged.jpg" alt="model_rearranged" /></li>
+<li>Now we have a parallel connection in series with a negative feedback connection</li>
+</ul>
+<p><span class="math display">
+Y(s) = (G_{ff} + G_1)(\frac{G_2}{1 + GG_2})
+</span></p>
+<h2 id="systematic-method-of-finding-transfer-functions">Systematic method of finding transfer functions</h2>
+<ol type="1">
+<li>Introduce new signals <span class="math inline">\{v_1, v_2, ... \}</span> at the output of every summing junction</li>
+<li>Write expressions for inputs of summers in terms of <span class="math inline">\{u, y, v_1, v_2, \dots\}</span></li>
+<li>Write equations for each summer and <span class="math inline">y</span></li>
+<li>Eliminate <span class="math inline">\{v_1, v_2, ...\}</span> from equations</li>
+</ol>
+<p>e.g.
+<img src="../../attachments/blockdiagramtf.png" alt="blockdiagramtf" /></p>
+<p><span class="math display">\begin{aligned}
+y&amp;=G_3G_2v_2\\
+v_2 &amp;= H_2y+G_1v_1-H_2G_2v_1\\
+v_1&amp;=u-H_1G_2v_2\\
+\\
+\begin{bmatrix}1 &amp; H_1 G_2 &amp; 0 \\ -G_1 &amp; 1+H_2G_2 &amp; -H_3 \\ 0 &amp; -G_3G_2 &amp; 1\end{bmatrix}
+  \begin{bmatrix}v_1 \\ v_2 \\ y\end{bmatrix} &amp;= \begin{bmatrix}u \\ 0 \\ 0\end{bmatrix}\\
+\\
+\text{By cramer&#39;s rule:}\\
+Y(s) &amp;- \frac{
+\det\begin{bmatrix}1 &amp; H_1G_2 &amp; u \\ -G_1 &amp; 1+H_2G_2 &amp; 0 \\ 0 &amp; -G_2G_3 &amp; 0\end{bmatrix}
+}{
+\det\begin{bmatrix}1 &amp; H_1G_2 &amp; 0 \\ -G_1 &amp; 1+H_2G_2 &amp; -H_3 \\ 0 &amp; -G_3G_2 &amp; 1\end{bmatrix}
+}\\
+&amp;= \frac{G_1 G_2 G_3}{1 + H_1 H_2 G_2 - H_3 G_3 G_2 + G_1 H_1 G_2} U(s)\\
+\end{aligned}</span></p>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

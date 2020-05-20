@@ -1,17 +1,20 @@
 import mosspy
 import sys
 
-userid = "removed for privacy"
+userid = "680980157"
 
 m = mosspy.Moss(userid, "cc")
 
 # Submission Files
 m.addFile(str(sys.argv[1]))
 m.addFile(str(sys.argv[2]))
+m.addBaseFile(str(sys.argv[3]))
 
 
-url = m.send() # Submission Report URL
-
+try:
+    url = m.send() # Submission Report URL
+except:
+    print(e)
 print ("Report Url: " + url)
 
 # # Save report file

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Learn VHDL</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Learn VHDL</h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#basics">Basics</a>
+<ul>
+<li><a href="#different-values-for-signals">9 different values for signals</a>
+<ul>
+<li><a href="#std_logic-vs-boolean"><code>std_logic</code> vs <code>boolean</code>:</a></li>
+</ul></li>
+<li><a href="#arithmetic">Arithmetic</a></li>
+<li><a href="#entities">Entities</a></li>
+<li><a href="#architecture">Architecture</a>
+<ul>
+<li><a href="#concurrent-statements">Concurrent Statements</a>
+<ul>
+<li><a href="#conditional-assignment">Conditional Assignment</a></li>
+<li><a href="#selected-assignment">Selected Assignment</a></li>
+<li><a href="#component-instantiation">Component Instantiation</a></li>
+</ul></li>
+<li><a href="#generate-statements">Generate Statements</a>
+<ul>
+<li><a href="#for-generate">For-generate</a></li>
+<li><a href="#if-generate">if-generate</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#process">Process</a>
+<ul>
+<li><a href="#sequential-statements">Sequential Statements</a>
+<ul>
+<li><a href="#wait"><code>wait</code></a></li>
+<li><a href="#signal-assignment">signal assignment</a></li>
+<li><a href="#if-then-else"><code>if-then-else</code></a></li>
+<li><a href="#case"><code>case</code></a></li>
+<li><a href="#loop"><code>loop</code></a></li>
+<li><a href="#while-loop"><code>while loop</code></a></li>
+<li><a href="#for-loop"><code>for loop</code></a></li>
+<li><a href="#next"><code>next</code></a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#other-useful-features">Other useful features</a></li>
+<li><a href="#synthesizable-vs-non-synthesizable-code">Synthesizable vs Non-Synthesizable Code</a>
+<ul>
+<li><a href="#wait---for">Wait - For</a></li>
+<li><a href="#initial-values">Initial Values</a></li>
+<li><a href="#assignments-before-wait-statement">Assignments before Wait Statement</a></li>
+<li><a href="#if-rising-edge-and-wait-in-same-process">“if rising edge” and “wait” in Same Process</a></li>
+<li><a href="#if-rising-edge-with-else-clause">“if rising edge” with “else” Clause</a></li>
+<li><a href="#while-loop-with-dynamic-condition-and-combinational-body">While Loop with Dynamic Condition and Combinational Body</a></li>
+</ul></li>
+<li><a href="#undesirable-hardware-features">Undesirable hardware features</a>
+<ul>
+<li><a href="#latches">Latches</a></li>
+<li><a href="#combinational-loops">Combinational loops</a></li>
+<li><a href="#multiple-drivers-for-a-signal">Multiple drivers for a signal</a></li>
+<li><a href="#asynchronous-resets">Asynchronous resets</a></li>
+<li><a href="#using-a-data-signal-as-a-clock">Using a data signal as a clock</a></li>
+<li><a href="#using-a-clock-signal-as-data">Using a clock signal as data</a></li>
+</ul></li>
+</ul>
+</nav>
+<p><br />
+</p>
+<h2 id="basics">Basics</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">-- every VHDL file that you write should</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">-- begin with this line</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">-- and the next line</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span> ieee;</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">-- defines 9 different values for signals</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">use</span> ieee<span class="ot">.</span>std_logic_1164<span class="ot">.</span>all;</span></code></pre></div>
+<h4 id="different-values-for-signals">9 different values for signals</h4>
+<table>
+<thead>
+<tr class="header">
+<th>Signal</th>
+<th>Stands for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>‘U’</td>
+<td>uninitialized</td>
+</tr>
+<tr class="even">
+<td>‘X’</td>
+<td>strong unknown</td>
+</tr>
+<tr class="odd">
+<td>‘0’</td>
+<td>strong 0</td>
+</tr>
+<tr class="even">
+<td>‘1’</td>
+<td>strong 1</td>
+</tr>
+<tr class="odd">
+<td>‘Z’</td>
+<td>high impedance</td>
+</tr>
+<tr class="even">
+<td>‘W’</td>
+<td>weak unknown</td>
+</tr>
+<tr class="odd">
+<td>‘L’</td>
+<td>weak 0</td>
+</tr>
+<tr class="even">
+<td>‘H’</td>
+<td>weak 1</td>
+</tr>
+<tr class="odd">
+<td>‘–’</td>
+<td>don’t care</td>
+</tr>
+</tbody>
+</table>
+<h5 id="std_logic-vs-boolean"><code>std_logic</code> vs <code>boolean</code>:</h5>
+<p>The <code>std_logic</code> values <code>'1'</code> and <code>'0'</code> are not the same as the boolean values true and false.</p>
+<h3 id="arithmetic">Arithmetic</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">-- defines arithmetic over std_logic vectors</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">use</span> ieee<span class="ot">.</span>numeric_std<span class="ot">.</span>all;</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">-- defines arithmetic over bit </span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">-- vectors and integeres</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">use</span> ieee<span class="ot">.</span>numeric_bit<span class="ot">.</span>all;</span></code></pre></div>
+<h3 id="entities">Entities</h3>
+<ul>
+<li><code>&lt;=</code> Signal assignment</li>
+<li><code>:=</code> Variable assignment</li>
+<li><code>=</code> Equality test</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">-- entities are used to</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">-- define the interface to circuit</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">-- i.e. inputs and outputs</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">entity</span> <span class="kw">and_or</span> <span class="kw">is</span> <span class="kw">port</span> (</span>
+<span id="cb4-5"><a href="#cb4-5"></a>  a<span class="ot">,</span> b<span class="ot">,</span> c <span class="ot">:</span> <span class="kw">in</span> <span class="dt">std_logic</span> ;</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  z <span class="ot">:</span> <span class="kw">out</span> <span class="dt">std_logic</span> </span>
+<span id="cb4-7"><a href="#cb4-7"></a>);</span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="kw">end entity;</span></span></code></pre></div>
+<h3 id="architecture">Architecture</h3>
+<p>Architecture is used to define the internal signals and gates of the circuit i.e. it defines what the circuit’s internals are</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">architecture</span> <span class="kw">main</span> <span class="kw">of</span> <span class="kw">and_or</span> <span class="kw">is</span> </span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="ot">signal</span> x <span class="ot">:</span> <span class="dt">std_logic</span>;</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">begin</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>  x <span class="ot">&lt;=</span> a <span class="kw">and</span> b; </span>
+<span id="cb5-5"><a href="#cb5-5"></a>  z <span class="ot">&lt;=</span> x <span class="kw">or</span> (a <span class="kw">and</span> c);</span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="kw">end</span>;</span></code></pre></div>
+<h4 id="concurrent-statements">Concurrent Statements</h4>
+<p>All statements in an architecture are concurrent i.e. they execute in parallel</p>
+<p>All orders of executing concurrent statements must
+produce the same waveforms</p>
+<p>At each infinitesimally small moment of time, in parallel, every gate:</p>
+<ol type="1">
+<li>samples its inputs</li>
+<li>computes the value of its output</li>
+<li>drives the output</li>
+</ol>
+<h5 id="conditional-assignment">Conditional Assignment</h5>
+<p>If-then-else style (uses <code>when</code>)</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb6-1"><a href="#cb6-1"></a>c <span class="ot">&lt;=</span> a<span class="ot">+</span>b when sel<span class="ot">=</span><span class="bn">&#39;1&#39;</span> else a<span class="ot">+</span>c when sel<span class="ot">=</span><span class="bn">&#39;0&#39;</span> else <span class="st">&quot;0000&quot;</span>;</span></code></pre></div>
+<h5 id="selected-assignment">Selected Assignment</h5>
+<p>Case-switch style assignment</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb7-1"><a href="#cb7-1"></a>with color select d <span class="ot">&lt;=</span> <span class="st">&quot;00&quot;</span> when red <span class="ot">,</span> <span class="st">&quot;01&quot;</span> when <span class="ot">...</span>;</span></code></pre></div>
+<h5 id="component-instantiation">Component Instantiation</h5>
+<p>Use an existing circuit</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb8-1"><a href="#cb8-1"></a>add1<span class="ot">:</span> adder port map (a<span class="ot">=&gt;</span>f<span class="ot">,</span> b<span class="ot">=&gt;</span>g<span class="ot">,</span> s<span class="ot">=&gt;</span>h<span class="ot">,</span> co<span class="ot">=&gt;</span>i);</span></code></pre></div>
+<h4 id="generate-statements">Generate Statements</h4>
+<p>note: conditions should be static</p>
+<ul>
+<li>must be able to be evaluated at elaboration</li>
+<li>must not depend upon the value of any signal</li>
+<li>every generate statement must be preceded with a label</li>
+</ul>
+<h5 id="for-generate">For-generate</h5>
+<p>replicate some hardware</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb9-1"><a href="#cb9-1"></a>bgen<span class="ot">:</span> for i in 1 to 7 generate </span>
+<span id="cb9-2"><a href="#cb9-2"></a>        b(i) <span class="ot">&lt;=</span> a(7<span class="ot">-</span>i); </span>
+<span id="cb9-3"><a href="#cb9-3"></a>      end generate;</span></code></pre></div>
+<h5 id="if-generate">if-generate</h5>
+<p>Conditionally create some hardware</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb10-1"><a href="#cb10-1"></a>okgen <span class="ot">:</span> if optgoal <span class="ot">/=</span> fast then generate </span>
+<span id="cb10-2"><a href="#cb10-2"></a>  result <span class="ot">&lt;=</span> ((a and b) or (d and not e)) or g;</span>
+<span id="cb10-3"><a href="#cb10-3"></a>end generate;</span>
+<span id="cb10-4"><a href="#cb10-4"></a>fastgen <span class="ot">:</span> if optgoal <span class="ot">=</span> fast then generate</span>
+<span id="cb10-5"><a href="#cb10-5"></a>  result <span class="ot">&lt;=</span> ’1’;</span>
+<span id="cb10-6"><a href="#cb10-6"></a>end generate;</span></code></pre></div>
+<h3 id="process">Process</h3>
+<p>The body of a process is executed sequentially but a process is a concurrent statement</p>
+<ul>
+<li>Processes must have either a sensitivity list (sensitivity list contains the signals that are read in the process) or at least one wait statement on each execution path through the process.</li>
+<li>Processes cannot have both a sensitivity list and a wait statement.</li>
+<li>Within a process, statements are executed almost sequentially</li>
+<li>Among processes, execution is done in parallel</li>
+<li>Remember: a process is a concurrent statement!</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb11-1"><a href="#cb11-1"></a>process</span>
+<span id="cb11-2"><a href="#cb11-2"></a>begin</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  wait until rising_edge(clk); </span>
+<span id="cb11-4"><a href="#cb11-4"></a>  if (a <span class="ot">=</span> ’1’) then</span>
+<span id="cb11-5"><a href="#cb11-5"></a>    z <span class="ot">&lt;=</span> ’1’;</span>
+<span id="cb11-6"><a href="#cb11-6"></a>    y <span class="ot">&lt;=</span> ’0’; </span>
+<span id="cb11-7"><a href="#cb11-7"></a>  else</span>
+<span id="cb11-8"><a href="#cb11-8"></a>    y <span class="ot">&lt;=</span> a or b; </span>
+<span id="cb11-9"><a href="#cb11-9"></a>  end if;</span>
+<span id="cb11-10"><a href="#cb11-10"></a>end process;</span></code></pre></div>
+<h4 id="sequential-statements">Sequential Statements</h4>
+<h5 id="wait"><code>wait</code></h5>
+<p><code>wait until rising_edge(clk);</code></p>
+<h5 id="signal-assignment">signal assignment</h5>
+<p><code>a &lt;= b</code></p>
+<h5 id="if-then-else"><code>if-then-else</code></h5>
+<div class="sourceCode" id="cb12"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb12-1"><a href="#cb12-1"></a>if a <span class="ot">=</span> <span class="bn">&#39;1&#39;</span> then</span>
+<span id="cb12-2"><a href="#cb12-2"></a>  b <span class="ot">&lt;=</span> c;</span>
+<span id="cb12-3"><a href="#cb12-3"></a>elseif a <span class="ot">=</span> <span class="bn">&#39;U&#39;</span> then</span>
+<span id="cb12-4"><a href="#cb12-4"></a>  b <span class="ot">&lt;=</span> d;</span>
+<span id="cb12-5"><a href="#cb12-5"></a>end if;</span></code></pre></div>
+<h5 id="case"><code>case</code></h5>
+<div class="sourceCode" id="cb13"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb13-1"><a href="#cb13-1"></a>case a is </span>
+<span id="cb13-2"><a href="#cb13-2"></a>when <span class="bn">&#39;1&#39;</span> <span class="ot">=&gt;</span> b <span class="ot">&lt;=</span> c;</span>
+<span id="cb13-3"><a href="#cb13-3"></a>when <span class="bn">&#39;U&#39;</span> <span class="ot">=&gt;</span> b <span class="ot">&lt;=</span> d;</span>
+<span id="cb13-4"><a href="#cb13-4"></a>end case;</span></code></pre></div>
+<h5 id="loop"><code>loop</code></h5>
+<div class="sourceCode" id="cb14"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb14-1"><a href="#cb14-1"></a>loop <span class="ot">...</span> end loop;</span></code></pre></div>
+<h5 id="while-loop"><code>while loop</code></h5>
+<div class="sourceCode" id="cb15"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb15-1"><a href="#cb15-1"></a>while <span class="ot">...</span> loop <span class="ot">...</span> end loop;</span></code></pre></div>
+<h5 id="for-loop"><code>for loop</code></h5>
+<div class="sourceCode" id="cb16"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb16-1"><a href="#cb16-1"></a>for <span class="ot">...</span> in <span class="ot">...</span> loop <span class="ot">...</span> end loop;</span></code></pre></div>
+<h5 id="next"><code>next</code></h5>
+<p>The <code>next</code> statement is used to prematurely terminate the current iteration of a <code>while</code>, <code>for</code> or infinite <code>loop</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb17-1"><a href="#cb17-1"></a>next <span class="ot">...</span>;</span></code></pre></div>
+<h2 id="other-useful-features">Other useful features</h2>
+<ul>
+<li><code>report</code> : print a message on stderr while simulating</li>
+<li><code>assert</code> : assertions about behaviour of signals, very useful with report statements.</li>
+<li><code>generics</code> : parameters to an entity that are defined at elaboration time.</li>
+<li><code>attributes</code>: predefined functions for different datatypes. For example: high and low indices of a vector</li>
+</ul>
+<h2 id="synthesizable-vs-non-synthesizable-code">Synthesizable vs Non-Synthesizable Code</h2>
+<p>For us to consider a VHDL progam synthesizable, all of the conditions below must be satisfied:
+- the program must be theoretically implementable in hardware
+- the hardware that is produced must be consistent with the structure of the source code
+- the source code must be portable across a wide range of synthesis tools, in that the synthesis tools all produce correct hardware</p>
+<h3 id="wait---for">Wait - For</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb18-1"><a href="#cb18-1"></a>wait for 10 ns;</span></code></pre></div>
+<p><strong>Reason</strong>: Delays through circuits are dependent upon both the circuit and its operating environment, particularly supply voltage and temperature.
+`</p>
+<h3 id="initial-values">Initial Values</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb19-1"><a href="#cb19-1"></a>signal bad_signal <span class="ot">:</span> std_logic <span class="ot">:=</span> ’0’;</span></code></pre></div>
+<p><strong>Reason</strong>: Values on boot up are completely random</p>
+<h3 id="assignments-before-wait-statement">Assignments before Wait Statement</h3>
+<p>If a synthesizable clocked process has a <code>wait</code> statement, then the process must begin with a <code>wait</code> statement.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb20-1"><a href="#cb20-1"></a>process</span>
+<span id="cb20-2"><a href="#cb20-2"></a>  c <span class="ot">&lt;=</span> a;</span>
+<span id="cb20-3"><a href="#cb20-3"></a>  d <span class="ot">&lt;=</span> b;</span>
+<span id="cb20-4"><a href="#cb20-4"></a>  wait until rising edge(clk); <span class="co">-- should be at the start of the process instead</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a>end process;</span></code></pre></div>
+<p><strong>Reason</strong>: hardware is unsynth</p>
+<h3 id="if-rising-edge-and-wait-in-same-process">“if rising edge” and “wait” in Same Process</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb21-1"><a href="#cb21-1"></a>process</span>
+<span id="cb21-2"><a href="#cb21-2"></a>begin</span>
+<span id="cb21-3"><a href="#cb21-3"></a>  if rising_edge(clk) then </span>
+<span id="cb21-4"><a href="#cb21-4"></a>    q0 <span class="ot">&lt;=</span> d0;</span>
+<span id="cb21-5"><a href="#cb21-5"></a>  end if;</span>
+<span id="cb21-6"><a href="#cb21-6"></a>  wait until rising_edge(clk); q0 <span class="ot">&lt;=</span> d1;</span>
+<span id="cb21-7"><a href="#cb21-7"></a>end process;</span></code></pre></div>
+<p><strong>Reason</strong>: synthesis tools generally expect just a single type of flop-generating statement in each process.</p>
+<h3 id="if-rising-edge-with-else-clause">“if rising edge” with “else” Clause</h3>
+<pre><code>process (clk)
+begin
+  if rising_edge(clk) then 
+    q0 &lt;= d0;
+  else
+    q0 &lt;= d1;
+  end if;
+end process;</code></pre>
+<p><strong>Reason</strong>: synthesis tools expect a signal to be either registered or combinational, not both.</p>
+<h3 id="while-loop-with-dynamic-condition-and-combinational-body">While Loop with Dynamic Condition and Combinational Body</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb23-1"><a href="#cb23-1"></a>process (a<span class="ot">,</span>b<span class="ot">,</span>c) </span>
+<span id="cb23-2"><a href="#cb23-2"></a>begin </span>
+<span id="cb23-3"><a href="#cb23-3"></a>  while a <span class="ot">=</span> ’1’ loop</span>
+<span id="cb23-4"><a href="#cb23-4"></a>    z <span class="ot">&lt;=</span> b and c; </span>
+<span id="cb23-5"><a href="#cb23-5"></a>  end loop;</span>
+<span id="cb23-6"><a href="#cb23-6"></a>end process;</span></code></pre></div>
+<p>A for-loop with a combinational body is synthesizable, because the loop condition can be evaluated statically (at compile/elaboration time). The loop below is synthesizable:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode vhdl"><code class="sourceCode vhdl"><span id="cb24-1"><a href="#cb24-1"></a></span>
+<span id="cb24-2"><a href="#cb24-2"></a>process ( b<span class="ot">,</span> c ) begin</span>
+<span id="cb24-3"><a href="#cb24-3"></a>  for i in 0 to 3 loop</span>
+<span id="cb24-4"><a href="#cb24-4"></a>    z(i) <span class="ot">&lt;=</span> b(i) and c(i); end loop;</span>
+<span id="cb24-5"><a href="#cb24-5"></a>end process;</span></code></pre></div>
+<p>While loops with dynamic conditions and clocked bodies are synthesizable, but are an example of an implicit state machine and are an advanced topic.</p>
+<h2 id="undesirable-hardware-features">Undesirable hardware features</h2>
+<p>Our list of undesirable hardware features is:</p>
+<h4 id="latches">Latches</h4>
+<ul>
+<li>Latch: Combinational if-then without else</li>
+<li>Signals Missing from Sensitivity List
+<ul>
+<li>A synthesis tool that adheres to the standard will either generate an error or will
+create hardware with latches or flops clocked by data sigansl if not all signals that are read
+from are included in the sensitivity list.<br />
+<strong>exception</strong> In a clocked process using an if rising edge, it is acceptable to have only the
+clock in the sensitivity list</li>
+</ul></li>
+</ul>
+<h4 id="combinational-loops">Combinational loops</h4>
+<ul>
+<li><strong>note</strong> Registered loops are fine.</li>
+</ul>
+<h4 id="multiple-drivers-for-a-signal">Multiple drivers for a signal</h4>
+<ul>
+<li><strong>reason</strong> This can cause contention, tri-state values, and other bad things</li>
+</ul>
+<h4 id="asynchronous-resets">Asynchronous resets</h4>
+<ul>
+<li><strong>reason</strong> If a reset occurs very close to a clock edge, some parts of the circuit might be reset in
+one clock cycle and some in the subsequent clock cycle, which can cause the circuit to go out of sync</li>
+</ul>
+<h4 id="using-a-data-signal-as-a-clock">Using a data signal as a clock</h4>
+<ul>
+<li><strong>reason</strong> All data assignments should be synchronized to a clock. This ensures that the timing
+analysis tool can determine the maximum clock speed accurately.</li>
+</ul>
+<h4 id="using-a-clock-signal-as-data">Using a clock signal as data</h4>
+<ul>
+<li><strong>reason</strong> Clock signals have two defined values in a clock cycle and transition in the middle of
+the clock cycle. At the register-transfer level, each signal has exactly one value in a clock cycle and signals transition between values only at the boundary between clock cycles.</li>
+</ul>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

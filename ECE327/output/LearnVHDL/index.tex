@@ -1,0 +1,272 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Learn VHDL},
+  pdfauthor={Aditya Arora},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Learn VHDL}
+\author{Aditya Arora}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{6}
+\tableofcontents
+}
+\hfill\break
+
+\hypertarget{basics}{%
+\subsection{Basics}\label{basics}}
+
+\begin{verbatim}
+-- every VHDL file that you write should
+-- begin with this line
+-- and the next line
+library ieee;
+
+-- defines 9 different values for signals
+use ieee.std_logic_1164.all;
+\end{verbatim}
+
+\hypertarget{different-values-for-signals}{%
+\paragraph{9 different values for signals}\label{different-values-for-signals}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Signal & Stands for\tabularnewline
+\midrule
+\endhead
+`U' & uninitialized\tabularnewline
+`X' & strong unknown\tabularnewline
+`0' & strong 0\tabularnewline
+`1' & strong 1\tabularnewline
+`Z' & high impedance\tabularnewline
+`W' & weak unknown\tabularnewline
+`L' & weak 0\tabularnewline
+`H' & weak 1\tabularnewline
+`--' & don't care\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{std_logic-vs-boolean}{%
+\subparagraph{\texorpdfstring{\texttt{std\_logic} vs \texttt{boolean}:}{std\_logic vs boolean:}}\label{std_logic-vs-boolean}}
+
+The \texttt{std\_logic} values \texttt{\textquotesingle{}1\textquotesingle{}} and \texttt{\textquotesingle{}0\textquotesingle{}} are not the same as the boolean values true and false.
+
+\hypertarget{arithmetic}{%
+\subsubsection{Arithmetic}\label{arithmetic}}
+
+\begin{verbatim}
+-- defines arithmetic over std_logic vectors
+use ieee.numeric_std.all;
+\end{verbatim}
+
+\begin{verbatim}
+-- defines arithmetic over bit 
+-- vectors and integeres
+use ieee.numeric_bit.all;
+\end{verbatim}
+
+\hypertarget{entities}{%
+\subsubsection{Entities}\label{entities}}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\textless{}=} Signal assignment
+\item
+  \texttt{:=} Variable assignment
+\item
+  \texttt{=} Equality test
+\end{itemize}
+
+\begin{verbatim}
+-- entities are used to
+-- define the interface to circuit
+-- i.e. inputs and outputs
+entity and_or is port (
+  a, b, c : in std_logic ;
+  z : out std_logic 
+);
+end entity;
+\end{verbatim}
+
+\hypertarget{architecture}{%
+\subsubsection{Architecture}\label{architecture}}
+
+Architecture is used to define the internal signals and gates of the circuit i.e.~it defines what the circuit's internals are
+
+\begin{verbatim}
+architecture main of and_or is 
+  signal x : std_logic;
+begin
+  x <= a and b; 
+  z <= x or (a and c);
+end architecture;
+\end{verbatim}
+
+\hypertarget{concurrent-statements}{%
+\paragraph{Concurrent Statements}\label{concurrent-statements}}
+
+All statements in an architecture are concurrent i.e.~they execute in parallel
+
+At each infinitesimally small moment of time, in parallel, every gate:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  samples its inputs
+\item
+  computes the value of its output
+\item
+  drives the output
+\end{enumerate}
+
+\hypertarget{conditional-assignment}{%
+\subparagraph{Conditional Assignment}\label{conditional-assignment}}
+
+If-then-else style (uses \texttt{when})
+
+\begin{verbatim}
+c <= a+b when sel='1' else a+c when sel='0' else "0000";
+\end{verbatim}
+
+\hypertarget{selected-assignment}{%
+\subparagraph{Selected Assignment}\label{selected-assignment}}
+
+Case-switch style assignment
+
+\begin{verbatim}
+with color select d <= "00" when red , "01" when ...;
+\end{verbatim}
+
+\hypertarget{component-instantiation}{%
+\subparagraph{Component Instantiation}\label{component-instantiation}}
+
+Use an existing circuit
+
+\begin{verbatim}
+add1: adder port map (a=>f, b=>g, s=>h, co=>i);
+\end{verbatim}
+
+\hypertarget{generate-statements}{%
+\paragraph{Generate Statements}\label{generate-statements}}
+
+note: conditions should be static
+
+\begin{itemize}
+\tightlist
+\item
+  must be able to be evaluated at elaboration
+\item
+  must not depend upon the value of any signal
+\item
+  every generate statement must be preceded with a label
+\end{itemize}
+
+\hypertarget{for-generate}{%
+\subparagraph{For-generate}\label{for-generate}}
+
+replicate some hardware
+
+\begin{verbatim}
+bgen: for i in 1 to 7 generate 
+        b(i) <= a(7-i); 
+      end generate;
+\end{verbatim}
+
+\hypertarget{if-generate}{%
+\subparagraph{if-generate}\label{if-generate}}
+
+Conditionally create some hardware
+
+\begin{verbatim}
+okgen : if optgoal /= fast then generate 
+  result <= ((a and b) or (d and not e)) or g;
+end generate;
+fastgen : if optgoal = fast then generate
+  result <= ’1’;
+end generate;
+\end{verbatim}
+
+\hypertarget{process}{%
+\subsubsection{Process}\label{process}}
+
+The body of a process is executed sequentially but a process is a concurrent statement
+
+\begin{itemize}
+\tightlist
+\item
+  Processes must have either a sensitivity list (sensitivity list contains the signals that are read in the process) or at least one wait statement on each execution path through the process.
+\item
+  Processes cannot have both a sensitivity list and a wait statement.
+\end{itemize}
+
+\begin{verbatim}
+process
+begin
+  wait until rising_edge(clk); 
+  if (a = ’1’) then
+    z <= ’1’;
+    y <= ’0’; 
+  else
+    y <= a or b; 
+  end if;
+end process;
+\end{verbatim}
+
+\end{document}

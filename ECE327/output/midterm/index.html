@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Midterm</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Midterm</h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#vhdl">VHDL</a>
+<ul>
+<li><a href="#legal">Legal</a></li>
+<li><a href="#synthesizable">Synthesizable</a></li>
+<li><a href="#bad-practice">Bad practice</a></li>
+</ul></li>
+<li><a href="#delta-cycle-simulations">Delta Cycle simulations</a></li>
+<li><a href="#register-transfer-level-simulation">Register-Transfer Level Simulation</a></li>
+<li><a href="#mapping-circuits-onto-fpga-cells">Mapping Circuits onto FPGA cells</a>
+<ul>
+<li><a href="#arithmetic-circuits">Arithmetic circuits</a></li>
+</ul></li>
+<li><a href="#ece-327-state-machines">ECE 327 State machines</a>
+<ul>
+<li><a href="#encodings">Encodings</a></li>
+<li><a href="#types-of-machines">Types of machines:</a></li>
+</ul></li>
+<li><a href="#dataflow-diagrams">Dataflow diagrams</a></li>
+</ul>
+</nav>
+<h2 id="vhdl">VHDL</h2>
+<h3 id="legal">Legal</h3>
+<p>The code will compile without errors</p>
+<p>Look for:</p>
+<ul>
+<li>typos</li>
+<li>incorrect syntax or structure</li>
+<li>timing based statements in combinational processes</li>
+<li>Sequential statements in concurrent region or vice versa</li>
+</ul>
+<h3 id="synthesizable">Synthesizable</h3>
+<p>The code can turn into hardware</p>
+<p>Look for:</p>
+<ul>
+<li>initial values</li>
+<li><code>wait for X ns</code></li>
+<li>variables, bits and booleans</li>
+<li>clocked process starting with an assignment (should be wait instead)</li>
+<li>different <code>wait</code> conditions
+<ul>
+<li>multiple of same <code>wait</code> is fine</li>
+</ul></li>
+<li>multiple <code>if rising_edge</code></li>
+<li>if <code>rising edge</code> and <code>wait</code> in the same process</li>
+<li><code>if rising_edge</code> with an <code>else</code></li>
+<li>a loop that has both combinational and clocked paths</li>
+</ul>
+<h3 id="bad-practice">Bad practice</h3>
+<p>Your code is shit</p>
+<p>Look for:</p>
+<ul>
+<li>latches (conditionals without an else)</li>
+<li>asynchronous resets</li>
+<li>combinational loops (signal dependent on self)</li>
+<li>using a data signal as a clock</li>
+<li>clock as a data signal</li>
+<li>tri-state buffers and using <code>Z</code></li>
+<li>input or buffer type</li>
+<li>multiple drivers (assigning signal in multiple processes)</li>
+</ul>
+<h2 id="delta-cycle-simulations">Delta Cycle simulations</h2>
+<p>There are two fundamental rules for zero-delay simulation:</p>
+<ol type="1">
+<li>Events appear to propagate through combinational circuitry instantaneously.</li>
+<li>All of the gates appear to operate in parallel</li>
+</ol>
+<ul>
+<li><strong>simulation-step</strong>: Executing one sequential assignment or process mode change.</li>
+<li><strong>simulation cycle</strong>: The operations that occur in one iteration of the simulation algorithm. (one cycle of Drive, Resume, Execute, Suspend)</li>
+<li><strong>delta cycle</strong>: A simulation cycle where time did not advance at the beginning of the cycle.</li>
+<li><strong>simulation round</strong>: A sequence of simulation cycles that all have the same simulation time. (since a series of delta cycles that all get collapsed together)</li>
+</ul>
+<ol type="1">
+<li>Time is before 0. Initialize
+<ul>
+<li>all processes set to resume</li>
+<li>all signals set to default value <code>X</code></li>
+</ul></li>
+<li>Time is 0
+<ul>
+<li>execute all processes that rely on time change by calculating projected values, then suspend</li>
+<li>execute all processes reliant on “other” values, calculating the projected value based on the “other” values’ actual values, then suspend</li>
+<li>note that since time has increased, this is not a delta cycle</li>
+</ul></li>
+<li>If all processes are suspended, and there are projected values that differ from the actual value, copy the projected values into the actual
+<ul>
+<li>resume, execute, change data, then suspend any process dependent on the changed value</li>
+<li>begin next delta cycle for next process once all of the above are suspended</li>
+</ul></li>
+<li>If all the processes are suspended, and there are no changed projected values, increment time</li>
+<li>Continue steps 3/4 until no values change, even when we keep incrementing time</li>
+</ol>
+<h2 id="register-transfer-level-simulation">Register-Transfer Level Simulation</h2>
+<ol type="1">
+<li>Pre-process processes
+<ul>
+<li>separate into times (<code>wait for X ns</code>), clocked (<code>if rising_edge</code>) and combinational</li>
+<li>deconstruct combinational process such that they only mutate one signal per process</li>
+<li>sort them based on which ones are dependent on the other signals (no dependency on other signals would be at the top)</li>
+</ul></li>
+<li>For each unit of actual time
+<ul>
+<li>run timed process in any order, reading OLD values of signals</li>
+<li>run clocked process in any order, reading NEW timing signals and OLD data values</li>
+<li>run combinational processes in sorted order, reading NEW values of signals</li>
+</ul></li>
+</ol>
+<h2 id="mapping-circuits-onto-fpga-cells">Mapping Circuits onto FPGA cells</h2>
+<p>Essentially the idea is just to traverse backward from the output, stuffing as much combinational circuitry as you can into a single LUT, with 4 or less inputs</p>
+<p>One Useful Trick: Any output of a flip flop MUST be the output of an FPGA cell.</p>
+<p>Another trick: Any input that is directly flopped, must have a <em>direct</em> connection to a flop flop in an FPGA cell</p>
+<h3 id="arithmetic-circuits">Arithmetic circuits</h3>
+<p><span class="math inline">n</span> bit adder <span class="math inline">\implies n</span> FPGA cells because you need <span class="math inline">n</span> output bits</p>
+<p>We’re only allowed to use carry in/out for arithmetic circuits</p>
+<h2 id="ece-327-state-machines">ECE 327 State machines</h2>
+<table>
+<thead>
+<tr class="header">
+<th><img src="../../attachments/state_machines_1.png" alt="state_machines_1" /></th>
+<th><img src="../../attachments/state_machines_2.png" alt="state_machines_2" /></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h3 id="encodings">Encodings</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Binary</th>
+<th>One Hot</th>
+<th>Thermometer</th>
+<th>Gray</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>S0</td>
+<td>00</td>
+<td>0001</td>
+<td>0001</td>
+<td>00</td>
+</tr>
+<tr class="even">
+<td>S1</td>
+<td>01</td>
+<td>0010</td>
+<td>0011</td>
+<td>01</td>
+</tr>
+<tr class="odd">
+<td>S2</td>
+<td>10</td>
+<td>0100</td>
+<td>0111</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td>S3</td>
+<td>11</td>
+<td>1000</td>
+<td>1111</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>Remember to take care of representations of invalid states if your number of states isn’t a power of 2</p>
+<h3 id="types-of-machines">Types of machines:</h3>
+<ul>
+<li>explicit-current
+<ul>
+<li>one signal for current state</li>
+<li>state changed in a clocked process</li>
+</ul></li>
+<li>explicit-current-next
+<ul>
+<li>two signals, one for current, one for next</li>
+<li>next state set as combinational</li>
+<li>current state flopped from next as a clocked process</li>
+</ul></li>
+<li>implicit
+<ul>
+<li>no state signals</li>
+<li>multiple waits (one for each state) in a process</li>
+</ul></li>
+</ul>
+<p>If a signal is assigned to multiple times in one transition you just take the last assigned value.</p>
+<p>You can also split up multiple assignments to multiple ‘transient’ states</p>
+<p>Indeterminate number of bubbles means you have an idle loop outside of the state machine doing all the wor</p>
+<h2 id="dataflow-diagrams">Dataflow diagrams</h2>
+<p>Basically you need to look at order of operations and figure out what values are dependent on what</p>
+<p>Inputs go on row 0. Each row thereafter is one clock cycle</p>
+<p>Each logic block can only take two inputs. Outputs of logical blocks can be used the cycle after.</p>
+<p>Registered (input/output) means they can only be read one cycle after</p>
+<ul>
+<li>Latency: Number of rows to get an output including input row</li>
+<li>Components: Number of logic blocks</li>
+<li>Registers: Number of signals that cross clock boundaries (horizontal lines)</li>
+<li>Throughput = parcels per clock cycle = 1 parcel per X clock cycles</li>
+</ul>
+<hr />
+<ul>
+<li>Unconnected signals tails in a cycle = number of inputs</li>
+<li>Unconnected signal heads in a cycle = number of outputs</li>
+</ul>
+<p>You can put more than one logic block in series in one row, at the cost of increasing overall hardware required, but decreasing latency</p>
+<ul>
+<li><p>ASAP parcel means first and last row has to be combined!</p>
+<ul>
+<li>even at the cost of hardware!
+<ul>
+<li>moreover, rows are labelled by state and not by clock cycle</li>
+</ul></li>
+<li>include o1 and o2</li>
+</ul></li>
+<li><p>Memory operations are right above clock edge</p></li>
+<li><p>Memory is an inter-parcel variable!</p></li>
+<li><p>Adder is just a negative subtracter or vice versa</p></li>
+<li><p>Anti dependency arrow from Read and Write in same cycle to output inter-parcel variable</p></li>
+<li><p>RAW and WAR dependencies have to be kept in check</p></li>
+<li><p>You can change timings of stuff, but only in such that memory dependency is still correct</p></li>
+<li><p>Arbitrary components can be added as ling as the overall total remains the same.</p>
+<ul>
+<li>if overall only one F has been used, you can add a single F to every cycle as long as it means that other parts are getting optimized.</li>
+</ul></li>
+</ul>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

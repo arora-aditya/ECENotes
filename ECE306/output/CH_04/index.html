@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Chapter 4 - Random Variables </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 7){
+        document.getElementById('next_button').parentNode.removeChild(document.getElementById('next_button'));
+      }
+      if(parseInt(num) == 1){
+        document.getElementById('prev_button').parentNode.removeChild(document.getElementById('prev_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + next;
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + prevV;
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Chapter 4 - Random Variables<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#random-variables"><span class="toc-section-number">0.1</span> Random Variables</a></li>
+<li><a href="#discrete-random-variables"><span class="toc-section-number">0.2</span> Discrete Random Variables</a></li>
+<li><a href="#expected-value"><span class="toc-section-number">0.3</span> Expected Value</a></li>
+<li><a href="#expectation-of-a-function-of-a-random-variable"><span class="toc-section-number">0.4</span> Expectation of a function of a random variable</a></li>
+<li><a href="#variance"><span class="toc-section-number">0.5</span> Variance</a></li>
+<li><a href="#the-bernoulli-and-binomial-random-variables"><span class="toc-section-number">0.6</span> The Bernoulli and Binomial random variables</a></li>
+<li><a href="#the-poisson-random-variable"><span class="toc-section-number">0.7</span> The Poisson Random Variable</a></li>
+<li><a href="#the-geometric-random-variables"><span class="toc-section-number">0.8</span> The Geometric Random Variables</a></li>
+</ul>
+</nav>
+<h2 data-number="0.1" id="random-variables" data-number="0.1"><span class="header-section-number">4.1</span> Random Variables</h2>
+<p>Frequently, we are mainly interested in some function of the outcome than the outcome itself. These real valued functions defined on the sample space are known as random variables</p>
+<h2 data-number="0.2" id="discrete-random-variables" data-number="0.2"><span class="header-section-number">4.2</span> Discrete Random Variables</h2>
+<p>A random variable that can take on at most a countable number of possible values is said to be discrete.</p>
+<p>For a discrete random variable <span class="math inline">X</span> we define the probability mass function (PMF) <span class="math inline">P(a)</span> of <span class="math inline">X</span> by</p>
+<p><span class="math display">P(a) = P\{X=a\}</span></p>
+<p>If <span class="math inline">X</span> must assume one of values <span class="math inline">\{x_1, x_2, \dots\}</span> then</p>
+<p><span class="math display">
+\begin{aligned}
+p(x_i) &amp;\geq 0\;\;&amp;i = 1, 2, \dots\\
+p(x) &amp;= 0\;\;&amp;\text{for all other values of } x\\
+\sum_{i=1}^{\infty} p(x_i) &amp;= 1
+\end{aligned}
+</span></p>
+<p><strong>Definition</strong>: The cumulative distribution function (CDF) <span class="math inline">F</span> can be expressed in term of <span class="math inline">p(x)</span> by
+<span class="math display">F(a) = \sum_{\text{all } x \leq a} P(x)</span></p>
+<p>If <span class="math inline">X</span> is a discrete random variable, then its cumulative distribution function is a step function</p>
+<p>For example, if <span class="math inline">X</span> has PMF <span class="math inline">p(1) = \frac{1}{4}, p(2) = \frac{1}{2}, p(3) = \frac{1}{8}, p(4) = \frac{1}{8}</span> then according to the definition
+<span class="math display">F(a) = \begin{cases}
+0 &amp; a &lt; 1\\
+\frac{1}{4} &amp; 1 \leq a &lt; 2\\
+\frac{3}{4} &amp; 2 \leq a &lt; 3\\
+\frac{7}{8} &amp; 3 \leq a &lt; 4\\
+1 &amp; a \geq 4
+\end{cases}
+</span></p>
+<p>It is a right continuous but not a left continuous function</p>
+<h2 data-number="0.3" id="expected-value" data-number="0.3"><span class="header-section-number">4.3</span> Expected Value</h2>
+<p>if <span class="math inline">X</span> is a discrete random variable having a PMF <span class="math inline">p(x)</span>, then the expectation or expected value of X is
+<span class="math display">E[x] = \sum_{x:p(x) &gt; 0}x\cdot p(x)</span></p>
+<p>The concept of expectation is analogous to the physical concept of he centre of mass.</p>
+<p><strong>Definition:</strong> An indicator variable for the event <span class="math inline">A</span> is <span class="math display">I_A = \begin{cases}
+1 &amp; \text{if } A \text{ occurs}\\
+0 &amp; \text{if } A^c \text{ occurs}\\
+\end{cases}</span></p>
+<p><span class="math display">E[I_A] = 1.p(1) + 0.p(0) = 1.p(A) + 0.p(A^c) = p(A)</span></p>
+<h2 data-number="0.4" id="expectation-of-a-function-of-a-random-variable" data-number="0.4"><span class="header-section-number">4.4</span> Expectation of a function of a random variable</h2>
+<p>Suppose that we are given a a random variable with its PMF, and we want to compute the expected value fo some function of <span class="math inline">X</span> say <span class="math inline">g(X)</span>. Equivalently we want to compute the value of <span class="math inline">E[g(X)]</span></p>
+<p>We have known that
+<span class="math display">
+\begin{aligned}
+E[X] = \sum_{x:p(x) &gt; 0}xp(x)\\
+E[g(X)] = \sum_{x:p(x) &gt; 0}g(x)p(x)\\
+\end{aligned}
+</span></p>
+<p><strong>Corollary:</strong> If <span class="math inline">a, b</span> are constant and <span class="math inline">X</span> is a random variable then <span class="math inline">E[aX + b] = aE[X] + b</span></p>
+<p><strong>Proof:</strong> <span class="math inline">E[aX + b] = \sum_{x: p(x) &gt; 0}(ax + b)p(x) = a\sum_{x: p(x) &gt; 0}x\cdot p(x) + b \sum_{x: p(x) &gt; 0}p(x)</span></p>
+<p><strong>Definition:</strong> <span class="math inline">E[X]</span> is also called the mean, or the first moment of the <span class="math inline">X</span>.</p>
+<p><span class="math display">E[X^n] = \sum_{x:p(x)&gt; 0}x^np(x)</span> is called the <span class="math inline">n^{th}</span> moment of <span class="math inline">X</span></p>
+<h2 data-number="0.5" id="variance" data-number="0.5"><span class="header-section-number">4.5</span> Variance</h2>
+<p><span class="math inline">E[X]</span> gives the mean, expected value</p>
+<p><span class="math display">Y = \begin{cases} 
+1 &amp; \text{with probability }\frac{1}{2}\\
+-1 &amp; \text{with probability }\frac{1}{2}
+\end{cases}
+</span></p>
+<p><span class="math inline">E[Y] = 0</span></p>
+<p><span class="math display">Z = \begin{cases} 
+-100 &amp; \text{with probability }\frac{1}{2}\\
+-100 &amp; \text{with probability }\frac{1}{2}
+\end{cases}
+</span></p>
+<p><span class="math inline">E[Z] = 0</span></p>
+<p>For random variables, <span class="math inline">Y</span> and <span class="math inline">Z</span> they have the same mean but they behave differently.</p>
+<p>To measure the error, we use <span class="math inline">E[|X - \mu|], \mu = E[X]</span></p>
+<p>Instead, we can use <span class="math inline">Var(X) = E[(X - \mu)^2]</span> called the variance of <span class="math inline">X</span></p>
+<p><span class="math display">
+\begin{aligned}
+Var(X) &amp;= E[(X - \mu)^2s]\\
+&amp;= \sum_{x:p(x) &gt; 0} (x-\mu)^2p(x)\\
+&amp;= \sum_{x:p(x) &gt; 0} (x^2+\mu^2 - 2\mu x)p(x)\\
+&amp;= \sum_{x:p(x) &gt; 0} x^2p(x)+\mu^2\sum_{x:p(x) &gt; 0}p(x) - 2\mu \sum_{x:p(x) &gt; 0}xp(x)\\
+&amp;= E[X^2] - 2\mu\cdot\mu + \mu^2\\
+&amp;= E[X^2] - \mu^2
+\end{aligned}
+</span></p>
+<p><strong>Corollary:</strong> If <span class="math inline">a, b</span> are constant and <span class="math inline">X</span> is a random variable then <span class="math inline">Var(aX + b) = a^2E[X]</span></p>
+<p><strong>Proof:</strong> <span class="math display">
+\begin{aligned}
+Var[aX + b] &amp;= E[(aX + b - E[aX +b])^2]\\
+&amp;= E[(aX + b - aE[X] - b)^2]\\
+&amp;= a^2E[(X - E[X])^2]\\
+&amp;= a^2Var[X]
+\end{aligned}
+</span></p>
+<p><strong>Definition:</strong> The standard deviation <span class="math inline">SD(X) = \sqrt{Var(X)}</span></p>
+<h2 data-number="0.6" id="the-bernoulli-and-binomial-random-variables" data-number="0.6"><span class="header-section-number">4.6</span> The Bernoulli and Binomial random variables</h2>
+<p>Bernoulli random variable (success and failure)
+<span class="math display">
+X = 
+\begin{cases}
+1 &amp; \text{with probability } p\\
+0 &amp; \text{with probability } 1-p
+\end{cases}
+</span></p>
+<p><span class="math inline">PMF: p(0) = 1-p</span>, <span class="math inline">p(1) = p</span></p>
+<p><span class="math inline">E[X] = p</span>; <span class="math inline">Var[X] = E[X^2] - (E[X])^2 = p-p^2</span> since <span class="math inline">E[X^2] = 0^2p(0) + 1^2p(1) = p</span></p>
+<p>Now suppose that we do <span class="math inline">n</span> independent trials, (each time success with probability <span class="math inline">p</span>; failure with probability <span class="math inline">1-p</span>). Let <span class="math inline">X</span> represent the number of successes in the <span class="math inline">n</span> trials. Then <span class="math inline">X</span> is said to be binomial random variable with parameters (n.p.) <span class="math inline">(1,p) \to</span> Bernoulli</p>
+<p><span class="math inline">PMF: P(i) = {n\choose i}p^i(1-p)^{n-i}</span> where <span class="math inline">0 \leq i \leq n</span>
+<span class="math display">\sum_{i=0}^{n}P(i) = \sum_{i=0}^{n}{n\choose i}p^i(1-p)^{n-i} =^{binomial} 1^n = 1</span></p>
+<p>The <span class="math inline">k^{th}</span> moment
+<span class="math inline">E[X^k] = \sum_{i=0}^{n}i^k{n\choose i}p^i(1-p)^{n-i} = \sum_{i=0}^{n}i^{-k}{n\choose i}p^i(1-p)^{n-i}</span></p>
+<p>Using identity: <span class="math inline">i{n\choose i} = n{n-1}\choose {i-1}</span></p>
+<p>Then <span class="math display">\begin{aligned}
+E[X^k] &amp;= \sum_{i=0}^{n}i^{-k-1}n{n-1}\choose {i-1}p^i(1-p)^{n-i}\\
+&amp;= n\cdot p\cdot \sum_{i=0}^{n}i^{k-1}{n-1}\choose {i-1}p^{i-1}(1-p)^{n-i}\\
+&amp;= n\cdot p\cdot \sum_{j=0}^{n-1}(j+1)^{k-1}{n-1}\choose {j}p^{j}(1-p)^{n-1-j}\\
+&amp;= n\cdot p\cdot \sum_{j=0}^{n-1}(j+1)^{k-1}p(j)\\
+&amp;= n\cdot p\cdot E[(Y+1)^{k-1}] &amp; Y \sim (n-1, p)\\
+\end{aligned}
+</span></p>
+<p>Therefore, <span class="math inline">E[X^k] = n\cdot p E[(Y+1)^{k-1}]</span>, where <span class="math inline">Y</span> is a binomial random variable with parameters <span class="math inline">(n-1, p)</span></p>
+<p>Now, let <span class="math inline">k = 1</span>, <span class="math inline">E[X] = npE[(Y+1)^{k-1}] = npE[1] = np</span></p>
+<p>let <span class="math inline">k = 2</span>, <span class="math inline">E[X^2] = npE[(Y+1)^{2-1}] = npE[Y+1] = np[E[Y] +1] = np[(n-1)p + 1]</span></p>
+<p>Thus, <span class="math inline">Var(X) = E[X^2] - (E[X])^2 = n(n-1)p^2 +np - (np)^2 = np(1-p)</span></p>
+<p><span class="math inline">\implies Var(Y) = (n-1)p(1-p)</span></p>
+<p>If <span class="math inline">z \sim Binomial(k, q)</span>, then <span class="math inline">E[Z] = kq, Var(Z) = kq(1-q)</span></p>
+<p>Its PMF has the shape as follows:</p>
+<p>If <span class="math inline">X</span> is a binomial random variable <span class="math inline">\sim (n, p), 0 &lt; p &lt; 1</span></p>
+<figure>
+<img src="../../attachments/ch4_bernoulli.png" alt="" /><figcaption><span class="math inline">i^*</span> is the largest integer less than or equal to <span class="math inline">(n+1)p</span></figcaption>
+</figure>
+<h2 data-number="0.7" id="the-poisson-random-variable" data-number="0.7"><span class="header-section-number">4.7</span> The Poisson Random Variable</h2>
+<p>A random variable <span class="math inline">X</span> on one of th values <span class="math inline">0,1,2,\dots</span> is said to b a Poisson random variable with parameter <span class="math inline">\lambda</span> if for some <span class="math inline">\lambda &gt; 0</span>, its PMF <span class="math display">P(i) = e^{-\lambda}\frac{\lambda^i}{i!}, i = 0,1,2,\dots</span></p>
+<p>To verify <span class="math inline">\sum_{i=0}^{\infty}P(i) = 1</span>, we have
+<span class="math display">\begin{aligned}
+&amp; \sum_{i=0}^{\infty}P(i)\\
+\implies &amp; \sum_{i=0}^{\infty}e^{-\lambda}\frac{\lambda^i}{i!}\\
+\implies &amp; e^{-\lambda}\sum_{i=0}^{\infty}\frac{\lambda^i}{i!}\\
+\implies &amp; e^{-\lambda}e^{\lambda} = 1
+\end{aligned}</span></p>
+<figure>
+<img src="../../attachments/ch4_poisson_variable.png" alt="" /><figcaption>parameter <span class="math inline">\lambda</span> affects the slope of the PMF</figcaption>
+</figure>
+<p><span class="math display">
+\begin{aligned}
+E[X] &amp;= \sum_{i=0}^{\infty}\frac{ie^{-\lambda}\lambda^i}{i!}\\
+&amp;= \sum_{i=1}^{\infty}\frac{ie^{-\lambda}\lambda^i}{i!}\\
+&amp;= \lambda\sum_{i=1}^{\infty}\frac{e^{-\lambda}\lambda^{i-1}}{(i-1)!}\\
+&amp;=^{j=i-1} \lambda\sum_{j=0}^{\infty}\frac{e^{-\lambda}\lambda^{j}}{j!}\\
+&amp;= \lambda
+\end{aligned}
+</span></p>
+<p><span class="math display">
+\begin{aligned}
+E[X^2] &amp;= \sum_{i=0}^{\infty}\frac{i^2e^{-\lambda}\lambda^i}{i!}\\
+&amp;= \sum_{i=1}^{\infty}\frac{i^2e^{-\lambda}\lambda^i}{i!}\\
+&amp;= \lambda\sum_{i=1}^{\infty}i\frac{e^{-\lambda}\lambda^{i-1}}{(i-1)!}\\
+&amp;=^{j=i-1} \lambda\sum_{j=0}^{\infty}(j+1)\frac{e^{-\lambda}\lambda^{j}}{j!}\\
+&amp;=\lambda\Big[\sum_{j=0}^{\infty}j\frac{e^{-\lambda}\lambda^{j}}{j!} + \sum_{j=0}^{\infty}\frac{e^{-\lambda}\lambda^{j}}{j!}\Big]\\
+&amp;= \lambda(\lambda + 1)\\
+&amp;= \lambda^2 + \lambda
+\end{aligned}
+</span></p>
+<p>Thus, <span class="math inline">Var(X) = E[X^2] - E[X]^2 = \lambda^2 + \lambda - \lambda^2 = \lambda</span></p>
+<h2 data-number="0.8" id="the-geometric-random-variables" data-number="0.8"><span class="header-section-number">4.8</span> The Geometric Random Variables</h2>
+<p>Independent trials until a success occurs, the <span class="math inline">\#</span> of times we do the trials is a geometric random variables.</p>
+<p>PMF: <span class="math inline">P(i) = (1-p)^{i-1}p</span>
+<span class="math display">
+\begin{aligned}
+\sum_{i=1}^{\infty}P(i) &amp;= \sum_{i=1}^{\infty}(1-p)^{i-1}p\\
+&amp;= p\sum_{i=1}^{\infty}(1-p)^{i-1}\\
+&amp;= p\frac{1}{1 - (1-p)}\\
+&amp;= 1
+\end{aligned}
+</span></p>
+<p><span class="math inline">E[X] = \frac{1}{p}, Var(X) = \frac{1-p}{p^2}</span></p>
+<p><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</p>
+<button id='prev_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='next_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

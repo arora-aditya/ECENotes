@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Midterm Prep </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 9){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.replace(num, prevV);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Midterm Prep<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#laplace">Laplace</a>
+<ul>
+<li><a href="#final-value-theorem">Final Value Theorem</a></li>
+<li><a href="#laplace-of-differentials">Laplace of Differentials</a></li>
+<li><a href="#eat-converges"><span class="math inline">e^{At}</span> converges</a></li>
+</ul></li>
+<li><a href="#nd-order">2nd Order</a>
+<ul>
+<li><a href="#poles">Poles</a></li>
+<li><a href="#settling-time-for-critically-damped-system">Settling time for Critically damped system</a></li>
+<li><a href="#frequency-of-second-order-system">Frequency of second order system</a></li>
+<li><a href="#region-of-convergence">Region of convergence</a></li>
+<li><a href="#bibo-stable">BIBO stable</a></li>
+</ul></li>
+<li><a href="#summary">Summary</a>
+<ul>
+<li><a href="#chapter-1-review">Chapter 1 review</a></li>
+<li><a href="#chapter-2-modelling">Chapter 2 Modelling</a></li>
+<li><a href="#chapter-3-linear-system-theory">Chapter 3 Linear System Theory</a></li>
+<li><a href="#chapter-4-prototypes">Chapter 4 Prototypes</a></li>
+<li><a href="#chapter-5-feedback-control-theory">Chapter 5 Feedback control theory</a></li>
+</ul></li>
+</ul>
+</nav>
+<h2 id="laplace">Laplace</h2>
+<h3 id="final-value-theorem">Final Value Theorem</h3>
+<p><span class="math display">
+\lim_{s\to 0}sY(s) = \lim_{t\to \infty}y(t)
+</span></p>
+<h3 id="laplace-of-differentials">Laplace of Differentials</h3>
+<p><span class="math display">
+\mathcal{L}\Big\{\frac{d^2{y}}{d{t}^2}\Big\}  = s^2Y(s) - sy&#39;(0^-)- y&#39;&#39;(0^-)
+</span></p>
+<h3 id="eat-converges"><span class="math inline">e^{At}</span> converges</h3>
+<p>if all roots have negative real parts</p>
+<h2 id="nd-order">2nd Order</h2>
+<h3 id="poles">Poles</h3>
+<p><span class="math display">s = -\zeta \omega_n \pm \omega_n \sqrt{\zeta^2 - 1} = \omega_n\left(-\zeta \pm \sqrt{\zeta^2 - 1}\right)</span></p>
+<h3 id="settling-time-for-critically-damped-system">Settling time for Critically damped system</h3>
+<p><span class="math display">
+T_s \approx \frac{5.8}{\omega_n}
+</span></p>
+<h3 id="frequency-of-second-order-system">Frequency of second order system</h3>
+<p>The frequency of the oscillatory response equals the imaginary part of the complex conjugate poles in the tranfer function
+<span class="math display">
+\omega_n \sqrt{(1 - \zeta^2)} = \frac{2\pi}{T_{pp}} = f_{oscillation}
+</span></p>
+<h3 id="region-of-convergence">Region of convergence</h3>
+<p><span class="math display">
+\{s\; \epsilon\; \mathbb{C}: Re (s) &gt; a\}
+</span></p>
+<p>where <span class="math inline">a</span> is the real part of the rightmost pole</p>
+<h3 id="bibo-stable">BIBO stable</h3>
+<h2 id="summary">Summary</h2>
+<p>Course is about classical control; most prevalent, assumes linear and time invariant plant</p>
+<ul>
+<li><p>it requires that we have a transfer function</p></li>
+<li><p>when you use feedback, you need to consider the possibility of a system not converging</p></li>
+</ul>
+<h5 id="chapter-1-review">Chapter 1 review</h5>
+<ul>
+<li>Complex Numbers
+<ul>
+<li>Euler’s Identity: <span class="math inline">e^{j\theta} = \cos(\theta) + j\sin(\theta)</span> gives us a way to think about complex numbers in terms of angles</li>
+<li>Polar form makes it easy to multiply/divide: <span class="math inline">|z| = ℝ</span> and <span class="math inline">arg(z) = \theta</span>
+<ul>
+<li>arg is the principle argument (angle when in polar form)</li>
+</ul></li>
+<li>Complex conjugate, <span class="math inline">\bar{z}</span> of the denominator for turning division into multiplication
+<ul>
+<li><span class="math inline">z\bar{z} = |z|^2</span></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Block Diagrams are the basis of control engineering. Each block represents a function (not like free body diagrams)</p>
+<p>Review of Equations:</p>
+<ul>
+<li>Newton’s equations are useful for mechanical/physical systems
+<ul>
+<li>translation and rotation</li>
+<li>rotational inertia formula: <span class="math inline">\tau = I a</span>, I = moment of inertia</li>
+</ul></li>
+<li>Hooke’s Law says restoring force from stretch is linearly proportional to the amount stretched</li>
+<li>for circuit systems, there KVL and KCL
+<ul>
+<li><span class="math inline">v = L \frac{di}{dt}</span> for inductors</li>
+<li><span class="math inline">i = C \frac{dv}{dt}</span> for capacitors</li>
+</ul></li>
+<li>eigenvectors are vectors whose directions do not change after having a matrix (as a linear mapping) applied to them</li>
+</ul>
+<h5 id="chapter-2-modelling">Chapter 2 Modelling</h5>
+<p><strong>State-space models</strong> are mathematical expressions of systems</p>
+<ul>
+<li><p>state variables (a vector called <code>x</code>) are the full set of variables that dictate change in a system</p></li>
+<li><p>we have a vector of inputs <code>u</code></p></li>
+<li><p>composed of state equation + output equation</p>
+<ul>
+<li><span class="math inline">\dot{x} = f(x, u) = Ax + Bu</span>
+<ul>
+<li>another equivalent way to write this is as a vector of functions</li>
+</ul></li>
+<li><span class="math inline">y = h(x) = Cx + Du</span></li>
+</ul></li>
+</ul>
+<p>One key property of linearity is the <strong>superposition principle</strong>: the net responses caused by multiple stimuli is the sum of the responses caused by each stimuli individually</p>
+<p><strong>Linearization</strong> is approximating a nonlinear system, by looking at the system’s behaviour near an equilibrium configuration (physical state is at rest). We then calculate the four jacobians, A, B, C and D.</p>
+<p><strong>Transfer functions</strong> exist only for LTI systems, and are expressed in the frequency domain. They tell us how the system responds at different frequencies (which is only possible because we assume time invarance and so the response does not depend on the current time)</p>
+<ul>
+<li>to find the TF from state space, <span class="math inline">\frac{Y(s)}{U(s)} = C(sI - A)^{-1}B + D</span></li>
+<li><span class="math inline">\frac{X(s)}{U(s)} = (sI - A)^{-1}B</span></li>
+<li>we only look at one sided laplace transforms here (Re(s) &gt; 0)</li>
+<li>the region of convergence is always in the open right half plane</li>
+</ul>
+<h5 id="chapter-3-linear-system-theory">Chapter 3 Linear System Theory</h5>
+<ul>
+<li><p>matrix exponential describes how we can raise scalars to the the exponent of a matrix, generalizing the taylor series expansion of <span class="math inline">e^t</span></p>
+<ul>
+<li>it is a requirement in order for a time domain response calculation to work out</li>
+</ul></li>
+<li><p>there are tricks to finding eigenvalues by inspection, which may prove useful in the exam</p></li>
+<li><p><span class="math inline">\dot{x} = Ax, x(0)=x_0</span> has the unique solution <span class="math inline">x(t) = e^{At}x_0</span></p>
+<ul>
+<li>we also get that <span class="math inline">e^{At} = L^{-1}\{(sI - A)^{-1}\}</span></li>
+</ul></li>
+<li><p>we are given a full solution in the time domain for a state equation and an initial value (equation 3.5), but are only used through simulation</p></li>
+</ul>
+<p><strong>Stability</strong></p>
+<ul>
+<li><p><strong>asymptotic stability</strong> is when state x goes to zero as t approaches infinity forall initial conditions x(0), or the matrix exponential <span class="math inline">e^{At} \rightarrow 0</span> as <span class="math inline">t \rightarrow \inf</span></p>
+<ul>
+<li>it actually only depends on eigenvalues: if all eigenvalues of A have a negative real part</li>
+</ul></li>
+<li><p><strong>bounded input</strong> is when <span class="math inline">u(t) \leq b</span> forall t, b is finite</p></li>
+<li><p><strong>BIBO stable</strong> if BI =&gt; BO</p>
+<ul>
+<li>for strictly proper rational transfer functions, BIBO stable iff every pole has negative real value iff the integral of the impulse response is finite, iff the integral of the impulse response over 0 to infinity is finite</li>
+<li>if G(s) is improper, G(s) is not BIBO stable</li>
+<li>recall that in the time domain, we can use convolution to calculate response in time domain of applying a transfer function to some input</li>
+<li>a sinusoidal input to a BIBO function produces a sinusoidal output</li>
+<li>the integral <span class="math inline">\int_0^\infty |g(t)| dt</span> where <span class="math inline">g(t)</span> is the impulse response, upper bounds the gain of a BIBO stable system.</li>
+</ul></li>
+<li><p><strong>final value theorem</strong> gives us that <strong>stead-state gain</strong> ratio is reached when a non-varying input is given, and further says that the magnitude of the input does not affect the ratio</p>
+<ul>
+<li>4 cases</li>
+<li>all poles Re &lt; 0 implies f(t) -&gt; 0</li>
+<li>one pole at 0 =&gt; <span class="math inline">\lim_{t \rightarrow \inf} f(t) = \lim_{s \rightarrow 0} sF(s)</span>, r</li>
+<li>multiple poles at 0 =&gt; diverges</li>
+<li>any poles with Re &gt; 0 =&gt; diverges</li>
+</ul></li>
+<li><p>the <strong>steady-state gain</strong> is G(0)</p></li>
+<li><p>the <strong>frequency response</strong> is <span class="math inline">G(j\omega)</span>, used for determining the steady state output given a sinusoidal input (see Theorem 3.7.1)</p>
+<ul>
+<li>when input <span class="math inline">u(t) = cos(\omega t)</span> <span class="math display">y_ss = |G({j\mkern 1mu}\omega)|cos(\omega t + \angle (G({j\mkern 1mu}\omega)))</span></li>
+</ul></li>
+</ul>
+<p>For sketching bode plots, the magnitude plot is on a scale of dB, so <span class="math inline">20 \log|G(s)|</span> for transfer function G(s). The phase plot is on a scale of degrees. The x axis is on a logarithmic scale. The sketch is called an asymptotic bode plot. We use straight line approximations to draw the plot.
+- for magnitude, taking the log of a fractional expression allows us to rewrite it as a sum of logs (with negatives for denominator terms)
+- use zeroes and poles to determine where the plot changes, and its coefficient is the slope of the linear approximation</p>
+<ul>
+<li>bandwidth of the transfer function can be determined by calculating at what frequency (x-axis) the dB drops by 3 from it’s initial value
+<ul>
+<li><span class="math inline">20 log|G(s)| = K-3</span>, for some gain of <span class="math inline">K</span> <em>(K might be the wrong variable to use here)</em></li>
+</ul></li>
+</ul>
+<h5 id="chapter-4-prototypes">Chapter 4 Prototypes</h5>
+<p><strong>Prototype first order system</strong> equation lets us compare transfer functions to a parametric form, allowing us to easily derive properties: everything depends on time constant <span class="math inline">\tau</span></p>
+<ul>
+<li><span class="math inline">G(s) = \frac{K}{\tau s + 1}</span></li>
+<li>pole at <span class="math inline">s = -\tau</span>, bandwidth = <span class="math inline">\frac{1}{\tau}</span>, non oscillatory, gain of K, settling time of <span class="math inline">4\tau</span></li>
+</ul>
+<p>Prototype second order system is <span class="math inline">G(s) = \frac{K \omega_n}{s^2 + 2 \zeta \omega_n s + \omega_n^2}</span></p>
+<ul>
+<li>introduces concept of damping ratio, which dictates its response graph and whether it is oscillatory or not</li>
+</ul>
+<h5 id="chapter-5-feedback-control-theory">Chapter 5 Feedback control theory</h5>
+<p>We get:</p>
+<p><span class="math inline">\underbrace{\begin{bmatrix}\dot{x_p}\\\dot{x_c}\end{bmatrix}}_{x_{cl}} = \underbrace{\begin{bmatrix}A_p-B_pD_cC_p&amp;B_pC_c\\-B_cC_p&amp;A_c\end{bmatrix}}_{A_{cl}}\begin{bmatrix}X_p\\x_c\end{bmatrix}</span></p>
+<p>The closed-loop system is internally stable if <span class="math inline">\dot{x_{cl}}=A_{cl}x_{cl}</span> is asymptotically stable.</p>
+<p>analyzing existing controllers</p>
+<p>In lab 2, we looked at a second order circuit system.</p>
+<ul>
+<li><p>we can have second order LTI systems, it just means that the output signal depends on the input y(t) and both the first and second derivative of y(t)</p></li>
+<li><p>feeding the output back as input (closing the loop) decreases steady state gain of the system and damping ratio, and increases the bandwidth frequency and natural frequency</p></li>
+<li><p>closed-loop systems can handle disturbance signals while open-loop cannot</p></li>
+</ul>
+<p>Pole-zero cancellation is if some pole in either the controller C or plant P gets cancelled by the numerator</p>
+<ul>
+<li><p>unstable if Re(<span class="math inline">\lambda \geq 0</span>), implying that the feedback system isn’t I.O. stable (root always shows up in the characteristic polynomial since <span class="math inline">\pi(\lambda) = N_pN_c + D_pD_c = 0 + 0 = 0</span>)</p>
+<ul>
+<li>by contrapositive, we know that unstable pole-zero cancellation implies no internally stable</li>
+<li><strong>it’s the naive thing to do, it doesn’t work</strong></li>
+</ul></li>
+<li><p>roots of <span class="math inline">\pi(s) \subseteq</span> eigenvalues of <span class="math inline">A_{closed}</span></p>
+<ul>
+<li><strong>internal stability</strong> is achieved when the state model for <span class="math inline">\dot{x}_{cl} = A_{cl}x_{cl}</span> is asymptotically stable
+<img height=50 src="img/52Acl.png"/></li>
+</ul></li>
+<li><p><strong>IO Stable</strong> if all combinations of transfer functions are BIBO stable</p>
+<ul>
+<li>if some coefficient of the char poly is non-positive, it is not hurwitz =&gt; not IO stable</li>
+</ul></li>
+<li><p>internal stability =&gt; I.O. stability</p></li>
+<li><p><span class="math inline">\pi(s)</span> is <strong>Hurwitz</strong> if all roots have Re(s) &lt; 0</p>
+<ul>
+<li>Routh-Hurwitz criterion is an algebraic test for the characteristic polynomial to be Hurwitz, for the purpose of checking stability without finding its roots</li>
+<li>if all real roots have negative real value, then all coefficients of the polynomial must be positive</li>
+<li>for complex conjugate roots, expanding (and intuitively) we know that each multiplied together will be a quadratic with all positive coefficients</li>
+</ul></li>
+<li><p>hurwitz huristic tells us quickly whether its not hurwitz (check all coefficients for positivity)</p></li>
+<li><p>routh-hurwitz is stronger, follow table algorithm with a figure-8 pattern drawing and terminate if any first column value is zero</p>
+<ul>
+<li>the array is the leftmost column, we know the number of roots in the right-half plane by the number of sign switches</li>
+</ul></li>
+<li><p>characteristic polynomial is hurwitz iff all elements in 1st column have same sign</p>
+<ul>
+<li>if no zeroes in first column, # of sign changes = # of bad roots</li>
+</ul></li>
+</ul>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

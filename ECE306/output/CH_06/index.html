@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Chapter 6 - Jointly Distributed Random Variables </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 7){
+        document.getElementById('next_button').parentNode.removeChild(document.getElementById('next_button'));
+      }
+      if(parseInt(num) == 1){
+        document.getElementById('prev_button').parentNode.removeChild(document.getElementById('prev_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + next;
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + prevV;
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Chapter 6 - Jointly Distributed Random Variables<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#joint-distribution-functions"><span class="toc-section-number">0.1</span> Joint Distribution Functions</a></li>
+<li><a href="#independent-random-variables"><span class="toc-section-number">0.2</span> Independent Random Variables</a></li>
+<li><a href="#sums-of-independent-random-variables"><span class="toc-section-number">0.3</span> Sums of Independent Random Variables</a></li>
+<li><a href="#conditional-distributions-discrete-case"><span class="toc-section-number">0.4</span> Conditional Distributions: Discrete Case</a></li>
+<li><a href="#conditional-distribution-continuous-case"><span class="toc-section-number">0.5</span> Conditional Distribution: Continuous Case</a></li>
+</ul>
+</nav>
+<h2 data-number="0.1" id="joint-distribution-functions" data-number="0.1"><span class="header-section-number">6.1</span> Joint Distribution Functions</h2>
+<p>Joint cumulative distribution function (JCDF) of <span class="math inline">X</span> and <span class="math inline">Y</span></p>
+<p><span class="math inline">F(a,b) = P\{X\leq a, Y \leq b\}, -\infty &lt; a, b &lt; \infty</span></p>
+<p><span class="math inline">F_X(a) = P\{X\leq a\} = P\{X\leq a, -\infty &lt; Y &lt; +\infty\} = F(a, \infty) =\lim_{b\to\infty} F(a, b)</span>
+<span class="math inline">F_Y(b) = P\{Y\leq b\} = P\{X &lt; \infty,Y \leq b\} = F(\infty, b) =\lim_{a\to\infty} F(a, b)</span></p>
+<figure>
+<img src="../../attachments/ch06_Fxa.png" alt="" /><figcaption><span class="math inline">F_X(a) = F(a, \infty) = lim_{b\to\infty}F(a,b)</span></figcaption>
+</figure>
+<figure>
+<img src="../../attachments/ch06_Fxb.png" alt="" /><figcaption><span class="math inline">F_Y(b) = F(\infty, b) = lim_{a\to\infty}F(a,b)</span></figcaption>
+</figure>
+<p>For example, <span class="math inline">P\{X &gt; a, Y &gt; b\} = 1 - F_X(a) - F_Y(b) + F(a, b)</span></p>
+<p><span class="math display">
+\begin{aligned}
+P\{X &gt; a, Y &gt; b\} &amp;= 1 - P\{X &gt; a, Y &gt; b\}^c\\
+&amp;= 1 - P(\{X &gt; a\}^c \cup \{Y &gt; b\}^c)\\
+&amp;= 1 - P(\{X \leq a\}) + P (\{Y \leq b\}) - P(\{X \leq a, Y \leq b\})\\
+&amp;= 1 - F_X(a) - F_Y(b) + F(a, b)
+\end{aligned}
+</span></p>
+<p><span class="math display">P\{a_1 &lt; X \leq a_2, b_1 &lt; Y \leq b_2\} = F(a_2, b_2) - F(a_2, b_1) - F(a_1, b_2) + F(a_1, b_1)</span></p>
+<p><strong>Discrete</strong>: Joint probability mass function (JPMF)
+<span class="math display">
+\begin{aligned}
+P(x, y) &amp;= P\{X = x, Y=y\}\\
+P_X(x) &amp;= P\{X = x\} = \sum_{y: p(x, y) &gt; 0}p(x,y)\\
+P_Y(y) &amp;= P\{Y = y\} = \sum_{x: p(x, y) &gt; 0}p(x,y)\\
+\end{aligned}
+</span></p>
+<p><strong>Continuous</strong>: <span class="math inline">X</span> and <span class="math inline">Y</span> are jointly continuous if there exists a function <span class="math inline">f(x, y)</span> such that for every set <span class="math inline">C \subset R^2</span></p>
+<p><span class="math display">P\{(X, Y) \epsilon C\} = \int\int_{(x,y) \epsilon C}f(x,y)dxdy</span></p>
+<figure>
+<img src="../../attachments/ch6_CAxB.png" alt="" /><figcaption><span class="math inline">C = A \times B</span></figcaption>
+</figure>
+<p>The function <span class="math inline">f(x,y)</span> is called the JPDF of <span class="math inline">X</span> and <span class="math inline">Y</span></p>
+<p>In the case where <span class="math inline">C = A\times B</span>,</p>
+<p><span class="math display">
+\begin{aligned}
+P\{(X, Y)\;\; \epsilon\;\; A\times B\} &amp;= P\{X \epsilon A, Y \epsilon B\}\\
+&amp;= \int\int_{x\epsilon A, y\epsilon B}f(x,y)dxdy\\
+&amp;= \int_{y\epsilon B}\int_{x\epsilon A}f(x,y)dxdy
+\end{aligned}
+</span></p>
+<p>For example, <span class="math inline">A = (-\infty, a], B = (-\infty, b]</span></p>
+<p><span class="math display">
+\begin{aligned}
+F(a, b) = P\{X \leq a, Y \leq b\} &amp;= \int_{-\infty}^{b}\int_{-\infty}^{a}f(x,y)dxdy\\
+f(a, b) &amp;= \frac{\partial^2}{\partial a \partial b}F(a, b)
+\end{aligned}
+</span></p>
+<p>For <span class="math inline">B = (-\infty, +\infty)</span>, <span class="math inline">P\{X \epsilon A\} = \int_A\int_{-\infty}^{+\infty}f(x, y)dydx = \int_{-\infty}^{+\infty}\int_Af(x, y)dxdy</span></p>
+<p>Compared with <span class="math inline">P\{X \epsilon A\} = \int_Af_x(x)dx</span> it follows that <span class="math inline">\underbrace{f_X(x) = \int_{-\infty}^{\infty}f(x, y)dy}_{\text{marginal PDF}}</span></p>
+<p>Similary, <span class="math inline">\underbrace{f_Y(y) = \int_{-\infty}^{\infty}f(x, y)dx}_{\text{marginal PDF}}</span></p>
+<p>The last 2 integrals, are called the marginal PDF</p>
+<p>In general, Joint Probability distributions for <span class="math inline">n</span> random variables</p>
+<p><span class="math display">F(a_1, a_2, \dots, a_n) = P\{X_1 \leq a_1, X_2 \leq a_2 \dots X_n \leq a_n\}</span></p>
+<p>Continuous, if there exists <span class="math inline">f(x_1, x_2, \dots x_n)</span> such that <span class="math inline">P\{(X_1, X_2, \dots, X_n) \epsilon C\}, C \epsilon \R^n = \int\int\dots\int_{(x_1, x_2, \dots x_n)\epsilon C} f_x(x_1, x_2,\dots x_n) dx_1 dx_2 \dots dx_n</span></p>
+<h2 data-number="0.2" id="independent-random-variables" data-number="0.2"><span class="header-section-number">6.2</span> Independent Random Variables</h2>
+<p>The random variables <span class="math inline">X</span> and <span class="math inline">Y</span> are said to be independent if for any two sets of real numbers <span class="math inline">A</span> and <span class="math inline">B</span>, <span class="math inline">P\{\underbrace{X \epsilon A}_{E_1}, \underbrace{Y \epsilon B}_{E_2}\} = P\{\underbrace{X \epsilon A}_{E_1}\}\cdot P\{\underbrace{Y \epsilon B}_{E_2}\}</span></p>
+<p><span class="math inline">P(E_1E_2) = P(E_1)P(E_2)</span></p>
+<p>Based on the three axioms, we only need to consider <span class="math inline">A = (-\infty, a], B = (-\infty, b]</span></p>
+<p><img src="../../attachments/ch6_independent_rv.png" /></p>
+<p>That is, <span class="math inline">P\{X \leq a, Y \leq b\} = P\{X \leq a\}P\{Y \leq b\}</span> for any <span class="math inline">a, b \epsilon \R</span></p>
+<p>That’s equivalent to say <span class="math inline">F(a, b) = F_X(a)\cdot F_Y(b)</span></p>
+<p>For discrete case it is equivalent hat <span class="math inline">P(x, y) = P_X(x)P_Y(y)</span></p>
+<p>For continuous case it is equivalent hat <span class="math inline">f(x, y) = f_X(x)f_Y(y)</span></p>
+<p>Interpretation: <span class="math inline">X</span> and <span class="math inline">Y</span> are independent of knowing the value of one doesn’t change the distribution of the other one</p>
+<h2 data-number="0.3" id="sums-of-independent-random-variables" data-number="0.3"><span class="header-section-number">6.3</span> Sums of Independent Random Variables</h2>
+<p>Suppose that <span class="math inline">X\sim f_X(x), Y\sim f_Y(y)</span> are independent of each other, what is the density of <span class="math inline">X+Y</span> i.e. <span class="math inline">f_{X+Y}</span></p>
+<p><span class="math display">\begin{aligned}
+F_{X+Y}(a) &amp;= P\{X + Y \leq a\} \\
+&amp;= \int\int_{x+y \leq a}f(x,y)dxdy\\
+&amp;= \int_{-\infty}^{\infty}\int_{-\infty}^{a-y}f(x,y)dxdy \\
+&amp;= \int_{-\infty}^{\infty}\int_{-\infty}^{a-y}f_X(x) f_Y(y)dxdy\\
+&amp;= \int_{-\infty}^{\infty}f_Y(y)\underbrace{\int_{-\infty}^{a-y}f_X(x) dx}_{P\{X\leq a-y\} = F_X(a-y)}dy\\
+\therefore f_{X+Y}(a) &amp;= \int_{-\infty}^{\infty}f_Y(y)f_X(a-y)dy \\
+&amp;= f_Y * f_X \sim \text{convolution}\\
+&amp;= \int_{-\infty}^{\infty}f_X(x)f_Y(a-y)
+\end{aligned}
+</span></p>
+<p><strong>Proposition 3.2</strong> If <span class="math inline">X_i \sim N(\mu_i, \sigma_i^2), i = 1, 2 \dots n</span> are independent then <span class="math inline">\sum_{i=1}^nX_i \sim N(\sum_{i=1}^n\mu_i, \sum_{i=1}^n\sigma_i^2)</span></p>
+<p><strong>Proof</strong>: Start with a simple case, Let <span class="math inline">X \sim N(0, \sigma^2), Y \sim N(0, 1)</span> which are independent, using which we use to find <span class="math inline">f_{X+Y}(a) = \int_{-\infty}^{\infty}f_X(x)f_Y(a-y)</span> which on solving we get <span class="math inline">f_{X+Y}(a) \sim N(0, 1+\sigma^2)</span></p>
+<p>Now suppose, <span class="math inline">X_1 \sim (\mu_1, \sigma_1^2)</span>, <span class="math inline">X_2 \sim (\mu_2, \sigma_2^2)</span> which are independent</p>
+<p><span class="math display">\begin{aligned}
+X_1 + X_2 &amp;= \sigma_2(\underbrace{\frac{X_1-\mu_1}{\sigma_2}}_{\sim N(0, (\frac{\sigma_1}{\sigma_2})^2)} + \underbrace{\frac{X_2-\mu_2}{\sigma_2}}_{\sim N(0, 1)}) + \mu_1 + \mu_2\\
+\text{Since } &amp; E[\frac{X_1 - \mu_1}{\sigma_2}] = \frac{1}{\sigma_2}(E[X_1] - \mu_1) = 0\\
+&amp;Var(\frac{X_1 - \mu_1}{\sigma_2}) = \frac{1}{\sigma_2^2}Var(X_1) = (\frac{\sigma_1}{\sigma_2})^2
+\end{aligned}
+</span></p>
+<p><span class="math display">
+\begin{aligned}
+\therefore\frac{X_1-\mu_1}{\sigma_2} + \frac{X_2-\mu_2}{\sigma_2} &amp;\sim N(0, 1 + (\frac{\sigma_1}{\sigma_2})^2)\\
+\therefore \;X_1 + X_2 = \sigma_2(\frac{X_1-\mu_1}{\sigma_2} + \frac{X_2-\mu_2}{\sigma_2}) + \mu_1 + \mu_2 &amp;\sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)
+\end{aligned}
+</span></p>
+<p>Thus, proposition is established when <span class="math inline">n=2</span>, the general case now follows by induction. That is, assume that it is true when there are n-1 random variables, and repeat the same steps</p>
+<p>If <span class="math inline">X</span> and <span class="math inline">Y</span> are independent, then <span class="math inline">f_{X+Y} = f_X * f_Y</span></p>
+<p>Using Fourier properties, we can say that</p>
+<p><span class="math display">f_{X+Y} = \mathcal{F}^{-1}\{\mathcal{F}\{f_X\}\cdot\mathcal{F}\{f_Y\}\}</span></p>
+<h2 data-number="0.4" id="conditional-distributions-discrete-case" data-number="0.4"><span class="header-section-number">6.4</span> Conditional Distributions: Discrete Case</h2>
+<p>Recall conditional probability: <span class="math inline">P(E|F) = \frac{P(EF)}{P(F)}</span></p>
+<p>If <span class="math inline">X</span> and <span class="math inline">Y</span> are discrete random variables, conditional PMF of <span class="math inline">X</span> given <span class="math inline">Y=y</span></p>
+<p><span class="math inline">P_{X|Y}(x|y) = P\{X=x|Y = y\} = \frac{P\{X=x, Y=y\}}{P\{Y=y\}} = \frac{P(x, y)}{P_Y(y)}</span></p>
+<p>We know that <span class="math inline">P(E|F) = P(E) \Leftrightarrow E</span> and <span class="math inline">F</span> are independent</p>
+<p>Similarly, <span class="math inline">P_{X|Y}(x|y) = P_X(x) \Leftrightarrow X</span> and <span class="math inline">Y</span> are independent, which can be easily seen from the fact that if <span class="math inline">X</span> and <span class="math inline">Y</span>, <span class="math inline">\frac{P(x, y)}{P_Y(y)} = \frac{P_X(x)P_Y(y)}{P_Y(y)} = P_X(x)</span></p>
+<p>The conditional CDF of <span class="math inline">X</span> given that <span class="math inline">Y=y</span> is defined as <span class="math display">F_{X|Y}(x|y) = P\{X\leq x | Y = y\} = \sum_{a \leq x}P\{X = a|Y = y\} = \sum_{a \leq x}P_{X|Y}(a|y)</span></p>
+<h2 data-number="0.5" id="conditional-distribution-continuous-case" data-number="0.5"><span class="header-section-number">6.5</span> Conditional Distribution: Continuous Case</h2>
+<p>If <span class="math inline">X</span> and <span class="math inline">Y</span> have a joint PDF <span class="math inline">f(x,y)</span> then the conditional PDF of <span class="math inline">X</span>, given that <span class="math inline">Y=y</span> is defined as
+<span class="math display">f_{X|Y}(x|y) = \frac{f(x,y)}{f_Y(y)}</span></p>
+<p>for all values of <span class="math inline">y</span> such that <span class="math inline">f_Y(y) &gt; 0</span></p>
+<p>Similar to <span class="math inline">P(X\epsilon A) = \int_Af_X(x)dx</span>, we have <span class="math inline">P(X\epsilon| Y=y) = \int_Af_{X|Y}(x|y)dx</span></p>
+<p>In particular, let <span class="math inline">A = (-\infty, a]</span> then we have the conditional CDF of <span class="math inline">X</span></p>
+<p><span class="math inline">F_{X|Y}(a|y) = P\{X\leq a | Y = y\} = \int_{-\infty}^af_{X|Y}(x|y)dx</span></p>
+<p>If <span class="math inline">X</span> and <span class="math inline">Y</span> are independent, <span class="math inline">f_{X|Y}(x|y) = \frac{f(x,y)}{f_Y(y)} = \frac{f_X(x)f_Y(y)}{f_Y(y)} = f_X(x)</span></p>
+<p><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</p>
+<button id='prev_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='next_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

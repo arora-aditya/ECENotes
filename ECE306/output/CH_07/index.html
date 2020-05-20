@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Chapter 7 - Properties of Expectation </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 7){
+        document.getElementById('next_button').parentNode.removeChild(document.getElementById('next_button'));
+      }
+      if(parseInt(num) == 1){
+        document.getElementById('prev_button').parentNode.removeChild(document.getElementById('prev_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + next;
+      }
+    }
+    function prev(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let prevV = String(parseInt(num)-1);
+      console.log(prevV)
+      if(prev.length < 2){
+        prevV = "0" + prevV
+      }
+      console.log(prevV, parseInt(prevV) > 0)
+      if(parseInt(prevV) > 0){
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length-3) + prevV;
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Chapter 7 - Properties of Expectation<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">0.1</span> Introduction</a></li>
+<li><a href="#expectation-of-sums-of-random-variables"><span class="toc-section-number">0.2</span> Expectation of Sums of Random Variables</a></li>
+<li><a href="#not-found-in-notes"><span class="toc-section-number">0.3</span> <sub><sub><sub><sub><sub><sub>not found in notes</sub></sub></sub></sub></sub></sub></a></li>
+<li><a href="#covariance-variance-of-sums-and-correlations"><span class="toc-section-number">0.4</span> Covariance, Variance of Sums and Correlations</a></li>
+<li><a href="#conditional-expectation"><span class="toc-section-number">0.5</span> Conditional Expectation</a>
+<ul>
+<li><a href="#definitions"><span class="toc-section-number">0.5.1</span> Definitions</a></li>
+<li><a href="#computing-expectations-by-conditioning"><span class="toc-section-number">0.5.2</span> Computing Expectations by conditioning</a></li>
+</ul></li>
+<li><a href="#not-found-in-notes-1"><span class="toc-section-number">0.6</span> <sub><sub><sub><sub><sub><sub>not found in notes</sub></sub></sub></sub></sub></sub></a></li>
+<li><a href="#moment-generating-functions"><span class="toc-section-number">0.7</span> Moment Generating Functions</a></li>
+</ul>
+</nav>
+<h2 data-number="0.1" id="introduction" data-number="0.1"><span class="header-section-number">7.1</span> Introduction</h2>
+<p><strong>Discrete</strong>: <span class="math inline">E[X] = \sum_xxp(x)</span><br />
+<strong>Continuous</strong>: <span class="math inline">E[X] = \int_{-\infty}^{\infty}xf(x)dx</span></p>
+<h2 data-number="0.2" id="expectation-of-sums-of-random-variables" data-number="0.2"><span class="header-section-number">7.2</span> Expectation of Sums of Random Variables</h2>
+<p>General Formula: functions <span class="math inline">g(x)</span> of random variables</p>
+<p><strong>Discrete</strong>: <span class="math inline">E[X] = \sum_xg(x)p(x)</span><br />
+<strong>Continuous</strong>: <span class="math inline">E[X] = \int_{-\infty}^{\infty}g(x)f(x)dx</span></p>
+<p>Two random variables</p>
+<p><span class="math display">E[g(X, Y)] = 
+\begin{cases}
+  \sum_{x,y}g(x, y)p(x, y) &amp; \text{Discrete Case}\\
+    \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}g(x)f(x)dxdy &amp; \text{Continuous Case}
+\end{cases}</span></p>
+<p>In particular, if <span class="math inline">g(X, Y) = X+Y</span>, then
+<span class="math display">\begin{aligned}
+E[X+Y] &amp;= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}(x+y)f(x,y)dxdy\\
+&amp;= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}xf(x,y)dxdy + \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}yf(x,y)dxdy\\
+&amp;= \int_{-\infty}^{\infty}x\Bigg\{\underbrace{\int_{-\infty}^{\infty}f(x,y)dy}_{f_X(x)}\Bigg\}dx + \int_{-\infty}^{\infty}y\Bigg\{\underbrace{\int_{-\infty}^{\infty}f(y,x)dx}_{f_Y(y)}\Bigg\}dy\\
+&amp;= E[X] + E[Y]
+\end{aligned}</span></p>
+<p>By induction, generally <span class="math inline">E[X_1+X_2+\dots + X_n]=E[X_1] + E[X_2] +\dots + E[X_n]</span></p>
+<h2 data-number="0.3" id="not-found-in-notes" data-number="0.3"><span class="header-section-number">7.3</span> <sub><sub><sub><sub><sub><sub>not found in notes</sub></sub></sub></sub></sub></sub></h2>
+<p><br />
+<br />
+</p>
+<h2 data-number="0.4" id="covariance-variance-of-sums-and-correlations" data-number="0.4"><span class="header-section-number">7.4</span> Covariance, Variance of Sums and Correlations</h2>
+<p><strong>Proposition 4.1</strong>: If <span class="math inline">X</span> and <span class="math inline">Y</span> are independent, then for any functions <span class="math inline">g</span> and <span class="math inline">h</span>, <span class="math inline">E[g(X)h(Y)] = E[g(X)]E[h(Y)]</span></p>
+<p><em>Proof</em>
+<span class="math display">\begin{aligned}
+E[g(X)h(Y)] &amp;= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}g(x)h(y)\underbrace{f(x,y)}_{f_X(x)\cdot f_Y(y)}dxdy\\
+&amp;= \int_{-\infty}^{\infty}\underbrace{g(x)f_X(x)}_{E[g(X)]}dx
+\int_{-\infty}^{\infty}\underbrace{h(y)f_Y(y)}_{E[h(Y)]}dy\\
+&amp;= E[g(X)]E[h(Y)]
+\end{aligned}</span></p>
+<p><strong>Definition</strong>: <span class="math inline">cov(X, Y) = E[(X - EX)(Y-EY)]</span>
+<span class="math display">cov(X,X) = E[(X-EX)(X-EX)] = E[(X-EX)^2] = Var(X)</span></p>
+<p>We have known that <span class="math inline">Var(X) = E[X^2] - (E[X])^2</span></p>
+<p><span class="math display">\begin{aligned}
+Cov(X, Y) &amp;= E[(X - EX)(Y - EY)]\\
+&amp;= E[XY] - \underbrace{E[X\cdot EY]}_{E[Y]\cdot E[X]} - \underbrace{E[Y\cdot EX]}_{E[Y]\cdot E[X]} + - \underbrace{E[EX\cdot EY]}_{E[Y]\cdot E[X]}\\
+&amp;= E[XY] - E[X]\cdot E[Y]
+\end{aligned}</span></p>
+<p>If <span class="math inline">X</span> and <span class="math inline">Y</span> are independent, then <span class="math inline">cov(X, Y) = E[XY] - E[X]\cdot E[Y] = E[X]\cdot E[Y] - E[X]\cdot E[Y] = 0</span></p>
+<p>Therefore, independence implies the zero covariance, but the converse doesn’t really hold.</p>
+<p><strong>Proposition 4.2</strong></p>
+<ol type="1">
+<li><span class="math inline">cov(X, Y) = cov(Y, X)</span></li>
+<li><span class="math inline">cov(X,X) = Var(X)</span></li>
+<li><span class="math inline">cov(aX, Y) = a\cdot cov(X, Y)</span></li>
+<li><span class="math inline">cov(\sum_{i=1}^{n}X, \sum_{j=1}^{m}Y_j) = \sum_{i=1}^{n}\sum_{j=1}^{m}cov(X_i, Y_j)</span></li>
+</ol>
+<p>We have known that <span class="math inline">E[\sum_{i=1}^{n}X_i] = \sum_{i=1}^{n}E[X_i]</span>, what’s <span class="math inline">Var(\sum_{i=1}^{n}X_i)</span></p>
+<p><span class="math display">\begin{aligned}
+Var(\sum_{i=1}^{n}X_i) &amp;= cov(\sum_{i=1}^{n}X_i, \sum_{j=1}^{n}X_j)\\
+&amp;= \sum_{i=1}^{n}\sum_{j=1}^{n}Cov(X_i, X_j)\\
+&amp;= \sum_{i=j=1}^{n}Cov(X_i, X_j) + \sum_{i\neq j}^{n}Cov(X_i, X_j)\\
+&amp;= \sum_{i=1}^{n}Var(X_i) + \sum_{i\neq j}^{n}Cov(X_i, X_j)\\
+\end{aligned}</span>
+If <span class="math inline">X_i (i=1,\dots, n)</span> are independent, thens <span class="math inline">Cov(X_i, X_j) = 0\;\; \forall\;\; i \neq j</span>
+<span class="math display">\therefore Var(\sum_{i=1}^{n}X_i) = \sum_{i=1}^{n}Var(X_i)</span></p>
+<h2 data-number="0.5" id="conditional-expectation" data-number="0.5"><span class="header-section-number">7.5</span> Conditional Expectation</h2>
+<h3 data-number="0.5.1" id="definitions" data-number="0.5.1"><span class="header-section-number">7.5.1</span> Definitions</h3>
+<p><strong>Discrete</strong>: Conditional PMF: <span class="math inline">P_{X|Y}(x|y) = P\{X=x, Y=y\} = \frac{P(x,y)}{P_Y(y)}</span><br />
+Conditional Expectation: <span class="math inline">E[X|Y=y] = \sum_xP\{X=x|Y=y\} = \sum_xP_{X|Y}\{x|y\}</span><br />
+</p>
+<p><strong>Continuous</strong>: Conditional PMF: <span class="math inline">f_{X|Y}(x|y) = \frac{f(x,y)}{f_Y(y)}</span><br />
+Conditional Expectation: <span class="math inline">E[X|Y=y] = \sum_xP\{X=x|Y=y\} = \int_{-\infty}^{\infty}f_{X|Y}\{x|y\}dx</span><br />
+</p>
+<p>Similar formulas</p>
+<p><span class="math display">
+E[g(X)|Y=y] = \begin{cases}
+\sum_xg(x)P_{X|Y}(x|y) &amp; \text{Discrete}\\
+\int_{-\infty}^{\infty} g(x)f_{X|Y}(x|y)dx &amp; \text{Continuous}\\
+\end{cases} 
+</span></p>
+<p>and <span class="math inline">E[\sum_{i=1}^{n}X_i|Y=y] = \sum_{i=1}^nE[X_i|Y=y]</span></p>
+<h3 data-number="0.5.2" id="computing-expectations-by-conditioning" data-number="0.5.2"><span class="header-section-number">7.5.2</span> Computing Expectations by conditioning</h3>
+<p>Note that <span class="math inline">E[X|Y]</span> is a random variable since <span class="math display">E[X|Y] = \begin{cases}
+E[X|Y=y_1] &amp; \text{when } Y = y_1\\
+E[X|Y=y_2] &amp; \text{when } Y = y_2\\
+&amp; \vdots
+\end{cases}</span></p>
+<p><strong>Proposition 5.1</strong>: <span class="math inline">E[X] = E[E[X|Y]]</span>
+<span class="math display">
+E[X] = \begin{cases}
+\sum_yE[X|Y=y]P\{Y=y\} &amp; \text{Discrete}\\
+\int_{-\infty}^{\infty} \sum_yE[X|Y=y]f_{Y}(y)dy &amp; \text{Continuous}\\
+\end{cases} 
+</span></p>
+<h2 data-number="0.6" id="not-found-in-notes-1" data-number="0.6"><span class="header-section-number">7.6</span> <sub><sub><sub><sub><sub><sub>not found in notes</sub></sub></sub></sub></sub></sub></h2>
+<p><br />
+<br />
+</p>
+<h2 data-number="0.7" id="moment-generating-functions" data-number="0.7"><span class="header-section-number">7.7</span> Moment Generating Functions</h2>
+<p>The moment generating function (MGF) <span class="math inline">M(t)</span> of the random variable <span class="math inline">X</span> is defined for all real values of <span class="math inline">t</span> by</p>
+<p><span class="math display">
+M(t) = E[e^{tX}] = 
+\begin{cases}
+\sum_xe^{tx}p(x) &amp;  \text{Discrete}\\
+\int_{-\infty}^{\infty} e^{tx}f(x)dx &amp; \text{Continuous}\\
+\end{cases}
+</span></p>
+<p>It is called MGF because of all the moments of <span class="math inline">X</span> can be obtained by successively differentiating <span class="math inline">M(t)</span> and then evaluate the result at <span class="math inline">t = 0</span></p>
+<p>In general, <span class="math inline">M^{(n)}(t) = E[X^ne^{tX}], n \geq 0</span>, <span class="math inline">M^{(n)}(0) = E[X^n]\sim n^{th}</span> moment of <span class="math inline">X</span></p>
+<table>
+<thead>
+<tr class="header">
+<th>X</th>
+<th><span class="math inline">M(t)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Binomial</td>
+<td><span class="math inline">(pe^t + 1 - p)^n</span></td>
+</tr>
+<tr class="even">
+<td>Poisson(<span class="math inline">\lambda</span>)</td>
+<td><span class="math inline">exp(\lambda(e^t - 1))</span></td>
+</tr>
+<tr class="odd">
+<td>Exponential (<span class="math inline">\lambda</span>)</td>
+<td><span class="math inline">\frac{\lambda}{\lambda - t}, t &lt; \lambda</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">N(\mu, \sigma^2)</span></td>
+<td><span class="math inline">exp(\mu t + \frac{\sigma^2 t^2}{2})</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Property 1</strong>: If <span class="math inline">X</span> and <span class="math inline">Y</span> are independent (<span class="math inline">f_{X+Y} = f_X * f_Y</span>), then</p>
+<p><span class="math display">M_{X+Y}(t) = E[e^{t(X+Y)}] = E[e^{tX}e^{tY}] = E[e^{tX}]\cdot E[e^{tY}] = M_X(t)\cdot M_Y(t)</span></p>
+<p><strong>Property 2</strong>: If <span class="math inline">M_X(t)</span> exists and is finite in some region about <span class="math inline">t=0</span>, then the distribution of <span class="math inline">X</span> is uniquely determined</p>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 34%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>X, Y (independent)</th>
+<th><span class="math inline">X+Y</span></th>
+<th><span class="math inline">M(t)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Binomial</td>
+<td><span class="math inline">\sim binomial(n+m, P)</span></td>
+<td><span class="math inline">(pe^t + 1 - p)^{n+m}</span></td>
+</tr>
+<tr class="even">
+<td>Poisson(<span class="math inline">\lambda</span>)</td>
+<td><span class="math inline">\sim Poisson(\lambda_1 + \lambda_2)</span></td>
+<td><span class="math inline">exp((\lambda_1 + \lambda_2)(e^t - 1))</span></td>
+</tr>
+<tr class="odd">
+<td>Exponential (<span class="math inline">\lambda</span>)</td>
+<td><span class="math inline">\not\sim exponential</span></td>
+<td><span class="math inline">\frac{\lambda_1\cdot\lambda_2}{(\lambda_1 - t)(\lambda_2 - t)}</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">N(\mu, \sigma^2)</span></td>
+<td><span class="math inline">\sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)</span></td>
+<td><span class="math inline">exp((\mu_1 + mu_2) t + \frac{(\sigma_1^2 + \sigma_2^2) t^2}{2})</span></td>
+</tr>
+</tbody>
+</table>
+<p><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</p>
+<button id='prev_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="prev()"; type="button">PREV LECTURE</button>
+<button id='next_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>

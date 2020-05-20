@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Aditya Arora" />
+  <title>Solar System Overview </title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: false
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="https://arora-aditya.com/images/A2.png" type="img">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137390799-2"></script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-137390799-2');
+
+
+    window.onload = function(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      if(parseInt(num) >= 11){
+      document.getElementById('gg_button').parentNode.removeChild(document.getElementById('gg_button'));
+      }
+    }
+
+    function next(){
+      let num = window.location.pathname.slice(window.location.pathname.length-3, window.location.pathname.length-1);
+      let next = String(parseInt(num)+1);
+      if(next.length < 2){
+        next = "0" + next
+      }
+      if(parseInt(num) < 7){
+        window.location.pathname = window.location.pathname.replace(num, next);
+      }
+    }
+  </script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Solar System Overview<br /></h1>
+<p class="author">Aditya Arora</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#todays-lecture">Today’s Lecture:</a></li>
+<li><a href="#solar-system">Solar System</a>
+<ul>
+<li><a href="#census-of-solar-system">Census of Solar system</a></li>
+<li><a href="#recentcurrent-missions">Recent/Current Missions</a></li>
+<li><a href="#orbital-properties-of-major-planets">Orbital Properties of Major Planets</a></li>
+<li><a href="#solar-system-patterns-orbits">Solar System Patterns: Orbits</a></li>
+<li><a href="#orbital-properties-of-the-dwarf-planets">Orbital Properties of the Dwarf Planets</a></li>
+<li><a href="#physical-properties-of-the-major-planets">Physical Properties of the Major Planets</a>
+<ul>
+<li><a href="#relative-sizes-of-the-planets-and-the-sun">Relative sizes of the planets (and the Sun)</a></li>
+<li><a href="#terrestrial-vs.-jovian-giant-planets">Terrestrial vs. Jovian (giant) Planets</a></li>
+</ul></li>
+<li><a href="#physical-properties-of-the-dwarf-planets">Physical Properties of the Dwarf Planets</a></li>
+<li><a href="#earth-the-prototype-of-terrestrial-planets">Earth: the prototype of terrestrial planets</a></li>
+<li><a href="#planetary-interiors-how-do-we-know-what-is-inside-a-planet">Planetary Interiors How do we know what is inside a planet?</a>
+<ul>
+<li><a href="#earth-seismic-waves">Earth Seismic Waves</a></li>
+<li><a href="#how-are-planetary-interiors-heated">How are planetary interiors heated?</a></li>
+<li><a href="#how-are-planets-cooled">How are planets cooled?</a></li>
+</ul></li>
+<li><a href="#heating-vs.-cooling-of-planets">Heating vs. Cooling of planets</a></li>
+</ul></li>
+<li><a href="#planetary-magnetic-fields">Planetary magnetic fields</a>
+<ul>
+<li><a href="#the-earths-magnetic-field">The Earth’s Magnetic Field</a>
+<ul>
+<li><a href="#the-position-of-the-earths-magnetic-north-pole">The Position of the Earth’s Magnetic North Pole</a></li>
+<li><a href="#the-solar-wind-distorts-the-shape-of-the-magnetosphere">The solar wind distorts the shape of the magnetosphere</a></li>
+</ul></li>
+<li><a href="#aurora-solar-wind-magnetic-field">aurora = solar wind + magnetic field</a></li>
+<li><a href="#planetary-surfaces-earth">Planetary Surfaces: Earth</a>
+<ul>
+<li><a href="#subduction-and-sea-floor-spreading-due-to-plate-motion">subduction and sea floor spreading: due to plate motion</a></li>
+<li><a href="#tectonic-plates-can-slide-along-each-other">Tectonic “plates” can slide along each other</a></li>
+<li><a href="#when-plates-pull-apart-crust-thins-rift-valleys-form">When plates pull apart, crust thins, rift valleys form</a></li>
+<li><a href="#earthquakes-occur-mostly-at-plate-boundaries">Earthquakes occur mostly at plate boundaries</a></li>
+<li><a href="#africa-and-south-america-used-to-be-together">Africa and South America used to be “together”</a></li>
+<li><a href="#evolution-of-earth">Evolution of Earth</a></li>
+<li><a href="#volcanism">Volcanism</a></li>
+<li><a href="#impact-cratering">Impact Cratering</a></li>
+</ul></li>
+<li><a href="#erosion">Erosion</a></li>
+<li><a href="#planetary-atmospheres">Planetary Atmospheres</a>
+<ul>
+<li><a href="#earth">Earth</a>
+<ul>
+<li><a href="#earth-is-illuminated-and-heated-by-the-sun">Earth is illuminated and heated by the Sun</a></li>
+<li><a href="#earths-atmosphere-blocks-some-λ-transmits-others">Earth’s atmosphere blocks some λ, transmits others</a></li>
+<li><a href="#atmospheres-have-structure">Atmospheres have structure</a></li>
+<li><a href="#atmospheric-structure-depends-on-t-solar-radiation-gravity">Atmospheric structure depends on: T, solar radiation, gravity</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#greenhouse-effect">Greenhouse Effect</a>
+<ul>
+<li><a href="#co2-cycle-details">CO2 cycle details</a></li>
+<li><a href="#co2-cycle-acts-as-a-thermostat-for-earth-through-negative-feedback">CO2 cycle acts as a thermostat for Earth through negative feedback</a></li>
+</ul></li>
+<li><a href="#atmospheres-lose-mass-by-thermal-escape-solar-wind-impacts-condensation-chemical-reactions">Atmospheres lose mass by: thermal escape, solar wind, impacts, condensation, chemical reactions</a>
+<ul>
+<li><a href="#gas-temperature-correlates-with-particle-velocity-thus-probability-of-escape">Gas temperature correlates with particle velocity, thus probability of escape</a></li>
+<li><a href="#escape-of-atmosphere">Escape of Atmosphere</a>
+<ul>
+<li><a href="#atmosphere-example">Atmosphere example</a></li>
+</ul></li>
+<li><a href="#atmospheres-gain-gas-due-to-outgassing-evaporation-impacts">Atmospheres gain gas due to: outgassing, evaporation, impacts</a></li>
+<li><a href="#atmospheric-heating">Atmospheric heating:</a></li>
+<li><a href="#rotation-affects-atmospheric-circulation-and-a-planets-climate">rotation affects atmospheric circulation and a planet’s climate</a></li>
+</ul></li>
+<li><a href="#summary">Summary</a></li>
+</ul>
+</nav>
+<h2 id="todays-lecture">Today’s Lecture:</h2>
+<ul>
+<li>overview of the Solar System
+<ul>
+<li>SS members large and small</li>
+<li>patterns = clues to formation and evolution/history</li>
+</ul></li>
+<li>Earth as the prototype of a “terrestrial” planet
+<ul>
+<li>interior</li>
+<li>magnetic fields</li>
+<li>surface</li>
+<li>atmosphere</li>
+</ul></li>
+</ul>
+<h2 id="solar-system">Solar System</h2>
+<ul>
+<li>Solar System overview – patterns etc.</li>
+<li>Earth and other terrestrial bodies</li>
+<li>giant or jovian planets, satellites, rings…</li>
+<li>dwarf planets</li>
+<li>small Solar System bodies: asteroids, comets…</li>
+<li>comparisons between terrestrial bodies; jovian bodies; satellites…</li>
+<li>clues to formation of the Solar System</li>
+<li>extrasolar planets, planetary systems…</li>
+<li>for more detail take P275</li>
+</ul>
+<h3 id="census-of-solar-system">Census of Solar system</h3>
+<figure>
+<img src="../../attachments/L06_census.png" alt="" /><figcaption>L06_census</figcaption>
+</figure>
+<h3 id="recentcurrent-missions">Recent/Current Missions</h3>
+<ul>
+<li>Mercury: Messenger (NASA)</li>
+<li>Ve n u s : Venus Express (ESA), AKATSUKI (JAXA)</li>
+<li>Mars: currently 7 active missions on Mars!</li>
+<li>Jupiter: Juno (NASA)</li>
+<li>Saturn: Cassini (NASA/ESA)</li>
+<li>Pluto: New Horizons (NASA)</li>
+<li>Moon: Chandrayaan-2 (ISRO/NASA)</li>
+<li>Ceres: (and Vesta): Dawn (NASA)</li>
+<li>Asteroids: OSIRIS-Rex (NASA), Hayabusa 2 (JAXA)</li>
+<li>Comets: Deep Impact (NASA), Stardust (NASA), Rosetta (ESA)</li>
+</ul>
+<h3 id="orbital-properties-of-major-planets">Orbital Properties of Major Planets</h3>
+<ul>
+<li>most planetary orbits are nearly circular</li>
+<li>all have same orbital direction</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_major_planets.png" alt="" /><figcaption>L06_major_planets</figcaption>
+</figure>
+<ul>
+<li>most orbits are nearly coplanar</li>
+<li>axial tilts vary…</li>
+</ul>
+<p><img src="../../attachments/L06_3.jpg" alt="Solar System from Earth’s North Pole" />
+<img src="../../attachments/L06_4.jpg" alt="Solar system viewed Edge-on" /></p>
+<h3 id="solar-system-patterns-orbits">Solar System Patterns: Orbits</h3>
+<ul>
+<li>planetary orbits in ~ coplanar (Mercury)</li>
+<li>planets’ orbital plane ~Sun’s equatorial plane</li>
+<li>orbital planes of most satellites near equatorial planes of their planets</li>
+<li>rotational axes ~perpendicular to orbital plane(Uranus)</li>
+<li>orbital and rotation directions the same for
+planets and most satellites (Venus)</li>
+</ul>
+<h3 id="orbital-properties-of-the-dwarf-planets">Orbital Properties of the Dwarf Planets</h3>
+<figure>
+<img src="../../attachments/L06_dwarf_planets.png" alt="" /><figcaption>A new “category” still to be “filled”</figcaption>
+</figure>
+<h3 id="physical-properties-of-the-major-planets">Physical Properties of the Major Planets</h3>
+<figure>
+<img src="../../attachments/L06_major_planets_physical_props.png" alt="" /><figcaption>number of known satellites of jovian planets continues to grow; evidence suggests we have found most that are larger than a few km….?</figcaption>
+</figure>
+<h4 id="relative-sizes-of-the-planets-and-the-sun">Relative sizes of the planets (and the Sun)</h4>
+<figure>
+<img src="../../attachments/L06_5.jpg" alt="" /><figcaption>L06_5</figcaption>
+</figure>
+<h4 id="terrestrial-vs.-jovian-giant-planets">Terrestrial vs. Jovian (giant) Planets</h4>
+<ul>
+<li>Terrestrial Planets
+<ul>
+<li>located in inner part of Solar System</li>
+<li>small</li>
+<li>rocky (high density), with distinct surfaces</li>
+<li>few moons</li>
+<li>no rings</li>
+</ul></li>
+<li>Giant Planets
+<ul>
+<li>in outer part of Solar System</li>
+<li>large</li>
+<li>gaseous (low density)</li>
+<li>many moons</li>
+<li>rings</li>
+<li>rapid rotators</li>
+</ul></li>
+</ul>
+<h3 id="physical-properties-of-the-dwarf-planets">Physical Properties of the Dwarf Planets</h3>
+<figure>
+<img src="../../attachments/L06_dwarf_planets_props.png" alt="" /><figcaption>L06_dwarf_planets_props</figcaption>
+</figure>
+<h3 id="earth-the-prototype-of-terrestrial-planets">Earth: the prototype of terrestrial planets</h3>
+<ul>
+<li>differentiated interior</li>
+<li>strong magnetic field</li>
+<li>active surface
+<ul>
+<li>volcanoes</li>
+<li>continental plates</li>
+<li>liquid water</li>
+</ul></li>
+<li>atmosphere
+<ul>
+<li>N, O, + minor amounts of other gases</li>
+<li>Greenhouse effect (Global warming)</li>
+</ul></li>
+</ul>
+<h3 id="planetary-interiors-how-do-we-know-what-is-inside-a-planet">Planetary Interiors How do we know what is inside a planet?</h3>
+<ul>
+<li>Seismic waves: requires multiple seismographs on the
+surface and an “impulsive” source of the waves:
+“earthquakes”, meteor strikes, or explosions (such as
+smashing a satellite on to the surface!)
+<ul>
+<li>The “best” way to learn about planetary interiors</li>
+</ul></li>
+<li>Magnetic fields: from a rotating, molten, metallic interior</li>
+<li>Surface features: continents, volcanos, rift valleys</li>
+<li>Gravitational deviations: orbits of satellites show
+deviations from expected paths due to mass distribution inside the planet</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_6.jpg" alt="" /><figcaption>Earthquake waves probe a planet’s interior</figcaption>
+</figure>
+<h4 id="earth-seismic-waves">Earth Seismic Waves</h4>
+<figure>
+<img src="../../attachments/L06_7.jpg" alt="" /><figcaption>L06_7</figcaption>
+</figure>
+<ul>
+<li>Refraction occurs – depends on type of wave, frequency of wave, and type and density of material
+<ul>
+<li>the outer core is fluid</li>
+<li>inner core is solid</li>
+</ul></li>
+<li>S Waves cannot pass through the inner core</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_8.jpg" alt="" /><figcaption>Earthquake</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_9.jpg" alt="" /><figcaption>Earth’s interior is “differentiated”</figcaption>
+</figure>
+<h4 id="how-are-planetary-interiors-heated">How are planetary interiors heated?</h4>
+<figure>
+<img src="../../attachments/L06_10.jpg" alt="" /><figcaption>L06_10</figcaption>
+</figure>
+<ul>
+<li>in all cases: heat generated is proportional to planet’s <strong>mass</strong>
+<ul>
+<li>accretion</li>
+<li>differentiation</li>
+<li>radioactive decay</li>
+</ul></li>
+</ul>
+<h4 id="how-are-planets-cooled">How are planets cooled?</h4>
+<figure>
+<img src="../../attachments/L06_1.jpg" alt="" /><figcaption>L06_1</figcaption>
+</figure>
+<ul>
+<li>in all cases: heat escapes radiation through planet’s <strong>surface</strong>
+<ul>
+<li>convection</li>
+<li>conduction</li>
+<li>radiation</li>
+</ul></li>
+</ul>
+<h3 id="heating-vs.-cooling-of-planets">Heating vs. Cooling of planets</h3>
+<ul>
+<li>heating mechanisms ~ proportional to mass
+(volume) or <span class="math inline">\propto R^3</span></li>
+<li>cooling ~proportional to surface area ∝R2</li>
+<li>given two planets of the same composition and density, but different radius… which will cool faster?</li>
+<li>example: what if planet 1 is twice the radius of planet 2: <span class="math display">R_1=2R_2</span>
+<ul>
+<li>heating planet 1 <span class="math inline">2^3 = 8 \times \text { planet 2}</span></li>
+<li>cooling planet 1 <span class="math inline">2^2 = 4 \times \text { planet 2}</span></li>
+</ul></li>
+<li>larger bodies cool more slowly…will be important
+when comparing SS bodies…more later</li>
+</ul>
+<h2 id="planetary-magnetic-fields">Planetary magnetic fields</h2>
+<ul>
+<li>a rotating metallic core will act as a dynamo and produce a magnetic field</li>
+<li>Earth’s magnetic field arises from the motion of charged particles in its outer liquid core</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_11.jpg" alt="" /><figcaption>L06_11</figcaption>
+</figure>
+<h3 id="the-earths-magnetic-field">The Earth’s Magnetic Field</h3>
+<figure>
+<img src="../../attachments/L06_12.jpg" alt="" /><figcaption>L06_12</figcaption>
+</figure>
+<h4 id="the-position-of-the-earths-magnetic-north-pole">The Position of the Earth’s Magnetic North Pole</h4>
+<figure>
+<img src="../../attachments/L06_13.jpg" alt="" /><figcaption>L06_13</figcaption>
+</figure>
+<h4 id="the-solar-wind-distorts-the-shape-of-the-magnetosphere">The solar wind distorts the shape of the magnetosphere</h4>
+<figure>
+<img src="../../attachments/L06_14.jpg" alt="" /><figcaption>L06_14</figcaption>
+</figure>
+<h3 id="aurora-solar-wind-magnetic-field">aurora = solar wind + magnetic field</h3>
+<figure>
+<img src="../../attachments/L06_15.jpg" alt="" /><figcaption>L06_15</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_16.jpg" alt="" /><figcaption>L06_16</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_17.jpg" alt="" /><figcaption>L06_17</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_18.jpg" alt="" /><figcaption>L06_18</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_19.jpg" alt="" /><figcaption>L06_19</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_20.jpg" alt="" /><figcaption>L06_20</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_21.jpg" alt="" /><figcaption>L06_21</figcaption>
+</figure>
+<h3 id="planetary-surfaces-earth">Planetary Surfaces: Earth</h3>
+<ul>
+<li>continental drift causes constant change to
+surface
+<ul>
+<li>volcanoes, mountain building, faults, …</li>
+</ul></li>
+<li>erosion of surface (water, wind)</li>
+<li>meteorite impacts</li>
+<li>sedimentary rocks &lt;-&gt; erosion and water</li>
+</ul>
+<h4 id="subduction-and-sea-floor-spreading-due-to-plate-motion">subduction and sea floor spreading: due to plate motion</h4>
+<figure>
+<img src="../../attachments/L06_23.jpg" alt="" /><figcaption>Driven by convection in upper mantle</figcaption>
+</figure>
+<p>North America today is the result of many processes such as:</p>
+<ul>
+<li>subduction</li>
+<li>collisions</li>
+<li>volcanism</li>
+<li>erosion</li>
+<li>sedimentary deposits</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_24.jpg" alt="" /><figcaption>L06_24</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_25.jpg" alt="" /><figcaption>tectonic forces can compress or stretch the crust</figcaption>
+</figure>
+<h4 id="tectonic-plates-can-slide-along-each-other">Tectonic “plates” can slide along each other</h4>
+<figure>
+<img src="../../attachments/L06_26.jpg" alt="" /><figcaption>L06_26</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_27.jpg" alt="" /><figcaption>L06_27</figcaption>
+</figure>
+<h4 id="when-plates-pull-apart-crust-thins-rift-valleys-form">When plates pull apart, crust thins, rift valleys form</h4>
+<figure>
+<img src="../../attachments/L06_28.jpg" alt="" /><figcaption>L06_28</figcaption>
+</figure>
+<h4 id="earthquakes-occur-mostly-at-plate-boundaries">Earthquakes occur mostly at plate boundaries</h4>
+<figure>
+<img src="../../attachments/L06_29.jpg" alt="" /><figcaption>L06_29</figcaption>
+</figure>
+<h4 id="africa-and-south-america-used-to-be-together">Africa and South America used to be “together”</h4>
+<p>What is the future of Earth’s crust, continents?</p>
+<figure>
+<img src="../../attachments/L06_30.jpg" alt="" /><figcaption>L06_30</figcaption>
+</figure>
+<h4 id="evolution-of-earth">Evolution of Earth</h4>
+<figure>
+<img src="../../attachments/L06_31.jpg" alt="" /><figcaption>L06_31</figcaption>
+</figure>
+<h4 id="volcanism">Volcanism</h4>
+<figure>
+<img src="../../attachments/L06_32.jpg" alt="" /><figcaption>L06_32</figcaption>
+</figure>
+<ul>
+<li>An ”upwelling” of molten rock (called magma) from deep within the planet and up through the surface
+<ul>
+<li>From tectonic plates or thermal “plumes”<br />
+<img src="../../attachments/L06_33.jpg" alt="L06_33" /></li>
+</ul></li>
+<li>Can cover up old surface features and make new ones</li>
+<li>Can produce additional gas, introduce into atmosphere</li>
+</ul>
+<h4 id="impact-cratering">Impact Cratering</h4>
+<p>Impacts produce craters</p>
+<ul>
+<li>(do they appear different from volcano craters?)</li>
+<li>Their features depend on the speed, angle of impact, impactor, surface material</li>
+<li>Ejecta thrown large distances</li>
+<li>Small craters are bowl shaped (&lt;5-15 km diameter - depends on gravity)</li>
+<li>Larger craters usually show central peak (&lt;100 km)</li>
+<li>Largest show concentric rings (&lt;300 km)</li>
+<li>Multiring basins</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_34.jpg" alt="" /><figcaption>L06_34</figcaption>
+</figure>
+<h3 id="erosion">Erosion</h3>
+<ul>
+<li>Atmosphere (e.g. wind) and surface water (liquid
+or frozen) act to level the surface (remove high
+points and fill-in low points)</li>
+<li>Acts on all scale – large mountains worn down,
+small surface features formed, moved, removed..</li>
+<li>Chemical reactions as well as moving of material</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_35.jpg" alt="" /><figcaption>Sand Erosion in Sand Dunes</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_36.jpg" alt="" /><figcaption>Sand Dunes from Space</figcaption>
+</figure>
+<h3 id="planetary-atmospheres">Planetary Atmospheres</h3>
+<ul>
+<li>origin of planetary atmospheres: at formation? later
+from outgassing?</li>
+<li>loss of atmospheric gasses: &lt;-&gt; T, surface gravity
+of planet, mass of gas atom/molecule</li>
+<li>vertical structure: temperature, pressure, heating…
+climate depends on heating, rotation of planet</li>
+<li>circulation: heating, rotation…</li>
+<li>Greenhouse effect: surface heating, clouds…</li>
+<li>CO2 etc. cycles: weathering, precipitation,
+chemistry</li>
+</ul>
+<h4 id="earth">Earth</h4>
+<ul>
+<li>Earth’s atmosphere (secondary): original all/mostly
+lost</li>
+<li>atmospheric composition: outgassing, CO2
+chemistry, life</li>
+<li>surface T: combination of solar heating, IR
+radiation trapped by cloud layer, hot interior</li>
+<li>atmospheric circulation and climate: depend on
+heating and rotation</li>
+<li>Earth’s atmosphere is 78% N, 21% O, 0.9% Ar,
+0.03% CO2, 0.0018% Ne, 0.00052% He, …
+<ul>
+<li>CO2 amount has increased by 10% (from 0.0315% to 0.0355%) in last 40 years; cause of global warming?</li>
+</ul></li>
+</ul>
+<h5 id="earth-is-illuminated-and-heated-by-the-sun">Earth is illuminated and heated by the Sun</h5>
+<figure>
+<img src="../../attachments/L06_37.jpg" alt="" /><figcaption>day/night variation depends on rotation speed</figcaption>
+</figure>
+<h5 id="earths-atmosphere-blocks-some-λ-transmits-others">Earth’s atmosphere blocks some λ, transmits others</h5>
+<figure>
+<img src="../../attachments/L06_38.jpg" alt="" /><figcaption>L06_38</figcaption>
+</figure>
+<p>sunlight received by one hemisphere, reemitted by all</p>
+<h5 id="atmospheres-have-structure">Atmospheres have structure</h5>
+<p>Exosphere:
+- heated by solar UV + Xray
+- region of greatest escape (high T, altitude)</p>
+<p>Thermosphere + Ionosphere:
+- Xrays heat and ionize</p>
+<p>Stratosphere:
+- heated by UV light d
+- no convection</p>
+<p>Troposphere:
+- topped by clouds
+- trapping of IR from surface
+- radiation, convection important</p>
+<figure>
+<img src="../../attachments/L06_39.jpg" alt="" /><figcaption>L06_39</figcaption>
+</figure>
+<h5 id="atmospheric-structure-depends-on-t-solar-radiation-gravity">Atmospheric structure depends on: T, solar radiation, gravity</h5>
+<figure>
+<img src="../../attachments/L06_40.jpg" alt="" /><figcaption>L06_40</figcaption>
+</figure>
+<p>Greenhouse gases main factor in trapping heat</p>
+<h2 id="greenhouse-effect">Greenhouse Effect</h2>
+<figure>
+<img src="../../attachments/L06_41.jpg" alt="" /><figcaption>L06_41</figcaption>
+</figure>
+<p>Earth’s atmosphere transparent to visible light (from the Sun) which heats the surface. surface cools by emitting IR light.</p>
+<p>Earth’s atmosphere not transparent to IR light: CO2 absorption in IR wavelengths</p>
+<p>atmosphere heats up in order to balance the incoming heat from the sunlight.</p>
+<p>Increasing the amount of atmospheric CO2 will increase T</p>
+<h3 id="co2-cycle-details">CO2 cycle details</h3>
+<p>increasing by 3.4/yr</p>
+<figure>
+<img src="../../attachments/L06_42.jpg" alt="" /><figcaption>L06_42</figcaption>
+</figure>
+<h3 id="co2-cycle-acts-as-a-thermostat-for-earth-through-negative-feedback">CO2 cycle acts as a thermostat for Earth through negative feedback</h3>
+<ul>
+<li>when atmospheric T is low, less precipitation =&gt;CO2 increases</li>
+<li>when hot, more precipitation =&gt; atmospheric CO2 decreases</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_43.jpg" alt="" /><figcaption>L06_43</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_44.jpg" alt="" /><figcaption>L06_44</figcaption>
+</figure>
+<figure>
+<img src="../../attachments/L06_45.jpg" alt="" /><figcaption>L06_45</figcaption>
+</figure>
+<h2 id="atmospheres-lose-mass-by-thermal-escape-solar-wind-impacts-condensation-chemical-reactions">Atmospheres lose mass by: thermal escape, solar wind, impacts, condensation, chemical reactions</h2>
+<figure>
+<img src="../../attachments/L06_46.jpg" alt="" /><figcaption>L06_46</figcaption>
+</figure>
+<h3 id="gas-temperature-correlates-with-particle-velocity-thus-probability-of-escape">Gas temperature correlates with particle velocity, thus probability of escape</h3>
+<figure>
+<img src="../../attachments/L06_47.jpg" alt="" /><figcaption>L06_47</figcaption>
+</figure>
+<p>in early Solar System, T much greater than at L6 – January present =&gt; major atmospheric loss for terrestrial The Solar System and the Earth bodies</p>
+<h3 id="escape-of-atmosphere">Escape of Atmosphere</h3>
+<ul>
+<li>atmospheric gases can escape if
+Mass (amu) they have low mass (like
+2 hydrogen or helium)</li>
+<li>since <span class="math inline">v_{gas}</span> depends on <span class="math inline">\sqrt{T/m_{gas}}</span>,
+higher temperature means escape more likely =&gt; larger mass gases can escape<br />
+</li>
+<li>to retain a gas of mass m (amu) on a planet with mass M and radius R (in Earth units) the temperature T must be below</li>
+</ul>
+<p><span class="math display">T_{limit} = 75K \frac{m \times M/M_{earth}}{R/R_{earth}}</span></p>
+<h4 id="atmosphere-example">Atmosphere example</h4>
+<ul>
+<li>Will a planet with a mass 5x the Earth’s, a radius
+10x the Earth’s, and a surface/atmospheric
+temperature of 1200 K be able to retain
+(molecular) nitrogen in its atmosphere?
+<span class="math display">
+T &lt; 75\frac{mM}{R} = 75 \frac{28 \times 5}{10} = 1050K
+</span></li>
+<li>The temperature must be less than 1050 K for
+the planet to hold on to nitrogen… it is 1200 K<br />
+and it is therefore too hot… answer is NO.</li>
+</ul>
+<h3 id="atmospheres-gain-gas-due-to-outgassing-evaporation-impacts">Atmospheres gain gas due to: outgassing, evaporation, impacts</h3>
+<figure>
+<img src="../../attachments/L06_48.jpg" alt="" /><figcaption>L06_48</figcaption>
+</figure>
+<h3 id="atmospheric-heating">Atmospheric heating:</h3>
+<ul>
+<li>creates a circulation cell in each hemisphere</li>
+<li>warm air rises near equator and cools as it moves toward the poles</li>
+<li>then moves toward equator</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_49.jpg" alt="" /><figcaption>L06_49</figcaption>
+</figure>
+<h3 id="rotation-affects-atmospheric-circulation-and-a-planets-climate">rotation affects atmospheric circulation and a planet’s climate</h3>
+<figure>
+<img src="../../attachments/L06_50.jpg" alt="" /><figcaption>L06_50</figcaption>
+</figure>
+<ul>
+<li>the sun heats the atmosphere near the equator more than at the poles.</li>
+<li>warm gas rises, and moves, but the Earth’s rotation deflects the motion</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_51.jpg" alt="" /><figcaption>L06_51</figcaption>
+</figure>
+<ul>
+<li>Coriolis effect causes circulation cells to divide</li>
+<li>on Earth there are three cells per hemisphere</li>
+<li>gas giant planets also show cells, some have more than Earth some have less…</li>
+</ul>
+<figure>
+<img src="../../attachments/L06_2.jpg" alt="" /><figcaption>L06_2</figcaption>
+</figure>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>Many smaller objects
+<ul>
+<li>Dwarf planets</li>
+<li>Moons</li>
+<li>Asteroids</li>
+<li>Comets</li>
+</ul></li>
+<li>8 planets, 4 of each of two types of
+planets (Giant and Terrestrial)</li>
+<li>The Earth: interior, surface, atmosphere Next lecture: The other “terrestrial” planets (Mercury, Venus, Mars)</li>
+</ul>
+<button id='gg_button' style="right:0; padding: 1%; display: flex; justify-content: center; margin: 0 auto 10px auto; width: 144px;" onClick="next()"; type="button">NEXT LECTURE</button>
+</body>
+</html>
